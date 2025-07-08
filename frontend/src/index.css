@@ -6,6 +6,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-ExtralightItalic.woff2') format('woff2');
@@ -13,6 +14,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-Light.woff2') format('woff2');
@@ -20,6 +22,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-LightItalic.woff2') format('woff2');
@@ -27,6 +30,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-Regular.woff2') format('woff2');
@@ -34,6 +38,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-Italic.woff2') format('woff2');
@@ -41,6 +46,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-Medium.woff2') format('woff2');
@@ -48,6 +54,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-MediumItalic.woff2') format('woff2');
@@ -55,6 +62,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-Semibold.woff2') format('woff2');
@@ -62,6 +70,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-SemiboldItalic.woff2') format('woff2');
@@ -69,6 +78,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-Bold.woff2') format('woff2');
@@ -76,6 +86,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'General Sans';
   src: url('./assets/fonts/GeneralSans-BoldItalic.woff2') format('woff2');
@@ -92,6 +103,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-LightItalic.woff2') format('woff2');
@@ -99,6 +111,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-Regular.woff2') format('woff2');
@@ -106,6 +119,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-Italic.woff2') format('woff2');
@@ -113,6 +127,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-Medium.woff2') format('woff2');
@@ -120,6 +135,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-MediumItalic.woff2') format('woff2');
@@ -127,6 +143,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-Bold.woff2') format('woff2');
@@ -134,6 +151,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-BoldItalic.woff2') format('woff2');
@@ -141,6 +159,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-Black.woff2') format('woff2');
@@ -148,6 +167,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('./assets/fonts/Satoshi-BlackItalic.woff2') format('woff2');
@@ -155,14 +175,6 @@
   font-style: italic;
   font-display: swap;
 }
-@font-face {
-  font-family: 'Satoshi Variable';
-  src: url('./assets/fonts/Satoshi-Variable.woff2') format('woff2');
-  font-weight: 300 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 
 
 @import "tailwindcss";
@@ -211,30 +223,41 @@
 :root {
   --radius: 0.625rem;
 
-  --background: oklch(0.99 0.004 100); /* #FDFCFB */
-  --foreground: oklch(0.25 0.01 260);  /* #1F2937 */
+  --background: oklch(0.99 0.004 100);
+  /* #FDFCFB */
+  --foreground: oklch(0.25 0.01 260);
+  /* #1F2937 */
 
-  --card: oklch(1 0 0);                /* #FFFFFF */
-  --card-foreground: oklch(0.25 0.01 260);  /* #1F2937 */
+  --card: oklch(1 0 0);
+  /* #FFFFFF */
+  --card-foreground: oklch(0.25 0.01 260);
+  /* #1F2937 */
 
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.25 0.01 260);
 
-  --primary: oklch(0.57 0.26 286);     /* #7C3AED */
-  --primary-foreground: oklch(0.98 0.01 260); /* #F3F4F6 */
+  --primary: oklch(0.57 0.26 286);
+  /* #7C3AED */
+  --primary-foreground: oklch(0.98 0.01 260);
+  /* #F3F4F6 */
 
-  --accent: oklch(0.78 0.23 60);       /* #FF8E3C */
-  --accent-foreground: oklch(0.15 0.01 260); /* Text on accent */
+  --accent: oklch(0.78 0.23 60);
+  /* #FF8E3C */
+  --accent-foreground: oklch(0.15 0.01 260);
+  /* Text on accent */
 
-  --highlight: oklch(0.82 0.22 200);   /* #22D3EE */
+  --highlight: oklch(0.82 0.22 200);
+  /* #22D3EE */
 
   --secondary: oklch(0.92 0.01 260);
   --secondary-foreground: oklch(0.25 0.01 260);
 
-  --muted: oklch(0.75 0.03 260);       /* #9CA3AF */
+  --muted: oklch(0.75 0.03 260);
+  /* #9CA3AF */
   --muted-foreground: oklch(0.5 0.02 260);
 
-  --destructive: oklch(0.65 0.2 25);   /* example red tone */
+  --destructive: oklch(0.65 0.2 25);
+  /* example red tone */
   --border: oklch(0.9 0.005 260);
   --input: oklch(0.9 0.005 260);
   --ring: oklch(0.7 0.02 260);
@@ -254,22 +277,28 @@
 }
 
 .dark {
-  --background: oklch(0.15 0.01 260);        /* #111827 */
-  --foreground: oklch(0.98 0.01 260);        /* #F3F4F6 */
+  --background: oklch(0.15 0.01 260);
+  /* #111827 */
+  --foreground: oklch(0.98 0.01 260);
+  /* #F3F4F6 */
 
-  --card: oklch(0.22 0.01 260);              /* #1F2937 */
+  --card: oklch(0.22 0.01 260);
+  /* #1F2937 */
   --card-foreground: oklch(0.98 0.01 260);
 
   --popover: oklch(0.22 0.01 260);
   --popover-foreground: oklch(0.98 0.01 260);
 
-  --primary: oklch(0.85 0.12 286);           /* #C4B5FD */
+  --primary: oklch(0.85 0.12 286);
+  /* #C4B5FD */
   --primary-foreground: oklch(0.15 0.01 260);
 
-  --accent: oklch(0.85 0.14 60);             /* #FDBA74 */
+  --accent: oklch(0.85 0.14 60);
+  /* #FDBA74 */
   --accent-foreground: oklch(0.15 0.01 260);
 
-  --highlight: oklch(0.88 0.13 200);         /* #67E8F9 */
+  --highlight: oklch(0.88 0.13 200);
+  /* #67E8F9 */
 
   --secondary: oklch(0.3 0.01 260);
   --secondary-foreground: oklch(0.98 0.01 260);
@@ -301,17 +330,25 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'General Sans';
     font-weight: 500;
   }
-  h1,h2,h3,h4,h5,h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  header,
+  button,
+  input,
+  select,
+  textarea{
     font-family: 'Satoshi';
     font-weight: 800;
-  }
-  button, input, select, textarea {
-        font-family: 'General Sans';
-        font-weight: 600;
   }
 }

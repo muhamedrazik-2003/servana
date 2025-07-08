@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const AllServices = () => {
+function AllServices() {
   return (
     <div>AllServices</div>
   )
 }
+
+export default AllServices

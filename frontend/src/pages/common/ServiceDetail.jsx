@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const ServiceDetail = () => {
+function ServiceDetail() {
   return (
     <div>ServiceDetail</div>
   )
 }
+
+export default ServiceDetail
