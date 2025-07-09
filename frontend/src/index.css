@@ -341,7 +341,7 @@
   h1 {
    @apply font-extrabold mb-[25px] lg:mb-[40px] text-center;
   } h2 {
-    @apply font-bold mb-[1rem] lg:mb-[28px] leading-15 text-5xl;
+    @apply font-bold mb-[1rem] lg:mb-[24px] leading-15 text-5xl;
   }
 
   h1,
@@ -382,6 +382,6 @@
 }
 
 .scrollbar-none {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
 }
