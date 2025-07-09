@@ -5,6 +5,7 @@ import Hero from '../../components/common/landing/Hero'
 import CoreFeaturesForSeeker from '../../components/common/landing/CoreFeaturesForSeeker'
 import Testimonial from '../../components/common/landing/Testimonial'
 import ServiceCategory from '../../components/common/landing/ServiceCategory'
+import CoreFeaturesForProviders from '../../components/common/landing/CoreFeaturesForProviders'
 
 function Landing() {
   const [isProvider, setIsProvider] = useState(false)
@@ -15,6 +16,7 @@ function Landing() {
       <HowItWorks isProvider={isProvider} setIsProvider={setIsProvider} />
       <CoreFeaturesForSeeker/>
       <ServiceCategory/>
+      <CoreFeaturesForProviders/>
       <Testimonial isProvider={isProvider} setIsProvider={setIsProvider}/>
     </main>
   )

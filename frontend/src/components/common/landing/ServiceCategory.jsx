@@ -16,47 +16,47 @@ function ServiceCategory() {
     const categories = [
         {
             title: "Home Services",
-            icon: "Home",
+            titleIcon: "Home",
             image: "https://images.unsplash.com/photo-1629219219301-9895daf2c199?q=80&w=327&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // man fixing kitchen sink
         },
         {
             title: "Cleaning Services",
-            icon: "Broom",
+            titleIcon: "BrushCleaning",
             image: "https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2xlYW5lcnxlbnwwfDF8MHx8fDA%3D" // woman mopping home
         },
         {
             title: "Beauty & Wellness",
-            icon: "Sparkles",
+            titleIcon: "Sparkles",
             image: "https://images.unsplash.com/photo-1731514771613-991a02407132?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZmFjaWFsfGVufDB8MXwwfHx8MA%3D%3D" // beautician doing facial
         },
         {
             title: "Tutors & Education",
-            icon: "BookOpen",
+            titleIcon: "BookOpen",
             image: "https://plus.unsplash.com/premium_photo-1671796330621-d6ff427c399f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGVhY2hpbmd8ZW58MHwxfDB8fHww" // home tutor teaching girl
         },
         {
             title: "Delivery & Errands",
-            icon: "Package",
+            titleIcon: "Package",
             image: "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGVsaXZlcnl8ZW58MHwxfDB8fHww" // delivery man handing parcel
         },
         {
             title: "Tech & IT Help",
-            icon: "MonitorSmartphone",
+            titleIcon: "MonitorSmartphone",
             image: "https://images.unsplash.com/photo-1721333089073-215a56fd710c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Zml4aW5nJTIwbGFwdG9wfGVufDB8MXwwfHx8MA%3D%3D" // tech support fixing laptop
         },
         {
             title: "Care Services",
-            icon: "HeartHandshake",
+            titleIcon: "HeartHandshake",
             image: "https://plus.unsplash.com/premium_photo-1681996583708-b7fca2e8ed2a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Q2FyZSUyMEdpdmVyfGVufDB8MXwwfHx8MA%3D%3D" // caregiver with senior lady
         },
         {
             title: "Pet Care",
-            icon: "PawPrint",
+            titleIcon: "PawPrint",
             image: "https://images.unsplash.com/photo-1415369629372-26f2fe60c467?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGV0JTIwY2FyZXxlbnwwfDF8MHx8fDA%3D" // dog groomer at work
         },
         {
             title: "Automotive Services",
-            icon: "Car",
+            titleIcon: "Car",
             image: "https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww" // mechanic fixing car
         }
     ];
@@ -78,11 +78,11 @@ function ServiceCategory() {
                 <div className='flex gap-5'>
                     {
                         categories.map((category, index) => {
-                            const Icon = Icons[category.titleIcon]
+                            const Icon = Icons[category.titleIcon] || Icons.HelpCircle
                             return (
                                 <Card key={index} className={'w-[320px] shrink-0 p-0 relative'}>
                                     <CardTitle className={'flex items-center gap-2 absolute top-4 left-5 bg-background py-2 px-4 rounded-4xl'}>
-                                            {/* <Icon className={'size-5'} /> */}
+                                            <Icon className={'size-5'} />
                                             {category.title}
                                         </CardTitle>
                                     <CardContent className={'p-0'}>
