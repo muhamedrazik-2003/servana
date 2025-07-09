@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
+import { useLocation } from "react-router-dom";
 import Header from '../../components/common/Header'
 import HowItWorks from '../../components/common/landing/HowItWorks'
 import Hero from '../../components/common/landing/Hero'
@@ -13,6 +14,16 @@ import CallToAction from '../../components/common/landing/CallToAction'
 
 function Landing() {
   const [isProvider, setIsProvider] = useState(false)
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const section = document.querySelector(location.hash);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
   return (
     <main>
       <Header />

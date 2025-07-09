@@ -5,7 +5,15 @@ import Auth from "./pages/common/Auth"
 import Contact from "./pages/common/Contact"
 import About from "./pages/common/About"
 import AllServices from "./pages/common/AllServices"
+import { useEffect } from "react"
+import { useLocation } from "react-router-dom"
+
 function App() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }) // or behavior: "auto"
+  }, [pathname])
   return (
     <Routes>
       {/* common pages */}

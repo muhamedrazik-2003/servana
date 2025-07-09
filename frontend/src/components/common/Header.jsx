@@ -14,9 +14,9 @@ function Header() {
             <nav className='hidden lg:block'>
                 <ul className='flex gap-10 font-semibold'>
                     <li><Link to={'/about'}>About</Link></li>
-                    <li><a href="#how-it-works">How it Works</a></li>
+                    <li><Link to={"/#how-it-works"}>How it Works</Link></li>
                     <li><Link to={'/contact'}>Contact</Link></li>
-                    <li><a href="#for-providers">For Providers</a></li>
+                    <li><Link to={'/#provider-features'}>For Providers</Link></li>
                 </ul>
             </nav>
             <div className='space-x-2'>
