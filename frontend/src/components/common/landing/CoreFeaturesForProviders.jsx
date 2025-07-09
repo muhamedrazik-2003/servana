@@ -29,12 +29,7 @@ function CoreFeaturesForProviders() {
             title: "Local Reach",
             description: "Tap into your neighborhood—Servana prioritizes connecting you with customers in your nearby areas.",
             icon: "MapPin" // Lucide icon
-        },
-        // {
-        //     title: "Easy Onboarding",
-        //     description: "Get verified and start receiving job requests in minutes—no complex paperwork or approvals.",
-        //     icon: "CheckCircle" // Lucide icon
-        // }
+        }
     ];
 
     return (
@@ -46,10 +41,10 @@ function CoreFeaturesForProviders() {
             </div>
             <div>
                 {
-                    providerFeatures.map((feature) => {
+                    providerFeatures.map((feature,index) => {
                         const Icon = Icons[feature.icon]
                         return (
-                            <div className='flex gap-3'>
+                            <div key={index} className='flex gap-3'>
                                 <Icon className='size-8' />
                                 <div className='space-y-1 mb-5'>
                                     <h3 className='text-lg'>{feature.title}</h3>
