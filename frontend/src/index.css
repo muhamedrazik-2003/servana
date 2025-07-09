@@ -330,6 +330,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth
+  }
 
   body {
     @apply bg-background text-foreground;
@@ -339,7 +342,7 @@
   h1 {
    @apply font-extrabold mb-[25px] lg:mb-[40px] text-center;
   } h2 {
-    @apply font-bold mb-[1rem]  text-center;
+    @apply font-bold mb-[1rem] lg:mb-[32px] leading-15 text-5xl;
   }
 
   h1,
@@ -362,7 +365,7 @@
     /* text-align: center; */
   }
    section > p {
-    @apply text-lg max-w-[600px] mx-auto font-semibold text-center mb-[24px] lg:mb-[52px];
+    @apply text-lg  font-semibold mb-[24px] lg:mb-[52px];
    }
    ol li {
     @apply border-1 px-8 py-4 rounded-4xl shadow-md w-[55%] text-center bg-background;
@@ -374,4 +377,12 @@
     ol li:nth-child(even) {
       margin-right: auto;
     }
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
 }
