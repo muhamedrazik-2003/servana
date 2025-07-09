@@ -7,6 +7,7 @@ import Testimonial from '../../components/common/landing/Testimonial'
 import ServiceCategory from '../../components/common/landing/ServiceCategory'
 import CoreFeaturesForProviders from '../../components/common/landing/CoreFeaturesForProviders'
 import demoDash from "../../assets/images/dashDemo.png"
+import FAQ from '../../components/common/landing/FAQ'
 
 function Landing() {
   const [isProvider, setIsProvider] = useState(false)
@@ -34,6 +35,7 @@ function Landing() {
           </div>
         </div>
       </section>
+      <FAQ/>
     </main>
   )
 }
