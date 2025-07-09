@@ -68,7 +68,7 @@ function CoreFeaturesForSeeker() {
                         coreFeatures.map((feature, index) => {
                             const Icon = Icons[feature.titleIcon]
                             return (
-                                <Card key={index} className={'w-[300px] shrink-0 bg-teal-100'}>
+                                <Card key={index} className={'w-[300px] shrink-0 bg-linear-to-bl from-teal-100 to-background'}>
                                     <CardHeader>
                                         <CardTitle className={'flex items-center gap-2'}>
                                             <Icon className={'size-5'} />

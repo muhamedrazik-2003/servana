@@ -64,11 +64,11 @@ function ServiceCategory() {
 
 
     const handleNext = () => {
-        containerRef.current.scrollLeft += 320;
+        containerRef.current.scrollLeft += 340;
     };
 
     const handlePrev = () => {
-        containerRef.current.scrollLeft -= 320;
+        containerRef.current.scrollLeft -= 340;
     };
     return (
         <section id='categories' className='mx-0 pl-[100px]'>
