@@ -11,6 +11,7 @@ import FAQ from '../../components/common/landing/FAQ'
 import { Link } from 'react-router-dom'
 import { Button } from '../../components/ui/button'
 import finalCtaBackground from "../../assets/images/ctaBackground.png"
+import Footer from '../../components/common/Footer'
 
 function Landing() {
   const [isProvider, setIsProvider] = useState(false)
@@ -59,6 +60,8 @@ function Landing() {
         </div>
         <img className='absolute top-[10%] left-[50%] translate-x-[-50%] w-[220px] z-[-1]' src={finalCtaBackground} alt="" />
       </section>
+
+      <Footer/>
     </main>
   )
 }

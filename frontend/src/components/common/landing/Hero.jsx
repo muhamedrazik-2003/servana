@@ -8,7 +8,7 @@ function Hero() {
     return (
         <section className='relative max-w-[650px] mx-auto pt-[100px]'>
             <h1 className='text-[80px] leading-20'>Where Services Meet Simplicity</h1>
-            <p className='text-xl max-w-[600px] mx-auto font-semibold mb-24px lg:mb-[52px]'>Connect with trusted locals — whether you need help or offer it. Fast, easy, and reliable.</p>
+            <p className='text-xl max-w-[600px] mx-auto font-semibold mb-24px lg:mb-[52px] text-center'>Connect with trusted locals — whether you need help or offer it. Fast, easy, and reliable.</p>
             <img className='size-70 absolute top-42 left-[-38%] z-[-1]' src={seekerImage} alt="" />
             <img className='size-70 absolute top-42 right-[-35%] z-[-1]' src={providerImage} alt="" />
             <div className='flex items-center gap-x-8'>

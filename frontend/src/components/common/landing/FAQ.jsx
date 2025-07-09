@@ -54,7 +54,7 @@ function FAQ() {
     };
 
     return (
-        <section className='text-center '>
+        <section id="faqs" className='text-center '>
             <h2>Your Questions, Answered</h2>
             <p className='mb-[72px]'>Clarifying how Servana works—for customers and professionals</p>
             <div className='flex gap-12'>

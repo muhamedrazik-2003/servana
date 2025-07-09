@@ -5,7 +5,7 @@ import Logo from "../../assets/images/logo.png"
 function Header() {
     return (
         <header className=' mx-[20px] md:mx-[40px] lg:mx-[80px] flex items-center justify-between py-4'>
-            <div className='flex items-center cursor-pointer'>
+            <div className='flex items-center cursor-pointer mr-18'>
                 <Link to={'/'}>
                     <img className='size-10' src={Logo} alt="logo image" />
                 </Link>
@@ -19,7 +19,7 @@ function Header() {
                     <li><a href="#for-providers">For Providers</a></li>
                 </ul>
             </nav>
-            <div>
+            <div className='space-x-2'>
                 <Button variant={'outline'} >Login</Button>
                 <Button >Sign Up</Button>
             </div>
