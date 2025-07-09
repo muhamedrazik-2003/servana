@@ -5,7 +5,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 
-function FAQ() {
+function FAQ({ customerFaq, providerFaq }) {
     const faqs = {
         customer: [
             {
@@ -54,49 +54,91 @@ function FAQ() {
     };
 
     return (
-        <section id="faqs" className='text-center '>
-            <h2>Your Questions, Answered</h2>
-            <p className='mb-[72px]'>Clarifying how Servana works—for customers and professionals</p>
+        <section id={`${customerFaq ? "customer-faq" : providerFaq ? "provider-faq" : 'faqs'}`} className={`text-center ${customerFaq || providerFaq ? "mb-[72px] pb-0" : ""}`}>
+            {customerFaq || providerFaq
+                ? <>
+                    <h2>{customerFaq ? "Customer FAQs" : "Provider FAQs"}</h2>
+                </>
+                : <>
+                    <h2>Your Questions, Answered</h2>
+                    <p className='mb-[72px]'>Clarifying how Servana works—for customers and professionals</p>
+                </>
+            }
+
             <div className='flex gap-12'>
-                <div className="w-[50%]">
-                    <h3 className="mb-8">For Customers</h3>
-                    <Accordion
-                        type="single"
-                        collapsible
-                        className="w-full text-start"
-                    >
-                        {
-                            faqs.customer.map((faq, index) => (
-                                <AccordionItem key={index} value={`item-${index + 1}`}>
-                                    <AccordionTrigger className={'font-semibold'}>{faq.question}</AccordionTrigger>
-                                    <AccordionContent className="flex flex-col gap-4 text-balance">
-                                        <p>{faq.answer}</p> 
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))
-                        }
-                    </Accordion>
-                </div>
-                <div className="w-[50%]">
-                    <h3 className="mb-8">For Providers</h3>
-                    <Accordion
-                        type="single"
-                        collapsible
-                        className="w-full text-start"
-                        // defaultValue="item-1"
-                    >
-                        {
-                            faqs.provider.map((faq, index) => (
-                                <AccordionItem key={index} value={`item-${index + 1}`}>
-                                    <AccordionTrigger className={'font-semibold'}>{faq.question}</AccordionTrigger>
-                                    <AccordionContent className="flex flex-col gap-4 text-balance">
-                                        <p>{faq.answer}</p> 
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))
-                        }
-                    </Accordion>
-                </div>
+                {
+                    customerFaq || providerFaq
+                        ? <>
+                            <div className="w-full">
+                                <Accordion
+                                    type="single"
+                                    collapsible
+                                    className="w-full text-start"
+                                >
+                                    {customerFaq
+                                        ? faqs.customer.map((faq, index) => (
+                                            <AccordionItem key={index} value={`item-${index + 1}`}>
+                                                <AccordionTrigger className={'font-semibold'}>{faq.question}</AccordionTrigger>
+                                                <AccordionContent className="flex flex-col gap-4 text-balance">
+                                                    <p>{faq.answer}</p>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        ))
+                                        : faqs.provider.map((faq, index) => (
+                                            <AccordionItem key={index} value={`item-${index + 1}`}>
+                                                <AccordionTrigger className={'font-semibold'}>{faq.question}</AccordionTrigger>
+                                                <AccordionContent className="flex flex-col gap-4 text-balance">
+                                                    <p>{faq.answer}</p>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        ))
+                                    }
+                                </Accordion>
+                            </div>
+                        </>
+                        : <>
+                            <div className="w-[50%]">
+                                <h3 className="mb-8">For Customers</h3>
+                                <Accordion
+                                    type="single"
+                                    collapsible
+                                    className="w-full text-start"
+                                >
+                                    {
+                                        faqs.customer.map((faq, index) => (
+                                            <AccordionItem key={index} value={`item-${index + 1}`}>
+                                                <AccordionTrigger className={'font-semibold'}>{faq.question}</AccordionTrigger>
+                                                <AccordionContent className="flex flex-col gap-4 text-balance">
+                                                    <p>{faq.answer}</p>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        ))
+                                    }
+                                </Accordion>
+                            </div>
+                            <div className="w-[50%]">
+                                <h3 className="mb-8">For Providers</h3>
+                                <Accordion
+                                    type="single"
+                                    collapsible
+                                    className="w-full text-start"
+                                // defaultValue="item-1"
+                                >
+                                    {
+                                        faqs.provider.map((faq, index) => (
+                                            <AccordionItem key={index} value={`item-${index + 1}`}>
+                                                <AccordionTrigger className={'font-semibold'}>{faq.question}</AccordionTrigger>
+                                                <AccordionContent className="flex flex-col gap-4 text-balance">
+                                                    <p>{faq.answer}</p>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        ))
+                                    }
+                                </Accordion>
+                            </div>
+
+                        </>
+                }
 
             </div>
         </section>

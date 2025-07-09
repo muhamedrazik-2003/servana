@@ -20,8 +20,12 @@ function Header() {
                 </ul>
             </nav>
             <div className='space-x-2'>
-                <Button variant={'outline'} >Login</Button>
-                <Button >Sign Up</Button>
+                <Link to={'/auth'}>
+                    <Button variant={'outline'} >Login</Button>
+                </Link>
+                <Link to={'/auth'}>
+                    <Button >Sign Up</Button>
+                </Link>
             </div>
         </header>
     )
