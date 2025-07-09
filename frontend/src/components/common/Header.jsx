@@ -5,12 +5,12 @@ import Logo from "../../assets/images/logo.png"
 function Header() {
     return (
         <header className=' mx-[20px] md:mx-[40px] lg:mx-[80px] flex items-center justify-between py-4'>
-            <div className='flex items-center cursor-pointer mr-18'>
-                <Link to={'/'}>
+            <Link to={'/'}>
+                <div className='flex items-center cursor-pointer mr-18'>
                     <img className='size-10' src={Logo} alt="logo image" />
-                </Link>
-                <h5 className='text-2xl font-semibold'>Servana</h5>
-            </div>
+                    <h5 className='text-2xl font-semibold'>Servana</h5>
+                </div>
+            </Link>
             <nav className='hidden lg:block'>
                 <ul className='flex gap-10 font-semibold'>
                     <li><Link to={'/about'}>About</Link></li>
