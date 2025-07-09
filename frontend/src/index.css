@@ -336,6 +336,11 @@
     font-family: 'General Sans';
     font-weight: 500;
   }
+  h1 {
+   @apply font-extrabold mb-[25px] lg:mb-[40px] text-center;
+  } h2 {
+    @apply font-bold mb-[1rem]  text-center;
+  }
 
   h1,
   h2,
@@ -351,4 +356,22 @@
     font-family: 'Satoshi';
     font-weight: 800;
   }
+  section {
+    padding-bottom: 250px;
+    margin-inline: 120px;
+    /* text-align: center; */
+  }
+   section > p {
+    @apply text-lg max-w-[600px] mx-auto font-semibold text-center mb-[24px] lg:mb-[52px];
+   }
+   ol li {
+    @apply border-1 border-accent px-8 py-4 rounded-4xl shadow-md w-[50%] text-center bg-background;
+   }
+    ol li:nth-child(odd) {
+      margin-left: auto;
+      margin-block: 3.5rem;
+    }
+    ol li:nth-child(even) {
+      margin-right: auto;
+    }
 }
