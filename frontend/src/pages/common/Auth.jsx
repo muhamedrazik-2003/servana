@@ -51,7 +51,7 @@ function Auth() {
             Register
           </h4>
         </div>
-          <AuthForm formType={authMode} registerAs={registerAs} setRegisterAs={setRegisterAs} />
+          <AuthForm formType={isRegistered ? "register" : "login"} registerAs={registerAs} setRegisterAs={setRegisterAs} />
       </div>
     </div>
   )

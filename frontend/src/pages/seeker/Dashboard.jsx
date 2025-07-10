@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const Dashboard = () => {
+function Dashboard() {
   return (
     <div>Seeker Dashboard</div>
   )
 }
+
+export default Dashboard

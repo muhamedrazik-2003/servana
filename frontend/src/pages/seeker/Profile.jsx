@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const Profile = () => {
+function Profile() {
   return (
-    <div>User Profile</div>
+    <div>Seeker Profile</div>
   )
 }
+
+export default Profile
