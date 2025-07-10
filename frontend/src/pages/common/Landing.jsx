@@ -30,9 +30,9 @@ function Landing() {
 
       <Hero />
 
-       {/*<HowItWorks isProvider={isProvider} setIsProvider={setIsProvider} />
+       <HowItWorks isProvider={isProvider} setIsProvider={setIsProvider} />
 
-      <CoreFeaturesForSeeker />
+     {/* <CoreFeaturesForSeeker />
 
       <ServiceCategory />
 
