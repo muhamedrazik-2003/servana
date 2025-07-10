@@ -12,9 +12,9 @@ function Hero() {
             <img className='size-50 lg:size-70 absolute top-62 lg:top-42 left-[-8%] lg:left-[-38%] z-[-1]' src={seekerImage} alt="image of a person using laptop" />
             <img className='size-50 lg:size-70 absolute top-62 lg:top-42 right-[-6%] lg:right-[-35%] z-[-1]' src={providerImage} alt="" />
             <div className='flex flex-col lg:flex-row items-center justify-center gap-x-8'>
-                <Link to={'/auth'}><Button variant={'seeker'} size={'lg'}>Find a Service</Button></Link>
+                <Link to={'/auth?mode=register&role=seeker'}><Button variant={'seeker'} size={'lg'}>Find a Service</Button></Link>
                 <p className='font-semibold text-xl'>or</p>
-                 <Link to={'/auth'}><Button variant={'provider'} size={'lg'}>Become a Provider</Button></Link>
+                 <Link to={'/auth?mode=register&role=provider'}><Button variant={'provider'} size={'lg'}>Become a Provider</Button></Link>
             </div>
         </section>
     )

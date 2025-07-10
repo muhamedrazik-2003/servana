@@ -1,14 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AuthForm from '../../components/common/AuthForm'
 import Logo from "../../assets/images/logo.png"
+import { useSearchParams } from 'react-router-dom'
 
 function Auth() {
   const [isRegistered, setIsRegistered] = useState(false)
   const [registerAs, setRegisterAs] = useState(null)
+  const [searchParams] = useSearchParams()
+  const authMode = searchParams.get("mode");
+  const registerRole = searchParams.get("role");
+
+  useEffect(() => {
+    if(authMode === "register") {
+      setIsRegistered(true)
+    }
+    if(registerRole === "seeker") {
+      setRegisterAs("seeker")
+    }
+    if (registerRole === "provider") {
+      setRegisterAs("provider")
+    }
+  },[authMode])
 
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-      <div className="w-full h-[575px] max-w-sm space-y-4">
+      <div className="w-full transition-all lg:h-auto max-w-sm space-y-4">
         <div >
           <div className='flex items-center justify-center'>
             <img className='size-10' src={Logo} alt="logo image" />
@@ -35,10 +51,7 @@ function Auth() {
             Register
           </h4>
         </div>
-        {isRegistered
-          ? <AuthForm formType={"register"} registerAs={registerAs} setRegisterAs={setRegisterAs} />
-          : <AuthForm formType={"login"} registerAs={registerAs} setRegisterAs={setRegisterAs} />
-        }
+          <AuthForm formType={authMode} registerAs={registerAs} setRegisterAs={setRegisterAs} />
       </div>
     </div>
   )

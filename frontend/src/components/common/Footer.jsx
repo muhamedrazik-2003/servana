@@ -34,7 +34,7 @@ function Footer() {
         <div>
           <h4 className="text-white font-semibold text-base mb-3">For Customers</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link to={'/auth'} className="hover:text-white">Get Started</Link></li>
+            <li><Link to={'/auth?mode=register&role=seeker'} className="hover:text-white">Get Started</Link></li>
             <li><a href="#seeker-features" className="hover:text-white">Features</a></li>
             <li><a href="#categories" className="hover:text-white">Service Categories</a></li>
             <li><a href="#faqs" className="hover:text-white">Customer FAQs</a></li>
@@ -44,7 +44,7 @@ function Footer() {
         <div>
           <h4 className="text-white font-semibold text-base mb-3">For Providers</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link to={'/auth'} className="hover:text-white">Become a Provider</Link></li>
+            <li><Link to={'/auth?mode=register&role=provider'} className="hover:text-white">Become a Provider</Link></li>
             <li><a href="#provider-features" className="hover:text-white">Features</a></li>
             <li><a href="#" className="hover:text-white">Payment</a></li>
             <li><a href="#faqs" className="hover:text-white">Provider FAQs</a></li>
