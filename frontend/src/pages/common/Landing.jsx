@@ -40,18 +40,18 @@ function Landing() {
 
       <Testimonial isProvider={isProvider} setIsProvider={setIsProvider} />
 
-      {/* proof section (screenshot) 
+      {/* proof section (screenshot) */}
       <section className='text-center mx-0'>
         <h2>See Servana in Action</h2>
         <p className='mb-[72x]'>See how easy it is to navigate, book, and oversee services on Servana.</p>
-        <div className='flex overflow-x-hidden'>
-          <div className='w-[50%] translate-x-[-20%]'>
+        <div className='flex flex-col items-center lg:flex-row overflow-x-hidden px-[32px]'>
+          <div className='w-full lg:w-[50%] lg:translate-x-[-20%]'>
             <img className=' rounded-3xl shadow-lg' src={demoDash} alt="placeholder demo dash" />
-            <h5 className='pt-6 text-sm'>Customer's Dashboard</h5>
+            <h5 className='py-6 text-sm'>Customer's Dashboard</h5>
           </div>
-          <div className='w-[50%] translate-x-[20%]'>
+          <div className='w-full lg:w-[50%] lg:translate-x-[20%]'>
             <img className=' rounded-3xl shadow-lg' src={demoDash} alt="placeholder demo dash" />
-            <h5 className='pt-6 text-sm'>Provider's Dashboard</h5>
+            <h5 className='py-6 text-sm'>Provider's Dashboard</h5>
           </div>
         </div>
       </section>
@@ -60,7 +60,7 @@ function Landing() {
 
       <CallToAction />
 
-      <Footer /> */}
+      <Footer /> 
     </main>
   )
 }
