@@ -28,7 +28,7 @@ function Landing() {
     <main>
       <Header />
 
-      <Hero />
+      {/* <Hero />
 
       <HowItWorks isProvider={isProvider} setIsProvider={setIsProvider} />
 
@@ -40,7 +40,7 @@ function Landing() {
 
       <Testimonial isProvider={isProvider} setIsProvider={setIsProvider} />
 
-      {/* proof section (screenshot) */}
+      {/* proof section (screenshot) 
       <section className='text-center mx-0'>
         <h2>See Servana in Action</h2>
         <p className='mb-[72x]'>See how easy it is to navigate, book, and oversee services on Servana.</p>
@@ -60,7 +60,7 @@ function Landing() {
 
       <CallToAction />
 
-      <Footer />
+      <Footer /> */}
     </main>
   )
 }

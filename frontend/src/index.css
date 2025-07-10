@@ -329,6 +329,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   html {
     scroll-behavior: smooth
   }
@@ -337,10 +338,14 @@
     @apply bg-background text-foreground;
     font-family: 'General Sans';
     font-weight: 500;
+
   }
+
   h1 {
-   @apply font-extrabold mb-[25px] lg:mb-[40px] text-center;
-  } h2 {
+    @apply font-extrabold mb-[25px] lg:mb-[40px] text-center;
+  }
+
+  h2 {
     @apply font-bold mb-[1rem] lg:mb-[24px] leading-15 text-5xl;
   }
 
@@ -354,34 +359,40 @@
   button,
   input,
   select,
-  textarea{
+  textarea {
     font-family: 'Satoshi';
     font-weight: 800;
   }
+
   section {
     padding-bottom: 250px;
     margin-inline: 120px;
     /* text-align: center; */
   }
-   section > p {
-    @apply text-lg  font-semibold mb-[24px] lg:mb-[52px];
-   }
-   ol li {
+
+  section>p {
+    @apply text-lg font-semibold mb-[24px] lg:mb-[52px];
+  }
+
+  ol li {
     @apply border-1 px-8 py-4 rounded-4xl shadow-md w-[55%] text-center bg-background;
-   }
-    ol li:nth-child(odd) {
-      margin-left: auto;
-      margin-block: 3.5rem;
-    }
-    ol li:nth-child(even) {
-      margin-right: auto;
-    }
+  }
+
+  ol li:nth-child(odd) {
+    margin-left: auto;
+    margin-block: 3.5rem;
+  }
+
+  ol li:nth-child(even) {
+    margin-right: auto;
+  }
 }
+
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
 
 .scrollbar-none {
   -ms-overflow-style: none;
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }

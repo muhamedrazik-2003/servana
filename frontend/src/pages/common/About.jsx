@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from "../../components/common/Header"
-import aboutHeroImage from "../../assets/images/ChatGPT Image Jul 10, 2025, 12_19_23 AM.png"
+import aboutHeroImage from "../../assets/images/AboutHero.png"
 import communityImage from "../../assets/images/Stylized Miniature Model Town.png"
 import Testimonial from '../../components/common/landing/Testimonial'
 import Footer from "../../components/common/Footer"
@@ -60,12 +60,12 @@ function About() {
     <main>
       <Header />
 
-      <section className='flex gap-20 mx-[180px] pt-[100px]'>
+      <section className='flex gap-6 mx-[180px] pt-[100px]'>
         <div>
           <h1 className='text-[64px] leading-18 text-start'>Helping Locals Find Trusted Services, Instantly.</h1>
           <p className='text-lg font-semibold mb-24px lg:mb-[52px]'>At Servana, we believe that every neighborhood deserves access to trusted professionals—delivered fast, fairly, and safely.</p>
         </div>
-        <img className='size-75' src={aboutHeroImage} alt="" />
+        <img className='size-85' src={aboutHeroImage} alt="" />
       </section>
 
       <section>
