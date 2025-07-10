@@ -2,7 +2,7 @@ import { Instagram, Twitter } from "lucide-react";
 import Logo from "../../assets/images/logo.png"
 import { Link } from "react-router-dom";
 
-function Footer() {
+function Footer({ userRole }) {
   return (
     <footer className="bg-[#180835] text-gray-300 pt-18 pb-4 px-6 md:px-24">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10">
@@ -41,15 +41,28 @@ function Footer() {
           </ul>
         </div>
 
-        <div>
-          <h4 className="text-white font-semibold text-base mb-3">For Providers</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link to={'/auth?mode=register&role=provider'} className="hover:text-white">Become a Provider</Link></li>
-            <li><a href="#provider-features" className="hover:text-white">Features</a></li>
-            <li><a href="#" className="hover:text-white">Payment</a></li>
-            <li><a href="#faqs" className="hover:text-white">Provider FAQs</a></li>
-          </ul>
-        </div>
+        {
+          userRole === 'seeker'
+            ? <div>
+              <h4 className="text-white font-semibold text-base mb-3">Quick Navigation</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link className="hover:text-white">My Profile</Link></li>
+                <li><a href="#" className="hover:text-white">Booking</a></li>
+                <li><a href="#" className="hover:text-white">Support</a></li>
+                <li><a href="#" className="hover:text-white">Logout</a></li>
+              </ul>
+            </div>
+
+            : <div>
+              <h4 className="text-white font-semibold text-base mb-3">For Providers</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link to={'/auth?mode=register&role=provider'} className="hover:text-white">Become a Provider</Link></li>
+                <li><a href="#provider-features" className="hover:text-white">Features</a></li>
+                <li><a href="#" className="hover:text-white">Payment</a></li>
+                <li><a href="#faqs" className="hover:text-white">Provider FAQs</a></li>
+              </ul>
+            </div>
+        }
       </div>
 
       <div className="mt-12 text-center text-xs text-gray-400">
