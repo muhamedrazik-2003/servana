@@ -28,9 +28,9 @@ function Landing() {
     <main>
       <Header />
 
-      {/* <Hero />
+      <Hero />
 
-      <HowItWorks isProvider={isProvider} setIsProvider={setIsProvider} />
+       {/*<HowItWorks isProvider={isProvider} setIsProvider={setIsProvider} />
 
       <CoreFeaturesForSeeker />
 

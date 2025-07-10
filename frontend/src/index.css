@@ -371,7 +371,8 @@
   }
 
   section>p {
-    @apply text-lg font-semibold mb-[24px] lg:mb-[52px];
+    @apply text-[clamp(18px,1.5vw,20px)] font-semibold mb-[40px] lg:mb-[52px];
+    line-height: 1.8;
   }
 
   ol li {
