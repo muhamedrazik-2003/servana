@@ -60,7 +60,7 @@ function About() {
     <main>
       <Header />
 
-      <section className='flex flex-col lg:flex-row gap-6 lg:mx-[180px] pt:-[50px] lg:pt-[100px]'>
+      <section className='flex flex-col lg:flex-row gap-6 lg:mx-[180px] pt-[40px]  lg:pt-[100px]'>
         <div>
           <h1 className='text-[clamp(2rem,6vw,64px)] leading-12 lg:leading-18 text-start'>Helping Locals Find Trusted Services, Instantly.</h1>
           <p className='text-lg font-semibold mb-24px lg:mb-[52px]'>At Servana, we believe that every neighborhood deserves access to trusted professionals—delivered fast, fairly, and safely.</p>

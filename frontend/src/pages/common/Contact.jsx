@@ -10,7 +10,7 @@ function Contact() {
       <Header />
       <section className="max-w-4xl mx-auto px-6 py-16">
         <div className='grid grid-cols-1 lg:grid-cols-2'>
-          <div>
+          <div className='mb-10 lg:mb-0'>
             <h1 className="text-6xl text-start font-bold mb-6">Reach Out.<br /> Get Answers.</h1>
             <p className="text-gray-600 mb-16 text-lg">
               Contact our team directly for questions, support, feedback, or partnership inquiries.
@@ -24,6 +24,7 @@ function Contact() {
               </a>
             </div>
           </div>
+          {/* contact cards */}
           <div className=" space-y-4 mb-12">
             <div className="border p-6 rounded-lg hover:shadow-lg transition">
               <h3 className="text-xl font-semibold mb-2">Support</h3>
@@ -32,6 +33,7 @@ function Contact() {
               <p className="mb-4 text-gray-400 cursor-not-allowed"><strong>Chat:</strong> Live chat (9am–6pm IST) <span className='text-xs text-accent'>- Coming Soon</span></p>
               <p className="text-xs text-gray-500">We respond within one business day.</p>
             </div>
+
             <div className="border p-6 rounded-lg hover:shadow-lg transition">
               <h3 className="text-xl font-semibold mb-2">Sales & Partnerships</h3>
               <p className="text-gray-600 mb-4">Want to grow your business with Servana?</p>
@@ -43,8 +45,8 @@ function Contact() {
             </div>
           </div>
         </div>
-
-        <div className='flex gap-6 pb-[40px]'>
+{/* customer support form */}
+        <div className='flex flex-col lg:flex-row gap-6 pb-[40px]'>
           <div>
             <h3 className='text-lg font-semibold mb-6 '>Customer Support & Feedback</h3>
             <form className="space-y-5 mb-12">
@@ -60,6 +62,7 @@ function Contact() {
               <p className="text-xs text-gray-500">We typically reply within 24 hours.</p>
             </form>
           </div>
+          {/* provider support form */}
           <div>
             <h3 className='text-lg font-semibold mb-6 '>Provider Support & Feedback</h3>
             <form className="space-y-5 mb-12">
