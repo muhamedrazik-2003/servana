@@ -59,7 +59,7 @@ function CoreFeaturesForSeeker() {
         containerRef.current.scrollLeft -= 320;
     };
     return (
-        <section id='seeker-features' className='mx-0 pl-[100px]'>
+        <section id='seeker-features' className='mx-0 pl-[32px] lg:pl-[100px]'>
             <h2 className='max-w-[600px]'>Made for Local Service. Built for Trust.</h2>
             <p className='mb-[72px]'>We remove the friction so customers and providers can focus on what truly matters—results and relationships.</p>
             <div ref={containerRef} className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px] pl-[100px] scrolllbar-hidden'>

@@ -71,7 +71,7 @@ function ServiceCategory() {
         containerRef.current.scrollLeft -= 340;
     };
     return (
-        <section id='categories' className='mx-0 pl-[100px]'>
+        <section id='categories' className='mx-0 pl-[32px] lg:pl-[100px]'>
             <h2 className='max-w-[600px]'>Services That Simplify Everyday Life.</h2>
             <p className='mb-[72px]'>Servana connects you with nearby experts—fast, reliable, and verified.</p>
             <div ref={containerRef} className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px] pl-[100px] scrolllbar-hidden'>

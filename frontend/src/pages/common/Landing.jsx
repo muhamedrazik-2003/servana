@@ -32,7 +32,7 @@ function Landing() {
 
        <HowItWorks isProvider={isProvider} setIsProvider={setIsProvider} />
 
-     {/* <CoreFeaturesForSeeker />
+      <CoreFeaturesForSeeker />
 
       <ServiceCategory />
 
