@@ -125,11 +125,11 @@ function Testimonial() {
 
 
   return (
-    <section className='mx-0 pl-[100px]'>
+    <section className='mx-0 pl-[32px] lg:pl-[100px]'>
       <h2 className='max-w-[600px]'>Made for Local Service. Built for Trust.</h2>
       <p className='mb-[72px]'>We remove the friction so customers and providers can focus on what truly matters—results and relationships.</p>
       <h5 className="py-1.5 px-4 rounded-4xl mb-4 bg-secondary inline-block text-sm">Customer's Comment</h5>
-      <div className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px]  scrolllbar-hidden'>
+      <div className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px]  scrolllbar-hidden'>
         <div className='flex gap-5'>
           {
             testimonials.map((testimonial, index) => {
@@ -155,10 +155,10 @@ function Testimonial() {
           }
         </div>
       </div>
-      <div className="text-right pr-[120px]">
+      <div className="text-right pr-[32px] lg:pr-[120px]">
         <h5 className="py-1.5 px-4 rounded-4xl my-4 bg-accent inline-block text-sm">Provider's Comment</h5>
       </div>
-      <div className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px] scrolllbar-hidden'>
+      <div className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px] scrolllbar-hidden'>
         <div className='flex gap-5'>
           {
             testimonials.map((testimonial, index) => {
