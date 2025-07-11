@@ -9,7 +9,7 @@ function SeekerHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="w-full sticky top-0 z-50 bg-white shadow-md dark:bg-gray-900 transition-all">
+    <header className="w-full sticky top-0 z-50 bg-background shadow-md dark:bg-background transition-all">
       <div className="mx-4 md:mx-8 lg:mx-20 py-3 flex items-center justify-between">
         {/* Logo + Name */}
         <Link to="/" className="flex items-center gap-2">
@@ -21,25 +21,25 @@ function SeekerHeader() {
         <div className="hidden md:flex items-center gap-6">
           <div className="flex gap-2">
             <div className="relative w-[200px]">
-              <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+              <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
               <input
                 type="text"
                 placeholder="Your Location..."
-                className="pl-10 pr-3 py-2 w-full rounded-md bg-gray-100 dark:bg-gray-800 text-sm outline-none"
+                className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
               />
             </div>
             <div className="relative w-[250px]">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
               <input
                 type="text"
                 placeholder="Search services..."
-                className="pl-10 pr-3 py-2 w-full rounded-md bg-gray-100 dark:bg-gray-800 text-sm outline-none"
+                className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
               />
             </div>
           </div>
           {/* Booking */}
           <Link to="/bookings" className="flex items-center gap-1 text-sm hover:text-primary">
-            <Calendar className="h-5 w-5" />
+            <Calendar className="h-5 w-5 text-primary" />
             <span className="hidden md:inline">Your Bookings</span>
           </Link>
 
@@ -53,13 +53,12 @@ function SeekerHeader() {
             <Sun className="h-5 w-5" />
           </button>
 
-          {/* Profile Dropdown */}
           <div className="relative group">
             <button className="flex items-center gap-2">
-              <User className="h-5 w-5" />
+              <User className="h-5 w-5 text-primary" />
               <span className="text-sm hidden md:inline">Profile</span>
             </button>
-            {/* Placeholder dropdown */}
+      
             <div className="absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-md hidden group-hover:block p-2">
               <Link to="/profile" className="block px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">View Profile</Link>
               <button className="block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Logout</button>
