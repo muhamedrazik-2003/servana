@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CalendarDays, Clock, MapPin } from "lucide-react"
+import { Link } from "react-router-dom"
 
 function BookingCard({ serviceName, providerName, date, time, location, status }) {
     function getStatusColor(status) {
@@ -36,7 +37,7 @@ function BookingCard({ serviceName, providerName, date, time, location, status }
                 </div>
 
                 <div className="pt-2">
-                    <Button variant="default" size="sm">View Details</Button>
+                    <Link to={'/seeker/mybookings/booking'}><Button variant="default" size="sm">View Details</Button></Link>
                 </div>
             </CardContent>
         </Card>

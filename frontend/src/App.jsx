@@ -11,6 +11,7 @@ import AllServices from "./pages/common/AllServices"
 import SeekerHome from "./pages/seeker/Dashboard"
 import SeekerBookings from "./pages/seeker/MyBookings"
 import SeekerProfile from "./pages/seeker/Profile"
+import BookingDetail from "./components/seeker/BookingDetail"
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
       {/* seeker pages */}
       <Route path="/seeker/home" element={<SeekerHome/>} />
       <Route path="/seeker/mybookings" element={<SeekerBookings/>} />
+      <Route path="/seeker/mybookings/booking" element={<BookingDetail/>} />
       <Route path="/seeker/profile" element={<SeekerProfile/>} />
     </Routes>
   )
