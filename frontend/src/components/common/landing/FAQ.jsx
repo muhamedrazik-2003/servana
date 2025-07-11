@@ -61,7 +61,7 @@ function FAQ({ customerFaq, providerFaq }) {
                 </>
                 : <>
                     <h2>Your Questions, Answered</h2>
-                    <p className='mb-[72px]'>Clarifying how Servana works—for customers and professionals</p>
+                    <p className='mb-[72px] mx-auto'>Clarifying how Servana works—for customers and professionals</p>
                 </>
             }
 

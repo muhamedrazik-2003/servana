@@ -8,7 +8,7 @@ function HowItWorks({isProvider,setIsProvider}) {
     
      <section id="how-it-works">
         <h2 className='text-center'>Who Are You ?</h2>
-        <p className="text-center">See how Servana works for you.</p>
+        <p className="text-center mx-auto">See how Servana works for you.</p>
         {/* sliding bar */}
         <div className={`relative shadow-sm border md:max-w-[50%] rounded-4xl mx-auto text-center flex items-center mb-[2rem] transition-all duration-100 ${isProvider ? "bg-amber-100" : "bg-teal-100"}`}>
           <div className={`absolute left-0 rounded-3xl mx-2 w-[50%] h-12 transition-all duration-300 ${isProvider ? 'translate-x-[93%] bg-accent' : 'bg-secondary'}`}></div>

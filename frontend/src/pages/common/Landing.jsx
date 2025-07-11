@@ -43,7 +43,7 @@ function Landing() {
       {/* proof section (screenshot) */}
       <section className='text-center mx-0'>
         <h2>See Servana in Action</h2>
-        <p className='mb-[72x]'>See how easy it is to navigate, book, and oversee services on Servana.</p>
+        <p className='mb-[72x] mx-auto'>See how easy it is to navigate, book, and oversee services on Servana.</p>
         <div className='flex flex-col items-center lg:flex-row overflow-x-hidden px-[32px]'>
           <div className='w-full lg:w-[50%] lg:translate-x-[-20%]'>
             <img className=' rounded-3xl shadow-lg' src={demoDash} alt="placeholder demo dash" />

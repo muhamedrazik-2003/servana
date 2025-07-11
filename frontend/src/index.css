@@ -372,8 +372,10 @@
   }
 
   section>p {
-    @apply text-[clamp(18px,1.5vw,20px)] font-semibold mb-[40px] lg:mb-[52px] pr-6;
+    @apply text-[18px] font-semibold mb-[40px] lg:mb-[52px] pr-6;
     line-height: 1.8;
+    max-width: 600px;
+    /* font-size: clamp(18px,1.5vw,20px); */
   }
 
   ol li {

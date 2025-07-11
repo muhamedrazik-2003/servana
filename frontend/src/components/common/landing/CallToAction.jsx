@@ -6,7 +6,7 @@ function CallToAction() {
     return (
         <section className='text-center relative'>
             <h2 className='text-[2.5rem] lg:text-6xl'>Ready to Get Started?</h2>
-            <p className='mb-20'>Become part of a community that values quality and simplicity.</p>
+            <p className='mb-20 mx-auto'>Become part of a community that values quality and simplicity.</p>
             <div className='flex flex-col lg:flex-row items-center justify-center gap-x-8'>
                 <Link to={'/auth?mode=register&role=seeker'}><Button variant={'seeker'} size={'lg'}>Find a Service</Button></Link>
                 <p className='font-semibold text-xl'>or</p>
