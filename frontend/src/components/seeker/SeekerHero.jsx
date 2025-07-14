@@ -3,7 +3,7 @@ import seekerHeroLeft from "../../assets/images/seekerHeroLeft.png"
 function SeekerHero() {
     return (
         <section className='relative max-w-[750px] mx-auto px-8 md:px-0 pt-[80px] md:pt-[100px] overflow-x-hidden md:overflow-x-visible'>
-            <h1 className='text-[clamp(2.5rem,6vw,56px)] leading-11 pb-6  md:leading-18 z-0 mb-[1.5rem]'>Need a Service?<br /> We’ve Got You Covered.</h1>
+            <h1 className='text-[clamp(2.5rem,6vw,56px)] leading-11  md:leading-18 z-0 mb-[2rem]'>Need a Service?<br /> We’ve Got You Covered.</h1>
             <p className='max-w-[600px] mx-auto font-semibold text-center pb-10 md:pb-unset px-8'>From home repairs to cleaning, connect with verified providers you can rely on.</p>
              <img className='h-50 lg:h-60 absolute top-68 lg:top-30 left-0 lg:left-[-15%] z-[-1]' src={seekerHeroLeft} alt="image of a person using mobile" />
            {/* <img className='size-50 lg:size-70 absolute top-62 lg:top-42 right-[-6%] lg:right-[-35%] z-[-1]' src={providerImage} alt="" /> */}
