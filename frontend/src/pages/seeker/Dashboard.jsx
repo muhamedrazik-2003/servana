@@ -5,6 +5,7 @@ import SeekerHero from '../../components/seeker/SeekerHero'
 import BookingList from '../../components/seeker/BookingList'
 import ServiceCategory from '../../components/common/landing/ServiceCategory'
 import RecommendedSection from '../../components/seeker/RecommendedSection'
+import TopProviderSection from '../../components/seeker/TopProviderSection'
 
 function Dashboard() {
   return (
@@ -14,6 +15,7 @@ function Dashboard() {
       <BookingList />
       <ServiceCategory format={'seeker'} />
       <RecommendedSection/>
+      <TopProviderSection/>
       <Footer />
     </main>
   )

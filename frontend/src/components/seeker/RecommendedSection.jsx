@@ -49,9 +49,9 @@ export default function RecommendedSection() {
                 <p className='text-base mb-10'>Services you may want to explore.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
                 {recommendedServices.map(service => (
-                    <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-sm hover:shadow-lg transition">
+                    <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
                         <img
                             src={service.image}
                             alt={service.title}

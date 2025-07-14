@@ -81,7 +81,7 @@ function ServiceCategory({ format }) {
         containerRef.current.scrollLeft -= 340;
     };
     return (
-        <section id='categories' className='mx-0 pl-[32px] lg:pl-[100px]'>
+        <section id='categories' className={`mx-0 pl-[32px] lg:pl-[100px] ${format === "seeker" && "pb-10"}`}>
             <div className='flex justify-between items-end md:items-center pr-8 mb-10'>
                 <div>
                     <h2 className={`max-w-[600px] ${format === "seeker" && "text-2xl md:text-4xl mb-1"}`}>{format === "seeker" ? "Popular Services Near You" : "Services That Simplify Everyday Life."}</h2>
