@@ -82,14 +82,14 @@ function ServiceCategory({ format }) {
     };
     return (
         <section id='categories' className='mx-0 pl-[32px] lg:pl-[100px]'>
-            <div className='flex justify-between items-end md:items-center pr-8 mb-[32px]'>
+            <div className='flex justify-between items-end md:items-center pr-8 mb-10'>
                 <div>
-                    <h2 className={`max-w-[600px] ${format === "seeker" && "text-2xl md:text-4xl mb-2"}`}>{format === "seeker" ? "Popular Services Near You" : "Services That Simplify Everyday Life."}</h2>
-                    <p className={`${format === "seeker" && "text-base"}`}>{format === "seeker" ? "Find what others are booking most around your area." : 'Servana connects you with nearby experts—fast, reliable, and verified.'}</p>
+                    <h2 className={`max-w-[600px] ${format === "seeker" && "text-2xl md:text-4xl mb-1"}`}>{format === "seeker" ? "Popular Services Near You" : "Services That Simplify Everyday Life."}</h2>
+                    <p className={`${format === "seeker" && "text-base mb-0"}`}>{format === "seeker" ? "Find what others are booking most around your area." : 'Servana connects you with nearby experts—fast, reliable, and verified.'}</p>
                 </div>
-            </div>
-            <Button variant={'outline'} className={`border ml-auto mb-6 mr-[32px] ${format === "seeker" ? "block" : "hidden"}`}>View More</Button>
+                <Button variant={'outline'} className={`border ml-auto mb-0 mr-[32px] ${format === "seeker" ? "block" : "hidden"}`}>View More</Button>
 
+            </div>
             <div ref={containerRef} className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px] pl-[100px] scrolllbar-hidden'>
                 <div className='flex gap-5'>
                     {

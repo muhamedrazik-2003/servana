@@ -22,6 +22,22 @@ const recommendedServices = [
         image: "https://images.unsplash.com/photo-1721333089073-215a56fd710c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Zml4aW5nJTIwbGFwdG9wfGVufDB8MXwwfHx8MA%3D%3D", // tech support fixing laptop
         location: "Online Support",
         providerCount: 10
+    },
+    {
+        title: "Pet Grooming",
+        titleIcon: "PawPrint",
+        image: "https://images.unsplash.com/photo-1415369629372-26f2fe60c467?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGV0JTIwY2FyZXxlbnwwfDF8MHx8fDA%3D", // dog groomer at work
+        providerCount: 8,
+        location: "Online Support",
+
+    },
+    {
+        title: "Car Repair",
+        titleIcon: "Car",
+        image: "https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww", // mechanic fixing car
+        providerCount: 11,
+        location: "Online Support",
+
     }
 ]
 
@@ -29,20 +45,20 @@ export default function RecommendedSection() {
     return (
         <section className="mt-10 space-y-5">
             <div>
-                <h2 className='text-2xl md:text-4xl mb-2'>Recommended for You</h2>
-                <p className='text-base'>Services you may want to explore.</p>
+                <h2 className='text-2xl md:text-4xl mb-1'>Recommended for You</h2>
+                <p className='text-base mb-10'>Services you may want to explore.</p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
                 {recommendedServices.map(service => (
-                    <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 bg-linear-to-br from-cyan-50 to-violet-100 rounded-3xl shadow-sm hover:shadow-lg transition">
+                    <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-sm hover:shadow-lg transition">
                         <img
                             src={service.image}
                             alt={service.title}
                             className="aspect-square h-full object-cover rounded-3xl p-2"
                         />
                         <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
-                        <CardContent className="px-5 pt-0 pb-6">
+                        <CardContent className="px-4 pt-0 pb-6">
                             <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">{service.title}</h3>
                             <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
                                 <MapPin className="w-3.5 h-3.5" />
