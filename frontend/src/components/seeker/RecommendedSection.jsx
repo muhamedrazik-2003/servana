@@ -43,7 +43,7 @@ const recommendedServices = [
 
 export default function RecommendedSection() {
     return (
-        <section className="mt-10 space-y-5">
+        <section className="mt-10 space-y-5 pb-10">
             <div>
                 <h2 className='text-2xl md:text-4xl mb-1'>Recommended for You</h2>
                 <p className='text-base mb-10'>Services you may want to explore.</p>

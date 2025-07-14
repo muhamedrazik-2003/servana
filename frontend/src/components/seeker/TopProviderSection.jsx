@@ -68,16 +68,16 @@ function TopProviderSection() {
     ]
 
     return (
-        <section className="mt-10 space-y-5">
+        <section className="mt-10 space-y-5 pb-30">
             <div>
-                <h2 className='text-2xl md:text-4xl mb-1'>Recommended for You</h2>
-                <p className='text-base mb-10'>Services you may want to explore.</p>
+                <h2 className='text-2xl md:text-4xl mb-1'>Best in Your Area</h2>
+                <p className='text-base mb-10'>Providers with the most jobs completed and top feedback.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-4">
                 {topRatedProviders.map(provider => (
-                    <Card key={provider.id} className=" relative grid grid-cols-2 gap-0 py-0 rounded-3xl border-slate-200 shadow-none hover:bg-amber-100 transition">
-                        <div className= "">
+                    <Card key={provider.id} className=" relative grid grid-cols-2 gap-0 py-0 rounded-3xl border-slate-200 shadow-xs hover:bg-amber-100 transition">
+                        <div className="">
                             <img
                                 src={provider.image}
                                 alt={provider.title}
