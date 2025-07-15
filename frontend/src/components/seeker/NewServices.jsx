@@ -49,7 +49,7 @@ function NewServices() {
                 <p className='text-base mb-10'>We’ve got some new arrivals! Check out what’s fresh in your area.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {NewAddedServices.map(service => (
                     <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
                         <img

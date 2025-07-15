@@ -1,7 +1,7 @@
 // components/seeker/Header.jsx
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Menu, Bell, Moon, User, Search, Calendar, Sun, MapPin } from "lucide-react"
+import { Menu, Bell, Moon, User, Search, Calendar, Sun, MapPin, Layers } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
 
@@ -38,7 +38,11 @@ function SeekerHeader() {
             </div>
           </div>
           {/* Booking */}
-          <Link to="/bookings" className="flex items-center gap-1 text-sm hover:text-primary">
+          <Link to="/services" className="flex items-center gap-1 text-sm hover:text-primary">
+            <Layers className="h-5 w-5 text-primary" />
+            <span className="hidden md:inline">All Services</span>
+          </Link>
+          <Link to="/seeker/mybookings" className="flex items-center gap-1 text-sm hover:text-primary">
             <Calendar className="h-5 w-5 text-primary" />
             <span className="hidden md:inline">Your Bookings</span>
           </Link>
@@ -77,10 +81,16 @@ function SeekerHeader() {
         <div className="md:hidden px-4 pb-4 space-y-2">
           <input
             type="text"
+            placeholder="Search location..."
+            className="w-full pl-10 pr-3 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-sm outline-none"
+          />
+          <input
+            type="text"
             placeholder="Search services..."
             className="w-full pl-10 pr-3 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-sm outline-none"
           />
-          <Link to="/bookings" className="block text-sm">Your Bookings</Link>
+          <Link to="/services" className="block text-sm">All Services</Link>
+          <Link to="/seeker/mybookings" className="block text-sm">Your Bookings</Link>
           <button disabled className="text-sm text-gray-400 cursor-not-allowed">Notifications (Coming Soon)</button>
           <button disabled className="text-sm text-gray-400 cursor-not-allowed">Dark Mode</button>
           <Link to="/profile" className="block text-sm">View Profile</Link>
