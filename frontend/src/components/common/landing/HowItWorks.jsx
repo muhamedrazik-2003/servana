@@ -10,10 +10,10 @@ function HowItWorks({isProvider,setIsProvider}) {
         <h2 className='text-center'>Who Are You ?</h2>
         <p className="text-center mx-auto">See how Servana works for you.</p>
         {/* sliding bar */}
-        <div className={`relative shadow-sm border md:max-w-[50%] rounded-4xl mx-auto text-center flex items-center mb-[2rem] transition-all duration-100 ${isProvider ? "bg-amber-100" : "bg-teal-100"}`}>
-          <div className={`absolute left-0 rounded-3xl mx-2 w-[50%] h-12 transition-all duration-300 ${isProvider ? 'translate-x-[93%] bg-accent' : 'bg-secondary'}`}></div>
-          <h3 onClick={() => setIsProvider(false)} className='z-10 cursor-pointer p-5 w-[50%]' >Seeker</h3>
-          <h3 onClick={() => setIsProvider(true)} className={`z-10 p-5 w-[50%] cursor-pointer ${isProvider ? "text-white" : 'text-foreground'}`} >Provider</h3>
+        <div className={`relative shadow-sm border md:max-w-[50%] rounded-4xl mx-auto text-center flex items-center mb-[2rem] transition-all duration-100 ${isProvider ? "bg-amber-100 dark:bg-amber-950" : "bg-teal-100 dark:bg-teal-950"}`}>
+          <div className={`absolute left-0 rounded-3xl mx-2 w-[50%] h-12 transition-all duration-300 ${isProvider ? 'translate-x-[93%] bg-accent dark:bg-accent' : 'bg-secondary dark:bg-secondary'}`}></div>
+          <h3 onClick={() => setIsProvider(false)} className={`z-10 cursor-pointer p-5 w-[50%] ${isProvider ? "" : 'text-background'}`}>Seeker</h3>
+          <h3 onClick={() => setIsProvider(true)} className={`z-10 p-5 w-[50%] cursor-pointer ${isProvider ? "text-foreground dark:text-background" : 'text-foreground'}`} >Provider</h3>
         </div>
         {/* s shaped lines */}
         <div className='relative'>

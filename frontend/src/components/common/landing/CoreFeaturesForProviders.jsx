@@ -33,7 +33,7 @@ function CoreFeaturesForProviders() {
     ];
 
     return (
-        <section id='provider-features' className='flex flex-col lg:flex-row items-center bg-amber-100 p-6 lg:p-10 mb-[92px] lg:mb-[250px] rounded-4xl'>
+        <section id='provider-features' className='flex flex-col lg:flex-row items-center bg-amber-100 dark:bg-amber-950 p-6 lg:p-10 mb-[92px] lg:mb-[250px] rounded-4xl'>
             <div className='space-y-4 lg:space-y-12 mb-8 lg:mb-0'>
                 <h2>List Your Services.<br />Get Discovered.<br />Get Paid.</h2>
                 <p className='lg:w-[80%] lg:mb-16'>Servana puts your skills in front of the people who need them most — nearby customers ready to book and pay.</p>

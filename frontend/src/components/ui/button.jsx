@@ -21,9 +21,9 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         seeker:
-          "text-lg lg:text-xl w-[200px] md:w-[260px] bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-xs hover:bg-primary/90 ",
+          "text-lg lg:text-xl w-[200px] md:w-[260px] bg-linear-to-r from-primary to-secondary text-foreground dark:text-background  shadow-xs hover:bg-primary/90 ",
         provider:
-          "text-lg md:text-xl w-[200px] md:w-[260px] bg-linear-to-r from-primary to-accent text-primary-foreground shadow-xs hover:bg-primary/90",
+          "text-lg md:text-xl w-[200px] md:w-[260px] bg-linear-to-r from-primary to-accent text-foreground dark:text-background shadow-xs hover:bg-primary/90",
 
       },
       size: {

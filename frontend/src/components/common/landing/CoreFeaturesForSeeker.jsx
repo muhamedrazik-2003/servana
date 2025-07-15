@@ -68,7 +68,7 @@ function CoreFeaturesForSeeker() {
                         coreFeatures.map((feature, index) => {
                             const Icon = Icons[feature.titleIcon]
                             return (
-                                <Card key={index} className={'w-[300px] shrink-0 bg-linear-to-bl from-teal-100 to-background shadow'}>
+                                <Card key={index} className={'w-[300px] shrink-0 bg-linear-to-bl from-teal-100 to-background dark:from-teal-900 dark:to-slate-900 shadow'}>
                                     <CardHeader>
                                         <CardTitle className={'flex items-center gap-2'}>
                                             <Icon className={'size-5'} />
@@ -85,8 +85,8 @@ function CoreFeaturesForSeeker() {
                 </div>
             </div>
             <div className='flex gap-6 justify-end mt-10 mr-20'>
-                <Icons.ChevronLeft onClick={handlePrev} className='text-foreground shadow size-10 p-2 rounded-full bg-indigo-100' />
-                <Icons.ChevronLeft onClick={handleNext} className='text-foreground shadow size-10 p-2 rounded-full bg-indigo-100 rotate-180' />
+                <Icons.ChevronLeft onClick={handlePrev} className='text-foreground shadow size-10 p-2 rounded-full bg-indigo-100 dark:bg-indigo-950' />
+                <Icons.ChevronLeft onClick={handleNext} className='text-foreground shadow size-10 p-2 rounded-full bg-indigo-100 dark:bg-indigo-950 rotate-180' />
 
             </div>
 

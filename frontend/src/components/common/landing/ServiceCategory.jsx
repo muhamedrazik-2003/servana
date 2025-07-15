@@ -105,8 +105,8 @@ function ServiceCategory({ format }) {
                 </div>
             </div>
             <div className='flex gap-6 justify-end mt-10 mr-20'>
-                <Icons.ChevronLeft onClick={handlePrev} className='text-foreground shadow size-10 p-2 rounded-full bg-indigo-100' />
-                <Icons.ChevronLeft onClick={handleNext} className='text-foreground shadow size-10 p-2 rounded-full bg-indigo-100 rotate-180' />
+                <Icons.ChevronLeft onClick={handlePrev} className='text-foreground shadow size-10 p-2 rounded-full bg-indigo-100 dark:bg-indigo-950' />
+                <Icons.ChevronLeft onClick={handleNext} className='text-foreground shadow size-10 p-2 rounded-full bg-indigo-100 dark:bg-indigo-950 rotate-180' />
 
             </div>
 

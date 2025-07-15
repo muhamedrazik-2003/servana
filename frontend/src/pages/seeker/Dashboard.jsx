@@ -13,6 +13,7 @@ import {
   Headset
 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+import NewServices from '../../components/seeker/NewServices'
 
 function Dashboard() {
   const trustPoints = [
@@ -44,6 +45,7 @@ function Dashboard() {
       <BookingList />
       <ServiceCategory format={'seeker'} />
       <RecommendedSection />
+      <NewServices/>
       <TopProviderSection />
       {/* trust section */}
       <section className="mt-12 space-y-6 px-4 sm:px-6 lg:px-8">

@@ -74,14 +74,14 @@ function TopProviderSection() {
                 <p className='text-base mb-10'>Providers with the most jobs completed and top feedback.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-6">
                 {topRatedProviders.map(provider => (
-                    <Card key={provider.id} className=" relative grid grid-cols-2 gap-0 py-0 rounded-3xl border-slate-200 shadow-xs hover:bg-amber-100 transition">
+                    <Card key={provider.id} className=" relative grid grid-cols-2 gap-0 py-0 rounded-4xl border-0 border-slate-200 shadow-none hover:bg-amber-100 transition">
                         <div className="">
                             <img
                                 src={provider.image}
                                 alt={provider.title}
-                                className="aspect-square h-full object-cover rounded-4xl p-3"
+                                className="aspect-square h-full object-cover rounded-4xl p-2"
                             />
                         </div>
                         <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm bg-accent text-white'}>top Rated</Badge>
