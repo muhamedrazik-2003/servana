@@ -19,9 +19,8 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    unique: true,
     trim:true,
-     match: /^[6-9]\d{9}$/
+    match: /^[6-9]\d{9}$/,
   },
   role: {
     type: String,

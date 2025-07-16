@@ -2,26 +2,68 @@ import { GalleryVerticalEnd } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import { useState } from "react"
+import { loginUser } from "../../redux/slices/authSlice"
+
 
 function AuthForm({ formType, registerAs, setRegisterAs }) {
+    const [userData, setUserData] = useState({
+        fullName: "", email: "", password: "", role: registerAs
+    })
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleRegister = () => {
+        console.log(userData);
+        dispatch(loginUser(userData))
+        setUserData({
+            fullName: "", email: "", password: "", role: ""
+        })
+    }
+    const handleLogin = async(e) => {
+         e.preventDefault();
+        console.log(userData);
+        const response = await dispatch(loginUser(userData))
+        console.log(response)
+        if (loginUser.fulfilled.match(response)) {
+            if (response.payload.user.role === "admin") {
+                navigate('/admin/dashboard')
+            } else if (response.payload.user.role === "seeker") {
+                navigate('/seeker/home')
+            } else if (response.payload.user.role === "provider") {
+                navigate('/provider/dashboard')
+
+            }
+        }
+        setUserData({
+            fullName: "", email: "", password: "", role: ""
+        })
+    }
+
     return (
         <div className="flex flex-col items-center gap-6">
             {
                 (formType === "register" && registerAs === null)
                     ? <div className=' w-65 lg:w-full flex flex-col items-center justify-center gap-3'>
                         <Button
-                            onClick={() => setRegisterAs("seeker")}
+                            onClick={() => {
+                                setRegisterAs("seeker")
+                                // setUserData({...userData,role: 'seeker'})
+                            }}
                             variant={'outline'} size={'lg'}
                             className={'w-full h-20 border-2 border-secondary shadow-lg hover:bg-teal-200'}>
-                             I Need a Service
+                            I Need a Service
                         </Button>
                         <p className='font-semibold text-xl'>or</p>
                         <Button
-                            onClick={() => setRegisterAs("provider")}
+                            onClick={() => {
+                                setRegisterAs("provider")
+                            }}
                             variant={'outline'} size={'lg'}
                             className={'w-full h-20 border-2 border-accent hover:bg-amber-200 shadow-lg'}>
-                             I Provide Services
+                            I Provide Services
                         </Button>
                     </div>
                     : <form className=" w-65 lg:w-full">
@@ -36,6 +78,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                                                 type="name"
                                                 placeholder="Jhon Doe"
                                                 required
+                                                onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
                                             />
                                         </div>
                                     }
@@ -46,6 +89,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                                             type="email"
                                             placeholder="m@example.com"
                                             required
+                                            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                                         />
                                     </div>
                                     <div className="grid gap-3">
@@ -55,17 +99,16 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                                             type="password"
                                             placeholder="Example@123"
                                             required
+                                            onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                                         />
                                     </div>
                                 </div>
                                 {
                                     formType === "register"
-                                        ? <Button onClick={() => { formType = "login" }} type="submit" className={`w-full ${registerAs === "provider" ? "bg-accent hover:bg-amber-600" : "bg-secondary hover:bg-teal-600"}`}>
+                                        ? <Button onClick={(e) => handleRegister(e)} type="submit" className={`w-full ${registerAs === "provider" ? "bg-accent hover:bg-amber-600" : "bg-secondary hover:bg-teal-600"}`}>
                                             Register
                                         </Button>
-                                        : <Link to={'/seeker/home'}>
-                                            <Button type="submit" className="w-full">Login</Button>
-                                        </Link>
+                                        : <Button onClick={(e) => handleLogin(e)} type="submit" className="w-full">Login</Button>
                                 }
                             </div>
                             <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
