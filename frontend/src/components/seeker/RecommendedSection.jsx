@@ -55,7 +55,7 @@ function RecommendedSection() {
                         <img
                             src={service.image}
                             alt={service.title}
-                            className="aspect-square h-full object-cover rounded-3xl p-2"
+                            className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
                         />
                         <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
                         <CardContent className="px-4 pt-0 pb-6">
