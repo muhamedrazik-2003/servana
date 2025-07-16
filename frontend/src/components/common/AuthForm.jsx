@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link, useNavigate } from "react-router-dom"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from "react"
-import { loginUser } from "../../redux/slices/authSlice"
+import { loginUser, registerUser } from "../../redux/slices/authSlice"
 
 
 function AuthForm({ formType, registerAs, setRegisterAs }) {
@@ -14,16 +14,29 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
     })
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {error} = useSelector(state => state.authSlice)
 
-    const handleRegister = () => {
+    const handleRegister = async (e) => {
+        e.preventDefault();
         console.log(userData);
-        dispatch(loginUser(userData))
+        const response = await dispatch(registerUser(userData))
+        console.log(response)
+        if (registerUser.fulfilled.match(response)) {
+            if (response.payload.user.role === "admin") {
+                navigate('/admin/dashboard')
+            } else if (response.payload.user.role === "seeker") {
+                navigate('/seeker/home')
+            } else if (response.payload.user.role === "provider") {
+                navigate('/provider/dashboard')
+
+            }
+        }
         setUserData({
             fullName: "", email: "", password: "", role: ""
         })
     }
-    const handleLogin = async(e) => {
-         e.preventDefault();
+    const handleLogin = async (e) => {
+        e.preventDefault();
         console.log(userData);
         const response = await dispatch(loginUser(userData))
         console.log(response)
@@ -102,6 +115,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                                             onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                                         />
                                     </div>
+                                    <p className="text-center text-sm text-red-500">{error}</p>
                                 </div>
                                 {
                                     formType === "register"

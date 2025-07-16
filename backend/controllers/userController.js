@@ -54,7 +54,7 @@ exports.userRegister = async (req, res) => {
       status: "active",
     });
     await newUser.save();
-    const token = jwt.sign({userId:userExist._id},process.env.SECRET_KEY)
+    const token = jwt.sign({userId:newUser._id},process.env.SECRET_KEY)
     res.status(201).json({
         message:"Registration Success",
         user: {
