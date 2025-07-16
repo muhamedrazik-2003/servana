@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const dbConnect = require('./Config/dbConnection');
-// const userRouter = require('./routes/userRoutes');
+const userRouter = require('./routes/userRoutes');
 
 dotenv.config();
 dbConnect();
@@ -14,7 +14,7 @@ server.use(cors());
 server.use(express.json());
 
 // routes
-// server.use('api/user', userRouter)
+server.use('/api/users', userRouter)
 
 
 server.get('/', (req, res) => {
