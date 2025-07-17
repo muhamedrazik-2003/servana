@@ -1,7 +1,7 @@
 import React from 'react'
 import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 import { MapPin } from 'lucide-react'
-import BookingSlidingTab from '../../components/seeker/MyBooking/BookingSlidingTab'
+import BookingTabs from '../../components/seeker/MyBooking/BookingTabs'
 
 function MyBookings() {
   return (
@@ -19,7 +19,7 @@ function MyBookings() {
           />
         </div>
       </section>
-      <BookingSlidingTab />
+      <BookingTabs/>
     </main>
   )
 }

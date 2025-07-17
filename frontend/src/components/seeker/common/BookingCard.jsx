@@ -21,18 +21,27 @@ function BookingCard({ cardVarient = "home" }) {
     };
 
     function getStatusColor(status) {
-        const s = status.toLowerCase()
-        switch (s) {
-            case "completed": return "bg-green-400 text-green-50 border-green-600";
-            case "pending": return "bg-yellow-400 text-yellow-950 border-yellow-700";
-            case "cancelled": return "bg-red-600 text-red-50 border-red-700";
-            case "failed": return "bg-orange-400 text-orange-950 border-orange-700";
-            case "ongoing": return "bg-indigo-400 text-indigo-50 border-indigo-700";
-            case "confirmed": return "bg-teal-300 text-teal-950 border-teal-700";
-            case "paid": return "bg-green-200 text-green-950 border-green-300";
-            default: return "bg-muted text-muted-foreground";
-        }
-    }
+  const s = status.toLowerCase();
+  switch (s) {
+    case "completed":
+      return "bg-green-100 text-green-700 border border-green-200";
+    case "pending":
+      return "bg-yellow-100 text-yellow-700 border border-yellow-200";
+    case "cancelled":
+      return "bg-red-100 text-red-700 border border-red-200";
+    case "failed":
+      return "bg-orange-100 text-orange-700 border border-orange-200";
+    case "ongoing":
+      return "bg-indigo-100 text-indigo-700 border border-indigo-200";
+    case "confirmed":
+      return "bg-teal-100 text-teal-700 border border-teal-200";
+    case "paid":
+      return "bg-green-50 text-green-700 border border-green-100";
+    default:
+      return "bg-gray-100 text-gray-700 border border-gray-200";
+  }
+}
+
 
     function getActionButton(status) {
         const s = status.toLowerCase()
