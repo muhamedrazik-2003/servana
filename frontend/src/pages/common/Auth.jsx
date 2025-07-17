@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import AuthForm from '../../components/common/AuthForm'
 import Logo from "../../assets/images/logo.png"
 import { useSearchParams } from 'react-router-dom'
+import { clearError } from '../../redux/slices/authSlice'
+import { useDispatch } from 'react-redux'
 
 function Auth() {
   const [isRegistered, setIsRegistered] = useState(false)
@@ -9,6 +11,7 @@ function Auth() {
   const [searchParams] = useSearchParams()
   const authMode = searchParams.get("mode");
   const registerRole = searchParams.get("role");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if(authMode === "register") {
@@ -35,6 +38,7 @@ function Auth() {
             onClick={() => {
               setIsRegistered(false);
               setRegisterAs(null);
+              dispatch(clearError());
             }}
             className={`z-10 text-sm cursor-pointer p-2 lg:p-3 w-[50%] ${isRegistered ? "" : "text-white" }`} >
             Login
@@ -43,6 +47,7 @@ function Auth() {
             onClick={() => {
               setIsRegistered(true);
               setRegisterAs(null);
+              dispatch(clearError());
             }}
             className={`z-10 text-sm p-2 lg:p-3 w-[50%] cursor-pointer ${(isRegistered && registerAs === "seeker") ? "text-black" : (isRegistered && registerAs === "provider" || isRegistered) ? "text-white" : "text-black"}`} >
             Register

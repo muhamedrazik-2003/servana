@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { CircleCheck, MapPin, Users } from "lucide-react"
 import { Badge } from '@/components/ui/badge'
-import { CardTitle } from "../ui/card"
+import { CardTitle } from "../../ui/card"
 
 function TopProviderSection() {
     const topRatedProviders = [

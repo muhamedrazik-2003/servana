@@ -1,11 +1,10 @@
-import React from 'react'
-import SeekerHeader from '../../components/seeker/SeekerHeader'
+import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 import Footer from '../../components/common/Footer'
-import SeekerHero from '../../components/seeker/SeekerHero'
-import BookingList from '../../components/seeker/BookingList'
+import SeekerHero from '../../components/seeker/Dashboard/SeekerHero'
+import BookingList from '../../components/seeker/Dashboard/BookingList'
 import ServiceCategory from '../../components/common/landing/ServiceCategory'
-import RecommendedSection from '../../components/seeker/RecommendedSection'
-import TopProviderSection from '../../components/seeker/TopProviderSection'
+import RecommendedSection from '../../components/seeker/Dashboard/RecommendedSection'
+import TopProviderSection from '../../components/seeker/Dashboard/TopProviderSection'
 import {
   ShieldCheck,
   Star,
@@ -13,7 +12,7 @@ import {
   Headset
 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import NewServices from '../../components/seeker/NewServices'
+import NewServices from '../../components/seeker/Dashboard/NewServices'
 
 function Dashboard() {
   const trustPoints = [

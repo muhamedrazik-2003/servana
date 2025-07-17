@@ -12,13 +12,13 @@ function SeekerHeader() {
     <header className="w-full sticky top-0 z-50 bg-background shadow-md dark:bg-background transition-all">
       <div className="mx-4 md:mx-8 lg:mx-20 py-3 flex items-center justify-between">
         {/* Logo + Name */}
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/seeker/home" className="flex items-center gap-2">
           <img src={Logo} alt="Servana Logo" className="h-8 w-8" />
           <span className="font-bold text-xl text-gray-800 dark:text-white">Servana</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           <div className="flex gap-2">
             <div className="relative w-[200px]">
               <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
@@ -71,23 +71,23 @@ function SeekerHeader() {
         </div>
 
         {/* Mobile menu icon */}
-        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+        <button className="lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
           <Menu className="h-6 w-6" />
         </button>
       </div>
 
       {/* Mobile dropdown (optional) */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2">
+        <div className="lg:hidden px-4 pb-4 space-y-2.5">
           <input
             type="text"
             placeholder="Search location..."
-            className="w-full pl-10 pr-3 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-sm outline-none"
+            className="w-full pl-10 pr-3 py-2 rounded-3xl border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
           />
           <input
             type="text"
             placeholder="Search services..."
-            className="w-full pl-10 pr-3 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-sm outline-none"
+            className="w-full pl-10 pr-3 py-2 rounded-3xl border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
           />
           <Link to="/services" className="block text-sm">All Services</Link>
           <Link to="/seeker/mybookings" className="block text-sm">Your Bookings</Link>

@@ -1,4 +1,3 @@
-import { GalleryVerticalEnd } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,7 +12,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
     const [userData, setUserData] = useState({
         fullName: "", email: "", password: "", role: registerAs
     })
-    console.log(registerAs);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { error, isLoading } = useSelector(state => state.authSlice);
@@ -25,14 +24,15 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
     }, [registerAs, userData.role])
 
     const handleRegister = async (e) => {
-        console.log(userData)
         e.preventDefault();
         try {
             const response = await dispatch(registerUser(userData))
             console.log(response)
             if (registerUser.fulfilled.match(response)) {
                 const { user } = response.payload;
-                toast.success("🥳 You're all set! Start exploring")
+                toast.success("You're all set! Start exploring" , {
+                    icon: '🎉'
+                })
                 switch (user.role) {
                     case 'seeker':
                         navigate('/seeker/home');
@@ -45,17 +45,16 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                 fullName: "", email: "", password: "", role: ""
             })
         } catch (error) {
+            toast.warning("Registration Failed");
             console.error(error.message)
         }
     };
 
     const handleLogin = async (e) => {
-        console.log(error)
         e.preventDefault();
-        console.log(userData);
         try {
             const response = await dispatch(loginUser(userData))
-            console.log(response)
+
             if (loginUser.fulfilled.match(response)) {
                 const { user } = response.payload
                 toast.success("Login Successfull")
@@ -75,7 +74,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                 fullName: "", email: "", password: "", role: ""
             })
         } catch (error) {
-            toast.warning(error)
+            toast.warning("Login Failed");
             console.error(error)
         }
     }

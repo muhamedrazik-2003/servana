@@ -1,5 +1,5 @@
 import React from 'react'
-import BookingCard from './BookingCard'
+import BookingCard from '../common/BookingCard'
 
 function BookingList() {
     return (
