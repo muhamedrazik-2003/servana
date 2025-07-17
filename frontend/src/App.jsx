@@ -10,7 +10,7 @@ import AllServices from "./pages/common/AllServices"
 import SeekerHome from "./pages/seeker/Dashboard"
 import SeekerBookings from "./pages/seeker/MyBookings"
 import SeekerProfile from "./pages/seeker/Profile"
-import BookingDetail from "./components/seeker/BookingDetail"
+import BookingDetail from "./components/seeker/common/BookingDetail"
 import { Toaster } from "./components/ui/sonner"
 
 

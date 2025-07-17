@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 
 import * as Icons from 'lucide-react'
-import ServiceCard from '../../seeker/ServiceCard'
+import ServiceCard from '../../seeker/Dashboard/ServiceCard'
 import { Button } from '../../ui/button'
 
 function ServiceCategory({ format }) {
