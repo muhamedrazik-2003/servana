@@ -2,57 +2,82 @@ import { GalleryVerticalEnd } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { loginUser, registerUser } from "../../redux/slices/authSlice"
+import { toast } from "sonner"
 
 
 function AuthForm({ formType, registerAs, setRegisterAs }) {
     const [userData, setUserData] = useState({
         fullName: "", email: "", password: "", role: registerAs
     })
+    console.log(registerAs);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {error} = useSelector(state => state.authSlice)
+    const { error, isLoading } = useSelector(state => state.authSlice);
+
+    useEffect(() => {
+        if (userData.role === null && registerAs !== null) {
+            setUserData(prev => ({ ...prev, role: registerAs }))
+        }
+    }, [registerAs, userData.role])
 
     const handleRegister = async (e) => {
+        console.log(userData)
         e.preventDefault();
-        console.log(userData);
-        const response = await dispatch(registerUser(userData))
-        console.log(response)
-        if (registerUser.fulfilled.match(response)) {
-            if (response.payload.user.role === "admin") {
-                navigate('/admin/dashboard')
-            } else if (response.payload.user.role === "seeker") {
-                navigate('/seeker/home')
-            } else if (response.payload.user.role === "provider") {
-                navigate('/provider/dashboard')
-
+        try {
+            const response = await dispatch(registerUser(userData))
+            console.log(response)
+            if (registerUser.fulfilled.match(response)) {
+                const { user } = response.payload;
+                toast.success("🥳 You're all set! Start exploring")
+                switch (user.role) {
+                    case 'seeker':
+                        navigate('/seeker/home');
+                        break;
+                    case 'provider':
+                        navigate('/provider/dashboard');
+                }
             }
+            setUserData({
+                fullName: "", email: "", password: "", role: ""
+            })
+        } catch (error) {
+            console.error(error.message)
         }
-        setUserData({
-            fullName: "", email: "", password: "", role: ""
-        })
-    }
+    };
+
     const handleLogin = async (e) => {
+        console.log(error)
         e.preventDefault();
         console.log(userData);
-        const response = await dispatch(loginUser(userData))
-        console.log(response)
-        if (loginUser.fulfilled.match(response)) {
-            if (response.payload.user.role === "admin") {
-                navigate('/admin/dashboard')
-            } else if (response.payload.user.role === "seeker") {
-                navigate('/seeker/home')
-            } else if (response.payload.user.role === "provider") {
-                navigate('/provider/dashboard')
+        try {
+            const response = await dispatch(loginUser(userData))
+            console.log(response)
+            if (loginUser.fulfilled.match(response)) {
+                const { user } = response.payload
+                toast.success("Login Successfull")
 
+                switch (user.role) {
+                    case 'admin':
+                        navigate('/admin/dashboard');
+                        break;
+                    case 'seeker':
+                        navigate('/seeker/home');
+                        break;
+                    case 'provider':
+                        navigate('/provider/dashboard');
+                }
             }
+            setUserData({
+                fullName: "", email: "", password: "", role: ""
+            })
+        } catch (error) {
+            toast.warning(error)
+            console.error(error)
         }
-        setUserData({
-            fullName: "", email: "", password: "", role: ""
-        })
     }
 
     return (
@@ -63,7 +88,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                         <Button
                             onClick={() => {
                                 setRegisterAs("seeker")
-                                // setUserData({...userData,role: 'seeker'})
+                                setUserData({ ...userData, role: 'seeker' })
                             }}
                             variant={'outline'} size={'lg'}
                             className={'w-full h-20 border-2 border-secondary shadow-lg hover:bg-teal-200'}>
@@ -73,6 +98,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                         <Button
                             onClick={() => {
                                 setRegisterAs("provider")
+                                setUserData({ ...userData, role: 'provider' })
                             }}
                             variant={'outline'} size={'lg'}
                             className={'w-full h-20 border-2 border-accent hover:bg-amber-200 shadow-lg'}>
@@ -91,7 +117,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                                                 type="name"
                                                 placeholder="Jhon Doe"
                                                 required
-                                                onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
+                                                onChange={(e) => {setUserData({ ...userData, fullName: e.target.value })}}
                                             />
                                         </div>
                                     }
@@ -115,14 +141,17 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                                             onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                                         />
                                     </div>
-                                    <p className="text-center text-sm text-red-500">{error}</p>
+                                    {/* for error message */}
+                                    {
+                                        error && <p className="text-center text-xs font-semibold text-red-500">{error}</p>
+                                    }
                                 </div>
                                 {
                                     formType === "register"
-                                        ? <Button onClick={(e) => handleRegister(e)} type="submit" className={`w-full ${registerAs === "provider" ? "bg-accent hover:bg-amber-600" : "bg-secondary hover:bg-teal-600"}`}>
-                                            Register
+                                        ? <Button disabled={isLoading} onClick={(e) => handleRegister(e)} type="submit" className={`w-full ${registerAs === "provider" ? "bg-accent hover:bg-amber-600" : "bg-secondary hover:bg-teal-600"}`}>
+                                            {isLoading ? ' Registering...' : " Register"}
                                         </Button>
-                                        : <Button onClick={(e) => handleLogin(e)} type="submit" className="w-full">Login</Button>
+                                        : <Button disabled={isLoading} onClick={(e) => handleLogin(e)} type="submit" className="w-full">{isLoading ? ' logging in...' : " Login"}</Button>
                                 }
                             </div>
                             <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

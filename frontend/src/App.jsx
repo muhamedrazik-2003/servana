@@ -7,11 +7,11 @@ import Auth from "./pages/common/Auth"
 import Contact from "./pages/common/Contact"
 import About from "./pages/common/About"
 import AllServices from "./pages/common/AllServices"
-
 import SeekerHome from "./pages/seeker/Dashboard"
 import SeekerBookings from "./pages/seeker/MyBookings"
 import SeekerProfile from "./pages/seeker/Profile"
 import BookingDetail from "./components/seeker/BookingDetail"
+import { Toaster } from "./components/ui/sonner"
 
 
 function App() {
@@ -21,20 +21,26 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" }) // or behavior: "auto"
   }, [pathname])
   return (
-    <Routes>
-      {/* common pages */}
-      <Route path="/" element={<Landing />} />
-      <Route path="/auth" element={<Auth />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/services" element={<AllServices />} />
-      <Route path="/services/:id" element={<AllServices />} />
-      {/* seeker pages */}
-      <Route path="/seeker/home" element={<SeekerHome/>} />
-      <Route path="/seeker/mybookings" element={<SeekerBookings/>} />
-      <Route path="/seeker/mybookings/booking" element={<BookingDetail/>} />
-      <Route path="/seeker/profile" element={<SeekerProfile/>} />
-    </Routes>
+    <>
+      <Routes>
+        {/* common pages */}
+        <Route path="/" element={<Landing />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/services" element={<AllServices />} />
+        <Route path="/services/:id" element={<AllServices />} />
+        {/* seeker pages */}
+        <Route path="/seeker/home" element={<SeekerHome />} />
+        <Route path="/seeker/mybookings" element={<SeekerBookings />} />
+        <Route path="/seeker/mybookings/booking" element={<BookingDetail />} />
+        <Route path="/seeker/profile" element={<SeekerProfile />} />
+      </Routes>
+      <Toaster  toastOptions={{
+        style: { borderRadius: "32px" },
+      }} position="top-right" richColors />
+
+    </>
   )
 }
 

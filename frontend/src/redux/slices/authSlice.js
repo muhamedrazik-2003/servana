@@ -3,46 +3,83 @@ import axios from "axios";
 
 const base_url = "http://localhost:3000/api/users";
 
-export const loginUser = createAsyncThunk("auth/loginUser", async (loginData) => {
-  const loginResponse = await axios.post(`${base_url}/login`, loginData);
-  console.log(loginResponse);
-  return loginResponse.data;
-});
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (loginData, { rejectWithValue }) => {
+    try {
+      const loginResponse = await axios.post(`${base_url}/login`, loginData);
+      console.log(loginResponse);
+      const { token, user, message } = loginResponse.data;
+      localStorage.setItem("token", token);
+      return { token, user, message };
+    } catch (error) {
+      return rejectWithValue({
+        message: error.response?.data?.message || "login Failed",
+      });
+    }
+  }
+);
 
-export const registerUser = createAsyncThunk("auth/registerUser", async (registerData) => {
-  const registerResponse = await axios.post(`${base_url}/register`, registerData);
-  console.log(registerResponse.data);
-  return registerResponse.data;
-});
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (registerData, { rejectWithValue }) => {
+    try {
+      const registerResponse = await axios.post(
+        `${base_url}/register`,
+        registerData
+      );
+      const { token, user, message } = registerResponse.data;
+      localStorage.setItem("token", token);
+      return { token, user, message };
+    } catch (error) {
+      return rejectWithValue({
+        message: error.response?.data?.message || "login Failed",
+      });
+    }
+  }
+);
 
 const authSlice = createSlice({
-  name: "auth",
+  name: "authSlice",
   initialState: {
-    loading: false,
+    user: {},
+    token: "",
+    isAuthenticated: false,
+    isLoading: false,
     error: "",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isAuthenticated = true;
+      state.isLoading = false;
+      state.error = "";
     });
     builder.addCase(loginUser.pending, (state, action) => {
-        state.loading = true;
+      state.isLoading = true;
+      state.error = "";
     });
     builder.addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
-        // state.error = state.payload.status;
+      state.isLoading = false;
+      state.error = action.payload.message;
     });
 
     builder.addCase(registerUser.fulfilled, (state, action) => {
-        state.loading = false;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isAuthenticated = true;
+      state.isLoading = false;
+      state.error = "";
     });
     builder.addCase(registerUser.pending, (state, action) => {
-        state.loading = true;
+      state.isLoading = true;
+      state.error = "";
     });
     builder.addCase(registerUser.rejected, (state, action) => {
-        state.loading = false;
-        // state.error = state.payload.status;
+      state.isLoading = false;
+      state.error = action.payload.message;
     });
   },
 });

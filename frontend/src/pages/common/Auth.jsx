@@ -14,13 +14,10 @@ function Auth() {
     if(authMode === "register") {
       setIsRegistered(true)
     }
-    if(registerRole === "seeker") {
-      setRegisterAs("seeker")
+    if(registerRole === "seeker" || registerRole === "provider") {
+      setRegisterAs(registerRole)
     }
-    if (registerRole === "provider") {
-      setRegisterAs("provider")
-    }
-  },[authMode])
+  },[authMode, registerRole])
 
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
