@@ -24,19 +24,17 @@ function BookingCard({ cardVarient = "home" }) {
   const s = status.toLowerCase();
   switch (s) {
     case "completed":
-      return "bg-green-100 text-green-700 border border-green-200";
+      return "bg-green-100 text-green-700 border border-green-300";
     case "pending":
-      return "bg-yellow-100 text-yellow-700 border border-yellow-200";
+      return "bg-yellow-100 text-yellow-700 border border-yellow-300";
     case "cancelled":
-      return "bg-red-100 text-red-700 border border-red-200";
+      return "bg-red-100 text-red-700 border border-red-300";
     case "failed":
-      return "bg-orange-100 text-orange-700 border border-orange-200";
+      return "bg-orange-100 text-orange-700 border border-orange-300";
     case "ongoing":
-      return "bg-indigo-100 text-indigo-700 border border-indigo-200";
+      return "bg-indigo-100 text-indigo-700 border border-indigo-300";
     case "confirmed":
-      return "bg-teal-100 text-teal-700 border border-teal-200";
-    case "paid":
-      return "bg-green-50 text-green-700 border border-green-100";
+      return "bg-teal-100 text-teal-700 border border-teal-300";
     default:
       return "bg-gray-100 text-gray-700 border border-gray-200";
   }
@@ -48,7 +46,7 @@ function BookingCard({ cardVarient = "home" }) {
         switch (s) {
             case "confirmed":
                 return (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
                         <Button variant="destructive" size="sm">Cancel</Button>
                         <Button variant="outline2" size="sm">Reschedule</Button>
                     </div>
@@ -57,9 +55,9 @@ function BookingCard({ cardVarient = "home" }) {
                 return <Button variant="default" size="sm">Contact Provider</Button>
             case "completed":
                 return(
-                    <div className="flex gap-2">
-                        <Button variant="outline2" size="sm">Rate Now</Button>
-                        <Button variant="outline2" size="sm">Book Again</Button>
+                    <div className="flex gap-2 w-full">
+                        <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Rate Now</Button>
+                        <Button variant="outline2" size="sm"  className='w-[50%] lg:w-auto'>Book Again</Button>
                     </div>
                 )
             case "cancelled":
@@ -122,10 +120,10 @@ function BookingCard({ cardVarient = "home" }) {
                     <Separator className="my-4" />
                 </CardContent>
                 
-                <CardFooter className="flex gap-2 pt-2 justify-end pr-4">
+                <CardFooter className="flex gap-2 pt-2 px-4 justify-end flex-wrap xl:flex-nowrap">
 
                    {getActionButton(bookingCardData.status)}
-                    <Button variant="" size='sm' >
+                    <Button variant="" size='sm' className='w-full lg:w-auto' >
                         View Details
                     </Button>
                 </CardFooter>

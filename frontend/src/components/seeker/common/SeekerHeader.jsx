@@ -14,13 +14,13 @@ function SeekerHeader() {
         {/* Logo + Name */}
         <Link to="/seeker/home" className="flex items-center gap-2">
           <img src={Logo} alt="Servana Logo" className="h-8 w-8" />
-          <span className="font-bold text-xl text-gray-800 dark:text-white">Servana</span>
+          <span className="font-bold text-xl md:hidden lg:block text-gray-800 dark:text-white">Servana</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-6">
           <div className="flex gap-2">
-            <div className="relative w-[200px]">
+            <div className="relative md:w-[140px] lg:w-[180px]">
               <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
               <input
                 type="text"
@@ -28,7 +28,7 @@ function SeekerHeader() {
                 className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
               />
             </div>
-            <div className="relative w-[250px]">
+            <div className="relative md:w-[200px] lg:w-[260px]">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
               <input
                 type="text"
@@ -44,7 +44,7 @@ function SeekerHeader() {
           </Link>
           <Link to="/seeker/mybookings" className="flex items-center gap-1 text-sm hover:text-primary">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="hidden md:inline">Your Bookings</span>
+            <span className="hidden lg:inline">Your Bookings</span>
           </Link>
 
           {/* Notification (disabled) */}
@@ -57,13 +57,13 @@ function SeekerHeader() {
             <Sun className="h-5 w-5" />
           </button>
 
-          <div className="relative group">
+          <div className="relative group py-2">
             <button className="flex items-center gap-2">
               <User className="h-5 w-5 text-primary" />
-              <span className="text-sm hidden md:inline">Profile</span>
+              <span className="text-sm hidden lg:inline">Profile</span>
             </button>
       
-            <div className="absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-md hidden group-hover:block p-2">
+            <div className="absolute right-0 top-full pt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-md hidden group-hover:block p-2">
               <Link to="/profile" className="block px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">View Profile</Link>
               <button className="block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Logout</button>
             </div>
@@ -71,14 +71,14 @@ function SeekerHeader() {
         </div>
 
         {/* Mobile menu icon */}
-        <button className="lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
           <Menu className="h-6 w-6" />
         </button>
       </div>
 
       {/* Mobile dropdown (optional) */}
       {menuOpen && (
-        <div className="lg:hidden px-4 pb-4 space-y-2.5">
+        <div className="md:hidden px-4 pb-4 space-y-2.5">
           <input
             type="text"
             placeholder="Search location..."
