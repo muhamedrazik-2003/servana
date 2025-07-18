@@ -19,7 +19,7 @@ const ServiceCard = ({ variant = "seeker" }) => {
 
     return (
         <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl rounded-b-2xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-            <Link to={`/services/${data._id}`}>
+            <Link to={`/services/detail`}>
                 <div className="flex flex-col">
                     {/* Image */}
                     <div className="w-full md:h-auto">

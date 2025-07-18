@@ -7,6 +7,7 @@ import Auth from "./pages/common/Auth"
 import Contact from "./pages/common/Contact"
 import About from "./pages/common/About"
 import AllServices from "./pages/common/AllServices"
+import ServiceDetail from "./pages/common/ServiceDetail"
 import SeekerHome from "./pages/seeker/Dashboard"
 import SeekerBookings from "./pages/seeker/MyBookings"
 import SeekerProfile from "./pages/seeker/Profile"
@@ -31,7 +32,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/services" element={<AllServices />} />
-        <Route path="/services/:id" element={<AllServices />} />
+        <Route path="/services/detail" element={<ServiceDetail />} />
         {/* seeker pages */}
         <Route path="/seeker/home" element={<SeekerHome />} />
         <Route path="/seeker/mybookings" element={<SeekerBookings />} />
