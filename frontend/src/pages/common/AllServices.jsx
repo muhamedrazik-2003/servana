@@ -2,10 +2,6 @@ import React from 'react'
 import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 import Footer from '../../components/common/Footer'
 import { MapPin } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from "@/components/ui/card"
-import { Users } from "lucide-react"
-import { Badge } from '@/components/ui/badge'
 import {
   Select,
   SelectContent,
@@ -50,120 +46,12 @@ function AllServices() {
       <section className='grid grid-col-1 lg:grid-cols-[auto_1fr] mx-[16px] lg:mx-20 gap-3 lg:gap-6'>
         <CategoryFilter />
         <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-          <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww"
-              alt=""
-              className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
-            />
-            <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
-            <CardContent className="px-4 pt-0 pb-6">
-              <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">Ac Repair</h3>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <MapPin className="w-3.5 h-3.5" />
-                Calicut, Kerala
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <Users className="w-3.5 h-3.5" />
-                20 providers available
-              </div>
-            </CardContent>
-          </Card>
-          <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww"
-              alt=""
-              className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
-            />
-            <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
-            <CardContent className="px-4 pt-0 pb-6">
-              <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">Ac Repair</h3>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <MapPin className="w-3.5 h-3.5" />
-                Calicut, Kerala
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <Users className="w-3.5 h-3.5" />
-                20 providers available
-              </div>
-            </CardContent>
-          </Card>
-          <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww"
-              alt=""
-              className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
-            />
-            <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
-            <CardContent className="px-4 pt-0 pb-6">
-              <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">Ac Repair</h3>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <MapPin className="w-3.5 h-3.5" />
-                Calicut, Kerala
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <Users className="w-3.5 h-3.5" />
-                20 providers available
-              </div>
-            </CardContent>
-          </Card>
-          <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww"
-              alt=""
-              className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
-            />
-            <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
-            <CardContent className="px-4 pt-0 pb-6">
-              <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">Ac Repair</h3>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <MapPin className="w-3.5 h-3.5" />
-                Calicut, Kerala
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <Users className="w-3.5 h-3.5" />
-                20 providers available
-              </div>
-            </CardContent>
-          </Card>
-          <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww"
-              alt=""
-              className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
-            />
-            <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
-            <CardContent className="px-4 pt-0 pb-6">
-              <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">Ac Repair</h3>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <MapPin className="w-3.5 h-3.5" />
-                Calicut, Kerala
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <Users className="w-3.5 h-3.5" />
-                20 providers available
-              </div>
-            </CardContent>
-          </Card>
-          <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww"
-              alt=""
-              className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
-            />
-            <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
-            <CardContent className="px-4 pt-0 pb-6">
-              <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">Ac Repair</h3>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <MapPin className="w-3.5 h-3.5" />
-                Calicut, Kerala
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                <Users className="w-3.5 h-3.5" />
-                20 providers available
-              </div>
-            </CardContent>
-          </Card>
+          <ServiceCard />
+          <ServiceCard />
+          <ServiceCard />
+          <ServiceCard />
+          <ServiceCard />
+          <ServiceCard />
         </div>
       </section>
       <Footer userRole={"seeker"} />

@@ -2,7 +2,7 @@ import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 import Footer from '../../components/common/Footer'
 import SeekerHero from '../../components/seeker/Dashboard/SeekerHero'
 import BookingList from '../../components/seeker/Dashboard/BookingList'
-import ServiceCategory from '../../components/common/landing/ServiceCategory'
+import ServiceCategory from '../../components/common/ServiceCategory'
 import RecommendedSection from '../../components/seeker/Dashboard/RecommendedSection'
 import TopProviderSection from '../../components/seeker/Dashboard/TopProviderSection'
 import {
