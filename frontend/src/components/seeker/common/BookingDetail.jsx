@@ -11,7 +11,7 @@ const BookingDetail = () => {
   return (
     <main>
       <SeekerHeader />
-      <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+      <div className="max-w-6xl mx-auto px-6 lg:px-4 py-8 space-y-8">
         <div className="grid grid-col-1 lg:grid-cols-[1fr_auto] gap-6">
           {/* service section */}
           <div className="space-y-4">
@@ -87,10 +87,10 @@ const BookingDetail = () => {
         </div>
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-primary mb-2">Actions</h3>
-          <div className=" space-x-3">
-            <Button variant="destructive" className="w-45">Cancel Booking</Button>
-            <Button variant="outline2" className="w-45">Reschedule</Button>
-            <Button className="w-45" disabled>Mark as Completed</Button>
+          <div className=" space-x-3 space-y-2">
+            <Button variant="destructive" className="w-full lg:w-45">Cancel Booking</Button>
+            <Button variant="outline2" className="w-full lg:w-45">Reschedule</Button>
+            <Button className="w-full lg:w-45" disabled>Mark as Completed</Button>
           </div>
         </div>
         <div className="py-3 mb-10 space-y-5">
