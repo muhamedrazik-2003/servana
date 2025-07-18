@@ -43,8 +43,43 @@ export default function SeekerProfilePage() {
             </div>
           ))}
         </div>
+        <Separator />
+        <div>
+          <h3 className="text-xl font-semibold text-primary mb-3">Profile Info</h3>
+          <div className="space-y-2">
+            <div>
+              <p className="text-teal-500 mb-0 text-sm">Full Name</p>
+              <p className="text-2xl font-semibold text-start">Muhamed Razik</p>
+            </div>
+            <div>
+              <p className="text-teal-500 mb-0 text-sm">Email address</p>
+              <p className="text-start">muhamedrazik@gmail.com</p>
+            </div>
+            <div>
+              <p className="text-teal-500 mb-0 text-sm">Phone Number</p>
+              <p className=" text-start">998352360</p>
+            </div>
+            <div>
+              <p className="text-teal-500 mb-0 text-sm">Location</p>
+              <p className="text-start">Nadakav , Calicut</p>
+            </div>
+            <div>
+              <p className="text-teal-500 mb-0 text-sm">Location</p>
+              <p className="text-start">Nadakav , Calicut</p>
+            </div>
+
+
+            {/* <p className="flex gap-2 items-center" ><MapPin className="size-5" /> Nadakkav, Calicut</p> */}
+            <p className="flex gap-2 items-center" >
+            </p>
+            <div className="flex gap-4 mt-5">
+              {/* <Button size='sm'><PhoneCall />Contact Provider</Button> */}
+              {/* <Button size='sm'><Mail /> Message Provider</Button> */}
+            </div>
+          </div>
+        </div>
+
       </div>
-      <Separator />
       <Footer userRole={'seeker'} />
     </main>
   );
