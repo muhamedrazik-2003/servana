@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Calendar, MapPin, User, Hash, CreditCard, X, ToolCase, Clock } from "lucide-react"
 import { Badge } from '@/components/ui/badge'
+import { Link } from "react-router-dom"
 
 
 function BookingCard({ cardVarient = "home" }) {
@@ -123,9 +124,11 @@ function BookingCard({ cardVarient = "home" }) {
                 <CardFooter className="flex gap-2 pt-2 px-4 justify-end flex-wrap xl:flex-nowrap">
 
                    {getActionButton(bookingCardData.status)}
-                    <Button variant="" size='sm' className='w-full lg:w-auto' >
+                   <Link to={'/seeker/mybookings/booking'}>
+                   <Button variant="" size='sm' className='w-full lg:w-auto' >
                         View Details
                     </Button>
+                   </Link>
                 </CardFooter>
 
             </Card>
