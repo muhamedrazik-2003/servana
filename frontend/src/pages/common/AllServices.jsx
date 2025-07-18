@@ -21,7 +21,7 @@ function AllServices() {
     <main>
       <SeekerHeader />
 
-      <section className='mt-8 pb-5 md:pb-8'>
+      <section className='mt-8 pb-5 md:pb-8 lg:pb-12'>
         <h1 className='text-[clamp(2.5rem,8vw,48px)] leading-11  md:leading-18 z-0 mb-2'>All Services</h1>
         <p className='max-w-[600px] text-sm mx-auto font-semibold text-center mb-6 p-0'>Explore top-rated services tailored to your needs.</p>
         <div className='flex gap-3 items-center justify-center'>
@@ -34,7 +34,7 @@ function AllServices() {
             />
           </div>
           <Select>
-            <SelectTrigger className="w-[160px] !h-12 border-2 border-indigo-300 pl-4">
+            <SelectTrigger className="w-[160px] !h-10 lg:!h-12 border-2 border-indigo-300 pl-4">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -47,9 +47,9 @@ function AllServices() {
           </Select>
         </div>
       </section>
-      <section className='flex mx-20 gap-6'>
+      <section className='grid grid-col-1 lg:grid-cols-[auto_1fr] mx-[16px] lg:mx-20 gap-3 lg:gap-6'>
         <CategoryFilter />
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4'>
           <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
             <img
               src="https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww"
