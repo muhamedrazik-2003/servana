@@ -63,9 +63,9 @@ function SeekerHeader() {
               <span className="text-sm hidden lg:inline">Profile</span>
             </button>
       
-            <div className="absolute right-0 top-full pt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-md hidden group-hover:block p-2">
-              <Link to="/profile" className="block px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">View Profile</Link>
-              <button className="block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Logout</button>
+            <div className="absolute right-0 top-full pt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-3xl hidden group-hover:block p-2">
+              <Link to="/seeker/profile" className="block px-3 py-2 text-sm rounded-3xl hover:bg-teal-100 dark:hover:bg-gray-700">View Profile</Link>
+              <Link to="/" className="block px-3 py-2 text-sm rounded-3xl hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
             </div>
           </div>
         </div>
