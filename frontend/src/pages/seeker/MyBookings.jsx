@@ -2,6 +2,7 @@ import React from 'react'
 import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 import { MapPin } from 'lucide-react'
 import BookingTabs from '../../components/seeker/MyBooking/BookingTabs'
+import Footer from '../../components/common/Footer'
 
 function MyBookings() {
   return (
@@ -20,6 +21,7 @@ function MyBookings() {
         </div>
       </section>
       <BookingTabs/>
+      <Footer userRole={"seeker"}/>
     </main>
   )
 }

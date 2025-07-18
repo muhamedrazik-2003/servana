@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card"
 import { Link } from "react-router-dom"
 
-function ServiceCard({ format, category, Icon }) {
+function ServiceCard({variant, format, category, Icon }) {
     return (
         <Link to={'/seeker/home/mybookings'} className={`${format === "seeker" ? "" : "pointer-events-none"}`}>
         <Card className={`shrink-0 p-0 relative transition-all duration-300 ${format === "seeker" ? "w-[265px] group" : "w-[320px]"}`}>

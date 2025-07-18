@@ -75,7 +75,7 @@ function Dashboard() {
           ))}
         </div>
       </section>
-      <Footer />
+      <Footer userRole={'seeker'}/>
     </main>
   )
 }

@@ -12,6 +12,7 @@ import SeekerBookings from "./pages/seeker/MyBookings"
 import SeekerProfile from "./pages/seeker/Profile"
 import BookingDetail from "./components/seeker/common/BookingDetail"
 import { Toaster } from "./components/ui/sonner"
+import NotFound from "./pages/common/NotFound"
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
     <>
       <Routes>
         {/* common pages */}
+        <Route path="*" element={<NotFound/>}/>
         <Route path="/" element={<Landing />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/about" element={<About />} />
@@ -35,6 +37,7 @@ function App() {
         <Route path="/seeker/mybookings" element={<SeekerBookings />} />
         <Route path="/seeker/mybookings/booking" element={<BookingDetail />} />
         <Route path="/seeker/profile" element={<SeekerProfile />} />
+  
       </Routes>
       <Toaster  toastOptions={{
         style: { borderRadius: "32px" },
