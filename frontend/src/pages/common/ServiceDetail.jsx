@@ -5,19 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Footer from "../../components/common/Footer";
-import Header from "../../components/common/Header";
 import { CreditCard, MapPin } from "lucide-react";
+import SeekerHeader from "../../components/seeker/common/SeekerHeader";
 
 const ServiceDetail = () => {
   return (
     <main>
-      <Header />
+      <SeekerHeader/>
       <section className="mx-auto px-4 lg:px-20 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 py-8">
         {/* LEFT COLUMN */}
         <div className="space-y-8">
           {/* Service Header */}
           <div className="space-y-2">
-            <h1 className="text-3xl text-start">Deep Cleaning for Homes</h1>
+            <h1 className="text-4xl text-start">Deep Cleaning for Homes</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs">Cleaning</span>
               <div className="flex items-center gap-1">
@@ -113,7 +113,7 @@ const ServiceDetail = () => {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="space-y-4 sticky top-8 h-fit bg-teal-50 border rounded-4xl shadow p-5">
+        <div className="space-y-4 sticky top-20 h-fit bg-teal-50 border rounded-3xl shadow p-5">
           <h3 className="text-lg font-semibold text-center">Book This Service</h3>
 
           <div className="space-y-2 flex flex-col items-center">
@@ -138,6 +138,11 @@ const ServiceDetail = () => {
 
           <div className="text-sm text-muted-foreground">
             Total Price: <span className="font-semibold text-foreground">₹1499</span>
+             <span className="text-xs block text-accent">(Amount Can increse Based on Job Details)</span>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            Payment Mode: <span className="font-semibold text-foreground">Cash</span>
+             <span className="text-xs block text-accent">(Online Payment is Currently Unavailable)</span>
           </div>
 
           <Button className="w-full">Book Now</Button>
