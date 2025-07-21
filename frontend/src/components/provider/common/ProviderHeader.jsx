@@ -4,7 +4,7 @@ import { Menu, Bell, Moon, User, Search, Calendar, Sun, MapPin, Layers } from "l
 import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
 
-function ProviderHeader() {
+function ProviderHeader({ page }) {
     const [menuOpen, setMenuOpen] = useState(false)
     return (
         <header className="w-full sticky top-0 z-50 bg-background dark:bg-background transition-all">
@@ -19,14 +19,17 @@ function ProviderHeader() {
                 <div className="hidden md:flex items-center gap-6">
                     <div className="flex gap-2">
 
-                        <div className="relative md:w-[200px] lg:w-[360px]">
-                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
-                            <input
-                                type="text"
-                                placeholder="Search services..."
-                                className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
-                            />
-                        </div>
+                        {page === "dashboard"
+                            && <div className="relative md:w-[200px] lg:w-[360px]">
+                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
+                                <input
+                                    type="text"
+                                    placeholder="Search services..."
+                                    className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
+                                />
+                            </div>
+                        }
+
                     </div>
 
                     {/* Notification (disabled) */}

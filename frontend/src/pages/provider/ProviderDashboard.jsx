@@ -14,7 +14,7 @@ function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
   return (
     <>
-      <ProviderHeader />
+      <ProviderHeader page={'dashboard'}/>
       <main className="flex p-4 pt-0 gap-6">
         {/* Sidebar */}
         <div className="">

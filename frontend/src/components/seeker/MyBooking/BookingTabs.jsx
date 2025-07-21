@@ -51,7 +51,7 @@ function BookingTabs({userRole}) {
     return (
         <>
             <div className='flex gap-3 items-center'>
-                <div className={`${userRole === "provider" ? "md:w-[77%]" : "md:max-w-[70%] md:mx-auto "}  shadow-sm border  md:rounded-4xl bg-teal-50 dark:bg-teal-950 cursor-pointer p-2`}>
+                <div className={`${userRole === "provider" ? "md:w-[77%]" : "md:max-w-[70%] w-full md:mx-auto "}  shadow-sm border  md:rounded-4xl bg-teal-50 dark:bg-teal-950 cursor-pointer p-2`}>
                     <div className={`relative  text-center flex items-center transition-all duration-300`}>
                         <div className={`absolute left-0 rounded-3xl w-[20%] md:w-[20%] h-9 ${userRole === "provider" ? "md:h-10" : "md:h-12"} transition-all duration-300 bg-secondary dark:bg-secondary ${getTranslateX(activeTab)}`}></div>
                         <h3 onClick={() => setActiveTab("ongoing")} className={`z-10  ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'ongoing' ? "text-background" : 'text-foreground'}`}>Ongoing</h3>

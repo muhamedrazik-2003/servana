@@ -27,7 +27,7 @@ function ProviderBookings() {
   return (
     <>
 
-      <ProviderHeader />
+      <ProviderHeader/>
       <main className="flex p-4 pt-0 gap-6">
         {/* Sidebar */}
         <div className="">
@@ -46,7 +46,7 @@ function ProviderBookings() {
               <input
                 type="text"
                 placeholder="Search Your Bookings..."
-                className="pl-9 md:pl-11 pr-4 py-2 md:py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 md:text outline-none"
+                className="pl-9 md:pl-11 pr-4 py-2 md:py-2.5 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 md:text outline-none"
               />
             </div>
             
