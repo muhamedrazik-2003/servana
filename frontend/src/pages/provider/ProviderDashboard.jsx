@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import Sidebar from "../../components/provider/ProviderSidebar"
-import ProviderHeader from '../../components/provider/ProviderHeader'
-import SummarySection from '../../components/provider/SummarySection';
+import Sidebar from "../../components/provider/common/ProviderSidebar"
+import ProviderHeader from '../../components/provider/common/ProviderHeader'
+import SummarySection from '../../components/provider/Dashboard/SummarySection';
 import { Button } from "../../components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Plus } from 'lucide-react';
+import BookingStatusChart from '../../components/provider/Dashboard/BookingStatusChart';
 
 function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
@@ -28,7 +29,7 @@ function ProviderDashboard() {
               </p>
               <Button variant={'outline'} className={'border border-accent'}> <Plus/>Add New Service</Button>
             </div>
-            <div className='border rounded-3xl'>d</div>
+            <BookingStatusChart/>
 
           </div>
           <div className='border rounded-3xl'>recent booking section</div>
