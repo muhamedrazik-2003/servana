@@ -3,9 +3,9 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
-import { CalendarIcon, Mail, MapPin, PhoneCall, Star, Timer } from "lucide-react";
-import Footer from "../../common/Footer";
-import SeekerHeader from "./SeekerHeader";
+import { CalendarIcon, Mail, MapPin, MessageCirclePlus, PhoneCall, Star, Timer } from "lucide-react";
+import Footer from "../../components/common/Footer";
+import SeekerHeader from "../../components/seeker/common/SeekerHeader";
 
 const BookingDetail = () => {
   return (
@@ -58,7 +58,7 @@ const BookingDetail = () => {
           <div className="space-y-6">
             {/* Image Carousel */}
             <div>
-              <h3 className="text-lg text-primary mb-2">Service Images</h3>
+              <h3 className="text-lg font-semibold text-primary mb-2">Service Images</h3>
               <Carousel className="w-full max-w-2xl">
                 <CarouselContent>
                   {[1, 2, 3].map((i) => (
@@ -94,7 +94,13 @@ const BookingDetail = () => {
           </div>
         </div>
         <div className="py-3 mb-10 space-y-5">
+          <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-primary mb-1">Service Reivews</h3>
+          <Button variant='outline2' size='sm'>
+            <MessageCirclePlus/>
+            Add A Review
+            </Button>
+          </div>
           <p className="text-sm text-gray-600">Reviews From other users who previously booked this service</p>
           <div>
             <p>current No Reviews Available</p>

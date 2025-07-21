@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { MapPin, Star, UsersRound } from "lucide-react";
-import { CardAction, CardDescription, CardTitle } from "../../ui/card";
+import { CardAction, CardDescription, CardTitle } from "../ui/card";
 
 const ServiceCard = ({ variant = "seeker" }) => {
     const data = {
@@ -19,7 +19,7 @@ const ServiceCard = ({ variant = "seeker" }) => {
 
     return (
         <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl rounded-b-2xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-            <Link to={`/services/detail`}>
+            <Link to={`/seeker/services/detail`}>
                 <div className="flex flex-col">
                     {/* Image */}
                     <div className="w-full md:h-auto">
