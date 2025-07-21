@@ -26,11 +26,11 @@ const data = [
 
 export default function BookingStatusChart() {
   return (
-    <Card className="w-full pb-1 pt-3 gap-2">
+    <Card className="w-full pb-1 pt-3 gap-0">
       <CardHeader>
-        <CardTitle className='text-sm mx-0'>Booking Status Overview</CardTitle>
+        <CardTitle className='text-sm mx-0 text-accent'>Booking Status Overview</CardTitle>
       </CardHeader>
-      <CardContent className="h-[200px] px-4">
+      <CardContent className="h-[140px] px-4">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 0, left: -40, bottom: 0 }}>
             <defs>
