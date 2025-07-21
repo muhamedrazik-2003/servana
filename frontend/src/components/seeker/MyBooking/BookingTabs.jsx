@@ -11,8 +11,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useSelector } from 'react-redux';
 
-function BookingTabs({ userRole }) {
+function BookingTabs({userRole}) {
     const [activeTab, setActiveTab] = useState("ongoing")
     const getTranslateX = (activeTab) => {
         switch (activeTab) {
@@ -33,7 +34,7 @@ function BookingTabs({ userRole }) {
     const getCurrentTab = (activeTab) => {
         switch (activeTab) {
             case 'ongoing':
-                return <OngoingTab userRole={userRole} />;
+                return <OngoingTab userRole={userRole}/>;
             case 'upcoming':
                 return <UpcomingTab userRole={userRole}/>;
             case 'completed':
