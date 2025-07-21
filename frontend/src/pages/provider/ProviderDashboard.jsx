@@ -1,22 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Sidebar from "../../components/provider/ProviderSidebar"
 import ProviderHeader from '../../components/provider/ProviderHeader'
+import SummarySection from '../../components/provider/SummarySection';
+import { Button } from "../../components/ui/button"
+import { Switch } from "@/components/ui/switch"
+import { Plus } from 'lucide-react';
 
 function ProviderDashboard() {
+  const [isAvailableToWork, setIsAvailableToWork] = useState(true)
   return (
     <>
       <ProviderHeader />
-      <main className="flex p-4 pt-0">
+      <main className="flex p-4 pt-0 gap-6">
         {/* Sidebar */}
         <div className="">
           <Sidebar />
         </div>
 
         {/* Main Content */}
-        <section className="flex-1 pl-6">
-          <div className="h-[200vh]">
-            <h1>Main Content</h1>
+        <section className="h-[calc(100vh-82px)]  grid grid-cols-2 grid-rows-[auto_1fr] w-full m-0 gap-4 p-0">
+          <SummarySection />
+          <div className='grid grid-rows-[auto_1fr]'>
+            <div className='flex items-center justify-end gap-3 pb-4 px-4'>
+              <p className={`flex items-center gap-3 justify-end border p-1.5 px-4 rounded-3xl ${isAvailableToWork ? "text-green-500 bg-gray-50" : " text-slate-700"}`}>
+                {isAvailableToWork ?"Open to Work" : "Not Open to Work"}
+                <Switch id="toggle-visibility" checked={isAvailableToWork} onCheckedChange={setIsAvailableToWork} />
+              </p>
+              <Button variant={'outline'} className={'border border-accent'}> <Plus/>Add New Service</Button>
+            </div>
+            <div className='border rounded-3xl'>d</div>
+
           </div>
+          <div className='border rounded-3xl'>recent booking section</div>
+          <div className='border rounded-3xl'></div>
         </section>
       </main>
     </>
