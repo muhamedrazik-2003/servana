@@ -30,17 +30,29 @@ function Footer({ userRole }) {
             <li><Link to={'/contact'} className="hover:text-white">Feedback</Link></li>
           </ul>
         </div>
-
-        <div>
-          <h4 className="text-white font-semibold text-base mb-3">For Customers</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link to={'/auth?mode=register&role=seeker'} className="hover:text-white">Get Started</Link></li>
-            <li><a href="#seeker-features" className="hover:text-white">Features</a></li>
-            <li><a href="#categories" className="hover:text-white">Service Categories</a></li>
-            <li><a href="#faqs" className="hover:text-white">Customer FAQs</a></li>
-          </ul>
-        </div>
-
+        {
+          userRole === 'provider'
+            ? <div>
+              <h4 className="text-white font-semibold text-base mb-3">Quick Navigation</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link className="hover:text-white">My Dashboard</Link></li>
+                <li><a href="#" className="hover:text-white">Booking</a></li>
+                <li><a href="#" className="hover:text-white">Services</a></li>
+                <li><a href="#" className="hover:text-white">Reviews</a></li>
+                <li><a href="#" className="hover:text-white">Earnings</a></li>
+              </ul>
+            </div>
+            :
+            <div>
+              <h4 className="text-white font-semibold text-base mb-3">For Customers</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link to={'/auth?mode=register&role=seeker'} className="hover:text-white">Get Started</Link></li>
+                <li><a href="#seeker-features" className="hover:text-white">Features</a></li>
+                <li><a href="#categories" className="hover:text-white">Service Categories</a></li>
+                <li><a href="#faqs" className="hover:text-white">Customer FAQs</a></li>
+              </ul>
+            </div>
+        }
         {
           userRole === 'seeker'
             ? <div>
