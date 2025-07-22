@@ -9,17 +9,66 @@ import { useLocation } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
 import { useState } from "react";
 import Footer from "../../components/common/Footer";
+import { useDispatch } from "react-redux";
 
 function AddEditServiceForm() {
+  const [showCustomSub, setShowCustomSub] = useState(false)
+  const [priceUnit, setPriceUnit] = useState('hour')
+  const [serviceImages, setServiceImages] = useState([])
+  const [previews, setPreviews] = useState([])
+  const [serviceData, setServiceData] = useState({
+    title: "",
+    description: "",
+    category: "",
+    subCategory: "",
+    price: "",
+    priceUnit: "",
+    location: {
+      city: "",
+      state: "",
+      pincode: ""
+    }
+  });
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
   let formFormat = "";
   if (pathname.includes('/new')) {
     formFormat = "addForm"
   } else if (pathname.includes('/update')) {
     formFormat = "updateForm"
   }
-  const [showCustomSub, setShowCustomSub] = useState(false)
-  const [priceUnit, setPriceUnit] = useState('hour')
+
+  const handleImageChange = (imageFile, index) => {
+    if (!imageFile) return;
+
+    const updatedImages = [...serviceImages];
+    updatedImages[index] = imageFile;
+    setServiceImages(updatedImages);
+
+    const previewURL = URL.createObjectURL(imageFile);
+    const updatedPreviews = [...previews];
+    updatedPreviews[index] = previewURL;
+    setPreviews(updatedPreviews);
+  };
+
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append('title', serviceData.title);
+    formData.append('description', serviceData.description);
+    formData.appends('category', serviceData.category);
+    formData.appends('subCategory', serviceData.subCategory);
+    formData.append("price", serviceData.price);
+    formData.append("priceUnit", serviceData.priceUnit);
+    formData.append("city", serviceData.location.city);
+    formData.append("state", serviceData.location.state);
+    formData.append("pincode", serviceData.location.pincode);
+    serviceImages.forEach(image => {
+      if(image) {
+      formData.append("images",image);
+      }
+    })
+
+  }
   return (
     <>
       <ProviderHeader />
@@ -38,6 +87,7 @@ function AddEditServiceForm() {
               <Label htmlFor="title" className="text-accent text-base font-semibold mb-3">Service Title</Label>
               <Input
                 id="title"
+                onChange={(e) => setServiceData({ ...serviceData, title: e.target.value })}
                 placeholder="Enter service title"
                 className="rounded-3xl bg-orange-50 px-3 py-1 w-full"
               />
@@ -46,14 +96,19 @@ function AddEditServiceForm() {
             {/* Description */}
             <div>
               <Label htmlFor="description" className="text-accent text-base font-semibold mb-3">Description</Label>
-              <Textarea id="description" placeholder="Describe your service in detail..." rows={6} className="rounded-2xl bg-orange-50 px-3 py-1 w-full" />
+              <Textarea
+                id="description"
+                onChange={(e) => setServiceData({ ...serviceData, description: e.target.value })}
+                placeholder="Describe your service in detail..."
+                rows={6}
+                className="rounded-2xl bg-orange-50 px-3 py-1 w-full" />
             </div>
 
             {/* Category & Subcategory */}
             <div className="flex items-start gap-6">
               <div>
                 <Label htmlFor="category" className="text-accent text-base font-semibold mb-3">Category</Label>
-                <Select>
+                <Select onChange={(e) => setServiceData({ ...serviceData, category: e.target.value })}>
                   <SelectTrigger id="category" className="w-[200px] rounded-3xl bg-orange-50 px-3 py-1">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -70,7 +125,9 @@ function AddEditServiceForm() {
                   Subcategory
                 </Label>
 
-                <Select>
+                <Select
+                  disabled={showCustomSub}
+                  onChange={(e) => setServiceData({ ...serviceData, subCategory: e.target.value })}>
                   <SelectTrigger className="w-full rounded-3xl bg-orange-50 px-3 py-1">
                     <SelectValue placeholder="Choose a subcategory" />
                   </SelectTrigger>
@@ -82,13 +139,13 @@ function AddEditServiceForm() {
                 </Select>
 
                 <div className="text-sm text-muted-foreground">
-                  Can’t find your subcategory?&nbsp;
+                  {showCustomSub === false && 'Can’t find your subcategory?&nbsp;'}
                   <button
                     type="button"
-                    onClick={() => setShowCustomSub(true)}
+                    onClick={() => setShowCustomSub(prev => !prev)}
                     className="text-accent font-medium underline"
                   >
-                    Add a new one
+                    {showCustomSub ? "Add From Subcategory" : "Add a new one"}
                   </button>
                 </div>
 
@@ -98,6 +155,7 @@ function AddEditServiceForm() {
                       type="text"
                       id="customSubcategory"
                       name="customSubcategory"
+                      onChange={(e) => setServiceData({ ...serviceData, subCategory: e.target.value })}
                       placeholder="Enter new subcategory"
                       className="rounded-3xl bg-orange-50 px-3 py-1"
                     />
@@ -118,16 +176,19 @@ function AddEditServiceForm() {
                   <div className="relative flex items-center text-[12px]">
                     <div
                       className={`absolute left-0 top-0 h-5.5 w-1/3 rounded-full bg-accent transition-all duration-300 ${priceUnit === 'hour'
-                          ? 'translate-x-0'
-                          : priceUnit === 'day'
-                            ? 'translate-x-full'
-                            : 'translate-x-[200%]'
+                        ? 'translate-x-0'
+                        : priceUnit === 'day'
+                          ? 'translate-x-full'
+                          : 'translate-x-[200%]'
                         }`}
                     ></div>
                     {['hour', 'day', 'service'].map((unit) => (
                       <button
                         key={unit}
-                        onClick={() => setPriceUnit(unit)}
+                        onClick={() => {
+                          setServiceData({ ...serviceData, priceUnit: unit })
+                          setPriceUnit(unit)
+                        }}
                         className={`relative z-10 text-center w-20 py-0.5 px-2 rounded-full transition-colors duration-300 ${priceUnit === unit ? 'text-background' : 'text-foreground'
                           }`}
                       >
@@ -140,6 +201,7 @@ function AddEditServiceForm() {
               <Input
                 id="price"
                 name="price"
+                onChange={(e) => setServiceData({ ...serviceData, price: e.target.value })}
                 type="number"
                 placeholder="Enter service price"
                 className="rounded-3xl bg-orange-50 px-3 py-1 mt-1 w-full"
@@ -150,15 +212,15 @@ function AddEditServiceForm() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="city" className="text-accent text-base font-semibold mb-3">City</Label>
-                <Input id="city" placeholder="Enter city" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Input onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, city: e.target.value } })} id="city" placeholder="Enter city" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
               </div>
               <div>
                 <Label htmlFor="state" className="text-accent text-base font-semibold mb-3">State</Label>
-                <Input id="state" placeholder="Enter state" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Input onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, state: e.target.value } })} id="state" placeholder="Enter state" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
               </div>
               <div>
                 <Label htmlFor="pincode" className="text-accent text-base font-semibold mb-3">Pincode</Label>
-                <Input id="pincode" placeholder="Enter pincode" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Input onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, pincode: e.target.value } })} id="pincode" placeholder="Enter pincode" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
               </div>
             </div>
           </div>
@@ -170,60 +232,31 @@ function AddEditServiceForm() {
               <Label className="text-accent text-base font-semibold mb-4">Upload Images <span className="text-xs text-muted-foreground">( Upload up to 6 images )</span></Label>
               <p className="text-sm text-muted-foreground mt-2"></p>
               <div className="grid grid-cols-2 gap-2">
-                {/* Image 1 */}
-                <label htmlFor="serviceImg1" className="cursor-pointer">
-                  <input type="file" name="serviceImg1" id="serviceImg1" className="hidden" />
-                  <img src="" alt="" />
-                  <div className="aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground bg-orange-100">
-                    <ImagePlus className="text-accent" />
-                  </div>
-                </label>
-
-                {/* Image 2 */}
-                <label htmlFor="serviceImg2" className="cursor-pointer">
-                  <input type="file" name="serviceImg2" id="serviceImg2" className="hidden" />
-                  <img src="" alt="" />
-                  <div className="aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground bg-orange-100">
-                    <ImagePlus className="text-accent" />
-                  </div>
-                </label>
-
-                {/* Image 3 */}
-                <label htmlFor="serviceImg3" className="cursor-pointer">
-                  <input type="file" name="serviceImg3" id="serviceImg3" className="hidden" />
-                  <img src="" alt="" />
-                  <div className="aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground bg-orange-100">
-                    <ImagePlus className="text-accent" />
-                  </div>
-                </label>
-
-                {/* Image 4 */}
-                <label htmlFor="serviceImg4" className="cursor-pointer">
-                  <input type="file" name="serviceImg4" id="serviceImg4" className="hidden" />
-                  <img src="" alt="" />
-                  <div className="aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground bg-orange-100">
-                    <ImagePlus className="text-accent" />
-                  </div>
-                </label>
-
-                {/* Image 5 */}
-                <label htmlFor="serviceImg5" className="cursor-pointer">
-                  <input type="file" name="serviceImg5" id="serviceImg5" className="hidden" />
-                  <img src="" alt="" />
-                  <div className="aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground bg-orange-100">
-                    <ImagePlus className="text-accent" />
-                  </div>
-                </label>
-
-                {/* Image 6 */}
-                <label htmlFor="serviceImg6" className="cursor-pointer">
-                  <input type="file" name="serviceImg6" id="serviceImg6" className="hidden" />
-                  <img src="" alt="" />
-                  <div className="aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground bg-orange-100">
-                    <ImagePlus className="text-accent" />
-                  </div>
-                </label>
+                {Array.from({ length: 6 }, (_, index) => (
+                  <label htmlFor={`serviceImg${index}`} key={index} className="cursor-pointer">
+                    <input
+                      type="file"
+                      id={`serviceImg${index}`}
+                      name={`serviceImg${index}`}
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e) => handleImageChange(e.target.files[0], index)}
+                    />
+                    {previewImages[index] ? (
+                      <img
+                        src={previews[index]}
+                        alt={`Preview ${index + 1}`}
+                        className="aspect-video object-cover rounded-md"
+                      />
+                    ) : (
+                      <div className="aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground bg-orange-100">
+                        <ImagePlus className="text-accent" />
+                      </div>
+                    )}
+                  </label>
+                ))}
               </div>
+
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const dbConnect = require('./config/dbConnection');
 const userRouter = require('./routes/userRoutes');
+const serviceRouter = require('./routes/serviceRoutes')
 
 dotenv.config();
 dbConnect();
@@ -14,7 +15,8 @@ server.use(cors());
 server.use(express.json());
 
 // routes
-server.use('/api/users', userRouter)
+server.use('/api/users', userRouter);
+server.use('/api/services', serviceRouter);
 
 
 server.get('/', (req, res) => {
