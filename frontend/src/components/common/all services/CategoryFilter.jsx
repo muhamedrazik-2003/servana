@@ -136,7 +136,7 @@ function CategoryFilter() {
 
 
     return (
-        <Card className={`w-full lg:max-w-[280px] bg-background border-teal-100  py-0 lg:pt-3 transition-all duration-400 lg:rounded-3xl ${categoryHidden ? "gap-0 rounded-full" : "gap-1"}`}>
+        <Card className={` w-full lg:max-w-[280px] bg-background border-teal-100 lg:pt-3 transition-all duration-400 lg:rounded-3xl ${categoryHidden ? "gap-0 rounded-full" : "gap-1"}`}>
             <CardHeader className={`${categoryHidden ? "gap-0" : "gap-1"}`}>
                 <div className='flex justify-between items-center'>
                     <div className="flex items-center gap-2 ">

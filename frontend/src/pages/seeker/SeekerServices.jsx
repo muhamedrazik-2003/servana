@@ -44,7 +44,9 @@ function AllServices() {
         </div>
       </section>
       <section className='grid grid-col-1 lg:grid-cols-[auto_1fr] mx-[16px] lg:mx-20 gap-3 lg:gap-8'>
-        <CategoryFilter />
+        <div className='h-fit sticky top-[100px]'>
+          <CategoryFilter />
+        </div>
         <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6'>
           <ServiceCard />
           <ServiceCard />

@@ -51,9 +51,9 @@ function BookingTabs({userRole}) {
     return (
         <>
             <div className='flex gap-3 items-center'>
-                <div className={`${userRole === "provider" ? "md:w-[77%]" : "md:max-w-[70%] w-full md:mx-auto "}  shadow-sm border  md:rounded-4xl bg-teal-50 dark:bg-teal-950 cursor-pointer p-2`}>
+                <div className={`${userRole === "provider" ? "md:w-[75%]" : "md:max-w-[70%] w-full md:mx-auto "}  shadow-sm border  md:rounded-4xl bg-orange-100 dark:bg-orange-950 cursor-pointer p-2`}>
                     <div className={`relative  text-center flex items-center transition-all duration-300`}>
-                        <div className={`absolute left-0 rounded-3xl w-[20%] md:w-[20%] h-9 ${userRole === "provider" ? "md:h-10" : "md:h-12"} transition-all duration-300 bg-secondary dark:bg-secondary ${getTranslateX(activeTab)}`}></div>
+                        <div className={`absolute left-0 rounded-3xl w-[20%] md:w-[20%] h-9 ${userRole === "provider" ? "md:h-10" : "md:h-12"} transition-all duration-300 bg-accent dark:bg-accent ${getTranslateX(activeTab)}`}></div>
                         <h3 onClick={() => setActiveTab("ongoing")} className={`z-10  ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'ongoing' ? "text-background" : 'text-foreground'}`}>Ongoing</h3>
                         <h3 onClick={() => setActiveTab("upcoming")} className={`z-10 ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'upcoming' ? "text-background" : 'text-foreground'}`} >Upcoming</h3>
                         <h3 onClick={() => setActiveTab("completed")} className={`z-10 ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'completed' ? "text-background" : 'text-foreground'}`} >Completed</h3>
@@ -63,7 +63,7 @@ function BookingTabs({userRole}) {
                 </div>
                 {userRole === "provider"
                     && <Select>
-                        <SelectTrigger className="w-[175px] !h-10 lg:!h-13 border-2 border-indigo-300 pl-6">
+                        <SelectTrigger className="w-[192px] !h-10 lg:!h-13 border-2 bg-orange-100 border-orange-300 pl-6">
                             <SelectValue placeholder="Sort By" />
                         </SelectTrigger>
                         <SelectContent>
