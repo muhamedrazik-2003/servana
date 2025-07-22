@@ -52,9 +52,9 @@ function AddEditServiceForm() {
     setPreviews(updatedPreviews);
   };
 
-  const handleSubmit = () => {
-    // console.log(serviceData)
-    // console.log(serviceImages)
+  const handleSubmit = async() => {
+    console.log(serviceData)
+    console.log(serviceImages)
     const formData = new FormData();
     formData.append('title', serviceData.title);
     formData.append('description', serviceData.description);
@@ -70,8 +70,9 @@ function AddEditServiceForm() {
         formData.append("images", image);
       }
     })
-    dispatch(addService(formData));
     console.log(formData)
+    const response = await dispatch(addService(formData));
+    console.log(response)
   }
   return (
     <>
