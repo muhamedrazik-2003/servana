@@ -16,6 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useLocation } from "react-router-dom";
+import ProviderHeader from "../../components/provider/common/ProviderHeader";
+import { ro } from "date-fns/locale/ro";
 
 const bookingStats = [
   { label: "Total Bookings", value: 12 },
@@ -23,13 +26,26 @@ const bookingStats = [
   { label: "Completed", value: 8 },
   { label: "Cancelled", value: 1 },
 ];
+function ProfilePage() {
+  const { pathname } = useLocation();
+  let role = ""
 
-export default function SeekerProfilePage() {
+  if (pathname.includes('/provider')) {
+    role = "provider"
+  } else if (pathname.includes('/admin')) {
+    role = "admin"
+  } else {
+    role = "seeker"
+  }
   const [isEditing, setIsEditing] = useState(false)
   return (
     <main>
-      <SeekerHeader />
-      <div className="max-w-5xl mx-auto px-4 py-12 mt-6 space-y-10">
+      {role === "provider"
+        ? <ProviderHeader />
+        : <SeekerHeader />
+      }
+
+      <div className="relative max-w-5xl mx-auto px-4 py-12 mt-6 space-y-10">
         <h1 className='text-[clamp(2.5rem,8vw,44px)] leading-11  md:leading-18 z-0 mb-2'>My Profile </h1>
         <Card className="relative flex flex-col items-center gap-6 p-3 bg-white  shadow-none border-0">
           {isEditing
@@ -219,9 +235,19 @@ export default function SeekerProfilePage() {
             </div>
           </div>
         </div>
-
+        {/* editing update floating button */}
+        {isEditing
+          && <div className="fixed bottom-10 right-14 flex flex-col gap-2">
+            <Button onClick={() => setIsEditing(false)} variant='outline2' className='bg-background'>Cancel</Button>
+            <Button>Update</Button>
+          </div>
+        }
       </div>
-      <Footer userRole={'seeker'} />
+      {role === "provider"
+        ? <Footer userRole={'provider'} />
+        : <Footer userRole={'seeker'} />
+      }
     </main>
   );
 }
+export default ProfilePage;

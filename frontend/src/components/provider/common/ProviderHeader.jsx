@@ -10,7 +10,7 @@ function ProviderHeader({ page }) {
         <header className="w-full sticky top-0 z-50 bg-background dark:bg-background transition-all">
             <div className="mx-4 lg:mx-10 py-3 flex items-center justify-between">
                 {/* Logo + Name */}
-                <Link to="/seeker/home" className="flex items-center gap-2">
+                <Link to="/provider/dashboard" className="flex items-center gap-2">
                     <img src={Logo} alt="Servana Logo" className="h-8 w-8" />
                     <span className="font-bold text-xl md:hidden lg:block text-gray-800 dark:text-white">Servana</span>
                 </Link>

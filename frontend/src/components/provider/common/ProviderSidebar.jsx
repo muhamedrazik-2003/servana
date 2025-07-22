@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   CalendarCheck,
@@ -96,10 +96,12 @@ function ProviderSidebar() {
           <span>Profile</span>
         </NavLink>
 
-        <button className="w-full text-left flex items-center gap-3 px-4 py-2 rounded-3xl text-red-500 hover:bg-orange-200 transition">
-          <LogOut className="size-5 text-primary" />
-          <span>Logout</span>
-        </button>
+        <Link to='/'>
+          <button className="w-full text-left flex items-center gap-3 px-4 py-2 rounded-3xl text-red-500 hover:bg-orange-200 transition">
+            <LogOut className="size-5 text-primary" />
+            <span>Logout</span>
+          </button>
+        </Link>
       </div>
     </aside>
   );

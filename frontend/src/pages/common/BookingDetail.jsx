@@ -7,6 +7,7 @@ import { CalendarIcon, CreditCard, Hash, IndianRupee, Mail, MapPin, MessageCircl
 import Footer from "../../components/common/Footer";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
 import { useLocation } from "react-router-dom";
+import ProviderHeader from "../../components/provider/common/ProviderHeader";
 
 const BookingDetail = () => {
   const { pathname } = useLocation();
@@ -21,7 +22,10 @@ const BookingDetail = () => {
   }
   return (
     <main>
-      <SeekerHeader />
+      {role === "provider"
+      ? <ProviderHeader/>
+      : <SeekerHeader />
+      }
       <div className="max-w-6xl mx-auto px-6 lg:px-4 py-8 space-y-8">
         <div className="grid grid-col-1 lg:grid-cols-[1fr_auto] gap-6">
           {/* service section */}
