@@ -151,7 +151,7 @@ const ServiceDetail = () => {
 
         {/* RIGHT COLUMN */}
         {role === "provider"
-          ? <div className="space-y-6 sticky top-20 h-fit p-5">
+          ? <div className="space-y-6 sticky top-24 h-fit p-5">
             {summaryItems.map((item, index) => (
               <div className="flex items-center gap-4 border rounded-3xl py-5 px-6">
                 <div className="rounded-full">{item.icon}</div>

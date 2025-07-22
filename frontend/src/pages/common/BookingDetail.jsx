@@ -3,11 +3,22 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
-import { CalendarIcon, Mail, MapPin, MessageCirclePlus, PhoneCall, Star, Timer } from "lucide-react";
+import { CalendarIcon, CreditCard, Hash, IndianRupee, Mail, MapPin, MessageCirclePlus, PhoneCall, Star, Timer } from "lucide-react";
 import Footer from "../../components/common/Footer";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
+import { useLocation } from "react-router-dom";
 
 const BookingDetail = () => {
+  const { pathname } = useLocation();
+  let role = ""
+
+  if (pathname.includes('/provider')) {
+    role = "provider"
+  } else if (pathname.includes('/admin')) {
+    role = "admin"
+  } else {
+    role = "seeker"
+  }
   return (
     <main>
       <SeekerHeader />
@@ -26,25 +37,49 @@ const BookingDetail = () => {
                 </div>
               </div>
             </div>
-            {/* provider info */}
-            <div>
-              <h3 className="text-lg font-semibold text-primary mb-1">Provider Info</h3>
-              <div className="space-y-2">
-                <h1 className="text-3xl text-start">Karunakan K P</h1>
-                <p className="flex gap-2 items-center" ><MapPin className="size-5" /> Nadakkav, Calicut</p>
-                <p className="flex gap-2 items-center" >
-                  <Star className="size-5" />
-                  <Star className="size-5" />
-                  <Star className="size-5" />
-                  <Star className="size-5" />
-                  <span className="text-teal-500">(20 reviews)</span>
-                </p>
-                <div className="flex gap-4 mt-5">
-                  <Button size='sm'><PhoneCall />Contact Provider</Button>
-                  <Button size='sm'><Mail /> Message Provider</Button>
+            {/* provider info or seeker info */}
+            {role === "provider"
+              ? <>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary mb-1">Booking Info</h3>
+                  <div className="space-y-2">
+                    <p className="flex gap-2 items-center" ><Hash className="size-5 text-accent" />Booking ID : sdoijckm</p>
+                    <p className="flex gap-2 items-center" ><IndianRupee className="size-5" /> Service Price : <span>2040</span></p>
+                    <p className="flex gap-2 items-center" ><CreditCard className="size-5" /> Patment Status : <span className="text-green-500">Paid</span></p>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary mb-1">Customer Info</h3>
+                  <div className="space-y-2">
+                    <h1 className="text-3xl text-start">Karunakan K P</h1>
+                    <p className="flex gap-2 items-center" ><MapPin className="size-5" /> Nadakkav, Calicut</p>
+                    <div className="flex gap-4 mt-5">
+                      <Button size='sm'><PhoneCall />Contact Customer</Button>
+                      <Button size='sm'><Mail /> Message Customer</Button>
+                    </div>
+                  </div>
+                </div>
+              </>
+
+              : <div>
+                <h3 className="text-lg font-semibold text-primary mb-1">Provider Info</h3>
+                <div className="space-y-2">
+                  <h1 className="text-3xl text-start">Karunakan K P</h1>
+                  <p className="flex gap-2 items-center" ><MapPin className="size-5" /> Nadakkav, Calicut</p>
+                  <p className="flex gap-2 items-center" >
+                    <Star className="size-5" />
+                    <Star className="size-5" />
+                    <Star className="size-5" />
+                    <Star className="size-5" />
+                    <span className="text-teal-500">(20 reviews)</span>
+                  </p>
+                  <div className="flex gap-4 mt-5">
+                    <Button size='sm'><PhoneCall />Contact Provider</Button>
+                    <Button size='sm'><Mail /> Message Provider</Button>
+                  </div>
                 </div>
               </div>
-            </div>
+            }
             {/* notes card */}
             <Card className="rounded-3xl py-4 gap-0 mt-6">
               <CardHeader>
@@ -89,17 +124,22 @@ const BookingDetail = () => {
           <h3 className="text-lg font-semibold text-primary mb-2">Actions</h3>
           <div className=" space-x-3 space-y-2">
             <Button variant="destructive" className="w-full lg:w-45">Cancel Booking</Button>
-            <Button variant="outline2" className="w-full lg:w-45">Reschedule</Button>
+            {role === "seeker"
+              && <Button variant="outline2" className="w-full lg:w-45">Reschedule</Button>
+            }
             <Button className="w-full lg:w-45" disabled>Mark as Completed</Button>
           </div>
         </div>
         <div className="py-3 mb-10 space-y-5">
           <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-primary mb-1">Service Reivews</h3>
-          <Button variant='outline2' size='sm'>
-            <MessageCirclePlus/>
-            Add A Review
-            </Button>
+            <h3 className="text-lg font-semibold text-primary mb-1">Service Reivews</h3>
+            {role === "seker"
+              && <Button variant='outline2' size='sm'>
+                <MessageCirclePlus />
+                Add A Review
+              </Button>
+            }
+
           </div>
           <p className="text-sm text-gray-600">Reviews From other users who previously booked this service</p>
           <div>
