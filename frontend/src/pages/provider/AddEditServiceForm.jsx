@@ -10,6 +10,7 @@ import ProviderHeader from "../../components/provider/common/ProviderHeader";
 import { useState } from "react";
 import Footer from "../../components/common/Footer";
 import { useDispatch } from "react-redux";
+import { addService } from "../../redux/slices/serviceSlice";
 
 function AddEditServiceForm() {
   const [showCustomSub, setShowCustomSub] = useState(false)
@@ -22,7 +23,7 @@ function AddEditServiceForm() {
     category: "",
     subCategory: "",
     price: "",
-    priceUnit: "",
+    priceUnit: "hour",
     location: {
       city: "",
       state: "",
@@ -52,22 +53,25 @@ function AddEditServiceForm() {
   };
 
   const handleSubmit = () => {
+    // console.log(serviceData)
+    // console.log(serviceImages)
     const formData = new FormData();
     formData.append('title', serviceData.title);
     formData.append('description', serviceData.description);
-    formData.appends('category', serviceData.category);
-    formData.appends('subCategory', serviceData.subCategory);
+    formData.append('category', serviceData.category);
+    formData.append('subCategory', serviceData.subCategory);
     formData.append("price", serviceData.price);
     formData.append("priceUnit", serviceData.priceUnit);
     formData.append("city", serviceData.location.city);
     formData.append("state", serviceData.location.state);
     formData.append("pincode", serviceData.location.pincode);
     serviceImages.forEach(image => {
-      if(image) {
-      formData.append("images",image);
+      if (image) {
+        formData.append("images", image);
       }
     })
-
+    dispatch(addService(formData));
+    console.log(formData)
   }
   return (
     <>
@@ -75,7 +79,11 @@ function AddEditServiceForm() {
       <div className="max-w-6xl mx-auto p-6 pt-2 mb-15 space-y-1">
         <div className="flex items-center justify-between">
           <h2 className="text-4xl font-extrabold">{formFormat === "addForm" ? "Add New Service" : "Edit Your Service"}</h2>
-          <Button className="px-6 bg-accent hover:bg-orange-500">Publish Service</Button>
+          {
+            formFormat === "addForm"
+              ? <Button onClick={handleSubmit} className="px-6 bg-accent hover:bg-orange-500">Publish Service</Button>
+              : <Button className="px-6 bg-accent hover:bg-orange-500">Update Service</Button>
+          }
         </div>
 
         {/* Grid Layout */}
@@ -108,7 +116,7 @@ function AddEditServiceForm() {
             <div className="flex items-start gap-6">
               <div>
                 <Label htmlFor="category" className="text-accent text-base font-semibold mb-3">Category</Label>
-                <Select onChange={(e) => setServiceData({ ...serviceData, category: e.target.value })}>
+                <Select onValueChange={(value) => setServiceData({ ...serviceData, category: value })}>
                   <SelectTrigger id="category" className="w-[200px] rounded-3xl bg-orange-50 px-3 py-1">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -127,7 +135,7 @@ function AddEditServiceForm() {
 
                 <Select
                   disabled={showCustomSub}
-                  onChange={(e) => setServiceData({ ...serviceData, subCategory: e.target.value })}>
+                  onValueChange={(value) => setServiceData({ ...serviceData, subCategory: value })}>
                   <SelectTrigger className="w-full rounded-3xl bg-orange-50 px-3 py-1">
                     <SelectValue placeholder="Choose a subcategory" />
                   </SelectTrigger>
@@ -242,7 +250,7 @@ function AddEditServiceForm() {
                       accept="image/*"
                       onChange={(e) => handleImageChange(e.target.files[0], index)}
                     />
-                    {previewImages[index] ? (
+                    {previews[index] ? (
                       <img
                         src={previews[index]}
                         alt={`Preview ${index + 1}`}

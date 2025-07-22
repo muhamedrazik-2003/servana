@@ -17,5 +17,6 @@ const profileStorage = new CloudinaryStorage({
     }
 })
 
-const upload = multer({storage});
-module.exports = upload;
+const servicesUpload = multer({servicesStorage});
+const profileUpload = multer({profileStorage});
+module.exports = {servicesUpload, profileUpload};

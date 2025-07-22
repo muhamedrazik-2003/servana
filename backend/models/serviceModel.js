@@ -28,8 +28,8 @@ const serviceSchema = new mongoose.Schema(
     },
     priceUnit: {
       type: String,
-      enum: ["per hour", "per day", "per Service"],
-      default: "per service",
+      enum: ["hour", "day", "service"],
+      default: "service",
     },
     location: {
       city: { type: String },
@@ -38,7 +38,7 @@ const serviceSchema = new mongoose.Schema(
     },
     providerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref : users,
+      ref : 'users',
       required: true,
     },
     avgRating: {
