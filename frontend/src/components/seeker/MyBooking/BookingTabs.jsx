@@ -66,7 +66,7 @@ function BookingTabs({userRole}) {
                         <SelectTrigger className="w-[192px] !h-10 lg:!h-13 border-2 bg-orange-100 border-orange-300 pl-6">
                             <SelectValue placeholder="Sort By" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className='bg-orange-100'>
                             <SelectItem value="recent">Recent Bookings</SelectItem>
                             <SelectItem value="oldest">Oldest Bookings</SelectItem>
                             <SelectItem value="within7days">Within 7 Days</SelectItem>
