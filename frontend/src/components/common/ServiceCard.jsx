@@ -65,9 +65,11 @@ const ServiceCard = ({ variant = "seeker" }) => {
 
             {variant === "provider"
                 && <CardFooter className={'gap-2 justify-end px-2'}>
-                    <Button variant="outline2" size='sm' className='w-full lg:w-auto hover:bg-accent hover:border-accent'>
-                        Edit Service
-                    </Button>
+                    <Link to={'/provider/services/update'}>
+                        <Button variant="outline2" size='sm' className='w-full lg:w-auto hover:bg-accent hover:border-accent'>
+                            Edit Service
+                        </Button>
+                    </Link>
                     <Link to={'/provider/services/detail'}>
                         <Button variant="" size='sm' className='w-full lg:w-auto'>
                             View Details

@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { ImagePlus } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
+import { useState } from "react";
+import Footer from "../../components/common/Footer";
 
 function AddEditServiceForm() {
   const { pathname } = useLocation();
@@ -16,11 +18,12 @@ function AddEditServiceForm() {
   } else if (pathname.includes('/update')) {
     formFormat = "updateForm"
   }
-
+  const [showCustomSub, setShowCustomSub] = useState(false)
+  const [priceUnit, setPriceUnit] = useState('hour')
   return (
     <>
-<ProviderHeader/>
-      <div className="max-w-6xl mx-auto p-6 py-2 space-y-1">
+      <ProviderHeader />
+      <div className="max-w-6xl mx-auto p-6 pt-2 mb-15 space-y-1">
         <div className="flex items-center justify-between">
           <h2 className="text-4xl font-extrabold">{formFormat === "addForm" ? "Add New Service" : "Edit Your Service"}</h2>
           <Button className="px-6 bg-accent hover:bg-orange-500">Publish Service</Button>
@@ -29,7 +32,7 @@ function AddEditServiceForm() {
         {/* Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left Column */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Title */}
             <div>
               <Label htmlFor="title" className="text-accent text-base font-semibold mb-3">Service Title</Label>
@@ -47,7 +50,7 @@ function AddEditServiceForm() {
             </div>
 
             {/* Category & Subcategory */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-start gap-6">
               <div>
                 <Label htmlFor="category" className="text-accent text-base font-semibold mb-3">Category</Label>
                 <Select>
@@ -62,24 +65,85 @@ function AddEditServiceForm() {
                 </Select>
               </div>
 
-              <div>
-                <Label htmlFor="subcategory" className="text-accent text-base font-semibold mb-3">Subcategory</Label>
+              <div className="space-y-2">
+                <Label htmlFor="subcategory" className="text-accent text-base font-semibold mb-3">
+                  Subcategory
+                </Label>
+
                 <Select>
-                  <SelectTrigger id="subcategory" className="w-[200px] rounded-3xl bg-orange-50 px-3 py-1">
-                    <SelectValue placeholder="Select subcategory" />
+                  <SelectTrigger className="w-full rounded-3xl bg-orange-50 px-3 py-1">
+                    <SelectValue placeholder="Choose a subcategory" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="deep-cleaning">Deep Cleaning</SelectItem>
-                    <SelectItem value="pipe-repair">Pipe Repair</SelectItem>
+                    <SelectItem value="cleaning">Cleaning</SelectItem>
+                    <SelectItem value="plumbing">Plumbing</SelectItem>
+                    <SelectItem value="gardening">Gardening</SelectItem>
                   </SelectContent>
                 </Select>
+
+                <div className="text-sm text-muted-foreground">
+                  Can’t find your subcategory?&nbsp;
+                  <button
+                    type="button"
+                    onClick={() => setShowCustomSub(true)}
+                    className="text-accent font-medium underline"
+                  >
+                    Add a new one
+                  </button>
+                </div>
+
+                {showCustomSub && (
+                  <div className="pt-2">
+                    <Input
+                      type="text"
+                      id="customSubcategory"
+                      name="customSubcategory"
+                      placeholder="Enter new subcategory"
+                      className="rounded-3xl bg-orange-50 px-3 py-1"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      We’ll review and add this subcategory if it meets our guidelines.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Price */}
             <div>
-              <Label htmlFor="price" className="text-accent text-base font-semibold mb-3">Price (₹)</Label>
-              <Input id="price" type="number" placeholder="Enter price" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+              <div className="flex items-center justify-between mt-8">
+                <Label htmlFor="price" className="text-base text-accent font-semibold mb-1">
+                  Price (₹)
+                </Label>
+                <div className="w-fit bg-orange-100 dark:bg-orange-950 shadow-sm border rounded-full p-1 px-1 mb-1">
+                  <div className="relative flex items-center text-[12px]">
+                    <div
+                      className={`absolute left-0 top-0 h-5.5 w-1/3 rounded-full bg-accent transition-all duration-300 ${priceUnit === 'hour'
+                          ? 'translate-x-0'
+                          : priceUnit === 'day'
+                            ? 'translate-x-full'
+                            : 'translate-x-[200%]'
+                        }`}
+                    ></div>
+                    {['hour', 'day', 'service'].map((unit) => (
+                      <button
+                        key={unit}
+                        onClick={() => setPriceUnit(unit)}
+                        className={`relative z-10 text-center w-20 py-0.5 px-2 rounded-full transition-colors duration-300 ${priceUnit === unit ? 'text-background' : 'text-foreground'
+                          }`}
+                      >
+                        {unit === 'hour' ? 'Per/Hr' : unit === 'day' ? 'Per/Day' : 'Per/Service'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <Input
+                id="price"
+                name="price"
+                type="number"
+                placeholder="Enter service price"
+                className="rounded-3xl bg-orange-50 px-3 py-1 mt-1 w-full"
+              />
             </div>
 
             {/* Location */}
@@ -164,6 +228,7 @@ function AddEditServiceForm() {
           </div>
         </div>
       </div>
+      <Footer userRole={'provider'} />
     </>
   );
 }

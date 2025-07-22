@@ -18,6 +18,8 @@ import ProviderServices from "./pages/provider/ProviderServices"
 import { Toaster } from "./components/ui/sonner"
 import NotFound from "./pages/common/NotFound"
 import AddEditServiceForm from "./pages/provider/AddEditServiceForm"
+import ProviderEarning from "./pages/provider/ProviderEarning"
+import { Reviews } from "./pages/provider/Reviews"
 
 
 function App() {
@@ -52,6 +54,8 @@ function App() {
         <Route path="/provider/profile" element={<Profile />} />
         <Route path="/provider/services/new" element={<AddEditServiceForm />} />
         <Route path="/provider/services/update" element={<AddEditServiceForm />} />
+        <Route path="/provider/earnings" element={<ProviderEarning />} />
+        <Route path="/provider/reviews" element={<Reviews />} />
       
       </Routes>
       <Toaster toastOptions={{
