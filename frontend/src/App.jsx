@@ -46,6 +46,8 @@ function App() {
         <Route path="/provider/dashboard" element={<ProviderDashboard />} />
         <Route path="/provider/bookings" element={<ProviderBookings />} />
         <Route path="/provider/services" element={<ProviderServices />} />
+        <Route path="/provider/services/detail" element={<ServiceDetail />} />
+        <Route path="/provider/mybookings/booking" element={<BookingDetail />} />
       
       </Routes>
       <Toaster toastOptions={{

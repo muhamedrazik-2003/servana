@@ -72,6 +72,9 @@ function MyServices() {
             <ServiceCard variant='provider' />
             <ServiceCard variant='provider' />
             <ServiceCard variant='provider' />
+            <ServiceCard variant='provider' />
+            <ServiceCard variant='provider' />
+            <ServiceCard variant='provider' />
           </div>
         </section>
       </main>

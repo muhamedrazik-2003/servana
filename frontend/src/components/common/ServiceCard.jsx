@@ -68,9 +68,12 @@ const ServiceCard = ({ variant = "seeker" }) => {
                     <Button variant="outline2" size='sm' className='w-full lg:w-auto hover:bg-accent hover:border-accent'>
                         Edit Service
                     </Button>
-                    <Button variant="" size='sm' className='w-full lg:w-auto'>
-                        View Details
-                    </Button>
+                    <Link to={'/provider/services/detail'}>
+                        <Button variant="" size='sm' className='w-full lg:w-auto'>
+                            View Details
+                        </Button>
+                    </Link>
+
                 </CardFooter>
             }
         </div>

@@ -5,13 +5,42 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Footer from "../../components/common/Footer";
-import { CreditCard, MapPin } from "lucide-react";
+import { ClipboardList, CreditCard, MapPin, MessageSquare, Star } from "lucide-react";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
+import { useLocation } from "react-router-dom";
 
 const ServiceDetail = () => {
+  const { pathname } = useLocation();
+  let role = ""
+
+  if (pathname.includes('/provider')) {
+    role = "provider"
+  } else if (pathname.includes('/admin')) {
+    role = "admin"
+  } else {
+    role = "seeker"
+  }
+
+  const summaryItems = [
+  {
+    title: "Total Bookings",
+    value: "120",
+    icon: <ClipboardList className="text-primary size-6" />,
+  },
+  {
+    title: "Total Reviews",
+    value: "45",
+    icon: <MessageSquare className="text-primary size-6" />,
+  },
+  {
+    title: "Average Rating",
+    value: "4.6",
+    icon: <Star className="text-yellow-400 size-6" />,
+  },
+];
   return (
     <main>
-      <SeekerHeader/>
+      <SeekerHeader />
       <section className="mx-auto px-4 lg:px-20 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 py-8">
         {/* LEFT COLUMN */}
         <div className="space-y-8">
@@ -20,18 +49,23 @@ const ServiceDetail = () => {
             <h1 className="text-4xl text-start">Deep Cleaning for Homes</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs">Cleaning</span>
-              <div className="flex items-center gap-1">
-                <Avatar className="h-6 w-6">
-                  <AvatarImage src="/provider.jpg" />
-                  <AvatarFallback>JD</AvatarFallback>
-                </Avatar>
-                <span>John Doe</span>
-              </div>
+              {role === "seeker"
+                && <div className="flex items-center gap-1">
+                  <Avatar className="h-6 w-6">
+                    <AvatarImage src="/provider.jpg" />
+                    <AvatarFallback>JD</AvatarFallback>
+                  </Avatar>
+                  <span>John Doe</span>
+                </div>
+              }
               <span className="text-yellow-500">★★★★☆ (45 reviews)</span>
-              <p className="font-medium flex items-center gap-2">
-                <MapPin className="size-4.5" />
-                From Nadakkav, Calicut
-              </p>
+              {role === "seeker"
+                && <p className="font-medium flex items-center gap-2">
+                  <MapPin className="size-4.5" />
+                  From Nadakkav, Calicut
+                </p>
+              }
+
             </div>
             <span className="font-medium text-lg text-teal-600 flex items-center gap-2">
               <CreditCard className="size-5" />
@@ -60,20 +94,21 @@ const ServiceDetail = () => {
             </p>
           </div>
 
-          {/* Provider Info */}
-          <div className="space-y-2">
-            <h2 className="text-xl font-semibold">About the Provider</h2>
-            <div className="flex items-center gap-3">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src="/provider.jpg" />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="font-medium">John Doe</p>
-                <p className="text-sm text-muted-foreground">Verified Cleaner from Kozhikode</p>
+          {role === "seeker"
+            && <div className="space-y-2">
+              <h2 className="text-xl font-semibold">About the Provider</h2>
+              <div className="flex items-center gap-3">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src="/provider.jpg" />
+                  <AvatarFallback>JD</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium">John Doe</p>
+                  <p className="text-sm text-muted-foreground">Verified Cleaner from Kozhikode</p>
+                </div>
               </div>
             </div>
-          </div>
+          }
 
           {/* Service Info / Meta */}
           <div className="space-y-2">
@@ -91,7 +126,9 @@ const ServiceDetail = () => {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Customer Reviews</h2>
-              <Button variant='outline2' className='border-2'>Add A Review</Button>
+              {role === "seeker"
+                && <Button variant='outline2' className='border-2'>Add A Review</Button>
+              }
             </div>
             <div className="space-y-4">
               {[1, 2].map((i) => (
@@ -113,44 +150,65 @@ const ServiceDetail = () => {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="space-y-4 sticky top-20 h-fit bg-teal-50 border rounded-3xl shadow p-5">
-          <h3 className="text-lg font-semibold text-center">Book This Service</h3>
+        {role === "provider"
+          ? <div className="space-y-6 sticky top-20 h-fit p-5">
+            {summaryItems.map((item, index) => (
+              <div className="flex items-center gap-4 border rounded-3xl py-5 px-6">
+                <div className="rounded-full">{item.icon}</div>
+                <div>
+                  <p className="text-sm text-muted-foreground">{item.title}</p>
+                  <p className="text-xl font-semibold text-primary">{item.value}</p>
+                </div>
+              </div>
+            ))}
+            <div className="space-y-2 mt-15">
+              <Button className='w-full'>Edit This Service</Button>
+              <Button variant='destructive' className='w-full'>Delete This Service</Button>
+              <Button variant='outline2' className='w-full border-accent text-black hover:bg-accent hover:border-accent'>Disable This Service</Button>
+            </div>
 
-          <div className="space-y-2 flex flex-col items-center">
-            <label className="block text-sm font-medium">Select Date</label>
-            <Calendar mode="single" selected={new Date()} className="border rounded-3xl bg-teal-50" />
           </div>
+          :
 
-          <div className="space-y-2">
-            <label className="block text-sm font-medium">Preferred Time</label>
-            <select className="w-full px-3 py-2 border rounded-md text-sm">
-              <option value="">Select Time</option>
-              <option value="9-11">9 AM – 11 AM</option>
-              <option value="12-2">12 PM – 2 PM</option>
-              <option value="3-5">3 PM – 5 PM</option>
-            </select>
+          <div className="space-y-4 sticky top-20 h-fit bg-teal-50 border rounded-3xl shadow p-5">
+            <h3 className="text-lg font-semibold text-center">Book This Service</h3>
+
+            <div className="space-y-2 flex flex-col items-center">
+              <label className="block text-sm font-medium">Select Date</label>
+              <Calendar mode="single" selected={new Date()} className="border rounded-3xl bg-teal-50" />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium">Preferred Time</label>
+              <select className="w-full px-3 py-2 border rounded-md text-sm">
+                <option value="">Select Time</option>
+                <option value="9-11">9 AM – 11 AM</option>
+                <option value="12-2">12 PM – 2 PM</option>
+                <option value="3-5">3 PM – 5 PM</option>
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium">Special Instructions</label>
+              <Textarea placeholder="Add any notes for the provider..." />
+            </div>
+
+            <div className="text-sm text-muted-foreground">
+              Total Price: <span className="font-semibold text-foreground">₹1499</span>
+              <span className="text-xs block text-accent">(Amount Can increse Based on Job Details)</span>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Payment Mode: <span className="font-semibold text-foreground">Cash</span>
+              <span className="text-xs block text-accent">(Online Payment is Currently Unavailable)</span>
+            </div>
+
+            <Button className="w-full">Book Now</Button>
+
+            <p className="text-xs text-muted-foreground text-center mt-2">
+              🔒 Secure payment & free cancellation
+            </p>
           </div>
-
-          <div className="space-y-2">
-            <label className="block text-sm font-medium">Special Instructions</label>
-            <Textarea placeholder="Add any notes for the provider..." />
-          </div>
-
-          <div className="text-sm text-muted-foreground">
-            Total Price: <span className="font-semibold text-foreground">₹1499</span>
-             <span className="text-xs block text-accent">(Amount Can increse Based on Job Details)</span>
-          </div>
-          <div className="text-sm text-muted-foreground">
-            Payment Mode: <span className="font-semibold text-foreground">Cash</span>
-             <span className="text-xs block text-accent">(Online Payment is Currently Unavailable)</span>
-          </div>
-
-          <Button className="w-full">Book Now</Button>
-
-          <p className="text-xs text-muted-foreground text-center mt-2">
-            🔒 Secure payment & free cancellation
-          </p>
-        </div>
+        }
       </section>
       <Footer userRole={"seeker"} />
     </main>
