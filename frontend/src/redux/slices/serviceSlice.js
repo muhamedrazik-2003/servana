@@ -27,32 +27,69 @@ export const addService = createAsyncThunk(
   }
 );
 
+export const getUserServices = createAsyncThunk(
+  "serviceSlice/getUserServices",
+  async () => {
+    try {
+      const response = await axios.get(`${base_url}/services/`,
+                {
+          headers: {
+            Authorization: `token ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { message, serviceList } = response.data;
+      console.log(response.data);
+      return { message, serviceList };
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
 const serviceSlice = createSlice({
   name: "serviceSlice",
   initialState: {
-    services: {},
+    services: [],
     isLoading: false,
-    isUpdating:false,
+    isUpdating: false,
     successResponse: "",
     error: null,
   },
   reducers: {},
- extraReducers: (builder) => {
-  builder.addCase(addService.fulfilled, (state, action) => {
-    state.services = action.payload.service;
-    state.isUpdating = false;
-    state.error = "";
-    state.successResponse = action.payload.message;
-  });
-  builder.addCase(addService.pending, (state, action) => {
-    state.isUpdating = true;
-    state.error = "";
-  });
-  builder.addCase(addService.rejected, (state, action) => {
-    state.isUpdating = false;
-    state.error = action.payload.message;
-  });
-}
+  extraReducers: (builder) => {
+    // get services
+    builder.addCase(getUserServices.fulfilled, (state, action) => {
+      state.services = action.payload.serviceList;
+      state.isLoading= false;
+      state.error = "";
+      state.successResponse = action.payload.message;
+    });
+    builder.addCase(getUserServices.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = "";
+    });
+    builder.addCase(getUserServices.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.message;
+    });
+
+    // add service
+    builder.addCase(addService.fulfilled, (state, action) => {
+      state.services.push(action.payload.service);
+      state.isUpdating = false;
+      state.error = "";
+      state.successResponse = action.payload.message;
+    });
+    builder.addCase(addService.pending, (state, action) => {
+      state.isUpdating = true;
+      state.error = "";
+    });
+    builder.addCase(addService.rejected, (state, action) => {
+      state.isUpdating = false;
+      state.error = action.payload.message;
+    });
+  },
 });
 
 export default serviceSlice.reducer;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProviderHeader from '../../components/provider/common/ProviderHeader'
 import ProviderSidebar from '../../components/provider/common/ProviderSidebar'
 import Footer from '../../components/common/Footer'
@@ -12,8 +12,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserServices } from '../../redux/slices/serviceSlice'
 
 function MyServices() {
+  const { services, isLoading, } = useSelector(state => state.serviceSlice);
+  const dispatch = useDispatch();
+  console.log(services)
+  useEffect(() => {
+    dispatch(getUserServices());
+  },[])
   return (
     <>
 
@@ -69,12 +77,9 @@ function MyServices() {
             </div>
           </div>
           <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 mb-20'>
-            <ServiceCard variant='provider' />
-            <ServiceCard variant='provider' />
-            <ServiceCard variant='provider' />
-            <ServiceCard variant='provider' />
-            <ServiceCard variant='provider' />
-            <ServiceCard variant='provider' />
+            {services?.map(service => (
+              <ServiceCard variant='provider' />
+            ))}
           </div>
         </section>
       </main>

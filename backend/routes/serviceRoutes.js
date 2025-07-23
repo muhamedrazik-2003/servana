@@ -5,5 +5,7 @@ const { servicesUpload } = require("../middlewares/multer");
 const serviceController = require("../controllers/serviceController");
 
 router.post("/add", jwt, servicesUpload.array("images", 6), serviceController.addService);
+router.get("/", jwt, serviceController.getUserServices);
+
 
 module.exports = router;

@@ -39,12 +39,12 @@ exports.addService = async (req, res) => {
 
 exports.getUserServices = async (req, res) => {
   try {
-    const providerId = req.user.id;
-    console.log(providerId);
-    const ServiceList = await services.find({ providerId });
+    const providerId = req.user.userId;
+    // console.log(providerId);
+    const serviceList = await services.find({ providerId });
     res
       .status(200)
-      .json({ message: "services of Provider retrieved", ServiceList });
+      .json({ message: "services of Provider retrieved", serviceList });
   } catch (error) {
     res
       .status(404)
