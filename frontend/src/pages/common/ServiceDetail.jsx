@@ -7,8 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Footer from "../../components/common/Footer";
 import { ClipboardList, CreditCard, MapPin, MessageSquare, Star } from "lucide-react";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Badge } from "../../components/ui/badge";
+import { getStatusClass } from "../../lib/utils";
 
 const ServiceDetail = () => {
   const { pathname } = useLocation();
@@ -31,7 +33,7 @@ const ServiceDetail = () => {
   const summaryItems = [
     {
       title: "Total Bookings",
-      value:  `${currentService.totalBookings > 0 ? currentService.totalBookings : "Not Available"}`,
+      value: `${currentService.totalBookings > 0 ? currentService.totalBookings : "Not Available"}`,
       icon: <ClipboardList className="text-primary size-6" />,
     },
     {
@@ -41,7 +43,7 @@ const ServiceDetail = () => {
     },
     {
       title: "Average Rating",
-      value: `${currentService.avgRating > 0 ? currentService.avgRating  : "Not Available"}`,
+      value: `${currentService.avgRating > 0 ? currentService.avgRating : "Not Available"}`,
       icon: <Star className="text-yellow-400 size-6" />,
     },
   ];
@@ -70,10 +72,12 @@ const ServiceDetail = () => {
               </span>
 
               {role === "seeker"
-                && <p className="font-medium flex items-center gap-2">
+                ? <p className="font-medium flex items-center gap-2">
                   <MapPin className="size-4.5" />
                   From {`${currentService.location.city}, ${currentService.location.state}, ${currentService.location.pincode}`}
                 </p>
+                : <Badge className={getStatusClass(currentService.status)}>{currentService.status}</Badge>
+
               }
 
             </div>
@@ -173,8 +177,10 @@ const ServiceDetail = () => {
                 </div>
               </div>
             ))}
-            <div className="space-y-2 mt-15">
-              <Button className='w-full'>Edit This Service</Button>
+            <div className="flex flex-col gap-2 mt-15">
+              <Link to={`/provider/services/update/${currentService._id}`}>
+                <Button className='w-full'>Edit This Service</Button>
+              </Link>
               <Button variant='destructive' className='w-full'>Delete This Service</Button>
               <Button variant='outline2' className='w-full border-accent text-black hover:bg-accent hover:border-accent'>Disable This Service</Button>
             </div>

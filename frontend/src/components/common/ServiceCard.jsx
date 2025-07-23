@@ -14,17 +14,6 @@ import {
 } from "@/components/ui/carousel"
 
 const ServiceCard = ({ variant = "seeker", data }) => {
-    // const data = {
-    //     _id: 1234,
-    //     name: " Ac Repair",
-    //     description: "plumber with 10 years experience",
-    //     providerName: "Ashokan",
-    //     price: 2000,
-    //     category: 'Home Services',
-    //     location: "Calicut",
-    //     bookingCount: 30,
-    //     images: "https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww",
-    // }
 
     const renderContent = () => (
         <div className="flex flex-col">
@@ -34,16 +23,16 @@ const ServiceCard = ({ variant = "seeker", data }) => {
                     <CarouselContent>
                         {data.images.map(image => (
                             <CarouselItem>
-                            <img
-                                src={image || "/placeholder.jpg"}
-                                alt={image}
-                                className={`w-full h-auto object-cover rounded-3xl p-2 ${variant === "provider" ? "aspect-video" : "aspect-square"}`}
-                            />
-                        </CarouselItem>
+                                <img
+                                    src={image || "/placeholder.jpg"}
+                                    alt={image}
+                                    className={`w-full h-auto object-cover rounded-3xl p-2 ${variant === "provider" ? "aspect-video" : "aspect-square"}`}
+                                />
+                            </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <CarouselPrevious className=' !left-3 size-6 bg-orange-400'/>
-                    <CarouselNext className=' !right-3 size-6 bg-orange-400'/>
+                    <CarouselPrevious className=' !left-3 size-6 bg-orange-400' />
+                    <CarouselNext className=' !right-3 size-6 bg-orange-400' />
                 </Carousel>
 
             </div>
@@ -51,7 +40,7 @@ const ServiceCard = ({ variant = "seeker", data }) => {
             <CardContent className="px-4 pt-0 pb-4 space-y-1">
                 <div className="flex items-center justify-between">
                     <CardTitle>{data.title}</CardTitle>
-                    <CardAction className={'flex items-center gap-1 text-lg'}>{data.avgRating} <Star className="fill-yellow-400 text-yellow-400 size-5"/></CardAction>
+                    <CardAction className={'flex items-center gap-1 text-lg'}>{data.avgRating} <Star className="fill-yellow-400 text-yellow-400 size-5" /></CardAction>
                 </div>
 
                 <CardDescription className={'text-teal-600'}>{data.category}</CardDescription>
@@ -83,7 +72,7 @@ const ServiceCard = ({ variant = "seeker", data }) => {
 
             {variant === "provider"
                 && <CardFooter className={'gap-2 justify-end px-2'}>
-                    <Link to={'/provider/services/update'}>
+                    <Link to={`/provider/services/update/${data._id}`}>
                         <Button variant="outline2" size='sm' className='w-full lg:w-auto hover:bg-accent hover:border-accent'>
                             Edit Service
                         </Button>

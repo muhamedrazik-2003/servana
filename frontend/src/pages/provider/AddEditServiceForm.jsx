@@ -3,9 +3,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import { ImagePlus } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
 import { useEffect, useState } from "react";
 import Footer from "../../components/common/Footer";
@@ -15,27 +14,14 @@ import { getCategories, getCurrentSubCategories } from "../../redux/slices/categ
 import { toast } from "sonner";
 
 function AddEditServiceForm() {
+  // common
   const [showCustomSub, setShowCustomSub] = useState(false)
   const [priceUnit, setPriceUnit] = useState('hour')
   const [serviceImages, setServiceImages] = useState([])
   const [previews, setPreviews] = useState([])
-  const [serviceData, setServiceData] = useState({
-    title: "",
-    description: "",
-    category: "",
-    subCategory: "",
-    price: "",
-    priceUnit: "hour",
-    location: {
-      city: "",
-      state: "",
-      pincode: ""
-    }
-  });
+
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const { categories, currentSubCategories } = useSelector(state => state.categorySlice);
-  const { isUpdating, successResponse } = useSelector(state => state.serviceSlice);
 
   useEffect(() => {
     dispatch(getCategories())
@@ -46,6 +32,31 @@ function AddEditServiceForm() {
   } else if (pathname.includes('/update')) {
     formFormat = "updateForm"
   }
+  // edit form
+  const { categories, currentSubCategories } = useSelector(state => state.categorySlice);
+  const { isUpdating, successResponse } = useSelector(state => state.serviceSlice);
+  const { serviceId } = useParams();
+
+  const { services, isLoading, } = useSelector(state => state.serviceSlice);
+  const currentService = services.find(service => service._id === serviceId);
+
+  const [serviceData, setServiceData] = useState(formFormat === "addForm" ?
+    {
+      title: "",
+      description: "",
+      category: "",
+      subCategory: "",
+      price: "",
+      priceUnit: "hour",
+      location: {
+        city: "",
+        state: "",
+        pincode: ""
+      }
+    }
+    : { ...currentService }
+  );
+  console.log(serviceData)
 
   const handleImageChange = (imageFile, index) => {
     if (!imageFile) return;
@@ -126,6 +137,7 @@ function AddEditServiceForm() {
               <Label htmlFor="title" className="text-accent text-base font-semibold mb-3">Service Title</Label>
               <Input
                 id="title"
+                defaultValue={serviceData.title}
                 onChange={(e) => setServiceData({ ...serviceData, title: e.target.value })}
                 placeholder="Enter service title"
                 className="rounded-3xl bg-orange-50 px-3 py-1 w-full"
@@ -137,6 +149,7 @@ function AddEditServiceForm() {
               <Label htmlFor="description" className="text-accent text-base font-semibold mb-3">Description</Label>
               <Textarea
                 id="description"
+                defaultValue={serviceData.description}
                 onChange={(e) => setServiceData({ ...serviceData, description: e.target.value })}
                 placeholder="Describe your service in detail..."
                 rows={6}
@@ -149,6 +162,7 @@ function AddEditServiceForm() {
                 <Label htmlFor="category" className="text-accent text-base font-semibold mb-3">Category</Label>
                 <Select
                   disabled={showCustomSub}
+                  value={serviceData.category}
                   onValueChange={(value) => {
                     dispatch(getCurrentSubCategories(value))
                     setServiceData({ ...serviceData, category: value })
@@ -160,9 +174,6 @@ function AddEditServiceForm() {
                     {categories.map(category => (
                       <SelectItem value={category.title}>{category.title}</SelectItem>
                     ))}
-                    {/* <SelectItem value="cleaning">Cleaning</SelectItem>
-                    <SelectItem value="plumbing">Plumbing</SelectItem>
-                    <SelectItem value="automotive">Automotive</SelectItem> */}
                   </SelectContent>
                 </Select>
               </div>
@@ -173,6 +184,7 @@ function AddEditServiceForm() {
                 </Label>
 
                 <Select
+                  value={serviceData.subCategory}
                   disabled={showCustomSub || serviceData.category.length === 0}
                   onValueChange={(value) => setServiceData({ ...serviceData, subCategory: value })}>
                   <SelectTrigger className="w-full rounded-3xl bg-orange-50 px-3 py-1">
@@ -252,6 +264,7 @@ function AddEditServiceForm() {
               <Input
                 id="price"
                 name="price"
+                defaultValue={serviceData.price}
                 onChange={(e) => setServiceData({ ...serviceData, price: e.target.value })}
                 type="number"
                 placeholder="Enter service price"
@@ -263,15 +276,15 @@ function AddEditServiceForm() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="city" className="text-accent text-base font-semibold mb-3">City</Label>
-                <Input onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, city: e.target.value } })} id="city" placeholder="Enter city" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Input defaultValue={serviceData.location.city} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, city: e.target.value } })} id="city" placeholder="Enter city" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
               </div>
               <div>
                 <Label htmlFor="state" className="text-accent text-base font-semibold mb-3">State</Label>
-                <Input onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, state: e.target.value } })} id="state" placeholder="Enter state" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Input defaultValue={serviceData.location.state} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, state: e.target.value } })} id="state" placeholder="Enter state" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
               </div>
               <div>
                 <Label htmlFor="pincode" className="text-accent text-base font-semibold mb-3">Pincode</Label>
-                <Input onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, pincode: e.target.value } })} id="pincode" placeholder="Enter pincode" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Input defaultValue={serviceData.location.pincode} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, pincode: e.target.value } })} id="pincode" placeholder="Enter pincode" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
               </div>
             </div>
           </div>
@@ -293,9 +306,9 @@ function AddEditServiceForm() {
                       accept="image/*"
                       onChange={(e) => handleImageChange(e.target.files[0], index)}
                     />
-                    {previews[index] ? (
+                    {previews[index] || serviceData.images?.[index] ? (
                       <img
-                        src={previews[index]}
+                        src={previews[index] || serviceData.images[index]}
                         alt={`Preview ${index + 1}`}
                         className="aspect-video object-cover rounded-md"
                       />
