@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const users = require("./userModel");
 
 const serviceSchema = new mongoose.Schema(
   {
@@ -31,6 +30,11 @@ const serviceSchema = new mongoose.Schema(
       enum: ["hour", "day", "service"],
       default: "service",
     },
+    status: {
+      type: String,
+      enum: ["approved", "rejected", "flagged", "pending"],
+      default: "pending",
+    },
     location: {
       city: { type: String },
       state: { type: String },
@@ -38,7 +42,7 @@ const serviceSchema = new mongoose.Schema(
     },
     providerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref : 'users',
+      ref: "users",
       required: true,
     },
     avgRating: {
