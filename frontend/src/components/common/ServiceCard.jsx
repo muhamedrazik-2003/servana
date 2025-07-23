@@ -88,7 +88,7 @@ const ServiceCard = ({ variant = "seeker", data }) => {
                             Edit Service
                         </Button>
                     </Link>
-                    <Link to={'/provider/services/detail'}>
+                    <Link to={`/provider/services/${data._id}`}>
                         <Button variant="" size='sm' className='w-full lg:w-auto'>
                             View Details
                         </Button>

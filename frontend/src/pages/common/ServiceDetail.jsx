@@ -7,10 +7,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Footer from "../../components/common/Footer";
 import { ClipboardList, CreditCard, MapPin, MessageSquare, Star } from "lucide-react";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ServiceDetail = () => {
   const { pathname } = useLocation();
+  const { serviceId } = useParams();
+
   let role = ""
 
   if (pathname.includes('/provider')) {
@@ -21,23 +24,27 @@ const ServiceDetail = () => {
     role = "seeker"
   }
 
+  const { services, isLoading, } = useSelector(state => state.serviceSlice);
+  const currentService = services.find(service => service._id === serviceId);
+  console.log(currentService)
+
   const summaryItems = [
-  {
-    title: "Total Bookings",
-    value: "120",
-    icon: <ClipboardList className="text-primary size-6" />,
-  },
-  {
-    title: "Total Reviews",
-    value: "45",
-    icon: <MessageSquare className="text-primary size-6" />,
-  },
-  {
-    title: "Average Rating",
-    value: "4.6",
-    icon: <Star className="text-yellow-400 size-6" />,
-  },
-];
+    {
+      title: "Total Bookings",
+      value:  `${currentService.totalBookings > 0 ? currentService.totalBookings : "Not Available"}`,
+      icon: <ClipboardList className="text-primary size-6" />,
+    },
+    {
+      title: "Total Reviews",
+      value: `${currentService.totalReviews > 0 ? currentService.totalReviews : "Not Available"}`,
+      icon: <MessageSquare className="text-primary size-6" />,
+    },
+    {
+      title: "Average Rating",
+      value: `${currentService.avgRating > 0 ? currentService.avgRating  : "Not Available"}`,
+      icon: <Star className="text-yellow-400 size-6" />,
+    },
+  ];
   return (
     <main>
       <SeekerHeader />
@@ -46,7 +53,7 @@ const ServiceDetail = () => {
         <div className="space-y-8">
           {/* Service Header */}
           <div className="space-y-2">
-            <h1 className="text-4xl text-start">Deep Cleaning for Homes</h1>
+            <h1 className="text-4xl text-start">{currentService.title}</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs">Cleaning</span>
               {role === "seeker"
@@ -58,29 +65,34 @@ const ServiceDetail = () => {
                   <span>John Doe</span>
                 </div>
               }
-              <span className="text-yellow-500">★★★★☆ (45 reviews)</span>
+              <span className="text-yellow-500">
+                {'★'.repeat(Math.round(currentService?.avgRating || 0))}☆ ({currentService?.totalReviews} reviews)
+              </span>
+
               {role === "seeker"
                 && <p className="font-medium flex items-center gap-2">
                   <MapPin className="size-4.5" />
-                  From Nadakkav, Calicut
+                  From {`${currentService.location.city}, ${currentService.location.state}, ${currentService.location.pincode}`}
                 </p>
               }
 
             </div>
             <span className="font-medium text-lg text-teal-600 flex items-center gap-2">
               <CreditCard className="size-5" />
-              Starting from ₹1499
+              Starting from ₹{currentService?.price} / {currentService?.priceUnit}
             </span>
+
 
           </div>
           {/* Image Carousel */}
           <Carousel className="w-full max-w-2xl">
             <CarouselContent>
-              {[1, 2, 3].map((i) => (
+              {currentService?.images?.map((img, i) => (
                 <CarouselItem key={i} className=" overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1618783129985-dd97dbe4ad99?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWVjaGFuaWN8ZW58MHwxfDB8fHww" alt={`Service ${i}`} className="w-full h-72 rounded-3xl object-cover" />
+                  <img src={img} alt={`Service ${i}`} className="w-full h-72 rounded-3xl object-cover" />
                 </CarouselItem>
               ))}
+
             </CarouselContent>
             <CarouselPrevious variant='outline2' />
             <CarouselNext variant='outline2' />
@@ -90,7 +102,7 @@ const ServiceDetail = () => {
           <div>
             <h2 className="text-xl font-semibold mb-2">Overview</h2>
             <p className="text-sm text-muted-foreground">
-              Our professional deep cleaning service ensures your home is spotless from top to bottom. Ideal for seasonal cleans or special occasions.
+              {currentService?.description}
             </p>
           </div>
 
@@ -114,10 +126,10 @@ const ServiceDetail = () => {
           <div className="space-y-2">
             <h2 className="text-xl font-semibold">Service Info</h2>
             <ul className="text-sm text-muted-foreground list-disc pl-5">
-              <li>Duration: 2–3 Hours</li>
+              <li>Duration: Based on Work Quantity</li>
               <li>Mode: At Home</li>
-              <li>Languages: English, Hindi</li>
-              <li>Payment Modes: UPI, Card, Cash</li>
+              <li>Languages: English, Hindi, Malayalam</li>
+              <li>Payment Modes: Cash</li>
               <li>Cancellation: Free before 24 hrs</li>
             </ul>
           </div>
