@@ -78,7 +78,7 @@ function MyServices() {
           </div>
           <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 mb-20'>
             {services?.map(service => (
-              <ServiceCard variant='provider' />
+              <ServiceCard variant='provider' data={service} />
             ))}
           </div>
         </section>
