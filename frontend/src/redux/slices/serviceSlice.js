@@ -32,6 +32,7 @@ const serviceSlice = createSlice({
   initialState: {
     services: {},
     isLoading: false,
+    isUpdating:false,
     successResponse: "",
     error: null,
   },
@@ -39,16 +40,16 @@ const serviceSlice = createSlice({
  extraReducers: (builder) => {
   builder.addCase(addService.fulfilled, (state, action) => {
     state.services = action.payload.service;
-    state.isLoading = false;
+    state.isUpdating = false;
     state.error = "";
     state.successResponse = action.payload.message;
   });
   builder.addCase(addService.pending, (state, action) => {
-    state.isLoading = true;
+    state.isUpdating = true;
     state.error = "";
   });
   builder.addCase(addService.rejected, (state, action) => {
-    state.isLoading = false;
+    state.isUpdating = false;
     state.error = action.payload.message;
   });
 }

@@ -1,5 +1,5 @@
 const users = require("../models/userModel");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.userLogin = async (req, res) => {
@@ -10,8 +10,7 @@ exports.userLogin = async (req, res) => {
       return res.status(400).json({ message: "Invalid Email" });
     }
 
-    const isPasswordMatch = await bcrypt.compare(password, userExist.password);
-    if (!isPasswordMatch) {
+    if (userExist.password !== password) {
       return res.status(401).json({ message: "Invalid password" });
     }
     const token = jwt.sign({ userId: userExist._id }, process.env.SECRET_KEY);
@@ -37,12 +36,11 @@ exports.userRegister = async (req, res) => {
     if (userExist) {
       return res.status(409).json({ message: "User Already exists" });
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10); // for hashing
+    // const hashedPassword = await bcrypt.hash(password, 10); // for hashing
     const newUser = new users({
       fullName,
       email,
-      password: hashedPassword,
+      password,
       phone: "",
       role,
       profilePicture: "Not Available",

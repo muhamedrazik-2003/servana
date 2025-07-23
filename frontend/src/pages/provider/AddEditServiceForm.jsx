@@ -7,10 +7,12 @@ import { cn } from "@/lib/utils";
 import { ImagePlus } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../components/common/Footer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addService } from "../../redux/slices/serviceSlice";
+import { getCategories, getCurrentSubCategories } from "../../redux/slices/categorySlice";
+import { toast } from "sonner";
 
 function AddEditServiceForm() {
   const [showCustomSub, setShowCustomSub] = useState(false)
@@ -32,6 +34,12 @@ function AddEditServiceForm() {
   });
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const { categories, currentSubCategories } = useSelector(state => state.categorySlice);
+  const { isUpdating, successResponse } = useSelector(state => state.serviceSlice);
+
+  useEffect(() => {
+    dispatch(getCategories())
+  }, [])
   let formFormat = "";
   if (pathname.includes('/new')) {
     formFormat = "addForm"
@@ -52,8 +60,12 @@ function AddEditServiceForm() {
     setPreviews(updatedPreviews);
   };
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     console.log(serviceData)
+    const { title, description, category, subCategory, price, priceUnit, location: { city, state, pincode } } = serviceData;
+
+    if (!title || !description || !category || !subCategory || !price || !city || !priceUnit || !state || !pincode) return toast.warning("All Values Are needed")
+
     console.log(serviceImages)
     const formData = new FormData();
     formData.append('title', serviceData.title);
@@ -72,8 +84,26 @@ function AddEditServiceForm() {
     })
     console.log(formData)
     const response = await dispatch(addService(formData));
+    if (successResponse === "service Added Succesfully") {
+      toast.success("service Added Succesfully")
+      setServiceData({
+        title: "",
+        description: "",
+        category: "",
+        subCategory: "",
+        price: "",
+        priceUnit: "hour",
+        location: {
+          city: "",
+          state: "",
+          pincode: ""
+        }
+      })
+    }
+
     console.log(response)
   }
+
   return (
     <>
       <ProviderHeader />
@@ -82,8 +112,8 @@ function AddEditServiceForm() {
           <h2 className="text-4xl font-extrabold">{formFormat === "addForm" ? "Add New Service" : "Edit Your Service"}</h2>
           {
             formFormat === "addForm"
-              ? <Button onClick={handleSubmit} className="px-6 bg-accent hover:bg-orange-500">Publish Service</Button>
-              : <Button className="px-6 bg-accent hover:bg-orange-500">Update Service</Button>
+              ? <Button onClick={handleSubmit} disabled={isUpdating} className="px-6 bg-accent hover:bg-orange-500">{isUpdating ? "Adding Service" : "Publish Service"}</Button>
+              : <Button disabled={isUpdating} className="px-6 bg-accent hover:bg-orange-500">Update Service</Button>
           }
         </div>
 
@@ -117,14 +147,22 @@ function AddEditServiceForm() {
             <div className="flex items-start gap-6">
               <div>
                 <Label htmlFor="category" className="text-accent text-base font-semibold mb-3">Category</Label>
-                <Select onValueChange={(value) => setServiceData({ ...serviceData, category: value })}>
+                <Select
+                  disabled={showCustomSub}
+                  onValueChange={(value) => {
+                    dispatch(getCurrentSubCategories(value))
+                    setServiceData({ ...serviceData, category: value })
+                  }}>
                   <SelectTrigger id="category" className="w-[200px] rounded-3xl bg-orange-50 px-3 py-1">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="cleaning">Cleaning</SelectItem>
+                    {categories.map(category => (
+                      <SelectItem value={category.title}>{category.title}</SelectItem>
+                    ))}
+                    {/* <SelectItem value="cleaning">Cleaning</SelectItem>
                     <SelectItem value="plumbing">Plumbing</SelectItem>
-                    <SelectItem value="automotive">Automotive</SelectItem>
+                    <SelectItem value="automotive">Automotive</SelectItem> */}
                   </SelectContent>
                 </Select>
               </div>
@@ -135,23 +173,27 @@ function AddEditServiceForm() {
                 </Label>
 
                 <Select
-                  disabled={showCustomSub}
+                  disabled={showCustomSub || serviceData.category.length === 0}
                   onValueChange={(value) => setServiceData({ ...serviceData, subCategory: value })}>
                   <SelectTrigger className="w-full rounded-3xl bg-orange-50 px-3 py-1">
                     <SelectValue placeholder="Choose a subcategory" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="cleaning">Cleaning</SelectItem>
-                    <SelectItem value="plumbing">Plumbing</SelectItem>
-                    <SelectItem value="gardening">Gardening</SelectItem>
+                    {currentSubCategories.map(category => (
+                      <SelectItem value={category}>{category}</SelectItem>
+                    ))}
+
                   </SelectContent>
                 </Select>
 
                 <div className="text-sm text-muted-foreground">
-                  {showCustomSub === false && 'Can’t find your subcategory?&nbsp;'}
+                  {showCustomSub === false && 'Can’t find your subcategory?'}
                   <button
                     type="button"
-                    onClick={() => setShowCustomSub(prev => !prev)}
+                    onClick={() => {
+                      setServiceData({ ...serviceData, category: "Not Available", subCategory: 'Not Available' })
+                      setShowCustomSub(prev => !prev)
+                    }}
                     className="text-accent font-medium underline"
                   >
                     {showCustomSub ? "Add From Subcategory" : "Add a new one"}
@@ -177,7 +219,7 @@ function AddEditServiceForm() {
             </div>
 
             <div>
-              <div className="flex items-center justify-between mt-8">
+              <div className="flex items-center justify-between mt-4">
                 <Label htmlFor="price" className="text-base text-accent font-semibold mb-1">
                   Price (₹)
                 </Label>
