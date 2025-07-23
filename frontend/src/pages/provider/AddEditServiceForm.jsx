@@ -56,7 +56,6 @@ function AddEditServiceForm() {
     }
     : { ...currentService }
   );
-  console.log(serviceData)
 
   const handleImageChange = (imageFile, index) => {
     if (!imageFile) return;
@@ -74,8 +73,23 @@ function AddEditServiceForm() {
   const handleSubmit = async () => {
     console.log(serviceData)
     const { title, description, category, subCategory, price, priceUnit, location: { city, state, pincode } } = serviceData;
-
     if (!title || !description || !category || !subCategory || !price || !city || !priceUnit || !state || !pincode) return toast.warning("All Values Are needed")
+
+    const allowedTypes = [
+      "image/jpeg", // .jpg, .jpeg
+      "image/png",  // .png
+      "image/webp", // .webp
+      "image/avif"  // .avif
+    ];
+    let imageNotAllowed = false
+    serviceImages.forEach(image => {
+      if (!allowedTypes.includes(image.type)) {
+        imageNotAllowed = true;
+      }
+    })
+    if(imageNotAllowed) {
+        toast.error("only .jpg, jpeg, png, webp and  avif type images are accepted");
+    }
 
     console.log(serviceImages)
     const formData = new FormData();
@@ -95,8 +109,10 @@ function AddEditServiceForm() {
     })
     console.log(formData)
     const response = await dispatch(addService(formData));
-    if (successResponse === "service Added Succesfully") {
-      toast.success("service Added Succesfully")
+
+    if (response?.payload?.message === "Service Added Successfully") {
+      toast.success("Service added successfully!");
+
       setServiceData({
         title: "",
         description: "",
@@ -109,10 +125,12 @@ function AddEditServiceForm() {
           state: "",
           pincode: ""
         }
-      })
-    }
-    if (error.length > 0) {
-      toast.error(`${error}`)
+      });
+
+      setServiceImages([]);
+      setPreviews([]);
+    } else if (response?.error) {
+      toast.error("Something went wrong while adding the service.");
     }
 
     console.log(response)
@@ -296,7 +314,7 @@ function AddEditServiceForm() {
           <div className="space-y-6">
             {/* Images */}
             <div>
-              <Label className="text-accent text-base font-semibold mb-4">Upload Images <span className="text-xs text-muted-foreground">( Upload up to 6 images )</span></Label>
+              <Label className="text-accent text-base font-semibold mb-0 pb-0">Upload Images <span className="text-xs text-muted-foreground">( Upload up to 6 images )</span></Label>
               <p className="text-sm text-muted-foreground mt-2"></p>
               <div className="grid grid-cols-2 gap-2">
                 {Array.from({ length: 6 }, (_, index) => (
@@ -322,6 +340,8 @@ function AddEditServiceForm() {
                     )}
                   </label>
                 ))}
+                <span className="text-xs text-red-500 col-span-2">* only .jpg, jpeg, png, webp and  avif type images are accepted</span>
+
               </div>
 
             </div>

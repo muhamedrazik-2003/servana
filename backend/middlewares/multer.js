@@ -6,7 +6,7 @@ const servicesStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "servana/services",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "avif"],
   },
 });
 const profileStorage = new CloudinaryStorage({

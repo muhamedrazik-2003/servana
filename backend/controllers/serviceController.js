@@ -4,7 +4,7 @@ exports.addService = async (req, res) => {
   try {
     const { title, description, category, subCategory, price, priceUnit } =
       req.body;
-    console.log("Files received:", req.files); // ← This should not be undefined
+    console.log("Files received:", req.files);
     console.log("Body received:", req.body);
     const id = req.user.userId;
     const location = {

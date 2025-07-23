@@ -20,12 +20,6 @@ server.use('/api/users', userRouter);
 server.use('/api/services', serviceRouter);
 server.use('/api/categories', categoryRouter);
 
-// console.log("Cloudinary Config:", {
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_KEY,
-//   api_secret: process.env.CLOUDINARY_SECRET ? "loaded" : "missing"
-// });
-
 server.get('/', (req, res) => {
   res.status(200).json(`Welcome To Servana Server , Currently Working Fine timestamp : ${Date.now()}`);
 });
