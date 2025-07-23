@@ -20,7 +20,7 @@ export default function SummarySection({ page }) {
   const summaryItems = [
     {
       title: "Total Bookings",
-      value: "N/A",
+      value: "Not Available",
       icon: <ClipboardList className="text-primary size-6" />,
     },
     {
@@ -30,12 +30,12 @@ export default function SummarySection({ page }) {
     },
     {
       title: "Earnings",
-      value: "N/A",
+      value: "Not Available",
       icon: <CircleDollarSign className="text-primary size-6" />,
     },
     {
       title: "Avg. Rating",
-      value: `${avgRating}`,
+      value: `${avgRating > 0 ? avgRating : "Not Available"}`,
       icon: <Star className="text-primary size-6" />,
     },
     ...(page === "services" 
