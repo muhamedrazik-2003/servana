@@ -37,7 +37,7 @@ function AddEditServiceForm() {
   const { isUpdating, successResponse } = useSelector(state => state.serviceSlice);
   const { serviceId } = useParams();
 
-  const { services, isLoading, } = useSelector(state => state.serviceSlice);
+  const { services, isLoading, error } = useSelector(state => state.serviceSlice);
   const currentService = services.find(service => service._id === serviceId);
 
   const [serviceData, setServiceData] = useState(formFormat === "addForm" ?
@@ -110,6 +110,9 @@ function AddEditServiceForm() {
           pincode: ""
         }
       })
+    }
+    if (error.length > 0) {
+      toast.error(`${error}`)
     }
 
     console.log(response)

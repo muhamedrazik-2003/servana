@@ -7,27 +7,35 @@ import {
   Star,
   Wrench
 } from "lucide-react"
+import { useSelector } from "react-redux";
 
 export default function SummarySection({ page }) {
+  const { services } = useSelector(state => state.serviceSlice);
+
+  const avgRating = services.reduce((prev, current) => prev + current.avgRating , 0)/services.length
+  console.log(avgRating)
+
+  // const totalBookings = services.reduce(())
+
   const summaryItems = [
     {
       title: "Total Bookings",
-      value: "120",
+      value: "N/A",
       icon: <ClipboardList className="text-primary size-6" />,
     },
     {
       title: "Total Services",
-      value: "18",
+      value: `${services.length}`,
       icon: <Wrench className="text-primary size-6" />,
     },
     {
       title: "Earnings",
-      value: "₹34,000",
+      value: "N/A",
       icon: <CircleDollarSign className="text-primary size-6" />,
     },
     {
       title: "Avg. Rating",
-      value: "4.7",
+      value: `${avgRating}`,
       icon: <Star className="text-primary size-6" />,
     },
     ...(page === "services" 
