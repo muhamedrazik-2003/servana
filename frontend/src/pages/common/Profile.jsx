@@ -43,7 +43,7 @@ function ProfilePage() {
     role = "seeker"
   }
   const [isEditing, setIsEditing] = useState(false)
-  const [preview, setPreview] = useState('')
+  const [preview, setPreview] = useState()
 
   const userSplited = user?.fullName?.trim().split(" ") || [];
   const firstInitial = userSplited[0]?.[0] || "";
@@ -98,7 +98,6 @@ function ProfilePage() {
         toast.success("User Profile Updated successfully!")
         sessionStorage.setItem("user", JSON.stringify(userData))
         setIsEditing(false)
-        setPreview([]);
         return;
       } else if (updateUser.rejected.match(response)) {
         return toast.error(response.payload?.message || "Something went wrong while updating User Profile");
@@ -126,7 +125,7 @@ function ProfilePage() {
                 <input onChange={(e) => handleImageChange(e.target.files[0])} type="file" name="profile" id="profile" className="hidden" />
                 <Avatar className='size-30 relative'>
                   <ImagePlus className="absolute top-[50%] left-[50%] -translate-[50%] size-30 text-violet-100 rounded-full border-violet-400 bg-gray-600 border-2 p-10" />
-                  <AvatarImage src={`${preview || userData.profilePicture}`} className='opacity-60' />
+                  <AvatarImage src={`${preview ? preview : userData?.profilePicture instanceof File ? URL.createObjectURL(userData.profilePicture) : userData.profilePicture}`} className='opacity-60' />
                   <AvatarFallback>{userFallback}</AvatarFallback>
                 </Avatar>
               </label>
@@ -197,7 +196,7 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[180px] lg:w-[200px]">Gender</p>
               {isEditing ? (
-                <Select onValueChange={(e) => setUserData({ ...userData, gender: e.target.value })} defaultValue={`${userData.gender}`}>
+                <Select onValueChange={(e) => setUserData({ ...userData, gender: value })} defaultValue={`${userData.gender}`}>
                   <SelectTrigger className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm">
                     <SelectValue placeholder="Gender" />
                   </SelectTrigger>
