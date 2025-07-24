@@ -196,7 +196,7 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[180px] lg:w-[200px]">Gender</p>
               {isEditing ? (
-                <Select onValueChange={(e) => setUserData({ ...userData, gender: value })} defaultValue={`${userData.gender}`}>
+                <Select onValueChange={(value) => setUserData({ ...userData, gender: value })} defaultValue={`${userData.gender}`}>
                   <SelectTrigger className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm">
                     <SelectValue placeholder="Gender" />
                   </SelectTrigger>

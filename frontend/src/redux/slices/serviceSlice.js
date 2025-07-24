@@ -11,7 +11,7 @@ export const addService = createAsyncThunk(
         serviceData,
         {
           headers: {
-            Authorization: `token ${localStorage.getItem("token")}`,
+            Authorization: `token ${sessionStorage.getItem("token")}`,
           },
         }
       );
@@ -33,7 +33,7 @@ export const getUserServices = createAsyncThunk(
     try {
       const response = await axios.get(`${base_url}/services/`, {
         headers: {
-          Authorization: `token ${localStorage.getItem("token")}`,
+          Authorization: `token ${sessionStorage.getItem("token")}`,
         },
       });
       const { message, serviceList } = response.data;
@@ -58,7 +58,7 @@ export const updateServices = createAsyncThunk(
         formData,
         {
           headers: {
-            Authorization: `token ${localStorage.getItem("token")}`,
+            Authorization: `token ${sessionStorage.getItem("token")}`,
           },
         }
       );
@@ -80,7 +80,7 @@ export const deleteService = createAsyncThunk(
       console.log(serviceId);
       const response = await axios.delete(`${base_url}/services/delete/${serviceId}`, {
         headers: {
-          Authorization: `token ${localStorage.getItem("token")}`,
+          Authorization: `token ${sessionStorage.getItem("token")}`,
         },
       });
       const { message, deletedService } = response.data;

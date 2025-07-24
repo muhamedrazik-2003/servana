@@ -93,7 +93,7 @@ function SeekerHeader() {
           <button disabled className="text-sm text-gray-400 cursor-not-allowed">Notifications (Coming Soon)</button>
           <button disabled className="text-sm text-gray-400 cursor-not-allowed">Dark Mode</button>
           <Link to="/profile" className="block text-sm">View Profile</Link>
-          <button className="block text-sm text-red-500">Logout</button>
+          <Link to="/" className="block text-sm text-red-500">Logout</Link>
         </div>
       )}
     </header>
