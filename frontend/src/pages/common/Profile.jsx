@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
 import Footer from "../../components/common/Footer";
 import { Badge } from "../../components/ui/badge"
-import { ImagePlus, Pen, PenOff } from "lucide-react";
+import { ImagePlus, LoaderCircle, Pen, PenOff } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -18,7 +17,9 @@ import {
 } from "@/components/ui/select"
 import { useLocation } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../redux/slices/userSlice";
+import { toast } from "sonner";
 
 const bookingStats = [
   { label: "Total Bookings", value: 12 },
@@ -28,11 +29,10 @@ const bookingStats = [
 ];
 function ProfilePage() {
   const { pathname } = useLocation();
-  const { user } = useSelector(state => state.userSlice);
+  const { user, isUpdating } = useSelector(state => state.userSlice);
   const userDataFallback = JSON.parse(sessionStorage.getItem('user'));
   const [userData, setUserData] = useState(user?.length > 0 ? user : userDataFallback);
-  console.log(userData)
-  console.log(userDataFallback)
+  const dispatch = useDispatch();
   let role = ""
 
   if (pathname.includes('/provider')) {
@@ -43,6 +43,7 @@ function ProfilePage() {
     role = "seeker"
   }
   const [isEditing, setIsEditing] = useState(false)
+  const [preview, setPreview] = useState('')
 
   const userSplited = user?.fullName?.trim().split(" ") || [];
   const firstInitial = userSplited[0]?.[0] || "";
@@ -50,8 +51,57 @@ function ProfilePage() {
 
   const userFallback = (firstInitial + secondInitial).toUpperCase();
 
-  const handleUpdate =  async() => {
+  const handleImageChange = (imageFile) => {
+    setUserData({ ...userData, profilePicture: imageFile });
+    const previewURL = URL.createObjectURL(imageFile);
+    setPreview(previewURL);
+  }
+
+  const handleUpdate = async () => {
     try {
+      console.log(userData)
+      const allowedTypes = [
+        "image/jpeg", // .jpg, .jpeg
+        "image/png",  // .png
+        "image/webp", // .webp
+        "image/avif"  // .avif
+      ];
+      let imageNotAllowed = false
+
+      if (typeof userData.profilePicture !== "string" && !allowedTypes.includes(userData.profilePicture?.type)) {
+        imageNotAllowed = true;
+      }
+      if (imageNotAllowed) {
+        return toast.error("only .jpg, jpeg, png, webp and  avif type images are accepted");
+      }
+
+      const formData = new FormData();
+      formData.append("fullName", userData.fullName);
+      formData.append("email", userData.email);
+      formData.append("password", userData.password);
+      formData.append("phone", userData.phone);
+      formData.append("dateOfBirth", userData.dateOfBirth);
+      formData.append("gender", userData.gender);
+      formData.append("city", userData.location.city);
+      formData.append("state", userData.location.state);
+      formData.append("pincode", userData.location.pincode);
+      formData.append("profilePicture", userData.profilePicture);
+
+      const userId = userData._id;
+      const response = await dispatch(updateUser({ userId, formData }))
+
+      // console formData
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
+      if (updateUser.fulfilled.match(response)) {
+        toast.success("User Profile Updated successfully!")
+        setIsEditing(false)
+        setPreview([]);
+        return;
+      } else if (updateUser.rejected.match(response)) {
+        return toast.error(response.payload?.message || "Something went wrong while updating User Profile");
+      }
 
     } catch (error) {
       console.error("Form submission error:", error);
@@ -72,10 +122,10 @@ function ProfilePage() {
             ? <>
               <PenOff onClick={() => setIsEditing(false)} className="absolute top-2 right-[40%] size-5 text-primary" />
               <label htmlFor="profile" className="cursor-pointer">
-                <input type="file" name="profile" id="profile" className="hidden" />
+                <input onChange={(e) => handleImageChange(e.target.files[0])} type="file" name="profile" id="profile" className="hidden" />
                 <Avatar className='size-30 relative'>
-                  <ImagePlus className="absolute top-[50%] left-[50%] -translate-[50%] size-30 text-violet-300 rounded-full border-violet-400 bg-gray-600 border-2 p-10" />
-                  <AvatarImage src={`${userData.profilePicture}`} className='opacity-30' />
+                  <ImagePlus className="absolute top-[50%] left-[50%] -translate-[50%] size-30 text-violet-100 rounded-full border-violet-400 bg-gray-600 border-2 p-10" />
+                  <AvatarImage src={`${preview || userData.profilePicture}`} className='opacity-60' />
                   <AvatarFallback>{userFallback}</AvatarFallback>
                 </Avatar>
               </label>
@@ -86,7 +136,7 @@ function ProfilePage() {
               <ImagePlus onClick={() => setIsEditing(true)} className="absolute top-2 right-[40%] size-5 text-primary" />
 
               <Avatar className='size-30'>
-                <AvatarImage src={`${userData.profilePicture}`} />
+                <AvatarImage src={`${preview || userData.profilePicture}`} />
                 <AvatarFallback>{userFallback}</AvatarFallback>
               </Avatar>
             </>
@@ -124,7 +174,7 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Full name</p>
               {isEditing ? (
-                <Input name="fullName" defaultValue={`${userData.fullName}`} placeholder="Full name" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
+                <Input name="fullName" onChange={(e) => setUserData({ ...userData, fullName: e.target.value })} defaultValue={`${userData.fullName}`} placeholder="Full name" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
                 <p className="font-semibold text-start">{userData.fullName}</p>
               )}
@@ -135,7 +185,7 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Date of Birth</p>
               {isEditing ? (
-                <Input name="dob" defaultValue={`${userData.dateOfBirth}`} placeholder="Date of Birth" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
+                <Input name="dob" onChange={(e) => setUserData({ ...userData, dateOfBirth: e.target.value })} defaultValue={`${userData.dateOfBirth}`} placeholder="Date of Birth" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
                 <p className="font-semibold text-start">{userData.dateOfBirth}</p>
               )}
@@ -146,7 +196,7 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Gender</p>
               {isEditing ? (
-                <Select defaultValue={`${userData.gender}`}>
+                <Select onValueChange={(e) => setUserData({ ...userData, gender: e.target.value })} defaultValue={`${userData.gender}`}>
                   <SelectTrigger className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm">
                     <SelectValue placeholder="Gender" />
                   </SelectTrigger>
@@ -174,9 +224,9 @@ function ProfilePage() {
               <p className="text-teal-500 w-[200px] mt-2">Address</p>
               {isEditing ? (
                 <div className="flex flex-col gap-2 w-full max-w-2xl">
-                  <Input defaultValue={userData.location.city} placeholder="City" className="rounded-3xl bg-teal-50 px-3 py-1" />
-                  <Input defaultValue={userData.location.state} placeholder="State" className="rounded-3xl bg-teal-50 px-3 py-1" />
-                  <Input defaultValue={userData.location.pincode} placeholder="PIN Code" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                  <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, city: e.target.value } })} defaultValue={userData.location.city} placeholder="City" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                  <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, state: e.target.value } })} defaultValue={userData.location.state} placeholder="State" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                  <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, pincode: e.target.value } })} defaultValue={userData.location.pincode} placeholder="PIN Code" className="rounded-3xl bg-teal-50 px-3 py-1" />
                 </div>
               ) : (
                 <p className="font-semibold text-start">{`${userData.location.city}, ${userData.location.state}, ${userData.location.pincode}`}</p>
@@ -188,7 +238,7 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Phone Number</p>
               {isEditing ? (
-                <Input defaultValue={userData.phone} placeholder="Phone Number" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
+                <Input onChange={(e) => setUserData({ ...userData, phone: e.target.value })} defaultValue={userData.phone} placeholder="Phone Number" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
                 <p className="font-semibold text-start">{userData.phone}</p>
               )}
@@ -199,7 +249,7 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Email Address</p>
               {isEditing ? (
-                <Input defaultValue={userData.email} placeholder="Email Address" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
+                <Input onChange={(e) => setUserData({ ...userData, email: e.target.value })} defaultValue={userData.email} placeholder="Email Address" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
                 <p className="font-semibold text-start">{userData.email}</p>
               )}
@@ -222,12 +272,12 @@ function ProfilePage() {
 
               <div className="flex items-center">
                 <p className="text-teal-500 w-[200px]">Account Created At</p>
-                <p className="font-semibold text-start">{userData.createdAt.slice(0,10)}</p>
+                <p className="font-semibold text-start">{userData.createdAt.slice(0, 10)}</p>
               </div>
               <Separator className='my-3' />
               <div className="flex items-center">
                 <p className="text-teal-500 w-[200px]">Account Updated At</p>
-                <p className="font-semibold text-start">{userData.updatedAt.slice(0,10)}</p>
+                <p className="font-semibold text-start">{userData.updatedAt.slice(0, 10)}</p>
               </div>
               <Separator className='my-3' />
 
@@ -250,6 +300,7 @@ function ProfilePage() {
                 {isEditing ? (
                   <Input
                     type="password"
+                    onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                     defaultValue={userData.password}
                     placeholder="New Password"
                     className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm"
@@ -265,7 +316,13 @@ function ProfilePage() {
         {isEditing
           && <div className="fixed bottom-10 right-14 flex flex-col gap-2">
             <Button onClick={() => setIsEditing(false)} variant='outline2' className='bg-background'>Cancel</Button>
-            <Button onClick={handleUpdate}>Update</Button>
+            <Button disabled={isUpdating} onClick={handleUpdate}>
+              {isUpdating
+                ? <>
+                  <LoaderCircle  className="size-6 animate-spin"/>"Updating"
+                </>
+                : "Update"}
+            </Button>
           </div>
         }
       </div>

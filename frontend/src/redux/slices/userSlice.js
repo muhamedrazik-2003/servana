@@ -3,7 +3,7 @@ import axios from "axios";
 import base_url from "../base_url";
 
 export const loginUser = createAsyncThunk(
-  "auth/loginUser",
+  "userSlice/loginUser",
   async (loginData, { rejectWithValue }) => {
     try {
       const loginResponse = await axios.post(
@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk(
 );
 
 export const registerUser = createAsyncThunk(
-  "auth/registerUser",
+  "userSlice/registerUser",
   async (registerData, { rejectWithValue }) => {
     try {
       const registerResponse = await axios.post(
@@ -68,8 +68,8 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-const authSlice = createSlice({
-  name: "authSlice",
+const userSlice = createSlice({
+  name: "userSlice",
   initialState: {
     user: {},
     token: "",
@@ -136,5 +136,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearError } = authSlice.actions;
-export default authSlice.reducer;
+export const { clearError } = userSlice.actions;
+export default userSlice.reducer;
