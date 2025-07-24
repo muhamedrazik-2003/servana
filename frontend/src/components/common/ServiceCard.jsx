@@ -21,7 +21,7 @@ const ServiceCard = ({ variant = "seeker", data }) => {
             <div className="w-full md:h-auto">
                 <Carousel>
                     <CarouselContent>
-                        {data.images.map(image => (
+                        {data?.images.map(image => (
                             <CarouselItem>
                                 <img
                                     src={image || "/placeholder.jpg"}
@@ -39,45 +39,45 @@ const ServiceCard = ({ variant = "seeker", data }) => {
 
             <CardContent className="px-4 pt-0 pb-4 space-y-1">
                 <div className="flex items-center justify-between">
-                    <CardTitle>{data.title}</CardTitle>
-                    <CardAction className={'flex items-center gap-1 text-lg'}>{data.avgRating} <Star className="fill-yellow-400 text-yellow-400 size-5" /></CardAction>
+                    <CardTitle>{data?.title}</CardTitle>
+                    <CardAction className={'flex items-center gap-1 text-lg'}>{data?.avgRating} <Star className="fill-yellow-400 text-yellow-400 size-5" /></CardAction>
                 </div>
 
-                <CardDescription className={'text-teal-600'}>{data.category}</CardDescription>
+                <CardDescription className={'text-teal-600'}>{data?.category}</CardDescription>
 
                 <div className="flex items-center justify-between">
                     {variant === "provider" ? (
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <ClipboardList className="size-4" />
-                            Bookings: {data.totalBookings}
+                            Bookings: {data?.totalBookings}
                         </div>
                     ) : (
                         <>
                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                 <UsersRound className="size-4" />
-                                {data.providerName}
+                                {data?.providerName}
                             </div>
                             <div className="flex justify-between items-center">
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                     <MapPin className="size-4" />
-                                    {data.location}
+                                    {data?.location}
                                 </div>
                             </div>
                         </>
                     )}
                 </div>
 
-                <p className="text-primary text-sm font-semibold">Starting From ₹{data.price}</p>
+                <p className="text-primary text-sm font-semibold">Starting From ₹{data?.price}</p>
             </CardContent>
 
             {variant === "provider"
                 && <CardFooter className={'gap-2 justify-end px-2'}>
-                    <Link to={`/provider/services/update/${data._id}`}>
+                    <Link to={`/provider/services/update/${data?._id}`}>
                         <Button variant="outline2" size='sm' className='w-full lg:w-auto hover:bg-accent hover:border-accent'>
                             Edit Service
                         </Button>
                     </Link>
-                    <Link to={`/provider/services/${data._id}`}>
+                    <Link to={`/provider/services/${data?._id}`}>
                         <Button variant="" size='sm' className='w-full lg:w-auto'>
                             View Details
                         </Button>

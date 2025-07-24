@@ -17,9 +17,10 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  scheduledTime: {
-    type: String,
-    required: true,
+   scheduledTime : {
+    type:String,
+    enum: ["9am-11am", "12am-2pm", "3pm-5pm"],
+    default: "9am-11am",
   },
   location: {
     city: { type: String },
