@@ -96,6 +96,7 @@ function ProfilePage() {
       }
       if (updateUser.fulfilled.match(response)) {
         toast.success("User Profile Updated successfully!")
+        sessionStorage.setItem("user", JSON.stringify(userData))
         setIsEditing(false)
         setPreview([]);
         return;

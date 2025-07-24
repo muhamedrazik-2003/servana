@@ -62,7 +62,7 @@ exports.updateUser = async (req, res) => {
   try {
     const { userId } = req.params;
     // console.log("user id", userId);
-    const newProfile = req.file.path || req.body.profilePicture;
+    const newProfile = req.file?.path || req.body.profilePicture;
     // console.log("profile image", newProfile);
     const location = {
       city: req.body.city,
