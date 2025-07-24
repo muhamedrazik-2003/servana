@@ -1,5 +1,4 @@
 const users = require("../models/userModel");
-// const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.userLogin = async (req, res) => {
@@ -36,7 +35,6 @@ exports.userRegister = async (req, res) => {
     if (userExist) {
       return res.status(409).json({ message: "User Already exists" });
     }
-    // const hashedPassword = await bcrypt.hash(password, 10); // for hashing
     const newUser = new users({
       fullName,
       email,
@@ -64,6 +62,41 @@ exports.userRegister = async (req, res) => {
       token,
     });
   } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log(id);
+    const newProfile = req.file.path || req.body.profile;
+    console.log(newProfile);
+    const location = {
+      city: req.body.city,
+      state: req.body.state,
+      pincode: req.body.pincode,
+    };
+    const { fullName, email, password, phone, dateOfBirth,gender } = req.body;
+    const updatedProfile = users.findByIdAndUpdate(userId, {
+      fullName,
+      dateOfBirth,
+      gender,
+      email,
+      password,
+      phone,
+      profilePicture: newProfile,
+      location,
+    });
+    if (!updatedProfile) {
+      res.status(404).json({ message: "User Not Found" });
+    }
+    res.status(200).json({
+      message: "User Updated successfully",
+      updatedService: updatedProfile,
+    });
+  } catch (error) {
+    console.error("UPDATE ERROR:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
