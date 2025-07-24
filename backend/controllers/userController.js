@@ -69,25 +69,31 @@ exports.userRegister = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    console.log(id);
+    // console.log("user id", userId);
     const newProfile = req.file.path || req.body.profile;
-    console.log(newProfile);
+    // console.log("profile image", newProfile);
     const location = {
       city: req.body.city,
       state: req.body.state,
       pincode: req.body.pincode,
     };
-    const { fullName, email, password, phone, dateOfBirth,gender } = req.body;
-    const updatedProfile = users.findByIdAndUpdate(userId, {
-      fullName,
-      dateOfBirth,
-      gender,
-      email,
-      password,
-      phone,
-      profilePicture: newProfile,
-      location,
-    });
+    // console.log("req. body recieved", req.body);
+    const { fullName, email, password, phone, dateOfBirth, gender } = req.body;
+    const updatedProfile = await users.findByIdAndUpdate(
+      userId,
+      {
+        fullName,
+        dateOfBirth,
+        gender,
+        email,
+        password,
+        phone,
+        profilePicture: newProfile,
+        location,
+      },
+      { new: true }
+    );
+    // console.log("updated data", updatedProfile);
     if (!updatedProfile) {
       res.status(404).json({ message: "User Not Found" });
     }
