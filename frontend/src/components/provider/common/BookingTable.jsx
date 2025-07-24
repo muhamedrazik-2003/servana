@@ -14,26 +14,41 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 const bookings = [
   {
     id: "1",
-    user: "John Doe",
+    user: "Arun Raj",
     date: "2025-07-20",
     service: "AC Repair",
     status: "confirmed",
   },
   {
     id: "2",
-    user: "Jane Smith",
+    user: "Divya Nair",
     date: "2025-07-19",
     service: "Plumbing",
     status: "completed",
   },
   {
     id: "3",
-    user: "Mark J.",
+    user: "Rahul Krishna",
     date: "2025-07-18",
     service: "Electrical",
     status: "cancelled",
-  }
+  },
+  {
+    id: "4",
+    user: "Sneha Pillai",
+    date: "2025-07-17",
+    service: "Home Cleaning",
+    status: "confirmed",
+  },
+  {
+    id: "5",
+    user: "Vishnu Das",
+    date: "2025-07-16",
+    service: "CCTV Installation",
+    status: "pending",
+  },
 ];
+
 
 export function BookingTable() {
   return (

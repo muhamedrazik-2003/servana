@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from "../../components/provider/common/ProviderSidebar"
 import ProviderHeader from '../../components/provider/common/ProviderHeader'
 import SummarySection from '../../components/provider/Dashboard/SummarySection';
@@ -16,6 +16,9 @@ function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
   const { services, isLoading, } = useSelector(state => state.serviceSlice);
 
+  useEffect(() => {
+
+  })
   return (
     <>
       <ProviderHeader page={'dashboard'} />
@@ -44,7 +47,12 @@ function ProviderDashboard() {
           </div>
 
           <div className='border rounded-3xl p-4'>
-            <h4 className='px-2 mb-2 text-accent'>Recent Bookings</h4>
+            <div className='flex justify-between items-center mb-3'>
+              <h4 className='px-2  text-accent'>Recent Bookings</h4>
+              <Link to={'/provider/bookings'}>
+                <Button variant={'outline'} size={'sm'} className={'h-8'}> View All Bookings</Button>
+              </Link>
+            </div>
             <BookingTable />
           </div>
 

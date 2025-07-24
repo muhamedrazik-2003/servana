@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 export default function SummarySection({ page }) {
   const { services } = useSelector(state => state.serviceSlice);
 
+  const totalBookings = services.reduce((prev, current) => prev + current.totalBookings, 0)
   const avgRating = Math.floor(services.reduce((prev, current) => prev + current.avgRating , 0)/services.length)
   console.log(avgRating)
 
@@ -20,7 +21,7 @@ export default function SummarySection({ page }) {
   const summaryItems = [
     {
       title: "Total Bookings",
-      value: "N/A",
+      value: `${totalBookings}`,
       icon: <ClipboardList className="text-primary size-6" />,
     },
     {

@@ -112,7 +112,7 @@ function ProfilePage() {
   return (
     <main>
       {role === "provider"
-        ? <ProviderHeader />
+        ? <ProviderHeader page={"profile"}/>
         : <SeekerHeader />
       }
 
@@ -121,7 +121,7 @@ function ProfilePage() {
         <Card className="relative flex flex-col items-center gap-6 p-3 bg-white  shadow-none border-0">
           {isEditing
             ? <>
-              <PenOff onClick={() => setIsEditing(false)} className="absolute top-2 right-[40%] size-5 text-primary" />
+              <PenOff onClick={() => setIsEditing(false)} className="absolute top-2 right-[30%] lg:right-[40%] size-5 text-primary" />
               <label htmlFor="profile" className="cursor-pointer">
                 <input onChange={(e) => handleImageChange(e.target.files[0])} type="file" name="profile" id="profile" className="hidden" />
                 <Avatar className='size-30 relative'>
@@ -134,7 +134,7 @@ function ProfilePage() {
             </>
 
             : <>
-              <ImagePlus onClick={() => setIsEditing(true)} className="absolute top-2 right-[40%] size-5 text-primary" />
+              <ImagePlus onClick={() => setIsEditing(true)} className="absolute top-2 right-[30%] lg:right-[40%] size-5 text-primary" />
 
               <Avatar className='size-30'>
                 <AvatarImage src={`${preview || userData.profilePicture}`} />
@@ -160,7 +160,7 @@ function ProfilePage() {
           ))}
         </div>
         <Separator className='my-16' />
-        <div className="grid grid-col-1 md:grid-cols-2 gap-12 mb-20">
+        <div className="grid grid-col-1 md:grid-cols-2 gap-12 mb-20 mx-4 lg:mx-0">
           <div className="space-y-2">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-semibold text-primary">Profile Details</h3>
@@ -173,7 +173,7 @@ function ProfilePage() {
 
             {/* Full Name */}
             <div className="flex items-center">
-              <p className="text-teal-500 w-[200px]">Full name</p>
+              <p className="text-teal-500 w-[180px] lg:w-[200px]">Full name</p>
               {isEditing ? (
                 <Input name="fullName" onChange={(e) => setUserData({ ...userData, fullName: e.target.value })} defaultValue={`${userData.fullName}`} placeholder="Full name" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
@@ -184,7 +184,7 @@ function ProfilePage() {
 
             {/* Date of Birth */}
             <div className="flex items-center">
-              <p className="text-teal-500 w-[200px]">Date of Birth</p>
+              <p className="text-teal-500 w-[180px] lg:w-[200px]">Date of Birth</p>
               {isEditing ? (
                 <Input name="dob" onChange={(e) => setUserData({ ...userData, dateOfBirth: e.target.value })} defaultValue={`${userData.dateOfBirth}`} placeholder="Date of Birth" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
@@ -195,7 +195,7 @@ function ProfilePage() {
 
             {/* Gender */}
             <div className="flex items-center">
-              <p className="text-teal-500 w-[200px]">Gender</p>
+              <p className="text-teal-500 w-[180px] lg:w-[200px]">Gender</p>
               {isEditing ? (
                 <Select onValueChange={(e) => setUserData({ ...userData, gender: e.target.value })} defaultValue={`${userData.gender}`}>
                   <SelectTrigger className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm">
@@ -215,14 +215,14 @@ function ProfilePage() {
 
             {/* Nationality */}
             <div className="flex items-center">
-              <p className="text-teal-500 w-[200px]">Nationality</p>
+              <p className="text-teal-500 w-[180px] lg:w-[200px]">Nationality</p>
               <p className="font-semibold text-start">Indian</p>
             </div>
             <Separator className="my-3" />
 
             {/* Address */}
             <div className="flex items-start gap-3">
-              <p className="text-teal-500 w-[200px] mt-2">Address</p>
+              <p className="text-teal-500 w-[180px] lg:w-[200px] mt-2">Address</p>
               {isEditing ? (
                 <div className="flex flex-col gap-2 w-full max-w-2xl">
                   <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, city: e.target.value } })} defaultValue={userData.location.city} placeholder="City" className="rounded-3xl bg-teal-50 px-3 py-1" />
@@ -237,7 +237,7 @@ function ProfilePage() {
 
             {/* Phone Number */}
             <div className="flex items-center">
-              <p className="text-teal-500 w-[200px]">Phone Number</p>
+              <p className="text-teal-500 w-[180px] lg:w-[200px]">Phone Number</p>
               {isEditing ? (
                 <Input onChange={(e) => setUserData({ ...userData, phone: e.target.value })} defaultValue={userData.phone} placeholder="Phone Number" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
@@ -248,7 +248,7 @@ function ProfilePage() {
 
             {/* Email Address */}
             <div className="flex items-center">
-              <p className="text-teal-500 w-[200px]">Email Address</p>
+              <p className="text-teal-500 w-[180px] lg:w-[200px]">Email Address</p>
               {isEditing ? (
                 <Input onChange={(e) => setUserData({ ...userData, email: e.target.value })} defaultValue={userData.email} placeholder="Email Address" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
@@ -261,29 +261,29 @@ function ProfilePage() {
             <div className="space-y-2">
               <h3 className="text-xl font-semibold text-primary mb-6">Account Details</h3>
               <div className="flex items-center">
-                <p className="text-teal-500 w-[200px]">Display Name</p>
+                <p className="text-teal-500 w-[180px] lg:w-[200px]">Display Name</p>
                 <p className="font-semibold text-start">{userData.fullName}</p>
               </div>
               <Separator className='my-3' />
               <div className="flex items-center">
-                <p className="text-teal-500 w-[200px]">Account Type</p>
+                <p className="text-teal-500 w-[180px] lg:w-[200px]">Account Type</p>
                 <Badge className={`text-foreground font-semibold ${role === "admin" ? "bg-primary text-white" : role === "provider" ? "bg-accent" : "bg-secondary"}`}>{userData.role}</Badge>
               </div>
               <Separator className='my-3' />
 
               <div className="flex items-center">
-                <p className="text-teal-500 w-[200px]">Account Created At</p>
+                <p className="text-teal-500 w-[180px] lg:w-[200px]">Account Created At</p>
                 <p className="font-semibold text-start">{userData.createdAt.slice(0, 10)}</p>
               </div>
               <Separator className='my-3' />
               <div className="flex items-center">
-                <p className="text-teal-500 w-[200px]">Account Updated At</p>
+                <p className="text-teal-500 w-[180px] lg:w-[200px]">Account Updated At</p>
                 <p className="font-semibold text-start">{userData.updatedAt.slice(0, 10)}</p>
               </div>
               <Separator className='my-3' />
 
               <div className="flex items-center">
-                <p className="text-teal-500 w-[200px]">Account Verfication</p>
+                <p className="text-teal-500 w-[180px] lg:w-[200px]">Account Verfication</p>
                 <Badge className={`${userData.isVerified ? "bg-green-200" : "bg-orange-200"} text-foreground font-semibold`}>{userData.isVerified ? "Verified" : "Not Verified"}</Badge>
               </div>
             </div>
@@ -297,7 +297,7 @@ function ProfilePage() {
                 )}
               </div>
               <div className="flex items-center">
-                <p className="text-teal-500 w-[200px]">Password</p>
+                <p className="text-teal-500 w-[180px] lg:w-[200px]">Password</p>
                 {isEditing ? (
                   <Input
                     type="password"

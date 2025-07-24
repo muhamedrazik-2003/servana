@@ -29,6 +29,9 @@ function ProviderHeader({ page }) {
                                 />
                             </div>
                         }
+                        {page === "profile"
+                        && <Link to="/" className="block px-3 py-1.5 text-sm rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
+                        }
 
                     </div>
 

@@ -2,6 +2,7 @@ import { Eye, BadgeCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getStatusClass } from "../../../lib/utils";
 import { Badge } from "../../ui/badge";
+import { Link } from "react-router-dom";
 
 
 export default function MiniServiceCard({ data }) {
@@ -19,6 +20,7 @@ export default function MiniServiceCard({ data }) {
       </div>
 
       {/* View Button */}
+      <Link to={`/provider/services/${data._id}`}>
       <Button
         variant="outline2"
         className="w-full gap-2 hover:bg-accent hover:border-accent"
@@ -27,6 +29,7 @@ export default function MiniServiceCard({ data }) {
         <Eye className="w-4 h-4" />
         View Details
       </Button>
+      </Link>
     </div>
   );
 }
