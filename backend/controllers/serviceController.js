@@ -66,15 +66,15 @@ exports.getUserServices = async (req, res) => {
       .status(200)
       .json({ message: "services of Provider retrieved", serviceList });
   } catch (error) {
-    res
-      .status(404)
-      .json({ message: "Failed to retrieve provider services", error });
+    console.error("UPDATE ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
   }
 };
 
 exports.updateService = async (req, res) => {
   try {
-    const { serviceId } = req.params;
+    const { id } = req.params;
+    console.log(id);
     const location = {
       city: req.body.city,
       state: req.body.state,
@@ -86,13 +86,12 @@ exports.updateService = async (req, res) => {
     if (!Array.isArray(existingImages)) {
       existingImages = [existingImages];
     }
-    const serviceImages = [...existingImages,...newImages];
-    console.log(serviceImages)
+    const serviceImages = [...existingImages, ...newImages];
+    console.log(serviceImages);
     const { title, description, category, subCategory, price, priceUnit } =
       req.body;
-
     const updatedData = await services.findByIdAndUpdate(
-      serviceId,
+      id,
       {
         title,
         description,
@@ -105,7 +104,7 @@ exports.updateService = async (req, res) => {
       },
       { new: true }
     );
-    console.log(updatedData)
+    console.log(updatedData);
     if (!updatedData) {
       res.status(404).json({ message: "Service Not Found" });
     }

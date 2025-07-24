@@ -50,15 +50,21 @@ export const getUserServices = createAsyncThunk(
 
 export const updateServices = createAsyncThunk(
   "serviceSlice/updateServices",
-  async (serviceData, { rejectWithValue }) => {
+  async ({serviceId, formData}, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${base_url}/services/update/:serviceId`, {
-        headers : {
-          Authorization : `token ${localStorage.getItem("token")}`
+      console.log(serviceId)
+      const response = await axios.put(
+        `${base_url}/services/update/${serviceId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `token ${localStorage.getItem("token")}`,
+          },
         }
-      })
-      console.log(response.data)
-
+      );
+      const { message, service } = response.data;
+      console.log("Service added successfully:", response.data);
+      return { message, service };
     } catch (error) {
       console.error(error);
       return rejectWithValue({
@@ -110,10 +116,10 @@ const serviceSlice = createSlice({
       state.isUpdating = false;
       state.error = action.payload?.message || "Failed to add service";
     });
-    
+
     // update service
     builder.addCase(updateServices.fulfilled, (state, action) => {
-      // state.services.push(action.payload.service);
+      state.services.push(action.payload.service);
       state.isUpdating = false;
       state.error = null;
       state.successResponse = action.payload.message;

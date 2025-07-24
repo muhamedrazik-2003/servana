@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { ImagePlus } from "lucide-react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
 import { useEffect, useState } from "react";
 import Footer from "../../components/common/Footer";
@@ -36,7 +36,7 @@ function AddEditServiceForm() {
   const { isUpdating, successResponse } = useSelector(state => state.serviceSlice);
   const { services, isLoading, error } = useSelector(state => state.serviceSlice);
   const currentService = services.find(service => service._id === serviceId);
-
+  const navigate = useNavigate();
   const [serviceImages, setServiceImages] = useState(formFormat === "addForm" ?
     [] : [...currentService.images]
   )
@@ -91,12 +91,12 @@ function AddEditServiceForm() {
       ];
       let imageNotAllowed = false
       serviceImages.forEach(image => {
-        if (!allowedTypes.includes(image.type)) {
+        if (typeof image !== "string" && !allowedTypes.includes(image?.type)) {
           imageNotAllowed = true;
         }
       })
       if (imageNotAllowed) {
-        toast.error("only .jpg, jpeg, png, webp and  avif type images are accepted");
+        return toast.error("only .jpg, jpeg, png, webp and  avif type images are accepted");
       }
 
       console.log(serviceImages)
@@ -116,34 +116,61 @@ function AddEditServiceForm() {
           formData.append("images", image);
         }
       })
-      console.log(formData)
-      if (formFormat === "addForm") {
-        const response = await dispatch(addService(formData));
-      } else {
-        // const updateResponse = await dispatch(updateServices(formData));
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
       }
 
-      if (addService.fulfilled.match(response)) {
-        toast.success("Service added successfully!")
+      if (formFormat === "addForm") {
+        const response = await dispatch(addService(formData));
 
-        setServiceData({
-          title: "",
-          description: "",
-          category: "",
-          subCategory: "",
-          price: "",
-          priceUnit: "hour",
-          location: {
-            city: "",
-            state: "",
-            pincode: ""
-          }
-        });
+        if (addService.fulfilled.match(response)) {
+          toast.success("Service added successfully!")
 
-        setServiceImages([]);
-        setPreviews([]);
-      } else if (addService.rejected.match(response)) {
-        toast.error(response.payload?.message || "Something went wrong while adding the service");
+          setServiceData({
+            title: "",
+            description: "",
+            category: "",
+            subCategory: "",
+            price: "",
+            priceUnit: "hour",
+            location: {
+              city: "",
+              state: "",
+              pincode: ""
+            }
+          });
+          navigate(`/provider/services/${response.payload.service._id}`)
+          setServiceImages([]);
+          setPreviews([]);
+          return;
+        } else if (addService.rejected.match(response)) {
+          return toast.error(response.payload?.message || "Something went wrong while adding the service");
+        }
+      } else {
+        const response = await dispatch(updateServices({ serviceId, formData }));
+        if (updateServices.fulfilled.match(response)) {
+          toast.success("Service Updated successfully!")
+
+          setServiceData({
+            title: "",
+            description: "",
+            category: "",
+            subCategory: "",
+            price: "",
+            priceUnit: "hour",
+            location: {
+              city: "",
+              state: "",
+              pincode: ""
+            }
+          });
+          navigate(`/provider/services/${serviceId}`)
+          setServiceImages([]);
+          setPreviews([]);
+          return;
+        } else if (updateServices.rejected.match(response)) {
+          return toast.error(response.payload?.message || "Something went wrong while Updating the service");
+        }
       }
 
       console.log("Response:", response);

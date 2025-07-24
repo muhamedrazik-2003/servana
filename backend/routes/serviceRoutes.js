@@ -5,7 +5,7 @@ const { servicesUpload } = require("../middlewares/multer");
 const serviceController = require("../controllers/serviceController");
 
 router.post("/add", jwt, servicesUpload.array("images", 6), serviceController.addService);
-router.put("/update/:serviceId", jwt, servicesUpload.array("images", 6), serviceController.updateService);
+router.put("/update/:id", jwt, servicesUpload.array("images", 6), serviceController.updateService);
 router.get("/", jwt, serviceController.getUserServices);
 
 
