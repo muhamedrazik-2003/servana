@@ -42,12 +42,12 @@ export default function SummarySection({ page }) {
       ? []
       : [{
         title: "Ongoing Bookings",
-        value: "8",
+        value: "N/A",
         icon: <Hourglass className="text-primary size-6" />,
       },
       {
         title: "Completed Bookings",
-        value: "100",
+        value: "N/A",
         icon: <BadgeCheck className="text-primary size-6" />,
       },])
   ];

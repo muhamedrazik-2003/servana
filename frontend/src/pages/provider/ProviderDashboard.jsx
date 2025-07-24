@@ -33,9 +33,11 @@ function ProviderDashboard() {
             <div className='flex items-center justify-end gap-3 pb-4 px-4'>
               <p className={`flex items-center gap-3 justify-end border p-1.5 px-4 rounded-3xl ${isAvailableToWork ? "text-green-500 bg-gray-50" : " text-slate-700"}`}>
                 {isAvailableToWork ? "Open to Work" : "Not Open to Work"}
-                <Switch id="toggle-visibility" checked={isAvailableToWork} onCheckedChange={setIsAvailableToWork} />
+                <Switch disabled={true} id="toggle-visibility" checked={isAvailableToWork} onCheckedChange={setIsAvailableToWork} />
               </p>
-              <Button variant={'outline'} className={'border border-accent'}> <Plus />Add New Service</Button>
+              <Link to={'/provider/services/new'}>
+                <Button variant={'outline'} className={'border border-accent'}> <Plus />Add New Service</Button>
+              </Link>
             </div>
 
             <BookingStatusChart />
