@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select"
 import { useLocation } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
-import { ro } from "date-fns/locale/ro";
+import { useSelector } from "react-redux";
 
 const bookingStats = [
   { label: "Total Bookings", value: 12 },
@@ -28,6 +28,11 @@ const bookingStats = [
 ];
 function ProfilePage() {
   const { pathname } = useLocation();
+  const { user } = useSelector(state => state.userSlice);
+  const userDataFallback = JSON.parse(sessionStorage.getItem('user'));
+  const [userData, setUserData] = useState(user?.length > 0 ? user : userDataFallback);
+  console.log(userData)
+  console.log(userDataFallback)
   let role = ""
 
   if (pathname.includes('/provider')) {
@@ -38,6 +43,21 @@ function ProfilePage() {
     role = "seeker"
   }
   const [isEditing, setIsEditing] = useState(false)
+
+  const userSplited = user?.fullName?.trim().split(" ") || [];
+  const firstInitial = userSplited[0]?.[0] || "";
+  const secondInitial = userSplited[1]?.[0] || "";
+
+  const userFallback = (firstInitial + secondInitial).toUpperCase();
+
+  const handleUpdate =  async() => {
+    try {
+
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast.error("An unexpected error occurred");
+    }
+  }
   return (
     <main>
       {role === "provider"
@@ -55,8 +75,8 @@ function ProfilePage() {
                 <input type="file" name="profile" id="profile" className="hidden" />
                 <Avatar className='size-30 relative'>
                   <ImagePlus className="absolute top-[50%] left-[50%] -translate-[50%] size-30 text-violet-300 rounded-full border-violet-400 bg-gray-600 border-2 p-10" />
-                  <AvatarImage src="https://github.com/shadcn.png" className='opacity-30' />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src={`${userData.profilePicture}`} className='opacity-30' />
+                  <AvatarFallback>{userFallback}</AvatarFallback>
                 </Avatar>
               </label>
 
@@ -66,22 +86,22 @@ function ProfilePage() {
               <ImagePlus onClick={() => setIsEditing(true)} className="absolute top-2 right-[40%] size-5 text-primary" />
 
               <Avatar className='size-30'>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={`${userData.profilePicture}`} />
+                <AvatarFallback>{userFallback}</AvatarFallback>
               </Avatar>
             </>
           }
 
 
           <div className="text-center">
-            <h4 className="text-2xl font-semibold text-gray-800">Muhamed Razik</h4>
-            <p className="text-gray-500 text-sm">muhamedrazik@email.com</p>
-            <p className="text-gray-500 text-sm">+91 98765 43210</p>
+            <h4 className="text-2xl font-semibold text-gray-800">{userData.fullName}</h4>
+            <p className="text-gray-500 text-sm">{userData.email}</p>
+            <p className="text-gray-500 text-sm">{userData.phone}</p>
           </div>
 
         </Card>
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          {bookingStats.map((stat) => (
+          {bookingStats?.map((stat) => (
             <div key={stat.label} className="flex items-center gap-2 place-content-center text-center border rounded-full py-3">
               <p className="text-xl font-bold text-violet-600 inline-block">{stat.value}</p>
               <p className="text-gray-500 text-sm">{stat.label}</p>
@@ -104,9 +124,9 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Full name</p>
               {isEditing ? (
-                <Input name="fullName" placeholder="Full name" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
+                <Input name="fullName" defaultValue={`${userData.fullName}`} placeholder="Full name" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
-                <p className="font-semibold text-start">Muhamed Razik</p>
+                <p className="font-semibold text-start">{userData.fullName}</p>
               )}
             </div>
             <Separator className="my-3" />
@@ -115,9 +135,9 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Date of Birth</p>
               {isEditing ? (
-                <Input name="dob" placeholder="Date of Birth" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
+                <Input name="dob" defaultValue={`${userData.dateOfBirth}`} placeholder="Date of Birth" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
-                <p className="font-semibold text-start">Not Provided</p>
+                <p className="font-semibold text-start">{userData.dateOfBirth}</p>
               )}
             </div>
             <Separator className="my-3" />
@@ -126,18 +146,18 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Gender</p>
               {isEditing ? (
-                <Select>
+                <Select defaultValue={`${userData.gender}`}>
                   <SelectTrigger className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm">
                     <SelectValue placeholder="Gender" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="Male">Male</SelectItem>
+                    <SelectItem value="Female">Female</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
               ) : (
-                <p className="font-semibold text-start">Not Set</p>
+                <p className="font-semibold text-start">{userData?.gender}</p>
               )}
             </div>
             <Separator className="my-3" />
@@ -154,12 +174,12 @@ function ProfilePage() {
               <p className="text-teal-500 w-[200px] mt-2">Address</p>
               {isEditing ? (
                 <div className="flex flex-col gap-2 w-full max-w-2xl">
-                  <Input placeholder="City" className="rounded-3xl bg-teal-50 px-3 py-1" />
-                  <Input placeholder="State" className="rounded-3xl bg-teal-50 px-3 py-1" />
-                  <Input placeholder="PIN Code" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                  <Input defaultValue={userData.location.city} placeholder="City" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                  <Input defaultValue={userData.location.state} placeholder="State" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                  <Input defaultValue={userData.location.pincode} placeholder="PIN Code" className="rounded-3xl bg-teal-50 px-3 py-1" />
                 </div>
               ) : (
-                <p className="font-semibold text-start">Nadakkav, Calicut</p>
+                <p className="font-semibold text-start">{`${userData.location.city}, ${userData.location.state}, ${userData.location.pincode}`}</p>
               )}
             </div>
             <Separator className="my-3" />
@@ -168,9 +188,9 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Phone Number</p>
               {isEditing ? (
-                <Input placeholder="Phone Number" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
+                <Input defaultValue={userData.phone} placeholder="Phone Number" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
-                <p className="font-semibold text-start">938567478</p>
+                <p className="font-semibold text-start">{userData.phone}</p>
               )}
             </div>
             <Separator className="my-3" />
@@ -179,9 +199,9 @@ function ProfilePage() {
             <div className="flex items-center">
               <p className="text-teal-500 w-[200px]">Email Address</p>
               {isEditing ? (
-                <Input placeholder="Email Address" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
+                <Input defaultValue={userData.email} placeholder="Email Address" className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm" />
               ) : (
-                <p className="font-semibold text-start">muhemed@gmail.com</p>
+                <p className="font-semibold text-start">{userData.email}</p>
               )}
             </div>
           </div>
@@ -191,24 +211,29 @@ function ProfilePage() {
               <h3 className="text-xl font-semibold text-primary mb-6">Account Details</h3>
               <div className="flex items-center">
                 <p className="text-teal-500 w-[200px]">Display Name</p>
-                <p className="font-semibold text-start">Muhamed Razik</p>
+                <p className="font-semibold text-start">{userData.fullName}</p>
               </div>
               <Separator className='my-3' />
               <div className="flex items-center">
                 <p className="text-teal-500 w-[200px]">Account Type</p>
-                <Badge className={'bg-secondary text-foreground font-semibold'}>Seeker</Badge>
+                <Badge className={`text-foreground font-semibold ${role === "admin" ? "bg-primary text-white" : role === "provider" ? "bg-accent" : "bg-secondary"}`}>{userData.role}</Badge>
               </div>
               <Separator className='my-3' />
 
               <div className="flex items-center">
                 <p className="text-teal-500 w-[200px]">Account Created At</p>
-                <p className="font-semibold text-start">12 june 2025</p>
+                <p className="font-semibold text-start">{userData.createdAt.slice(0,10)}</p>
+              </div>
+              <Separator className='my-3' />
+              <div className="flex items-center">
+                <p className="text-teal-500 w-[200px]">Account Updated At</p>
+                <p className="font-semibold text-start">{userData.updatedAt.slice(0,10)}</p>
               </div>
               <Separator className='my-3' />
 
               <div className="flex items-center">
                 <p className="text-teal-500 w-[200px]">Account Verfication</p>
-                <Badge className={'bg-green-200 text-foreground font-semibold'}>Verifired</Badge>
+                <Badge className={`${userData.isVerified ? "bg-green-200" : "bg-orange-200"} text-foreground font-semibold`}>{userData.isVerified ? "Verified" : "Not Verified"}</Badge>
               </div>
             </div>
             <div className="space-y-2">
@@ -225,6 +250,7 @@ function ProfilePage() {
                 {isEditing ? (
                   <Input
                     type="password"
+                    defaultValue={userData.password}
                     placeholder="New Password"
                     className="rounded-3xl bg-teal-50 px-3 py-1 w-full max-w-sm"
                   />
@@ -239,7 +265,7 @@ function ProfilePage() {
         {isEditing
           && <div className="fixed bottom-10 right-14 flex flex-col gap-2">
             <Button onClick={() => setIsEditing(false)} variant='outline2' className='bg-background'>Cancel</Button>
-            <Button>Update</Button>
+            <Button onClick={handleUpdate}>Update</Button>
           </div>
         }
       </div>

@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from "react"
-import { loginUser, registerUser } from "../../redux/slices/authSlice"
+import { loginUser, registerUser } from "../../redux/slices/userSlice"
 import { toast } from "sonner"
 
 
@@ -15,7 +15,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { error, isLoading } = useSelector(state => state.authSlice);
+    const { error, isLoading } = useSelector(state => state.userSlice);
 
     useEffect(() => {
         if (userData.role === null && registerAs !== null) {

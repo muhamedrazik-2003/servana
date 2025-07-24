@@ -15,11 +15,7 @@ exports.userLogin = async (req, res) => {
     const token = jwt.sign({ userId: userExist._id }, process.env.SECRET_KEY);
     res.status(200).json({
       message: "Login Success",
-      user: {
-        id: userExist._id,
-        fullName: userExist.fullName,
-        role: userExist.role,
-      },
+      user: userExist,
       token,
     });
   } catch (error) {
@@ -54,11 +50,7 @@ exports.userRegister = async (req, res) => {
     const token = jwt.sign({ userId: newUser._id }, process.env.SECRET_KEY);
     res.status(201).json({
       message: "Registration Success",
-      user: {
-        id: newUser._id,
-        fullName: newUser.fullName,
-        role: newUser.role,
-      },
+      user: newUser,
       token,
     });
   } catch (error) {
@@ -79,7 +71,7 @@ exports.updateUser = async (req, res) => {
     };
     // console.log("req. body recieved", req.body);
     const { fullName, email, password, phone, dateOfBirth, gender } = req.body;
-    const updatedProfile = await users.findByIdAndUpdate(
+    const updatedUser = await users.findByIdAndUpdate(
       userId,
       {
         fullName,
@@ -94,12 +86,12 @@ exports.updateUser = async (req, res) => {
       { new: true }
     );
     // console.log("updated data", updatedProfile);
-    if (!updatedProfile) {
+    if (!updatedUser) {
       res.status(404).json({ message: "User Not Found" });
     }
     res.status(200).json({
       message: "User Updated successfully",
-      updatedService: updatedProfile,
+      updatedService: updatedUser,
     });
   } catch (error) {
     console.error("UPDATE ERROR:", error);

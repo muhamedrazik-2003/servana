@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import AuthForm from '../../components/common/AuthForm'
 import Logo from "../../assets/images/logo.png"
 import { useSearchParams } from 'react-router-dom'
-import { clearError } from '../../redux/slices/authSlice'
+import { clearError } from '../../redux/slices/userSlice'
 import { useDispatch } from 'react-redux'
 
 function Auth() {
