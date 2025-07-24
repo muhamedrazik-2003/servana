@@ -7,7 +7,7 @@ export const getCategories = createAsyncThunk(
   async () => {
     const response = await axios.get(`${base_url}/categories`);
     const { message, categoriesList } = response.data;
-    console.log(categoriesList);
+    // console.log(categoriesList);
     return { message, categoriesList };
   }
 );

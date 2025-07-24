@@ -9,7 +9,7 @@ import ProviderHeader from "../../components/provider/common/ProviderHeader";
 import { useEffect, useState } from "react";
 import Footer from "../../components/common/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { addService } from "../../redux/slices/serviceSlice";
+import { addService, updateServices } from "../../redux/slices/serviceSlice";
 import { getCategories, getCurrentSubCategories } from "../../redux/slices/categorySlice";
 import { toast } from "sonner";
 
@@ -17,11 +17,10 @@ function AddEditServiceForm() {
   // common
   const [showCustomSub, setShowCustomSub] = useState(false)
   const [priceUnit, setPriceUnit] = useState('hour')
-  const [serviceImages, setServiceImages] = useState([])
   const [previews, setPreviews] = useState([])
-
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const { serviceId } = useParams();
 
   useEffect(() => {
     dispatch(getCategories())
@@ -35,11 +34,12 @@ function AddEditServiceForm() {
   // edit form
   const { categories, currentSubCategories } = useSelector(state => state.categorySlice);
   const { isUpdating, successResponse } = useSelector(state => state.serviceSlice);
-  const { serviceId } = useParams();
-
   const { services, isLoading, error } = useSelector(state => state.serviceSlice);
   const currentService = services.find(service => service._id === serviceId);
 
+  const [serviceImages, setServiceImages] = useState(formFormat === "addForm" ?
+    [] : [...currentService.images]
+  )
   const [serviceData, setServiceData] = useState(formFormat === "addForm" ?
     {
       title: "",
@@ -71,69 +71,86 @@ function AddEditServiceForm() {
   };
 
   const handleSubmit = async () => {
-    console.log(serviceData)
-    const { title, description, category, subCategory, price, priceUnit, location: { city, state, pincode } } = serviceData;
-    if (!title || !description || !category || !subCategory || !price || !city || !priceUnit || !state || !pincode) return toast.warning("All Values Are needed")
+    try {
+      console.log(serviceData)
+      const { title, description, category, subCategory, price, priceUnit, location: { city, state, pincode } } = serviceData;
+      if (!title || !description || !category || !subCategory || !price || !city || !priceUnit || !state || !pincode) return toast.warning("All fields Are required")
 
-    const allowedTypes = [
-      "image/jpeg", // .jpg, .jpeg
-      "image/png",  // .png
-      "image/webp", // .webp
-      "image/avif"  // .avif
-    ];
-    let imageNotAllowed = false
-    serviceImages.forEach(image => {
-      if (!allowedTypes.includes(image.type)) {
-        imageNotAllowed = true;
-      }
-    })
-    if(imageNotAllowed) {
-        toast.error("only .jpg, jpeg, png, webp and  avif type images are accepted");
-    }
-
-    console.log(serviceImages)
-    const formData = new FormData();
-    formData.append('title', serviceData.title);
-    formData.append('description', serviceData.description);
-    formData.append('category', serviceData.category);
-    formData.append('subCategory', serviceData.subCategory);
-    formData.append("price", serviceData.price);
-    formData.append("priceUnit", serviceData.priceUnit);
-    formData.append("city", serviceData.location.city);
-    formData.append("state", serviceData.location.state);
-    formData.append("pincode", serviceData.location.pincode);
-    serviceImages.forEach(image => {
-      if (image) {
-        formData.append("images", image);
-      }
-    })
-    console.log(formData)
-    const response = await dispatch(addService(formData));
-
-    if (response?.payload?.message === "Service Added Successfully") {
-      toast.success("Service added successfully!");
-
-      setServiceData({
-        title: "",
-        description: "",
-        category: "",
-        subCategory: "",
-        price: "",
-        priceUnit: "hour",
-        location: {
-          city: "",
-          state: "",
-          pincode: ""
+      if (formFormat === "addForm") {
+        const hasImages = serviceImages.some(image => image !== undefined && image !== null);
+        if (!hasImages) {
+          return toast.warning("Please upload at least one image");
         }
-      });
+      }
 
-      setServiceImages([]);
-      setPreviews([]);
-    } else if (response?.error) {
-      toast.error("Something went wrong while adding the service.");
+      const allowedTypes = [
+        "image/jpeg", // .jpg, .jpeg
+        "image/png",  // .png
+        "image/webp", // .webp
+        "image/avif"  // .avif
+      ];
+      let imageNotAllowed = false
+      serviceImages.forEach(image => {
+        if (!allowedTypes.includes(image.type)) {
+          imageNotAllowed = true;
+        }
+      })
+      if (imageNotAllowed) {
+        toast.error("only .jpg, jpeg, png, webp and  avif type images are accepted");
+      }
+
+      console.log(serviceImages)
+      const formData = new FormData();
+      formData.append('title', serviceData.title);
+      formData.append('description', serviceData.description);
+      formData.append('category', serviceData.category);
+      formData.append('subCategory', serviceData.subCategory);
+      formData.append("price", serviceData.price);
+      formData.append("priceUnit", serviceData.priceUnit);
+      formData.append("city", serviceData.location.city);
+      formData.append("state", serviceData.location.state);
+      formData.append("pincode", serviceData.location.pincode);
+
+      serviceImages.forEach(image => {
+        if (image) {
+          formData.append("images", image);
+        }
+      })
+      console.log(formData)
+      if (formFormat === "addForm") {
+        const response = await dispatch(addService(formData));
+      } else {
+        // const updateResponse = await dispatch(updateServices(formData));
+      }
+
+      if (addService.fulfilled.match(response)) {
+        toast.success("Service added successfully!")
+
+        setServiceData({
+          title: "",
+          description: "",
+          category: "",
+          subCategory: "",
+          price: "",
+          priceUnit: "hour",
+          location: {
+            city: "",
+            state: "",
+            pincode: ""
+          }
+        });
+
+        setServiceImages([]);
+        setPreviews([]);
+      } else if (addService.rejected.match(response)) {
+        toast.error(response.payload?.message || "Something went wrong while adding the service");
+      }
+
+      console.log("Response:", response);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast.error("An unexpected error occurred");
     }
-
-    console.log(response)
   }
 
   return (
@@ -145,7 +162,7 @@ function AddEditServiceForm() {
           {
             formFormat === "addForm"
               ? <Button onClick={handleSubmit} disabled={isUpdating} className="px-6 bg-accent hover:bg-orange-500">{isUpdating ? "Adding Service" : "Publish Service"}</Button>
-              : <Button disabled={isUpdating} className="px-6 bg-accent hover:bg-orange-500">Update Service</Button>
+              : <Button onClick={handleSubmit} disabled={isUpdating} className="px-6 bg-accent hover:bg-orange-500">Update Service</Button>
           }
         </div>
 
@@ -158,7 +175,7 @@ function AddEditServiceForm() {
               <Label htmlFor="title" className="text-accent text-base font-semibold mb-3">Service Title</Label>
               <Input
                 id="title"
-                defaultValue={serviceData.title}
+                value={serviceData.title}
                 onChange={(e) => setServiceData({ ...serviceData, title: e.target.value })}
                 placeholder="Enter service title"
                 className="rounded-3xl bg-orange-50 px-3 py-1 w-full"
@@ -206,7 +223,7 @@ function AddEditServiceForm() {
 
                 <Select
                   value={serviceData.subCategory}
-                  disabled={showCustomSub || serviceData.category.length === 0}
+                  disabled={showCustomSub || serviceData?.category?.length === 0}
                   onValueChange={(value) => setServiceData({ ...serviceData, subCategory: value })}>
                   <SelectTrigger className="w-full rounded-3xl bg-orange-50 px-3 py-1">
                     <SelectValue placeholder="Choose a subcategory" />

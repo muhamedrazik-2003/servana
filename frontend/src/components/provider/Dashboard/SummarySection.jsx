@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 export default function SummarySection({ page }) {
   const { services } = useSelector(state => state.serviceSlice);
 
-  const avgRating = services.reduce((prev, current) => prev + current.avgRating , 0)/services.length
+  const avgRating = Math.floor(services.reduce((prev, current) => prev + current.avgRating , 0)/services.length)
   console.log(avgRating)
 
   // const totalBookings = services.reduce(())
