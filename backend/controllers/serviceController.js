@@ -66,7 +66,7 @@ exports.getUserServices = async (req, res) => {
       .status(200)
       .json({ message: "services of Provider retrieved", serviceList });
   } catch (error) {
-    console.error("UPDATE ERROR:", error);
+    console.error("RETRIEVAL ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
   }
 };
@@ -108,12 +108,29 @@ exports.updateService = async (req, res) => {
     if (!updatedData) {
       res.status(404).json({ message: "Service Not Found" });
     }
-    res
-      .status(200)
-      .json({ message: "Service Updated successfully", service: updatedData });
+    res.status(200).json({
+      message: "Service Updated successfully",
+      updatedService: updatedData,
+    });
   } catch (error) {
-    res
-      .status(404)
-      .json({ message: "Failed to update provider services", error });
+    console.error("UPDATE ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
+exports.deleteService = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedData = await services.findByIdAndDelete(id);
+    if (!deletedData) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+    res.status(200).json({
+      message: "Service Deleted successfully",
+      deletedService: deletedData,
+    });
+  } catch (error) {
+    console.error("DELETE ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
   }
 };

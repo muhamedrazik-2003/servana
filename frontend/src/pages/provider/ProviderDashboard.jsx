@@ -9,12 +9,16 @@ import BookingStatusChart from '../../components/provider/Dashboard/BookingStatu
 import { BookingTable } from '../../components/provider/common/BookingTable';
 import MiniServiceCard from '../../components/provider/common/miniServiceCard';
 import MiniReviewCard from '../../components/provider/common/miniReviewCard';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
+  const { services, isLoading, } = useSelector(state => state.serviceSlice);
+
   return (
     <>
-      <ProviderHeader page={'dashboard'}/>
+      <ProviderHeader page={'dashboard'} />
       <main className="flex p-4 pt-0 gap-6">
         {/* Sidebar */}
         <div className="">
@@ -44,17 +48,28 @@ function ProviderDashboard() {
 
           <div>
             <div>
-              <h4 className='px-2 mb-2 text-accent'>My services</h4>
+              <div className='flex items-center justify-between'>
+                <h4 className='px-2 mb-2 text-accent'>My services</h4>
+                <Link to={'/provider/services'}>
+                  <Button variant={'outline'} size={'sm'} className={'h-6'}> View Services</Button>
+                </Link>
+              </div>
               <div className='overflow-x-auto flex gap-2 scrollbar-none'>
-                <MiniServiceCard />
-                <MiniServiceCard />
-                <MiniServiceCard />
-                <MiniServiceCard />
+                {
+                  services.map(serivce => (
+                    <MiniServiceCard data={serivce} />
+
+                  ))
+                }
               </div>
             </div>
             <div className='h-30'>
-              <h4 className='px-2 my-2 text-accent'>Most Recent Review</h4>
-
+              <div className='flex items-center justify-between'>
+                <h4 className='px-2 mb-2 text-accent'>Most recent Reviews</h4>
+                <Link to={'/provider/reviews'}>
+                  <Button variant={'outline'} size={'sm'} className={'h-6'}> View Reviews</Button>
+                </Link>
+              </div>
               <div className='flex flex-col gap-2 overflow-y-auto scrollbar-none h-full px-2'>
                 <MiniReviewCard
                   name="Arjun S."

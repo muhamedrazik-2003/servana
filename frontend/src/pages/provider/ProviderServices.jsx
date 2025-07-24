@@ -18,7 +18,7 @@ import { getUserServices } from '../../redux/slices/serviceSlice'
 function MyServices() {
   const { services, isLoading, } = useSelector(state => state.serviceSlice);
   const dispatch = useDispatch();
-  console.log(services)
+  // console.log(services)
   useEffect(() => {
     dispatch(getUserServices());
   },[])

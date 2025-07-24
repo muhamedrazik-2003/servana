@@ -6,6 +6,7 @@ const serviceController = require("../controllers/serviceController");
 
 router.post("/add", jwt, servicesUpload.array("images", 6), serviceController.addService);
 router.put("/update/:id", jwt, servicesUpload.array("images", 6), serviceController.updateService);
+router.delete("/delete/:id", jwt, serviceController.deleteService);
 router.get("/", jwt, serviceController.getUserServices);
 
 

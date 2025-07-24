@@ -5,16 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Footer from "../../components/common/Footer";
-import { ClipboardList, CreditCard, MapPin, MessageSquare, Star } from "lucide-react";
+import { ClipboardList, CreditCard, LoaderCircle, MapPin, MessageSquare, Star } from "lucide-react";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "../../components/ui/badge";
 import { getStatusClass } from "../../lib/utils";
+import { deleteService } from "../../redux/slices/serviceSlice";
+import { toast } from "sonner";
 
 const ServiceDetail = () => {
   const { pathname } = useLocation();
   const { serviceId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   let role = ""
 
@@ -26,27 +30,38 @@ const ServiceDetail = () => {
     role = "seeker"
   }
 
-  const { services, isLoading, } = useSelector(state => state.serviceSlice);
+  const { services, isDeleting } = useSelector(state => state.serviceSlice);
   const currentService = services.find(service => service._id === serviceId);
-  console.log(currentService)
+  // console.log(currentService)
 
   const summaryItems = [
     {
       title: "Total Bookings",
-      value: `${currentService.totalBookings > 0 ? currentService.totalBookings : "Not Available"}`,
+      value: `${currentService?.totalBookings > 0 ? currentService.totalBookings : "Not Available"}`,
       icon: <ClipboardList className="text-primary size-6" />,
     },
     {
       title: "Total Reviews",
-      value: `${currentService.totalReviews > 0 ? currentService.totalReviews : "Not Available"}`,
+      value: `${currentService?.totalReviews > 0 ? currentService.totalReviews : "Not Available"}`,
       icon: <MessageSquare className="text-primary size-6" />,
     },
     {
       title: "Average Rating",
-      value: `${currentService.avgRating > 0 ? currentService.avgRating : "Not Available"}`,
+      value: `${currentService?.avgRating > 0 ? currentService.avgRating : "Not Available"}`,
       icon: <Star className="text-yellow-400 size-6" />,
     },
   ];
+  const handleDelete = async () => {
+    const response = await dispatch(deleteService(serviceId));
+    if (deleteService.fulfilled.match(response)) {
+      toast.success("Service Delete successfully!");
+      navigate('/provider/services');
+      return;
+    } else if (deleteService.rejected.match(response)) {
+      return toast.error(response.payload?.message || "Something went wrong while Deleting the service");
+
+    }
+  }
   return (
     <main>
       <SeekerHeader />
@@ -55,7 +70,7 @@ const ServiceDetail = () => {
         <div className="space-y-8">
           {/* Service Header */}
           <div className="space-y-2">
-            <h1 className="text-4xl text-start">{currentService.title}</h1>
+            <h1 className="text-4xl text-start">{currentService?.title}</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs">Cleaning</span>
               {role === "seeker"
@@ -74,9 +89,9 @@ const ServiceDetail = () => {
               {role === "seeker"
                 ? <p className="font-medium flex items-center gap-2">
                   <MapPin className="size-4.5" />
-                  From {`${currentService.location.city}, ${currentService.location.state}, ${currentService.location.pincode}`}
+                  From {`${currentService?.location?.city}, ${currentService?.location?.state}, ${currentService?.location?.pincode}`}
                 </p>
-                : <Badge className={getStatusClass(currentService.status)}>{currentService.status}</Badge>
+                : <Badge className={getStatusClass(currentService?.status)}>{currentService?.status}</Badge>
 
               }
 
@@ -168,8 +183,8 @@ const ServiceDetail = () => {
         {/* RIGHT COLUMN */}
         {role === "provider"
           ? <div className="space-y-6 sticky top-24 h-fit p-5">
-            {summaryItems.map((item, index) => (
-              <div className="flex items-center gap-4 border rounded-3xl py-5 px-6">
+            {summaryItems?.map((item, index) => (
+              <div key={index} className="flex items-center gap-4 border rounded-3xl py-5 px-6">
                 <div className="rounded-full">{item.icon}</div>
                 <div>
                   <p className="text-sm text-muted-foreground">{item.title}</p>
@@ -178,10 +193,16 @@ const ServiceDetail = () => {
               </div>
             ))}
             <div className="flex flex-col gap-2 mt-15">
-              <Link to={`/provider/services/update/${currentService._id}`}>
+              <Link to={`/provider/services/update/${currentService?._id}`}>
                 <Button className='w-full'>Edit This Service</Button>
               </Link>
-              <Button variant='destructive' className='w-full'>Delete This Service</Button>
+              <Button onClick={handleDelete} variant='destructive' className='w-full'>
+                {isDeleting
+                  ? <>
+                    <LoaderCircle className="animate-spin" />"Deleting"
+                  </>
+                  : "Delete This Service"}
+              </Button>
               <Button variant='outline2' className='w-full border-accent text-black hover:bg-accent hover:border-accent'>Disable This Service</Button>
             </div>
 
@@ -212,7 +233,7 @@ const ServiceDetail = () => {
             </div>
 
             <div className="text-sm text-muted-foreground">
-              Total Price: <span className="font-semibold text-foreground">₹1499</span>
+              Total Price: <span className="font-semibold text-foreground">{`${currentService?.price} per ${currentService?.priceUnit}`}</span>
               <span className="text-xs block text-accent">(Amount Can increse Based on Job Details)</span>
             </div>
             <div className="text-sm text-muted-foreground">
