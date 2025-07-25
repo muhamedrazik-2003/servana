@@ -20,6 +20,7 @@ import NotFound from "./pages/common/NotFound"
 import AddEditServiceForm from "./pages/provider/AddEditServiceForm"
 import ProviderEarning from "./pages/provider/ProviderEarning"
 import { Reviews } from "./pages/provider/Reviews"
+import AdminDashboard from "./pages/admin/Dashboard"
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
         <Route path="/provider/earnings" element={<ProviderEarning />} />
         <Route path="/provider/reviews" element={<Reviews />} />
       
+        <Route path="/admin/dashboard" element={<AdminDashboard/>} />
       </Routes>
       <Toaster toastOptions={{
         style: { borderRadius: "32px" },

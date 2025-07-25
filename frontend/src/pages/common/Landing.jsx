@@ -7,7 +7,8 @@ import CoreFeaturesForSeeker from '../../components/common/landing/CoreFeaturesF
 import Testimonial from '../../components/common/landing/Testimonial'
 import ServiceCategory from '../../components/common/ServiceCategory'
 import CoreFeaturesForProviders from '../../components/common/landing/CoreFeaturesForProviders'
-import demoDash from "../../assets/images/dashDemo.png"
+import seekerDash from "../../assets/images/SeekerDash.png"
+import providerDash from "../../assets/images/ProviderDash.png"
 import FAQ from '../../components/common/landing/FAQ'
 import Footer from '../../components/common/Footer'
 import CallToAction from '../../components/common/landing/CallToAction'
@@ -46,11 +47,11 @@ function Landing() {
         <p className='mb-[72x] mx-auto'>See how easy it is to navigate, book, and oversee services on Servana.</p>
         <div className='flex flex-col items-center lg:flex-row overflow-x-hidden px-[32px]'>
           <div className='w-full lg:w-[50%] lg:translate-x-[-20%]'>
-            <img className=' rounded-3xl shadow-lg' src={demoDash} alt="placeholder demo dash" />
+            <img className=' rounded-3xl shadow-lg' src={seekerDash} alt="placeholder demo dash" />
             <h5 className='py-6 text-sm'>Customer's Dashboard</h5>
           </div>
           <div className='w-full lg:w-[50%] lg:translate-x-[20%]'>
-            <img className=' rounded-3xl shadow-lg' src={demoDash} alt="placeholder demo dash" />
+            <img className=' rounded-3xl shadow-lg' src={providerDash} alt="placeholder demo dash" />
             <h5 className='py-6 text-sm'>Provider's Dashboard</h5>
           </div>
         </div>

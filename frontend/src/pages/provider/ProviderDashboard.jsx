@@ -73,7 +73,7 @@ function ProviderDashboard() {
                 }
               </div>
             </div>
-            <div className='h-30'>
+            <div className='m-h-40'>
               <div className='flex items-center justify-between'>
                 <h4 className='px-2 mb-2 text-accent'>Most recent Reviews</h4>
                 <Link to={'/provider/reviews'}>
@@ -81,6 +81,11 @@ function ProviderDashboard() {
                 </Link>
               </div>
               <div className='flex flex-col gap-2 overflow-y-auto scrollbar-none h-full px-2'>
+                <MiniReviewCard
+                  name="Arjun S."
+                  rating={4}
+                  review="Great experience! The service provider was on time and did an excellent job."
+                />
                 <MiniReviewCard
                   name="Arjun S."
                   rating={4}
