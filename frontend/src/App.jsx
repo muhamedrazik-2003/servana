@@ -43,7 +43,7 @@ function App() {
         <Route path="/seeker/services" element={<AllServices />} />
         <Route path="/seeker/services/:serviceId" element={<ServiceDetail />} />
         <Route path="/seeker/mybookings" element={<SeekerBookings />} />
-        <Route path="/seeker/mybookings/:booking" element={<BookingDetail />} />
+        <Route path="/seeker/mybookings/:bookingId" element={<BookingDetail />} />
         <Route path="/seeker/profile" element={<Profile />} />
 
         {/* Provider Pages */}

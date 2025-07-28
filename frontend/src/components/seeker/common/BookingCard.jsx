@@ -7,8 +7,7 @@ import { Link } from "react-router-dom"
 // import { useSelector } from "react-redux"
 
 
-function BookingCard({ cardVarient = "home" }) {
-    let userRole = "provider"
+function BookingCard({userRole, BookingCardData }) {
 
     const bookingCardData = {
         bookingId: "BK-20250717-0012",

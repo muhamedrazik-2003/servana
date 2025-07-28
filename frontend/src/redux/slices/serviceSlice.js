@@ -37,7 +37,7 @@ export const getAllServices = createAsyncThunk(
         },
       });
       const { message, allServices } = response.data;
-      console.log("Services retrieved:", response.data);
+      // console.log("Services retrieved:", response.data);
       return { message, allServices };
     } catch (error) {
       console.log("An Error Occured", error);

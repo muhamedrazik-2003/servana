@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import OngoingTab from './OngoingTab';
 import UpcomingTab from './UpcomingTab';
 import CompletedTab from './CompletedTab';
@@ -11,10 +11,18 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserBookings } from '../../../redux/slices/bookingSlice';
 
-function BookingTabs({userRole}) {
+function BookingTabs({ userRole }) {
     const [activeTab, setActiveTab] = useState("ongoing")
+    const dispatch = useDispatch()
+      useEffect(() => {
+        dispatch(getUserBookings());
+      },[])
+    const { bookings } = useSelector(state => state.bookingSlice);
+    console.log(bookings)
+
     const getTranslateX = (activeTab) => {
         switch (activeTab) {
             case 'ongoing':
@@ -34,17 +42,17 @@ function BookingTabs({userRole}) {
     const getCurrentTab = (activeTab) => {
         switch (activeTab) {
             case 'ongoing':
-                return <OngoingTab userRole={userRole}/>;
+                return <OngoingTab data={bookings} userRole={userRole} />;
             case 'upcoming':
-                return <UpcomingTab userRole={userRole}/>;
+                return <UpcomingTab data={bookings} userRole={userRole} />;
             case 'completed':
-                return <CompletedTab userRole={userRole}/>;
+                return <CompletedTab data={bookings} userRole={userRole} />;
             case 'cancelled':
-                return <CancelledTab userRole={userRole}/>;
+                return <CancelledTab data={bookings} userRole={userRole} />;
             case 'failed':
-                return <FailedTab userRole={userRole}/>;
+                return <FailedTab data={bookings} userRole={userRole} />;
             default:
-                return <OngoingTab userRole={userRole}/>;
+                return <OngoingTab data={bookings} userRole={userRole} />;
         }
     }
 

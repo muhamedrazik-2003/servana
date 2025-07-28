@@ -6,11 +6,13 @@ import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext
 import { CalendarIcon, CreditCard, Hash, IndianRupee, Mail, MapPin, MessageCirclePlus, PhoneCall, Star, Timer } from "lucide-react";
 import Footer from "../../components/common/Footer";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
+import { useSelector } from "react-redux";
 
 const BookingDetail = () => {
   const { pathname } = useLocation();
+  const {bookingId} = useParams();
   let role = ""
 
   if (pathname.includes('/provider')) {
@@ -20,6 +22,9 @@ const BookingDetail = () => {
   } else {
     role = "seeker"
   }
+  const {bookings} = useSelector(state => state.bookingSlice);
+  console.log(bookings)
+  const currentBooking = bookings.find(booking => booking._id === bookingId);
   return (
     <main>
       {role === "provider"
@@ -33,7 +38,7 @@ const BookingDetail = () => {
             <div>
               <h3 className="text-lg font-semibold text-primary mb-1">Service Info</h3>
               <div className="space-y-2">
-                <h1 className="text-4xl text-start">Deep Home Clean</h1>
+                <h1 className="text-4xl text-start">{currentBooking._id}</h1>
                 <p className="flex gap-2 items-center" ><MapPin className="size-5" /> 21st Cross Rd, Calicut</p>
                 <div className="flex gap-4">
                   <p className="flex gap-2 items-center"><CalendarIcon className="size-5" /> Jul 19</p>
