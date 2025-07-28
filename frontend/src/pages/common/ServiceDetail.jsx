@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -32,8 +33,56 @@ const ServiceDetail = () => {
 
   const { services, isDeleting } = useSelector(state => state.serviceSlice);
   const currentService = services.find(service => service._id === serviceId);
-  // console.log(currentService)
+  const [bookingData, setBookingData] = useState({
+    serviceId,
+    providerId: currentService?.providerId,
+    scheduledDate: "",
+    scheduledTime: "",
+    seekerNotes: "",
+    duration: 1,
+    durationUnit: "hour",
+    location: {
+      city: "",
+      state: "",
+      pincode: ""
+    }
+  })
+  
+  useEffect(() => {
+  if (!currentService || !currentService.price || !currentService.priceUnit) return;
 
+  const duration = Number(bookingData.duration); // Ensure it's a number
+
+  let total = 0;
+
+  if (
+    (currentService.priceUnit === "hour" && bookingData.durationUnit === "hour") ||
+    (currentService.priceUnit === "day" && bookingData.durationUnit === "day")
+  ) {
+    total = currentService.price * duration;
+  } else if (currentService.priceUnit === "hour" && bookingData.durationUnit === "day") {
+    total = currentService.price * (duration * 24);
+  } else if (currentService.priceUnit === "day" && bookingData.durationUnit === "hour") {
+    total = (currentService.price / 24) * duration;
+  }
+
+  setTotalPrice(Math.round(total)); // Optionally round it
+}, [bookingData.duration, bookingData.durationUnit, currentService]);
+
+
+  const [totalPrice, setTotalPrice] = useState(0);
+  // seeker Side 
+  const userSplited = currentService?.providerId?.fullName?.trim().split(" ") || [];
+  const firstInitial = userSplited[0]?.[0] || "";
+  const secondInitial = userSplited[1]?.[0] || "";
+
+  const providerProfileFallback = (firstInitial + secondInitial).toUpperCase();
+
+  const handleBooking = async () => {
+    console.log(bookingData)
+  }
+
+  // Provider Side
   const summaryItems = [
     {
       title: "Total Bookings",
@@ -77,9 +126,9 @@ const ServiceDetail = () => {
                 && <div className="flex items-center gap-1">
                   <Avatar className="h-6 w-6">
                     <AvatarImage src="/provider.jpg" />
-                    <AvatarFallback>JD</AvatarFallback>
+                    <AvatarFallback>{providerProfileFallback || 'US'}</AvatarFallback>
                   </Avatar>
-                  <span>John Doe</span>
+                  <span>{currentService?.providerId?.fullName}</span>
                 </div>
               }
               <span className="text-yellow-500">
@@ -131,11 +180,11 @@ const ServiceDetail = () => {
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src="/provider.jpg" />
-                  <AvatarFallback>JD</AvatarFallback>
+                  <AvatarFallback>{providerProfileFallback}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium">John Doe</p>
-                  <p className="text-sm text-muted-foreground">Verified Cleaner from Kozhikode</p>
+                  <p className="font-medium">{currentService?.providerId?.fullName}</p>
+                  <p className="text-sm text-muted-foreground">Provider from {`${currentService?.location?.city}, ${currentService?.location?.state}, ${currentService?.location?.pincode}`}</p>
                 </div>
               </div>
             </div>
@@ -214,39 +263,83 @@ const ServiceDetail = () => {
 
             <div className="space-y-2 flex flex-col items-center">
               <label className="block text-sm font-medium">Select Date</label>
-              <Calendar mode="single" selected={new Date()} className="border rounded-3xl bg-teal-50" />
+              <Calendar
+                mode="single"
+                selected={bookingData.scheduledDate}
+                onSelect={(date) => setBookingData({ ...bookingData, scheduledDate: date })}
+                className="border rounded-3xl bg-teal-50"
+              />
             </div>
 
             <div className="space-y-2">
               <label className="block text-sm font-medium">Preferred Time</label>
-              <select className="w-full px-3 py-2 border rounded-md text-sm">
+              <select onChange={(e) => setBookingData({ ...bookingData, scheduledTime: e.target.value })} className="w-full px-3 py-2 border rounded-md text-sm">
                 <option value="">Select Time</option>
-                <option value="9-11">9 AM – 11 AM</option>
-                <option value="12-2">12 PM – 2 PM</option>
-                <option value="3-5">3 PM – 5 PM</option>
+                <option value="9am">9 AM Onwards</option>
+                <option value="12am">12 PM Onwards</option>
+                <option value="3pm">3 PM Onwards</option>
               </select>
             </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium">Service Duration</label>
+              <div className="flex gap-2">
+                <Input defaultValue={bookingData?.duration} onChange={(e) => setBookingData({ ...bookingData, duration: e.target.value })} type="number" placeholder="1" />
+                <select onChange={(e) => setBookingData({ ...bookingData, durationUnit: e.target.value })} className="w-full px-3 py-2 border rounded-md text-sm">
+                  <option selected value="hour">Hour</option>
+                  <option value="day">Day</option>
+                  <option value="service">Flexible</option>
+                </select>
+              </div>
+            </div>
+
+            {/* 📍 Location Inputs */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium">City</label>
+              <Input onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, city: e.target.value } })} type="text" placeholder="Enter your city" />
+            </div>
+            <div className="flex gap-2">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium">State</label>
+                <Input onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, state: e.target.value } })} type="text" placeholder="Enter your state" />
+              </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium">Pincode</label>
+                <Input onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, pincode: e.target.value } })} type="text" placeholder="Enter your pincode" />
+              </div>
+            </div>
+
 
             <div className="space-y-2">
               <label className="block text-sm font-medium">Special Instructions</label>
-              <Textarea placeholder="Add any notes for the provider..." />
+              <Textarea onChange={(e) => setBookingData({ ...bookingData, seekerNotes: e.target.value })} placeholder="Add any notes for the provider..." />
             </div>
 
             <div className="text-sm text-muted-foreground">
-              Total Price: <span className="font-semibold text-foreground">{`${currentService?.price} per ${currentService?.priceUnit}`}</span>
-              <span className="text-xs block text-accent">(Amount Can increse Based on Job Details)</span>
+              Starting Price: <span className="font-semibold text-foreground">{`${currentService?.price} per ${currentService?.priceUnit}`}</span>
+              <span className="text-xs block text-accent">(Amount Can increase Based on Service Duration)</span>
             </div>
+            {bookingData.durationUnit !== "service"
+              && <div className="text-sm text-muted-foreground">
+                Total Price: <span className="font-semibold text-foreground">{totalPrice}</span>
+                {/* <span className="text-xs block text-accent">(Amount Can increase Based on Service Duration)</span> */}
+              </div>
+            }
             <div className="text-sm text-muted-foreground">
               Payment Mode: <span className="font-semibold text-foreground">Cash</span>
               <span className="text-xs block text-accent">(Online Payment is Currently Unavailable)</span>
             </div>
 
-            <Button className="w-full">Book Now</Button>
+            <Button onClick={handleBooking} className="w-full">Book Now</Button>
+            <p className="text-sm text-muted-foreground mt-2">
+              <span className="font-medium text-foreground">Note:</span> Payment will only be requested after service completion.
+            </p>
+
 
             <p className="text-xs text-muted-foreground text-center mt-2">
               🔒 Secure payment & free cancellation
             </p>
           </div>
+
         }
       </section>
       <Footer userRole={"seeker"} />
