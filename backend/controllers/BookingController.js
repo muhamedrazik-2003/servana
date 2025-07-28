@@ -41,7 +41,7 @@ exports.addNewBooking = async (req, res) => {
     const savedBooking = await newBooking.save();
     res
       .status(201)
-      .json({ message: "Booking Added Succesfully", bookingData: savedBooking });
+      .json({ message: "Booking Added Succesfully", bookingList: savedBooking });
   } catch (error) {
     res.status(404).json({ message: "Failed To add Booking", error });
   }
