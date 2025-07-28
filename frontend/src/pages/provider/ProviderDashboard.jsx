@@ -66,10 +66,13 @@ function ProviderDashboard() {
               </div>
               <div className='overflow-x-auto flex gap-2 scrollbar-none'>
                 {
-                  services.map(serivce => (
+                  services.length > 0
+                  ? services.map(serivce => (
                     <MiniServiceCard data={serivce} />
 
                   ))
+
+                  : <h4 className='my-4 mb-10'>No Services Available Currently</h4>
                 }
               </div>
             </div>

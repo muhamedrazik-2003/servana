@@ -15,6 +15,7 @@ function HowItWorks({isProvider,setIsProvider}) {
           <h3 onClick={() => setIsProvider(false)} className={`z-10 cursor-pointer p-5 w-[50%] ${isProvider ? "" : 'text-background'}`}>Seeker</h3>
           <h3 onClick={() => setIsProvider(true)} className={`z-10 p-5 w-[50%] cursor-pointer ${isProvider ? "text-foreground dark:text-background" : 'text-foreground'}`} >Provider</h3>
         </div>
+        
         {/* s shaped lines */}
         <div className='relative'>
           <div className='rounded-l-full w-45 lg:w-60 h-40 lg:h-48 absolute flex justify-end items-center top-[18%] left-[10%] lg:left-[29%] z-[-2] bg-linear-to-b from-primary to-secondary'>

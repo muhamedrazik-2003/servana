@@ -24,8 +24,8 @@ const ServiceCard = ({ variant = "seeker", data }) => {
                         {data?.images.map(image => (
                             <CarouselItem>
                                 <img
-                                    src={image || "/placeholder.jpg"}
-                                    alt={image}
+                                    src={image?.url || "/placeholder.jpg"}
+                                    alt={image?.public_id}
                                     className={`w-full h-auto object-cover rounded-3xl p-2 ${variant === "provider" ? "aspect-video" : "aspect-square"}`}
                                 />
                             </CarouselItem>

@@ -77,9 +77,13 @@ function MyServices() {
             </div>
           </div>
           <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 mb-20'>
-            {services?.map(service => (
+            {services.length > 0 
+            ? services?.map(service => (
               <ServiceCard variant='provider' data={service} />
-            ))}
+            ))
+            : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-4xl'>currently No services Available</h2>
+
+            }
           </div>
         </section>
       </main>

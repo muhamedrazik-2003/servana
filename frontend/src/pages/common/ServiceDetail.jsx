@@ -108,7 +108,7 @@ const ServiceDetail = () => {
             <CarouselContent>
               {currentService?.images?.map((img, i) => (
                 <CarouselItem key={i} className=" overflow-hidden">
-                  <img src={img} alt={`Service ${i}`} className="w-full h-72 rounded-3xl object-cover" />
+                  <img src={img?.url} alt={`Service ${i}`} className="w-full h-72 rounded-3xl object-cover" />
                 </CarouselItem>
               ))}
 

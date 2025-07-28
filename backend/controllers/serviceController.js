@@ -1,4 +1,5 @@
 const services = require("../models/serviceModel");
+const cloudinary = require("../config/cloudinary");
 
 exports.addService = async (req, res) => {
   try {
@@ -32,7 +33,11 @@ exports.addService = async (req, res) => {
       state: req.body.state,
       pincode: req.body.pincode,
     };
-    const serviceImages = req.files.map((file) => file.path);
+    const serviceImages = req.files.map((file) => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
+
     const newService = new services({
       title,
       description,
@@ -80,12 +85,26 @@ exports.updateService = async (req, res) => {
       state: req.body.state,
       pincode: req.body.pincode,
     };
-    const newImages = req.files.map((file) => file.path);
+    const newImages = req.files.map((file) => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
+
     let existingImages = req.body.images || [];
 
     if (!Array.isArray(existingImages)) {
       existingImages = [existingImages];
     }
+    const service = await services.findById(id);
+
+    const imagesTodelete = service.images.filter(
+      (oldImage) =>
+        !existingImages.some((img) => img.public_id === oldImage.public_id)
+    );
+    for (const img of imagesTodelete) {
+      await cloudinary.uploader.destroy(img.public_id);
+    }
+
     const serviceImages = [...existingImages, ...newImages];
     console.log(serviceImages);
     const { title, description, category, subCategory, price, priceUnit } =
@@ -121,6 +140,15 @@ exports.updateService = async (req, res) => {
 exports.deleteService = async (req, res) => {
   try {
     const { id } = req.params;
+
+    const service = await services.findById(id);
+
+    const imagesTodelete = service.images
+    
+    for (const img of imagesTodelete) {
+      await cloudinary.uploader.destroy(img.public_id);
+    }
+
     const deletedData = await services.findByIdAndDelete(id);
     if (!deletedData) {
       return res.status(404).json({ message: "Service not found" });

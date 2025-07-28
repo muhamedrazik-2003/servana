@@ -6,7 +6,7 @@ export function cn(...inputs) {
 }
 
 export function getStatusClass(status) {
-  const s = status.toLowerCase()
+  const s = status?.toLowerCase()
   switch (s) {
     case "completed":
       return "bg-green-100 text-green-700 border border-green-300"
