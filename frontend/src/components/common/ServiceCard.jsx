@@ -45,7 +45,7 @@ const ServiceCard = ({ variant = "seeker", data }) => {
 
                 <CardDescription className={'text-teal-600'}>{data?.category}</CardDescription>
 
-                <div className="flex items-center justify-between">
+                <div className={`flex justify-between ${variant === "seeker" ? "flex-col items-start" : "items-center"}`}>
                     {variant === "provider" ? (
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <ClipboardList className="size-4" />
@@ -55,12 +55,12 @@ const ServiceCard = ({ variant = "seeker", data }) => {
                         <>
                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                 <UsersRound className="size-4" />
-                                {data?.providerName}
+                                {data?.providerId?.fullName}
                             </div>
                             <div className="flex justify-between items-center">
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                     <MapPin className="size-4" />
-                                    {data?.location}
+                                    {`${data?.location?.city}, ${data?.location?.state}, ${data?.location?.pincode}`}
                                 </div>
                             </div>
                         </>
@@ -92,7 +92,7 @@ const ServiceCard = ({ variant = "seeker", data }) => {
     return (
         <Card className={`relative grid grid-cols-1 gap-0 py-0 rounded-3xl rounded-b-2xl shadow-none border-0 bg-background transition ${variant === "provider" ? "hover:bg-orange-100 border-2 pb-3" : "hover:bg-teal-100"}`} >
             {variant === "seeker" ? (
-                <Link to={`/seeker/services/detail`}>
+                <Link to={`/seeker/services/${data?._id}`}>
                     {renderContent()}
                 </Link>
             ) : (

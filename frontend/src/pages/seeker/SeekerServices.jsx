@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 import Footer from '../../components/common/Footer'
 import { MapPin } from 'lucide-react'
@@ -11,8 +11,16 @@ import {
 } from "@/components/ui/select"
 import ServiceCard from '../../components/common/ServiceCard'
 import CategoryFilter from '../../components/common/all services/CategoryFilter'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllServices } from '../../redux/slices/serviceSlice'
 
 function AllServices() {
+  const { services, isLoading } = useSelector(state => state.serviceSlice);
+   const dispatch = useDispatch();
+  // console.log(services)
+  useEffect(() => {
+    dispatch(getAllServices());
+  },[])
   return (
     <main>
       <SeekerHeader />
@@ -47,13 +55,15 @@ function AllServices() {
         <div className='h-fit sticky top-[100px]'>
           <CategoryFilter />
         </div>
-        <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6'>
-          <ServiceCard />
-          <ServiceCard />
-          <ServiceCard />
-          <ServiceCard />
-          <ServiceCard />
-          <ServiceCard />
+        <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 items-start'>
+          {services?.length > 0
+            ? services.map(service => (
+              <ServiceCard variant='seeker' data={service} />
+            ))
+
+            : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-4xl'>currently No services Available</h2>
+
+          }
         </div>
       </section>
       <Footer userRole={"seeker"} />

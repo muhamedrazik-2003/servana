@@ -62,6 +62,19 @@ exports.addService = async (req, res) => {
   }
 };
 
+exports.getAllUsers = async (req, res) => {
+  try {
+    const allServices = await services.find().populate('providerId', 'fullName');
+     res
+      .status(200)
+      .json({ message: "services of Provider retrieved", allServices });
+
+  } catch (error) {
+    console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
 exports.getUserServices = async (req, res) => {
   try {
     const providerId = req.user.userId;

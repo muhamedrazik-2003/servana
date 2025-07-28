@@ -27,6 +27,29 @@ export const addService = createAsyncThunk(
   }
 );
 
+export const getAllServices = createAsyncThunk(
+  "serviceSlice/getAllServices",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${base_url}/services/all`, {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      });
+      const { message, allServices } = response.data;
+      console.log("Services retrieved:", response.data);
+      return { message, allServices };
+    } catch (error) {
+      console.log("An Error Occured", error);
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed retrieve all Services",
+      });
+    }
+  }
+);
+
 export const getUserServices = createAsyncThunk(
   "serviceSlice/getUserServices",
   async (_, { rejectWithValue }) => {
@@ -78,11 +101,14 @@ export const deleteService = createAsyncThunk(
   async (serviceId, { rejectWithValue }) => {
     try {
       console.log(serviceId);
-      const response = await axios.delete(`${base_url}/services/delete/${serviceId}`, {
-        headers: {
-          Authorization: `token ${sessionStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.delete(
+        `${base_url}/services/delete/${serviceId}`,
+        {
+          headers: {
+            Authorization: `token ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
       const { message, deletedService } = response.data;
       console.log("Service deleted successfully:", response.data);
       return { message, deletedService };
@@ -119,6 +145,21 @@ const serviceSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getUserServices.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.message || "Failed to retrieve services";
+    });
+    // get all services
+    builder.addCase(getAllServices.fulfilled, (state, action) => {
+      state.services = action.payload.allServices || [];
+      state.isLoading = false;
+      state.error = null;
+      state.successResponse = action.payload.message;
+    });
+    builder.addCase(getAllServices.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(getAllServices.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload.message || "Failed to retrieve services";
     });
