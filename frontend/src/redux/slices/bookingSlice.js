@@ -4,11 +4,11 @@ import base_url from "../base_url";
 
 export const addNewBooking = createAsyncThunk(
   "bookingSlice/addNewBooking",
-  async (bookingData, { rejectWithValue }) => {
+  async (updatedBookingData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${base_url}/bookings/new`,
-        bookingData,
+        updatedBookingData,
         {
           headers: {
             Authorization: `token ${sessionStorage.getItem("token")}`,

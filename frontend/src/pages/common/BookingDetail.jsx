@@ -25,6 +25,16 @@ const BookingDetail = () => {
   const {bookings} = useSelector(state => state.bookingSlice);
   console.log(bookings)
   const currentBooking = bookings.find(booking => booking._id === bookingId);
+
+  const getBookingProgress = (status) => {
+    if(status === "pending") {
+      return 3
+    }else if (status === "ongoing") {
+      return 50
+    } else if (status === "completed") {
+      return 100
+    }
+  }
   return (
     <main>
       {role === "provider"
@@ -38,7 +48,7 @@ const BookingDetail = () => {
             <div>
               <h3 className="text-lg font-semibold text-primary mb-1">Service Info</h3>
               <div className="space-y-2">
-                <h1 className="text-4xl text-start">{currentBooking._id}</h1>
+                <h1 className="text-4xl text-start">Ac Repair</h1>
                 <p className="flex gap-2 items-center" ><MapPin className="size-5" /> 21st Cross Rd, Calicut</p>
                 <div className="flex gap-4">
                   <p className="flex gap-2 items-center"><CalendarIcon className="size-5" /> Jul 19</p>
@@ -120,12 +130,12 @@ const BookingDetail = () => {
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-primary">Booking Progress</h3>
           <div className="space-y-3">
-            <Progress value={66} className="h-3" />
+            <Progress value={getBookingProgress(currentBooking.bookingStatus)} className="h-3" />
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span className="text-teal-500 font-medium">Requested</span>
-              <span className="text-teal-500 font-medium">Confirmed</span>
-              <span className="text-teal-500">In Progress</span>
-              <span>Completed</span>
+              <span className={`${currentBooking.bookingStatus === "pending" ? "text-teal-500 font-medium" : ""}`}>Requested</span>
+              {/* <span className="text-teal-500 font-medium">Confirmed</span> */}
+              <span className={`${currentBooking.bookingStatus === "ongoing" ? "text-teal-500 font-medium" : ""}`}>In Progress</span>
+              <span className={`${currentBooking.bookingStatus === "completed" ? "text-teal-500 font-medium" : ""}`}>Completed</span>
             </div>
           </div>
         </div>

@@ -51,6 +51,7 @@ const ServiceDetail = () => {
       pincode: ""
     }
   })
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     if (!currentService || !currentService.price || !currentService.priceUnit) return;
@@ -76,7 +77,6 @@ const ServiceDetail = () => {
   }, [bookingData.duration, bookingData.durationUnit, currentService]);
 
 
-  const [totalPrice, setTotalPrice] = useState(0);
   // seeker Side 
   const userSplited = currentService?.providerId?.fullName?.trim().split(" ") || [];
   const firstInitial = userSplited[0]?.[0] || "";
@@ -88,9 +88,10 @@ const ServiceDetail = () => {
     try {
       console.log(bookingData);
       const { scheduledDate, scheduledTime, location: { city, state, pincode } } = bookingData;
+      const updatedBookingData = {...bookingData, totalPrice}
       if (!scheduledDate || !scheduledTime || !city || !state || !pincode) return toast.warning("Please Add All required Fields");
 
-      const response = await dispatch(addNewBooking(bookingData));
+      const response = await dispatch(addNewBooking(updatedBookingData));
       if (addNewBooking.fulfilled.match(response)) {
         toast.success("Booking Successfull");
         setBookingData({

@@ -7,20 +7,9 @@ import { Link } from "react-router-dom"
 // import { useSelector } from "react-redux"
 
 
-function BookingCard({userRole, BookingCardData }) {
+function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
 
-    const bookingCardData = {
-        bookingId: "BK-20250717-0012",
-        providerName: "Anjali Ramesh",
-        scheduleDate: "2025-07-20", // YYYY-MM-DD
-        scheduleTime: "16:30", // HH:mm (24-hour format)
-        instructions: "Please carry your own tools. Gate code is 4729.",
-        status: "ongoing", // can be: pending, confirmed, completed, cancelled, failed
-        paymentStatus: "paid", // can be: paid, unpaid, refunded
-        paymentAmount: 1200, // in INR or your currency
-        cancelReason: null, // or e.g., "Client unavailable"
-        failureReason: null // or e.g., "Payment failed due to timeout"
-    };
+    
 
     function getStatusColor(status) {
         const s = status.toLowerCase();
@@ -44,7 +33,7 @@ function BookingCard({userRole, BookingCardData }) {
 
 
     function SeekerGetActionButton(status) {
-        const s = status.toLowerCase()
+        const s = status?.toLowerCase()
         switch (s) {
             case "confirmed":
                 return (
@@ -70,7 +59,7 @@ function BookingCard({userRole, BookingCardData }) {
         }
     }
     function ProviderGetActionButton(status) {
-        const s = status.toLowerCase()
+        const s = status?.toLowerCase()
         switch (s) {
             case "pending":
                 return <Button variant="destructive" size="sm">Reject</Button>
@@ -94,18 +83,18 @@ function BookingCard({userRole, BookingCardData }) {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <ToolCase className="w-5 h-5 text-gray-600" />
-                            <span className="font-semibold text-gray-900">AC Repair</span>
+                            <span className="font-semibold text-gray-900">{serviceDetail.title}</span>
                         </div>
-                        <Badge variant="outline" className={`${getStatusColor(bookingCardData.status)} font-semibold `}>{bookingCardData.status}</Badge>
+                        <Badge variant="outline" className={`${getStatusColor(bookingCardData?.bookingStatus)} font-semibold `}>{bookingCardData?.bookingStatus}</Badge>
                     </div>
                     <div className="flex justify-between items-center mt-3">
                         <div className="flex items-center gap-3">
                             <Calendar className="w-5 h-5 text-red-500" />
-                            <span className="text-gray-900 font-medium">Jul 18, 2025</span>
+                            <span className="text-gray-900 font-medium">{bookingCardData?.scheduledDate}</span>
                         </div>
                         <div className="flex items-center gap-3">
                             <Clock className="w-5 h-5 text-red-500" />
-                            <span className="text-gray-900 font-medium">3:00 PM</span>
+                            <span className="text-gray-900 font-medium">{bookingCardData?.scheduledTime}</span>
 
                         </div>
                     </div>
@@ -130,19 +119,19 @@ function BookingCard({userRole, BookingCardData }) {
                         }
                         <div className="flex items-center gap-3">
                             <MapPin className="w-4 h-4 text-red-500" />
-                            <span className="text-gray-700">Calicut, Kerala</span>
+                            <span className="text-gray-700">{bookingCardData?.location?.city + bookingCardData?.location?.state + bookingCardData?.location?.pincode}</span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-3">
                         <Hash className="w-5 h-5 text-purple-600" />
-                        <span className="text-gray-900 font-medium">Booking ID: #SRV45322</span>
+                        <span className="text-gray-900 font-medium">Booking ID: {bookingCardData._id}</span>
                     </div>
 
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <CreditCard className="w-5 h-5 text-yellow-600" />
-                            <span className="text-gray-900 font-medium">₹499</span>
+                            <span className="text-gray-900 font-medium">{bookingCardData?.totalPrice || 0}</span>
                         </div>
                         <span className="text-green-500">Paid</span>
                     </div>
@@ -150,7 +139,7 @@ function BookingCard({userRole, BookingCardData }) {
                     {userRole === "provider"
                         && <div className="text-sm pb-3">
                             <h5>Note :</h5>
-                            <p>Please Call Before Coming</p>
+                            <p>{bookingCardData.seekerNotes}</p>
                         </div>
                     }
                 </CardContent>
@@ -158,7 +147,7 @@ function BookingCard({userRole, BookingCardData }) {
                 <CardFooter className={`flex gap-2 pt-2 px-4 justify-end flex-wrap xl:flex-nowrap `}>
 
                     {userRole === "provider"
-                        ? <>{ProviderGetActionButton(bookingCardData.status)}
+                        ? <>{ProviderGetActionButton(bookingCardData?.bookingStatus)}
                             <Link to={'/provider/mybookings/booking'}>
                                 <Button variant="" size='sm' className='w-full lg:w-auto px-3' >
                                     View Details
@@ -166,8 +155,8 @@ function BookingCard({userRole, BookingCardData }) {
                             </Link>
                         </>
 
-                        : <>{SeekerGetActionButton(bookingCardData.status)}
-                            <Link to={'/seeker/mybookings/booking'}>
+                        : <>{SeekerGetActionButton(bookingCardData?.bookingStatus)}
+                            <Link to={`/seeker/mybookings/${bookingCardData?._id}`}>
                                 <Button variant="" size='sm' className='w-full lg:w-auto' >
                                     View Details
                                 </Button>

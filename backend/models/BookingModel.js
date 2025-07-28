@@ -50,6 +50,10 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     enum : ["hour", "day", "service"],
     default : "hour"
+  },
+  totalPrice : {
+    type: String,
+    required : true
   }
 },
 {timestamps: true}

@@ -9,8 +9,8 @@ function CancelledTab({ data, userRole }) {
             <h2 className='text-base text-center mb-0 font-semibold'>{userRole === "provider" ? "Bookings that were cancelled by you or the customer." : "Bookings that were cancelled by you or the provider."}</h2>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-100px gap-5'>
                 {cancelledBookings?.length > 0
-                    ? cancelledBookings.map(booking => (
-                        <BookingCard BookingCardData={booking} />
+                    ? cancelledBookings.map((booking, index) => (
+            <BookingCard key={index} bookingCardData={booking}/>
                     ))
                     : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-2xl'>Currently no Cancelled Bookings Available</h2>
                 }

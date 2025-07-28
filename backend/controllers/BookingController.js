@@ -9,7 +9,7 @@ exports.addNewBooking = async (req, res) => {
       state: req.body.state,
       pincode: req.body.pincode,
     };
-    const { serviceId, providerId, scheduledDate,scheduledTime,seekerNotes, duration, durationUnit } =
+    const { serviceId, providerId, scheduledDate,scheduledTime,seekerNotes, duration, durationUnit, totalPrice } =
       req.body;
     console.log("Body received:", req.body);
 
@@ -17,7 +17,8 @@ exports.addNewBooking = async (req, res) => {
       !scheduledDate ||
       !scheduledTime ||
       !duration ||
-      !durationUnit
+      !durationUnit ||
+      !totalPrice
     ) {
       return res.status(400).json({
         message: "All required fields must be provided",
@@ -36,7 +37,8 @@ exports.addNewBooking = async (req, res) => {
       bookingStatus : "pending",
       reason : "Not Available",
       duration,
-      durationUnit
+      durationUnit,
+      totalPrice
     });
     const savedBooking = await newBooking.save();
     res
