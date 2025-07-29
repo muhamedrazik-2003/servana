@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 const BookingDetail = () => {
   const { pathname } = useLocation();
-  const {bookingId} = useParams();
+  const { bookingId } = useParams();
   let role = ""
 
   if (pathname.includes('/provider')) {
@@ -22,24 +22,33 @@ const BookingDetail = () => {
   } else {
     role = "seeker"
   }
-  const {bookings} = useSelector(state => state.bookingSlice);
-  console.log(bookings)
+  const { bookings } = useSelector(state => state.bookingSlice);
+  // console.log(bookings)
   const currentBooking = bookings.find(booking => booking._id === bookingId);
 
   const getBookingProgress = (status) => {
-    if(status === "pending") {
+    if (status === "pending") {
       return 3
-    }else if (status === "ongoing") {
+    } else if (status === "ongoing") {
       return 50
     } else if (status === "completed") {
       return 100
     }
   }
+  const getPaymentStatus = (status) => {
+    if (status === "pending") {
+      return "text-red-500"
+    } else if (status === "paid") {
+      return "text-green-500"
+    } else {
+      return "text-gray-700"
+    }
+  }
   return (
     <main>
       {role === "provider"
-      ? <ProviderHeader/>
-      : <SeekerHeader />
+        ? <ProviderHeader />
+        : <SeekerHeader />
       }
       <div className="max-w-6xl mx-auto px-6 lg:px-4 py-8 space-y-8">
         <div className="grid grid-col-1 lg:grid-cols-[1fr_auto] gap-6">
@@ -48,11 +57,11 @@ const BookingDetail = () => {
             <div>
               <h3 className="text-lg font-semibold text-primary mb-1">Service Info</h3>
               <div className="space-y-2">
-                <h1 className="text-4xl text-start">Ac Repair</h1>
-                <p className="flex gap-2 items-center" ><MapPin className="size-5" /> 21st Cross Rd, Calicut</p>
+                <h1 className="text-4xl text-start">{currentBooking?.serviceId?.title || 'Not Available'}</h1>
+                <p className="flex gap-2 items-center" ><MapPin className="size-5" />{currentBooking?.serviceId?.location?.city + ", " + currentBooking?.serviceId?.location?.state + ", " + currentBooking?.serviceId?.location?.pincode || 'Not Available'}</p>
                 <div className="flex gap-4">
-                  <p className="flex gap-2 items-center"><CalendarIcon className="size-5" /> Jul 19</p>
-                  <p className="flex gap-2 items-center"> <Timer className="size-5" /> 9:00 AM - 11:00 AM</p>
+                  <p className="flex gap-2 items-center"><CalendarIcon className="size-5" />{currentBooking?.scheduledDate.slice(0, 10) || 'Not Available'}</p>
+                  <p className="flex gap-2 items-center"> <Timer className="size-5" />{currentBooking?.scheduledTime || 'Not Available'}</p>
                 </div>
               </div>
             </div>
@@ -62,19 +71,23 @@ const BookingDetail = () => {
                 <div>
                   <h3 className="text-lg font-semibold text-primary mb-1">Booking Info</h3>
                   <div className="space-y-2">
-                    <p className="flex gap-2 items-center" ><Hash className="size-5 text-accent" />Booking ID : sdoijckm</p>
-                    <p className="flex gap-2 items-center" ><IndianRupee className="size-5" /> Service Price : <span>2040</span></p>
-                    <p className="flex gap-2 items-center" ><CreditCard className="size-5" /> Patment Status : <span className="text-green-500">Paid</span></p>
+                    <p className="flex gap-2 items-center" ><Hash className="size-5 text-accent" />Booking ID : {currentBooking?._id || 'Not Available'}</p>
+                    <p className="flex gap-2 items-center" ><IndianRupee className="size-5" /> Service Price : <span>{currentBooking?.totalPrice || 'Not Available'}</span></p>
+                    <p className="flex gap-2 items-center" ><CreditCard className="size-5" /> Patment Status : <span className={getPaymentStatus(currentBooking?.paymentStatus || "Not Available")}>{currentBooking?.paymentStatus || 'Not Available'}</span></p>
                   </div>
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-primary mb-1">Customer Info</h3>
                   <div className="space-y-2">
-                    <h1 className="text-3xl text-start">Karunakan K P</h1>
-                    <p className="flex gap-2 items-center" ><MapPin className="size-5" /> Nadakkav, Calicut</p>
+                    <h1 className="text-3xl text-start">{currentBooking?.seekerId?.fullName || 'Not Available'}</h1>
+                    <p className="flex gap-2 items-center" ><MapPin className="size-5" />{currentBooking?.seekerId?.location?.city + ", " + currentBooking?.seekerId?.location?.state + ", " + currentBooking?.seekerId?.location?.pincode || 'Not Available'}</p>
                     <div className="flex gap-4 mt-5">
-                      <Button size='sm'><PhoneCall />Contact Customer</Button>
+                      <a href={`tel:${currentBooking?.seekerId?.phone}`}>
+                        <Button size='sm'><PhoneCall />Contact Customer</Button>
+                      </a>
+                      <a href={`mailto:${currentBooking?.seekerId?.email}`}>
                       <Button size='sm'><Mail /> Message Customer</Button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -83,18 +96,22 @@ const BookingDetail = () => {
               : <div>
                 <h3 className="text-lg font-semibold text-primary mb-1">Provider Info</h3>
                 <div className="space-y-2">
-                  <h1 className="text-3xl text-start">Karunakan K P</h1>
-                  <p className="flex gap-2 items-center" ><MapPin className="size-5" /> Nadakkav, Calicut</p>
-                  <p className="flex gap-2 items-center" >
+                  <h1 className="text-3xl text-start">{currentBooking?.providerId?.fullName || 'Not Available'}</h1>
+                  <p className="flex gap-2 items-center" ><MapPin className="size-5" />{currentBooking?.providerId?.location?.city + ", " + currentBooking?.providerId?.location?.state + ", " + currentBooking?.providerId?.location?.pincode || 'Not Available'}</p>
+                  {/* <p className="flex gap-2 items-center" >
                     <Star className="size-5" />
                     <Star className="size-5" />
                     <Star className="size-5" />
                     <Star className="size-5" />
                     <span className="text-teal-500">(20 reviews)</span>
-                  </p>
+                  </p> */}
                   <div className="flex gap-4 mt-5">
+                      <a href={`tel:${currentBooking?.providerId?.phone}`}>
                     <Button size='sm'><PhoneCall />Contact Provider</Button>
+                    </a>
+                      <a href={`mailto:${currentBooking?.providerId?.phone}`}>
                     <Button size='sm'><Mail /> Message Provider</Button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -105,7 +122,7 @@ const BookingDetail = () => {
                 <h3 className="text-lg text-primary mb-1">Provided Instructions</h3>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">Please bring eco-friendly cleaning supplies.</p>
+                <p className="text-sm text-muted-foreground">{currentBooking?.seekerNotes || 'Not Available'}</p>
               </CardContent>
             </Card>
           </div>
@@ -115,9 +132,9 @@ const BookingDetail = () => {
               <h3 className="text-lg font-semibold text-primary mb-2">Service Images</h3>
               <Carousel className="w-full max-w-2xl">
                 <CarouselContent>
-                  {[1, 2, 3].map((i) => (
+                  {currentBooking?.serviceId?.images?.map((image, i) => (
                     <CarouselItem key={i} className=" overflow-hidden">
-                      <img src="https://images.unsplash.com/photo-1618783129985-dd97dbe4ad99?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWVjaGFuaWN8ZW58MHwxfDB8fHww" alt={`Service ${i}`} className="w-full aspect-5/3 rounded-3xl object-cover" />
+                      <img src={image?.url} alt={`Service ${i}`} className="w-full aspect-5/3 rounded-3xl object-cover" />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -151,7 +168,7 @@ const BookingDetail = () => {
         </div>
         <div className="py-3 mb-10 space-y-5">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-primary mb-1">Service Reivews</h3>
+            <h3 className="text-lg font-semibold text-primary mb-1">Service Reviews</h3>
             {role === "seker"
               && <Button variant='outline2' size='sm'>
                 <MessageCirclePlus />

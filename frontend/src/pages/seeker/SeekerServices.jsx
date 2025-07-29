@@ -57,8 +57,8 @@ function AllServices() {
         </div>
         <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 items-start'>
           {services?.length > 0
-            ? services.map(service => (
-              <ServiceCard variant='seeker' data={service} />
+            ? services.map((service, index) => (
+              <ServiceCard key={index} variant='seeker' data={service} />
             ))
 
             : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-4xl'>currently No services Available</h2>

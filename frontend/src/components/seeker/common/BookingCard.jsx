@@ -7,9 +7,9 @@ import { Link } from "react-router-dom"
 // import { useSelector } from "react-redux"
 
 
-function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
+function BookingCard({ userRole, bookingCardData }) {
 
-    
+
 
     function getStatusColor(status) {
         const s = status?.toLowerCase();
@@ -76,6 +76,15 @@ function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
         }
     }
 
+    const getPaymentStatus = (status) => {
+        if (status === "pending") {
+            return "text-red-500"
+        } else if (status === "paid") {
+            return "text-green-500"
+        } else {
+            return "text-gray-700"
+        }
+    }
     return (
         <>
             <Card className="w-full max-w-md mx-auto bg-gray-50 border-2 border-gray-300 rounded-3xl gap-0">
@@ -83,18 +92,18 @@ function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <ToolCase className="w-5 h-5 text-gray-600" />
-                            <span className="font-semibold text-gray-900">{serviceDetail?.title}</span>
+                            <span className="font-semibold text-gray-900">{bookingCardData?.serviceId?.title || 'Not Available'}</span>
                         </div>
-                        <Badge variant="outline" className={`${getStatusColor(bookingCardData?.bookingStatus)} font-semibold `}>{bookingCardData?.bookingStatus}</Badge>
+                        <Badge variant="outline" className={`${getStatusColor(bookingCardData?.bookingStatus)} font-semibold `}>{bookingCardData?.bookingStatus || 'Not Available'}</Badge>
                     </div>
                     <div className="flex justify-between items-center mt-3">
                         <div className="flex items-center gap-3">
                             <Calendar className="w-5 h-5 text-red-500" />
-                            <span className="text-gray-900 font-medium">{bookingCardData?.scheduledDate}</span>
+                            <span className="text-gray-900 font-medium">{bookingCardData?.scheduledDate.slice(0, 10) || 'Not Available'}</span>
                         </div>
                         <div className="flex items-center gap-3">
                             <Clock className="w-5 h-5 text-red-500" />
-                            <span className="text-gray-900 font-medium">{bookingCardData?.scheduledTime}</span>
+                            <span className="text-gray-900 font-medium">{bookingCardData?.scheduledTime || 'Not Available'}</span>
 
                         </div>
                     </div>
@@ -119,13 +128,13 @@ function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
                         }
                         <div className="flex items-center gap-3">
                             <MapPin className="w-4 h-4 text-red-500" />
-                            <span className="text-gray-700">{bookingCardData?.location?.city + bookingCardData?.location?.state + bookingCardData?.location?.pincode}</span>
+                            <span className="text-gray-700">{bookingCardData?.location?.city + ", " + bookingCardData?.location?.state + ", " + bookingCardData?.location?.pincode || 'Not Available'}</span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-3">
                         <Hash className="w-5 h-5 text-purple-600" />
-                        <span className="text-gray-900 font-medium">Booking ID: {bookingCardData?._id}</span>
+                        <span className="text-gray-900 font-medium">{bookingCardData?._id || 'Not Available'}</span>
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -133,13 +142,13 @@ function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
                             <CreditCard className="w-5 h-5 text-yellow-600" />
                             <span className="text-gray-900 font-medium">{bookingCardData?.totalPrice || 0}</span>
                         </div>
-                        <span className="text-green-500">Paid</span>
+                        <span className={getPaymentStatus(bookingCardData?.paymentStatus || "Not Available")}>{bookingCardData?.paymentStatus || 'Not Available'}</span>
                     </div>
                     <Separator className="my-4" />
                     {userRole === "provider"
                         && <div className="text-sm pb-3">
                             <h5>Note :</h5>
-                            <p>{bookingCardData.seekerNotes}</p>
+                            <p>{bookingCardData.seekerNotes || 'Not Available'}</p>
                         </div>
                     }
                 </CardContent>
@@ -155,7 +164,7 @@ function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
                             </Link>
                         </>
 
-                        : <>{SeekerGetActionButton(bookingCardData?.bookingStatus)}
+                        : <>{SeekerGetActionButton(bookingCardData?.bookingStatus) || 'Not Available'}
                             <Link to={`/seeker/mybookings/${bookingCardData?._id}`}>
                                 <Button variant="" size='sm' className='w-full lg:w-auto' >
                                     View Details

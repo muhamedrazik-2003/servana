@@ -3,11 +3,6 @@ const bookings = require("../models/BookingModel");
 exports.addNewBooking = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const location = {
-      city: req.body.city,
-      state: req.body.state,
-      pincode: req.body.pincode,
-    };
     const {
       serviceId,
       providerId,
@@ -17,6 +12,7 @@ exports.addNewBooking = async (req, res) => {
       duration,
       durationUnit,
       totalPrice,
+      location
     } = req.body;
     console.log("Body received:", req.body);
 
@@ -31,6 +27,7 @@ exports.addNewBooking = async (req, res) => {
         message: "All required fields must be provided",
       });
     }
+    console.log("location", location)
 
     const newBooking = new bookings({
       serviceId,
@@ -54,6 +51,8 @@ exports.addNewBooking = async (req, res) => {
       .populate("seekerId")
       .populate("providerId")
       .populate("serviceId");
+
+      console.log(populatedBooking)
     res
       .status(201)
       .json({

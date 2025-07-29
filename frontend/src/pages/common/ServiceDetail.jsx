@@ -109,7 +109,7 @@ const ServiceDetail = () => {
           }
         })
         console.log(response.payload)
-        navigate(`/seeker/mybookings/${response.payload.bookingList?._id}`)
+        navigate(`/seeker/mybookings/${response.payload.newBookingData?._id}`)
         return;
       } else if (addNewBooking.rejected.match(response)) {
         return toast.error(response.payload?.message || "Something went wrong while booking the service");
