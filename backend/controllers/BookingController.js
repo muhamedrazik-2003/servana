@@ -120,15 +120,16 @@ exports.getProviderBookings = async (req, res) => {
 exports.changeBookingStatus = async (req, res) => {
   try {
     const { bookingId } = req.params;
-    const { bookingStatus } = req.body;
+    const { bookingStatus, reason } = req.body;
     console.log(bookingId);
-    console.log("booking status",bookingStatus)
-    const updatedBookingData = await bookings.findByIdAndUpdate(
-      bookingId,
-      {bookingStatus},
-      { new: true }
-    );
-    console.log("updatedBooking", updatedBookingData)
+    console.log("booking status", bookingStatus);
+    const updatedBookingData = await bookings
+      .findByIdAndUpdate(bookingId, { bookingStatus, reason }, { new: true })
+      .populate("seekerId")
+      .populate("providerId")
+      .populate("serviceId");
+
+    console.log("updatedBooking", updatedBookingData);
     if (!updatedBookingData) {
       res.status(404).json({ message: "Booking Not Found" });
     }

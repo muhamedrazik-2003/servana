@@ -4,12 +4,26 @@ import { Separator } from "@/components/ui/separator"
 import { Calendar, MapPin, User, Hash, CreditCard, X, ToolCase, Clock, PhoneCall } from "lucide-react"
 import { Badge } from '@/components/ui/badge'
 import { Link } from "react-router-dom"
-// import { useSelector } from "react-redux"
+import { Textarea } from '@/components/ui/textarea'
+import { useDispatch } from "react-redux"
+import { useState } from "react"
+import { changeBookingStatus } from "../../../redux/slices/bookingSlice"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogClose,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { toast } from "sonner"
 
 
 function BookingCard({ userRole, bookingCardData }) {
-
-
+    const dispatch = useDispatch();
+    const [reason, setReason] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
 
     function getStatusColor(status) {
         const s = status?.toLowerCase();
@@ -31,19 +45,44 @@ function BookingCard({ userRole, bookingCardData }) {
         }
     }
 
-
     function SeekerGetActionButton(status) {
         const s = status?.toLowerCase()
         switch (s) {
             case "confirmed":
                 return (
                     <div className="flex gap-2 flex-wrap">
-                        <Button variant="destructive" size="sm">Cancel</Button>
-                        <Button variant="outline2" size="sm">Reschedule</Button>
+                        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                            <DialogTrigger>
+                                <Button variant="destructive" size="sm">Cancel</Button>
+                            </DialogTrigger>
+                            <DialogContent className={`rounded-2xl`}>
+                                <DialogHeader>
+                                    <DialogTitle>What is Your Reason for Cancellation? </DialogTitle>
+                                    <DialogDescription>
+                                        <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-3xl text-black ${userRole === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="flex justify-end gap-3">
+                                    <DialogClose asChild>
+                                        <Button
+                                            onClick={() => setReason("")}
+                                        >Close</Button>
+                                    </DialogClose>
+                                    <Button
+                                        onClick={() => {
+                                            handleBookingStatusUpdate("cancelled");
+                                        }}
+                                        variant="destructive" className="">Cancel the Booking</Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                        <Link to={`/seeker/bookings/${bookingCardData?._id}`}>
+                            <Button variant="outline2" size="sm">Reschedule</Button>
+                        </Link>
                     </div>
                 )
             case "ongoing":
-                return <Button variant="default" size="sm">Contact Provider</Button>
+                return <a href={`tel:${bookingCardData?.providerId?.phone}`}><Button variant="default" size="sm">Contact Provider</Button></a>
             case "completed":
                 return (
                     <div className="flex gap-2 w-full">
@@ -63,16 +102,73 @@ function BookingCard({ userRole, bookingCardData }) {
         switch (s) {
             case "pending":
                 return (
-                    <div className="flex gap-1">
-                        <Button variant="destructive" size="sm">Reject</Button>
-                        <Button variant="outline2" size="sm">Accept</Button>
+                    <div className="flex gap-2">
+                        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                            <DialogTrigger>
+                                <Button variant="destructive" size="sm" className='px-6'>Reject</Button>
+                            </DialogTrigger>
+                            <DialogContent className={`rounded-2xl`}>
+                                <DialogHeader>
+                                    <DialogTitle>What is Your Reason for Cancellation? </DialogTitle>
+                                    <DialogDescription>
+                                        <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-3xl text-black ${userRole === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="flex justify-end gap-3">
+                                    <DialogClose asChild>
+                                        <Button
+                                            onClick={() => setReason("")}
+                                        >Close</Button>
+                                    </DialogClose>
+                                    <Button
+                                        onClick={() => {
+                                            handleBookingStatusUpdate("cancelled");
+                                        }}
+                                        variant="destructive" className="">Reject the Booking</Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                        {/* accept button */}
+                        <Button
+                            onClick={() => {
+                                handleBookingStatusUpdate("ongoing");
+                            }}
+                            variant="outline2" size="sm">Accept</Button>
                     </div>
                 )
             case "ongoing":
                 return (
-                    <div className="flex gap-1">
-                        <Button variant="destructive" size="sm" className='w-[50%] px-1'>Cancel</Button>
-                        <Button variant="outline2" size="sm" className='w-[50%] hover:bg-accent hover:border-accent px-5'>Completed</Button>
+                    <div className="flex gap-2">
+                        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                            <DialogTrigger>
+                                <Button variant="destructive" size="sm" className=''>Cancel</Button>
+                            </DialogTrigger>
+                            <DialogContent className={`rounded-2xl`}>
+                                <DialogHeader>
+                                    <DialogTitle>What is Your Reason for Cancellation? </DialogTitle>
+                                    <DialogDescription>
+                                        <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-3xl text-black ${userRole === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="flex justify-end gap-3">
+                                    <DialogClose asChild>
+                                        <Button
+                                            onClick={() => setReason("")}
+                                        >Close</Button>
+                                    </DialogClose>
+                                    <Button
+                                        onClick={() => {
+                                            handleBookingStatusUpdate("cancelled");
+                                        }}
+                                        variant="destructive" className="">Cancel the Booking</Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                        <Button
+                            onClick={() => {
+                                handleBookingStatusUpdate("completed");
+                            }}
+                            variant="outline2" size="sm" className='px-2 hover:bg-accent hover:border-accent'>Completed</Button>
                     </div>
                 )
             default:
@@ -87,6 +183,25 @@ function BookingCard({ userRole, bookingCardData }) {
             return "text-green-500"
         } else {
             return "text-gray-700"
+        }
+    }
+
+    const handleBookingStatusUpdate = async (bookingStatus) => {
+        try {
+            const bookingId = bookingCardData._id;
+            const bookingData = { bookingStatus, reason }
+            console.log(bookingId, bookingData)
+            const response = await dispatch(changeBookingStatus({ bookingId, bookingData }));
+            if (changeBookingStatus.fulfilled.match(response)) {
+                toast.success("Booking Status updated successfully!")
+                setIsOpen(false);
+                return;
+            } else if (changeBookingStatus.rejected.match(response)) {
+                return toast.error(response.payload?.message || "Something went wrong while updating Booking Status");
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
+            toast.error("An unexpected error occurred");
         }
     }
     return (
@@ -150,10 +265,15 @@ function BookingCard({ userRole, bookingCardData }) {
                             <span className={getPaymentStatus(bookingCardData?.paymentStatus || "Not Available")}>{bookingCardData?.paymentStatus || 'Not Available'}</span>
                         </div>
                         <Separator className="my-4" />
-                        {userRole === "provider"
+                        {bookingCardData?.bookingStatus === "pending" || bookingCardData?.bookingStatus === "ongoing"
+                        ? userRole === "provider"
                             && <div className="text-sm pb-3 flex gap-2">
                                 <h5>Note :</h5>
                                 <p>{bookingCardData.seekerNotes || 'Not Provided'}</p>
+                            </div>
+                        :  <div className="text-sm pb-3 gap-2">
+                                <h5 className="inline-block">Reason :</h5>
+                                <p>{bookingCardData.reason || 'Not Provided'}</p>
                             </div>
                         }
                     </CardContent>

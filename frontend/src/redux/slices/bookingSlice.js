@@ -91,6 +91,30 @@ export const getProviderBookings = createAsyncThunk(
     }
   }
 );
+export const changeBookingStatus = createAsyncThunk(
+  "bookingSlice/changeBookingStatus",
+  async ({bookingId, bookingData}, { rejectWithValue }) => {
+    console.log(bookingId, bookingData)
+    try {
+      const response = await axios.patch(`${base_url}/bookings/update/status/${bookingId}`,
+        bookingData,
+        {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      });
+      const { message, updatedBooking } = response.data;
+      console.log("Provider Bookings retrieved:", response.data);
+      return { message, updatedBooking };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed To retrieve provider Bookings",
+      });
+    }
+  }
+);
 
 const bookingSlice = createSlice({
   name: "bookingSlice",
@@ -98,6 +122,7 @@ const bookingSlice = createSlice({
     bookings: [],
     isLoading: false,
     isBooking: false,
+    isUpdating: false,
     error: null,
   },
   reducers: {},
@@ -107,7 +132,6 @@ const bookingSlice = createSlice({
       state.bookings.push(action.payload.newBookingData);
       state.isBooking = false;
       state.error = null;
-      state.successResponse = action.payload.message;
     });
     builder.addCase(addNewBooking.pending, (state, action) => {
       state.isBooking = true;
@@ -123,7 +147,6 @@ const bookingSlice = createSlice({
       state.bookings= action.payload.bookingList || [];
       state.isLoading = false;
       state.error = null;
-      state.successResponse = action.payload.message;
     });
     builder.addCase(getUserBookings.pending, (state, action) => {
       state.isLoading = true;
@@ -139,7 +162,6 @@ const bookingSlice = createSlice({
       state.bookings= action.payload.bookingList || [];
       state.isLoading = false;
       state.error = null;
-      state.successResponse = action.payload.message;
     });
     builder.addCase(getProviderBookings.pending, (state, action) => {
       state.isLoading = true;
@@ -156,7 +178,6 @@ const bookingSlice = createSlice({
       state.bookings = action.payload.bookingList || [];
       state.isLoading = false;
       state.error = null;
-      state.successResponse = action.payload.message;
     });
     builder.addCase(getAllBookings.pending, (state, action) => {
       state.isLoading = true;
@@ -166,6 +187,24 @@ const bookingSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.message || "Failed to retrieve all Bookings";
     });
+
+    builder.addCase(changeBookingStatus.fulfilled, (state, action) => {
+          const filtered = state.bookings.filter(
+            (booking) => booking._id !== action.payload.updatedBooking._id
+          );
+          filtered.push(action.payload.updatedBooking);
+          state.bookings = filtered;
+          state.isUpdating = false;
+          state.error = null;
+        });
+        builder.addCase(changeBookingStatus.pending, (state, action) => {
+          state.isUpdating = true;
+          state.error = null;
+        });
+        builder.addCase(changeBookingStatus.rejected, (state, action) => {
+          state.isUpdating = false;
+          state.error = action.payload?.message || "Failed to update Booking Status";
+        });
   },
 });
 
