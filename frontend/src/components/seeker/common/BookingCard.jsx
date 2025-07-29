@@ -87,12 +87,14 @@ function BookingCard({ userRole, bookingCardData }) {
                 return (
                     <div className="flex gap-2 w-full">
                         <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Rate Now</Button>
-                        <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Book Again</Button>
+                        <Link to={`/seeker/services/${bookingCardData?.serviceId?._id}`}>
+                            <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Book Again</Button>
+                        </Link>
                     </div>
                 )
             case "cancelled":
             case "failed":
-                return <Button variant="outline2" size="sm">Book Again</Button>
+                return <Link to={`/seeker/services/${bookingCardData?.serviceId?._id}`}><Button variant="outline2" size="sm">Book Again</Button></Link>
             default:
                 return null;
         }
@@ -272,11 +274,11 @@ function BookingCard({ userRole, bookingCardData }) {
                                 <p>{bookingCardData.seekerNotes || 'Not Provided'}</p>
                             </div>
                             : bookingCardData?.bookingStatus === "cancelled" || bookingCardData?.bookingStatus === "failed"
-                            ? <div className="text-sm pb-3 gap-2">
-                                <h5 className="inline-block">Reason :</h5>
-                                <p>{bookingCardData.reason || 'Not Provided'}</p>
-                            </div>
-                            : ""
+                                ? <div className="text-sm pb-3 gap-2">
+                                    <h5 className="inline-block">Reason :</h5>
+                                    <p>{bookingCardData.reason || 'Not Provided'}</p>
+                                </div>
+                                : ""
                         }
                     </CardContent>
                 </div>
