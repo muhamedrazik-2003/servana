@@ -12,7 +12,10 @@ function OngoingTab({ data, userRole }) {
           ? ongoingBookings.map((booking, index) => (
             <BookingCard key={index} bookingCardData={booking} />
           ))
-          : <h2 className='md:col-span-2 lg:col-span-3 text-center py-8 text-5xl text-secondary'>You don’t have <br />any <span className='text-primary'>ongoing</span> bookings<br /> at the moment.</h2>
+          : userRole === "provider"
+            ? <h2 className='md:col-span-2 lg:col-span-3 text-center py-8 text-5xl text-accent'>You don’t have <br />any <span className='text-primary'>ongoing</span> bookings<br /> at the moment.</h2>
+            : <h2 className='md:col-span-2 lg:col-span-3 text-center py-8 text-5xl text-secondary'>You don’t have <br />any <span className='text-primary'>ongoing</span> bookings<br /> at the moment.</h2>
+
         }
       </div>
     </section>

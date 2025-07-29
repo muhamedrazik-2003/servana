@@ -51,7 +51,7 @@ function App() {
         <Route path="/provider/bookings" element={<ProviderBookings />} />
         <Route path="/provider/services" element={<ProviderServices />} />
         <Route path="/provider/services/:serviceId" element={<ServiceDetail />} />
-        <Route path="/provider/mybookings/booking" element={<BookingDetail />} />
+        <Route path="/provider/mybookings/:bookingId" element={<BookingDetail />} />
         <Route path="/provider/profile" element={<Profile />} />
         <Route path="/provider/services/new" element={<AddEditServiceForm />} />
         <Route path="/provider/services/update/:serviceId" element={<AddEditServiceForm />} />

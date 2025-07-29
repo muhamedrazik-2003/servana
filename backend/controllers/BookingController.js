@@ -100,3 +100,19 @@ exports.getSeekerBookings = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error", error });
   }
 };
+exports.getProviderBookings = async (req, res) => {
+  try {
+    const providerId = req.user.userId;
+    const bookingList = await bookings
+      .find({ providerId })
+      .populate("seekerId")
+      .populate("providerId")
+      .populate("serviceId");
+    res
+      .status(200)
+      .json({ message: "Bookings of Provider retrieved", bookingList });
+  } catch (error) {
+    console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};

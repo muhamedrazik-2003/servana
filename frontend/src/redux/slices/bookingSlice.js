@@ -58,13 +58,35 @@ export const getUserBookings = createAsyncThunk(
         },
       });
       const { message, bookingList } = response.data;
-      console.log("Services retrieved:", response.data);
+      console.log("seeker Bookings retrieved:", response.data);
       return { message, bookingList };
     } catch (error) {
       console.error(error);
       return rejectWithValue({
         message:
-          error.response?.data?.message || "Failed To retrieve user Bookings",
+          error.response?.data?.message || "Failed To retrieve seeker Bookings",
+      });
+    }
+  }
+);
+
+export const getProviderBookings = createAsyncThunk(
+  "bookingSlice/getProviderBookings",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${base_url}/bookings/provider`, {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      });
+      const { message, bookingList } = response.data;
+      console.log("Provider Bookings retrieved:", response.data);
+      return { message, bookingList };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed To retrieve provider Bookings",
       });
     }
   }
@@ -111,6 +133,22 @@ const bookingSlice = createSlice({
       state.isLoading = false;
       state.error =
         action.payload.message || "Failed to retrieve user Bookings";
+    });
+    // get provider Bookings
+    builder.addCase(getProviderBookings.fulfilled, (state, action) => {
+      state.bookings= action.payload.bookingList || [];
+      state.isLoading = false;
+      state.error = null;
+      state.successResponse = action.payload.message;
+    });
+    builder.addCase(getProviderBookings.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(getProviderBookings.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error =
+        action.payload.message || "Failed to retrieve Provider Bookings";
     });
 
     // get all Bookings

@@ -12,14 +12,18 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserBookings } from '../../../redux/slices/bookingSlice';
+import { getProviderBookings, getUserBookings } from '../../../redux/slices/bookingSlice';
 
 function BookingTabs({ userRole }) {
     const [activeTab, setActiveTab] = useState("ongoing")
     const dispatch = useDispatch()
-      useEffect(() => {
-        dispatch(getUserBookings());
-      },[])
+    useEffect(() => {
+        if (userRole === "provider") {
+            dispatch(getProviderBookings());
+        } else {
+            dispatch(getUserBookings());
+        }
+    }, [])
     const { bookings } = useSelector(state => state.bookingSlice);
     console.log(bookings)
 
@@ -63,7 +67,7 @@ function BookingTabs({ userRole }) {
                     <div className={`relative  text-center flex items-center transition-all duration-300`}>
                         <div className={`absolute left-0 rounded-3xl w-[20%] md:w-[20%] h-9 ${userRole === "provider" ? "md:h-10 bg-accent dark:bg-accent" : "md:h-12 bg-secondary dark:bg-secondary"} transition-all duration-300  ${getTranslateX(activeTab)}`}></div>
                         <h3 onClick={() => setActiveTab("ongoing")} className={`z-10  ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'ongoing' ? "text-background" : 'text-foreground'}`}>Ongoing</h3>
-                        <h3 onClick={() => setActiveTab("upcoming")} className={`z-10 ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'upcoming' ? "text-background" : 'text-foreground'}`} >Upcoming</h3>
+                        <h3 onClick={() => setActiveTab("upcoming")} className={`z-10 ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'upcoming' ? "text-background" : 'text-foreground'}`} >{userRole === "provider" ? "New Requests" : "Pending"}</h3>
                         <h3 onClick={() => setActiveTab("completed")} className={`z-10 ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'completed' ? "text-background" : 'text-foreground'}`} >Completed</h3>
                         <h3 onClick={() => setActiveTab("cancelled")} className={`z-10 ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'cancelled' ? "text-background" : 'text-foreground'}`} >Cancelled</h3>
                         <h3 onClick={() => setActiveTab("failed")} className={`z-10 ${userRole === "provider" ? "p-1.5" : "p-2.5"} w-[20%] text-xs md:text-base ${activeTab === 'failed' ? "text-background" : 'text-foreground'}`} >Failed</h3>

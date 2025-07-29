@@ -62,8 +62,12 @@ function BookingCard({ userRole, bookingCardData }) {
         const s = status?.toLowerCase()
         switch (s) {
             case "pending":
-                return <Button variant="destructive" size="sm">Reject</Button>
-
+                return (
+                    <div className="flex gap-1">
+                        <Button variant="destructive" size="sm">Reject</Button>
+                        <Button variant="outline2" size="sm">Accept</Button>
+                    </div>
+                )
             case "ongoing":
                 return (
                     <div className="flex gap-1">
@@ -87,84 +91,85 @@ function BookingCard({ userRole, bookingCardData }) {
     }
     return (
         <>
-            <Card className="w-full max-w-md mx-auto bg-gray-50 border-2 border-gray-300 rounded-3xl gap-0">
-                <CardHeader className="">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <ToolCase className="w-5 h-5 text-gray-600" />
-                            <span className="font-semibold text-gray-900">{bookingCardData?.serviceId?.title || 'Not Available'}</span>
+            <Card className="w-full max-w-md mx-auto bg-gray-50 border-2 border-gray-300 rounded-3xl gap-0 justify-between">
+                <div>
+                    <CardHeader className="">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <ToolCase className="w-5 h-5 text-gray-600" />
+                                <span className="font-semibold text-gray-900">{bookingCardData?.serviceId?.title || 'Not Available'}</span>
+                            </div>
+                            <Badge variant="outline" className={`${getStatusColor(bookingCardData?.bookingStatus)} font-semibold `}>{bookingCardData?.bookingStatus || 'Not Available'}</Badge>
                         </div>
-                        <Badge variant="outline" className={`${getStatusColor(bookingCardData?.bookingStatus)} font-semibold `}>{bookingCardData?.bookingStatus || 'Not Available'}</Badge>
-                    </div>
-                    <div className="flex justify-between items-center mt-3">
+                        <div className="flex justify-between items-center mt-3">
+                            <div className="flex items-center gap-3">
+                                <Calendar className="w-5 h-5 text-red-500" />
+                                <span className="text-gray-900 font-medium">{bookingCardData?.scheduledDate.slice(0, 10) || 'Not Available'}</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <Clock className="w-5 h-5 text-red-500" />
+                                <span className="text-gray-900 font-medium">{bookingCardData?.scheduledTime || 'Not Available'}</span>
+
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <Separator className="my-4" />
+
+
                         <div className="flex items-center gap-3">
-                            <Calendar className="w-5 h-5 text-red-500" />
-                            <span className="text-gray-900 font-medium">{bookingCardData?.scheduledDate.slice(0, 10) || 'Not Available'}</span>
+                            <User className="w-5 h-5 text-blue-600" />
+                            {userRole === "provider"
+                                ? <span className="text-gray-900 font-medium">Customer : {bookingCardData?.seekerId?.fullName}</span>
+                                : <span className="text-gray-900 font-medium">Provider : {bookingCardData?.providerId?.fullName}</span>
+                            }
                         </div>
+                        <div className="flex flex-col gap-2">
+                            {userRole === "provider"
+                                && <div className="flex items-center gap-3">
+                                    <PhoneCall className="w-4 h-4 text-red-500" />
+                                    <span className="text-gray-900 font-medium">998432642</span>
+                                </div>
+                            }
+                            <div className="flex items-center gap-3">
+                                <MapPin className="w-4 h-4 text-red-500" />
+                                <span className="text-gray-700">{bookingCardData?.location?.city + ", " + bookingCardData?.location?.state + ", " + bookingCardData?.location?.pincode || 'Not Available'}</span>
+                            </div>
+                        </div>
+
                         <div className="flex items-center gap-3">
-                            <Clock className="w-5 h-5 text-red-500" />
-                            <span className="text-gray-900 font-medium">{bookingCardData?.scheduledTime || 'Not Available'}</span>
-
+                            <Hash className="w-5 h-5 text-purple-600" />
+                            <span className="text-gray-900 font-medium">{bookingCardData?._id || 'Not Available'}</span>
                         </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <Separator className="my-4" />
 
-
-                    <div className="flex items-center gap-3">
-                        <User className="w-5 h-5 text-blue-600" />
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <CreditCard className="w-5 h-5 text-yellow-600" />
+                                <span className="text-gray-900 font-medium">{bookingCardData?.totalPrice || 0}</span>
+                            </div>
+                            <span className={getPaymentStatus(bookingCardData?.paymentStatus || "Not Available")}>{bookingCardData?.paymentStatus || 'Not Available'}</span>
+                        </div>
+                        <Separator className="my-4" />
                         {userRole === "provider"
-                            ? <span className="text-gray-900 font-medium">Customer : Ashokan N</span>
-                            : <span className="text-gray-900 font-medium">Provider : Ashokan N</span>
-                        }
-                    </div>
-                    <div className="flex items-center gap-2">
-                        {userRole === "provider"
-                            && <div className="flex items-center gap-3">
-                                <PhoneCall className="w-4 h-4 text-red-500" />
-                                <span className="text-gray-900 font-medium">998432642</span>
+                            && <div className="text-sm pb-3 flex gap-2">
+                                <h5>Note :</h5>
+                                <p>{bookingCardData.seekerNotes || 'Not Provided'}</p>
                             </div>
                         }
-                        <div className="flex items-center gap-3">
-                            <MapPin className="w-4 h-4 text-red-500" />
-                            <span className="text-gray-700">{bookingCardData?.location?.city + ", " + bookingCardData?.location?.state + ", " + bookingCardData?.location?.pincode || 'Not Available'}</span>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <Hash className="w-5 h-5 text-purple-600" />
-                        <span className="text-gray-900 font-medium">{bookingCardData?._id || 'Not Available'}</span>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <CreditCard className="w-5 h-5 text-yellow-600" />
-                            <span className="text-gray-900 font-medium">{bookingCardData?.totalPrice || 0}</span>
-                        </div>
-                        <span className={getPaymentStatus(bookingCardData?.paymentStatus || "Not Available")}>{bookingCardData?.paymentStatus || 'Not Available'}</span>
-                    </div>
-                    <Separator className="my-4" />
-                    {userRole === "provider"
-                        && <div className="text-sm pb-3">
-                            <h5>Note :</h5>
-                            <p>{bookingCardData.seekerNotes || 'Not Available'}</p>
-                        </div>
-                    }
-                </CardContent>
-
+                    </CardContent>
+                </div>
                 <CardFooter className={`flex gap-2 pt-2 px-4 justify-end flex-wrap xl:flex-nowrap `}>
 
                     {userRole === "provider"
                         ? <>{ProviderGetActionButton(bookingCardData?.bookingStatus)}
-                            <Link to={'/provider/mybookings/booking'}>
+                            <Link to={`/provider/mybookings/${bookingCardData?._id}`}>
                                 <Button variant="" size='sm' className='w-full lg:w-auto px-3' >
                                     View Details
                                 </Button>
                             </Link>
                         </>
 
-                        : <>{SeekerGetActionButton(bookingCardData?.bookingStatus) || 'Not Available'}
+                        : <>{SeekerGetActionButton(bookingCardData?.bookingStatus)}
                             <Link to={`/seeker/mybookings/${bookingCardData?._id}`}>
                                 <Button variant="" size='sm' className='w-full lg:w-auto' >
                                     View Details
