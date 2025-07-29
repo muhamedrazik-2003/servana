@@ -12,7 +12,7 @@ function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
     
 
     function getStatusColor(status) {
-        const s = status.toLowerCase();
+        const s = status?.toLowerCase();
         switch (s) {
             case "completed":
                 return "bg-green-100 text-green-700 border border-green-300";
@@ -83,7 +83,7 @@ function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <ToolCase className="w-5 h-5 text-gray-600" />
-                            <span className="font-semibold text-gray-900">{serviceDetail.title}</span>
+                            <span className="font-semibold text-gray-900">{serviceDetail?.title}</span>
                         </div>
                         <Badge variant="outline" className={`${getStatusColor(bookingCardData?.bookingStatus)} font-semibold `}>{bookingCardData?.bookingStatus}</Badge>
                     </div>
@@ -125,7 +125,7 @@ function BookingCard({userRole, bookingCardData, userDetail, serviceDetail }) {
 
                     <div className="flex items-center gap-3">
                         <Hash className="w-5 h-5 text-purple-600" />
-                        <span className="text-gray-900 font-medium">Booking ID: {bookingCardData._id}</span>
+                        <span className="text-gray-900 font-medium">Booking ID: {bookingCardData?._id}</span>
                     </div>
 
                     <div className="flex items-center justify-between">

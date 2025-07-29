@@ -1,6 +1,5 @@
 const bookings = require("../models/BookingModel");
 
-
 exports.addNewBooking = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -9,8 +8,16 @@ exports.addNewBooking = async (req, res) => {
       state: req.body.state,
       pincode: req.body.pincode,
     };
-    const { serviceId, providerId, scheduledDate,scheduledTime,seekerNotes, duration, durationUnit, totalPrice } =
-      req.body;
+    const {
+      serviceId,
+      providerId,
+      scheduledDate,
+      scheduledTime,
+      seekerNotes,
+      duration,
+      durationUnit,
+      totalPrice,
+    } = req.body;
     console.log("Body received:", req.body);
 
     if (
@@ -28,22 +35,31 @@ exports.addNewBooking = async (req, res) => {
     const newBooking = new bookings({
       serviceId,
       providerId,
-      seekerId : userId,
+      seekerId: userId,
       scheduledDate,
       scheduledTime,
       location,
       seekerNotes,
-      paymentStatus : "pending",
-      bookingStatus : "pending",
-      reason : "Not Available",
+      paymentStatus: "pending",
+      bookingStatus: "pending",
+      reason: "Not Available",
       duration,
       durationUnit,
-      totalPrice
+      totalPrice,
     });
     const savedBooking = await newBooking.save();
+
+    const populatedBooking = await bookings
+      .findById(savedBooking._id)
+      .populate("seekerId")
+      .populate("providerId")
+      .populate("serviceId");
     res
       .status(201)
-      .json({ message: "Booking Added Succesfully", bookingList: savedBooking });
+      .json({
+        message: "Booking Added Succesfully",
+        newBookingData: populatedBooking,
+      });
   } catch (error) {
     res.status(404).json({ message: "Failed To add Booking", error });
   }
@@ -51,7 +67,11 @@ exports.addNewBooking = async (req, res) => {
 
 exports.getAllBookings = async (req, res) => {
   try {
-    const bookingList = await bookings.find();
+    const bookingList = await bookings
+      .find()
+      .populate("seekerId")
+      .populate("providerId")
+      .populate("serviceId");
     res
       .status(200)
       .json({ message: "Bookings of User retrieved", bookingList });
@@ -64,7 +84,11 @@ exports.getAllBookings = async (req, res) => {
 exports.getSeekerBookings = async (req, res) => {
   try {
     const seekerId = req.user.userId;
-    const bookingList = await bookings.find({ seekerId });
+    const bookingList = await bookings
+      .find({ seekerId })
+      .populate("seekerId")
+      .populate("providerId")
+      .populate("serviceId");
     res
       .status(200)
       .json({ message: "Bookings of User retrieved", bookingList });

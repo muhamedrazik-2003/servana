@@ -314,9 +314,9 @@ const ServiceDetail = () => {
               <label className="block text-sm font-medium">Preferred Time</label>
               <select onChange={(e) => setBookingData({ ...bookingData, scheduledTime: e.target.value })} className="w-full px-3 py-2 border rounded-md text-sm">
                 <option value="">Select Time</option>
-                <option value="9am">9 AM Onwards</option>
-                <option value="12am">12 PM Onwards</option>
-                <option value="3pm">3 PM Onwards</option>
+                <option value="9:00 AM">9 AM Onwards</option>
+                <option value="12:00 AM">12 PM Onwards</option>
+                <option value="3:00 PM">3 PM Onwards</option>
               </select>
             </div>
             {currentService?.priceUnit !== "service"

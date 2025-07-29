@@ -15,9 +15,9 @@ export const addNewBooking = createAsyncThunk(
           },
         }
       );
-      const { message, bookingList } = response.data;
+      const { message, newBookingData } = response.data;
       console.log("Service added successfully:", response.data);
-      return { message, bookingList };
+      return { message, newBookingData };
     } catch (error) {
       console.error("ADD SERVICE ERROR:", error.response || error);
       return rejectWithValue({
@@ -82,7 +82,7 @@ const bookingSlice = createSlice({
   extraReducers: (builder) => {
     //add new Booking
     builder.addCase(addNewBooking.fulfilled, (state, action) => {
-      state.bookings.push(action.payload.bookingList);
+      state.bookings.push(action.payload.newBookingData);
       state.isBooking = false;
       state.error = null;
       state.successResponse = action.payload.message;
