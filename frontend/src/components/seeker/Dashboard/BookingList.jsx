@@ -9,8 +9,7 @@ function BookingList() {
         dispatch(getUserBookings());
     }, [])
     const { bookings } = useSelector(state => state.bookingSlice);
-    const upcomingBookings = bookings.filter(booking => booking.bookingStatus === "pending") || [];
-    const ongoingBookings = bookings.find(booking => booking.bookingStatus === "ongoing") || [];
+    const ongoingBookings = bookings.filter(booking => booking.bookingStatus === "ongoing") || [];
 
 
     // console.log(bookings)
@@ -23,7 +22,7 @@ function BookingList() {
                     ? ongoingBookings.map((booking, index) => (
                         <BookingCard key={index} bookingCardData={booking} />
                     ))
-                    : <h2 className='md:col-span-2 lg:col-span-3 text-center py-20 text-5xl text-secondary'>You don’t have any <span className='text-primary'>ongoing</span><br/>  bookings at the moment.</h2>
+                    : <h2 className='md:col-span-2 lg:col-span-3 text-center py-20 text-3xl leading-10'>You don’t have any <span className='text-primary'>ongoing</span><br/>  bookings at the moment.</h2>
                 }
             </div>
         </section>

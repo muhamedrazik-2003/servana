@@ -223,9 +223,9 @@ const BookingDetail = () => {
                 </div>
               </DialogContent>
             </Dialog>
-            {role === "seeker"
+            {/* {role === "seeker"
               && <Button variant="outline2" className="w-full lg:w-45">Reschedule</Button>
-            }
+            } */}
             <Button 
               onClick={() => { handleBookingStatusUpdate("completed")}} 
               className="w-full lg:w-45" disabled={(currentBooking?.bookingStatus === "completed" || currentBooking?.bookingStatus === "cancelled" || currentBooking?.bookingStatus === "failed") ? true : false}>Mark as Completed</Button>

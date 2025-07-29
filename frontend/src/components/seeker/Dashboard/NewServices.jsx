@@ -68,7 +68,7 @@ function NewServices() {
                             </Card>
                         </Link>
                     ))
-                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-5xl text-secondary'>Currently no New Services<br /> Are Available at the moment</h2>
+                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-3xl leading-10'>Currently no <span className="text-primary"> New</span> Services<br /> Are Available at the moment</h2>
 
                 }
             </div>
