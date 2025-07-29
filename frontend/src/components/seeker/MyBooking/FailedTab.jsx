@@ -10,7 +10,7 @@ function FailedTab({ data, userRole }) {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-100px gap-5'>
                 {failedBookings?.length > 0
                     ? failedBookings.map((booking, index) => (
-                        <BookingCard key={index} bookingCardData={booking} />
+                        <BookingCard key={index} userRole={userRole} bookingCardData={booking} />
                     ))
                     : userRole === "provider"
             ? <h2 className='md:col-span-2 lg:col-span-3 text-center py-8 text-5xl text-accent'>You don’t have <br />any <span className='text-red-500'>failed</span> bookings<br /> at the moment.</h2>

@@ -13,7 +13,7 @@ exports.addNewBooking = async (req, res) => {
       duration,
       durationUnit,
       totalPrice,
-      location
+      location,
     } = req.body;
     console.log("Body received:", req.body);
 
@@ -28,7 +28,7 @@ exports.addNewBooking = async (req, res) => {
         message: "All required fields must be provided",
       });
     }
-    console.log("location", location)
+    console.log("location", location);
 
     const newBooking = new bookings({
       serviceId,
@@ -46,8 +46,10 @@ exports.addNewBooking = async (req, res) => {
       totalPrice,
     });
     const savedBooking = await newBooking.save();
-    if(savedBooking) {
-      await services.findByIdAndUpdate(serviceId, { $inc: { totalBookings: 1 } })
+    if (savedBooking) {
+      await services.findByIdAndUpdate(serviceId, {
+        $inc: { totalBookings: 1 },
+      });
     }
 
     const populatedBooking = await bookings
@@ -56,13 +58,11 @@ exports.addNewBooking = async (req, res) => {
       .populate("providerId")
       .populate("serviceId");
 
-      console.log(populatedBooking)
-    res
-      .status(201)
-      .json({
-        message: "Booking Added Succesfully",
-        newBookingData: populatedBooking,
-      });
+    console.log(populatedBooking);
+    res.status(201).json({
+      message: "Booking Added Succesfully",
+      newBookingData: populatedBooking,
+    });
   } catch (error) {
     res.status(404).json({ message: "Failed To add Booking", error });
   }
@@ -113,6 +113,31 @@ exports.getProviderBookings = async (req, res) => {
       .json({ message: "Bookings of Provider retrieved", bookingList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
+exports.changeBookingStatus = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+    const { bookingStatus } = req.body;
+    console.log(bookingId);
+    console.log("booking status",bookingStatus)
+    const updatedBookingData = await bookings.findByIdAndUpdate(
+      bookingId,
+      {bookingStatus},
+      { new: true }
+    );
+    console.log("updatedBooking", updatedBookingData)
+    if (!updatedBookingData) {
+      res.status(404).json({ message: "Booking Not Found" });
+    }
+    res.status(200).json({
+      message: "booking Status Updated successfully",
+      updatedBooking: updatedBookingData,
+    });
+  } catch (error) {
+    console.error("UPDATE ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
   }
 };
