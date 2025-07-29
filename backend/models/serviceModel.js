@@ -55,6 +55,7 @@ const serviceSchema = new mongoose.Schema(
     },
     totalBookings: {
       type: Number,
+      default: 0
     },
   },
   { timestamps: true }

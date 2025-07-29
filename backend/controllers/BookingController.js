@@ -1,4 +1,5 @@
 const bookings = require("../models/BookingModel");
+const services = require("../models/serviceModel");
 
 exports.addNewBooking = async (req, res) => {
   try {
@@ -45,6 +46,9 @@ exports.addNewBooking = async (req, res) => {
       totalPrice,
     });
     const savedBooking = await newBooking.save();
+    if(savedBooking) {
+      await services.findByIdAndUpdate(serviceId, { $inc: { totalBookings: 1 } })
+    }
 
     const populatedBooking = await bookings
       .findById(savedBooking._id)
