@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import {UsersRound } from "lucide-react"
+import React, { useEffect, useRef } from 'react'
+import { UsersRound } from "lucide-react"
 import {
     Card,
     CardAction,
@@ -12,75 +12,20 @@ import {
 import { Link } from "react-router-dom"
 import * as Icons from 'lucide-react'
 import { Button } from '../ui/button'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllServices } from '../../redux/slices/serviceSlice'
 
-function ServiceCategory({ format }) {
+function Serviceservice({ format }) {
     const containerRef = useRef()
+    const { services, isLoading } = useSelector(state => state.serviceSlice);
+    const dispatch = useDispatch();
+    // console.log(services)
+    useEffect(() => {
+        dispatch(getAllServices());
+    }, [])
 
-    const topServices = [
-        {
-            title: "Plumbing",
-            titleIcon: "Wrench",
-            image: "https://images.unsplash.com/photo-1629219219301-9895daf2c199?q=80&w=327&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // man fixing kitchen sink
-            providerCount: 22,
-            popular: true
-        },
-        {
-            title: "Home Cleaning",
-            titleIcon: "Brush",
-            image: "https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2xlYW5lcnxlbnwwfDF8MHx8fDA%3D", // woman mopping home
-            providerCount: 18,
-            popular: true
-        },
-        {
-            title: "Beauty & Grooming",
-            titleIcon: "Sparkles",
-            image: "https://images.unsplash.com/photo-1731514771613-991a02407132?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZmFjaWFsfGVufDB8MXwwfHx8MA%3D%3D", // beautician doing facial
-            providerCount: 15,
-            popular: false
-        },
-        {
-            title: "Private Tutoring",
-            titleIcon: "BookOpen",
-            image: "https://plus.unsplash.com/premium_photo-1671796330621-d6ff427c399f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGVhY2hpbmd8ZW58MHwxfDB8fHww", // home tutor teaching girl
-            providerCount: 10,
-            popular: false
-        },
-        {
-            title: "Parcel Delivery",
-            titleIcon: "Package",
-            image: "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGVsaXZlcnl8ZW58MHwxfDB8fHww", // delivery man handing parcel
-            providerCount: 9,
-            popular: true
-        },
-        {
-            title: "Tech Support",
-            titleIcon: "MonitorSmartphone",
-            image: "https://images.unsplash.com/photo-1721333089073-215a56fd710c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Zml4aW5nJTIwbGFwdG9wfGVufDB8MXwwfHx8MA%3D%3D", // tech support fixing laptop
-            providerCount: 12,
-            popular: false
-        },
-        {
-            title: "Elderly Care",
-            titleIcon: "HeartHandshake",
-            image: "https://plus.unsplash.com/premium_photo-1681996583708-b7fca2e8ed2a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Q2FyZSUyMEdpdmVyfGVufDB8MXwwfHx8MA%3D%3D", // caregiver with senior lady
-            providerCount: 14,
-            popular: false
-        },
-        {
-            title: "Pet Grooming",
-            titleIcon: "PawPrint",
-            image: "https://images.unsplash.com/photo-1415369629372-26f2fe60c467?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGV0JTIwY2FyZXxlbnwwfDF8MHx8fDA%3D", // dog groomer at work
-            providerCount: 8,
-            popular: false
-        },
-        {
-            title: "Car Repair",
-            titleIcon: "Car",
-            image: "https://plus.unsplash.com/premium_photo-1677009541474-1fc2642943c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVjaGFuaWN8ZW58MHwxfDB8fHww", // mechanic fixing car
-            providerCount: 11,
-            popular: true
-        }
-    ]
+    const topServices = [...services]?.sort((a, b) => b.totalBookings - a.totalBookings);
+    console.log(topServices)
 
     const handleNext = () => {
         containerRef.current.scrollLeft += 340;
@@ -102,21 +47,26 @@ function ServiceCategory({ format }) {
             <div ref={containerRef} className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px] pl-[100px] scrolllbar-hidden'>
                 <div className='flex gap-5'>
                     {
-                        topServices.map((category, index) => {
-                            const Icon = Icons[category.titleIcon] || Icons.HelpCircle
+                        topServices.slice(0, 8).map((service, index) => {
+                            const Icon = Icons.ToolCase
                             return (
-                                <Link to={'/services'} className={`${format === "seeker" ? "" : "pointer-events-none"}`}>
+                                <Link key={index} to={'/services'} className={`${format === "seeker" ? "" : "pointer-events-none"}`}>
                                     <Card className={`shrink-0 p-0 relative transition-all duration-300 ${format === "seeker" ? "w-[265px] group" : "w-[320px]"}`}>
-                                        <CardTitle className={`flex items-center justify-center gap-2 absolute bg-background py-2 px-4 rounded-4xl top-5 left-4 ${format === "seeker" ? "group-hover:bg-teal-100" : ""}`}>
+                                        <CardTitle className={`flex items-center justify-center gap-2 absolute bg-background py-2 px-4 rounded-4xl top-5 left-4 text-sm ${format === "seeker" ? "group-hover:bg-teal-100" : ""}`}>
                                             <Icon className={'size-5'} />
-                                            {category.title}
+                                            {service.title}
                                         </CardTitle>
                                         <CardContent className={'p-0'}>
-                                            <div className={`flex items-center justify-center gap-2 absolute bg-background py-2 px-4 rounded-4xl text-sm ${format === "seeker" ? "bottom-5 right-4 group-hover:bg-teal-100" : "hidden"} `}>
+                                            {/* <div className={`flex items-center justify-center gap-2 absolute bg-background py-2 px-4 rounded-4xl text-sm ${format === "seeker" ? "bottom-5 right-4 group-hover:bg-teal-100" : "hidden"} `}>
                                                 <UsersRound className={'size-4'} />
-                                                {category.providerCount} <span>Providers</span>
-                                            </div>
-                                            <img className={`object-cover w-full rounded-2xl ${format === "seeker" ? "h-[270px] w-auto" : "h-[500px]"}`} src={category.image} alt="" />
+                                                {service.providerCount} <span>Providers</span>
+                                            </div> */}
+                                            <img
+                                                className={`object-cover w-full rounded-2xl ${format === "seeker" ? "h-[270px] w-auto" : "h-[500px]"}`}
+                                                src={service?.images[0]?.url || "/placeholder.svg"}
+                                                alt={service?.title || "Service Image"}
+                                            />
+
                                         </CardContent>
                                     </Card>
                                 </Link>
@@ -135,4 +85,4 @@ function ServiceCategory({ format }) {
     )
 }
 
-export default ServiceCategory
+export default Serviceservice
