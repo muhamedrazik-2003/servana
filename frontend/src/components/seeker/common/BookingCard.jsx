@@ -266,15 +266,17 @@ function BookingCard({ userRole, bookingCardData }) {
                         </div>
                         <Separator className="my-4" />
                         {bookingCardData?.bookingStatus === "pending" || bookingCardData?.bookingStatus === "ongoing"
-                        ? userRole === "provider"
+                            ? userRole === "provider"
                             && <div className="text-sm pb-3 flex gap-2">
                                 <h5>Note :</h5>
                                 <p>{bookingCardData.seekerNotes || 'Not Provided'}</p>
                             </div>
-                        :  <div className="text-sm pb-3 gap-2">
+                            : bookingCardData?.bookingStatus === "cancelled" || bookingCardData?.bookingStatus === "failed"
+                            ? <div className="text-sm pb-3 gap-2">
                                 <h5 className="inline-block">Reason :</h5>
                                 <p>{bookingCardData.reason || 'Not Provided'}</p>
                             </div>
+                            : ""
                         }
                     </CardContent>
                 </div>

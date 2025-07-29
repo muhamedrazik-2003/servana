@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -8,9 +8,24 @@ import Footer from "../../components/common/Footer";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
 import { useLocation, useParams } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogClose,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Textarea } from '@/components/ui/textarea'
+import { changeBookingStatus } from "../../redux/slices/bookingSlice";
+import { toast } from "sonner";
 
 const BookingDetail = () => {
+  const dispatch = useDispatch();
+    const [reason, setReason] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
   const { bookingId } = useParams();
   let role = ""
@@ -31,7 +46,7 @@ const BookingDetail = () => {
       return 3
     } else if (status === "ongoing") {
       return 50
-    } else if (status === "completed") {
+    } else {
       return 100
     }
   }
@@ -44,6 +59,25 @@ const BookingDetail = () => {
       return "text-gray-700"
     }
   }
+
+  const handleBookingStatusUpdate = async (bookingStatus) => {
+        try {
+            const bookingId = currentBooking._id;
+            const bookingData = { bookingStatus, reason }
+            console.log(bookingId, bookingData)
+            const response = await dispatch(changeBookingStatus({ bookingId, bookingData }));
+            if (changeBookingStatus.fulfilled.match(response)) {
+                toast.success("Booking Status updated successfully!")
+                setIsOpen(false);
+                return;
+            } else if (changeBookingStatus.rejected.match(response)) {
+                return toast.error(response.payload?.message || "Something went wrong while updating Booking Status");
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
+            toast.error("An unexpected error occurred");
+        }
+    }
   return (
     <main>
       {role === "provider"
@@ -86,7 +120,7 @@ const BookingDetail = () => {
                         <Button size='sm'><PhoneCall />Contact Customer</Button>
                       </a>
                       <a href={`mailto:${currentBooking?.seekerId?.email}`}>
-                      <Button size='sm'><Mail /> Message Customer</Button>
+                        <Button size='sm'><Mail /> Message Customer</Button>
                       </a>
                     </div>
                   </div>
@@ -106,11 +140,11 @@ const BookingDetail = () => {
                     <span className="text-teal-500">(20 reviews)</span>
                   </p> */}
                   <div className="flex gap-4 mt-5">
-                      <a href={`tel:${currentBooking?.providerId?.phone}`}>
-                    <Button size='sm'><PhoneCall />Contact Provider</Button>
+                    <a href={`tel:${currentBooking?.providerId?.phone}`}>
+                      <Button size='sm'><PhoneCall />Contact Provider</Button>
                     </a>
-                      <a href={`mailto:${currentBooking?.providerId?.phone}`}>
-                    <Button size='sm'><Mail /> Message Provider</Button>
+                    <a href={`mailto:${currentBooking?.providerId?.phone}`}>
+                      <Button size='sm'><Mail /> Message Provider</Button>
                     </a>
                   </div>
                 </div>
@@ -149,21 +183,52 @@ const BookingDetail = () => {
           <div className="space-y-3">
             <Progress value={getBookingProgress(currentBooking.bookingStatus)} className="h-3" />
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span className={`${currentBooking.bookingStatus === "pending" ? "text-teal-500 font-medium" : ""}`}>Requested</span>
+              <span className={`text-teal-500 font-medium`}>Requested</span>
               {/* <span className="text-teal-500 font-medium">Confirmed</span> */}
-              <span className={`${currentBooking.bookingStatus === "ongoing" ? "text-teal-500 font-medium" : ""}`}>In Progress</span>
-              <span className={`${currentBooking.bookingStatus === "completed" ? "text-teal-500 font-medium" : ""}`}>Completed</span>
+              <span className={`${(currentBooking.bookingStatus === "ongoing" || currentBooking.bookingStatus === "completed") ? "text-teal-500 font-medium" : ""}`}>In Progress</span>
+              {currentBooking.bookingStatus === "completed"
+                ? <span className={`${currentBooking.bookingStatus === "completed" ? "text-teal-500 font-medium" : ""}`}>Completed</span>
+                : currentBooking.bookingStatus === "cancelled"
+                  ? <span className={`${currentBooking.bookingStatus === "cancelled" ? "text-red-500 font-medium" : ""}`}>Cancelled</span>
+                  : <span className={`${currentBooking.bookingStatus === "failed" ? "text-red-500 font-medium" : ""}`}>Failed</span>
+              }
             </div>
           </div>
         </div>
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-primary mb-2">Actions</h3>
           <div className=" space-x-3 space-y-2">
-            <Button variant="destructive" className="w-full lg:w-45">Cancel Booking</Button>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <DialogTrigger className='w-full lg:w-45'>
+                <Button disabled={currentBooking?.bookingStatus === "cancelled" || currentBooking?.bookingStatus === "completed" || currentBooking?.bookingStatus === "failed" ? true : false} variant="destructive" className="w-full">Cancel Booking</Button>
+              </DialogTrigger>
+              <DialogContent className={`rounded-2xl`}>
+                <DialogHeader>
+                  <DialogTitle>What is Your Reason for Cancellation? </DialogTitle>
+                  <DialogDescription>
+                    <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-3xl text-black ${role === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex justify-end gap-3">
+                  <DialogClose asChild>
+                    <Button
+                      onClick={() => setReason("")}
+                    >Close</Button>
+                  </DialogClose>
+                  <Button
+                    onClick={() => {
+                      handleBookingStatusUpdate("cancelled");
+                    }}
+                    variant="destructive" className="">Cancel the Booking</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
             {role === "seeker"
               && <Button variant="outline2" className="w-full lg:w-45">Reschedule</Button>
             }
-            <Button className="w-full lg:w-45" disabled>Mark as Completed</Button>
+            <Button 
+              onClick={() => { handleBookingStatusUpdate("completed")}} 
+              className="w-full lg:w-45" disabled={(currentBooking?.bookingStatus === "completed" || currentBooking?.bookingStatus === "cancelled" || currentBooking?.bookingStatus === "failed") ? true : false}>Mark as Completed</Button>
           </div>
         </div>
         <div className="py-3 mb-10 space-y-5">
@@ -184,7 +249,7 @@ const BookingDetail = () => {
         </div>
       </div>
       <Footer userRole={'seeker'} />
-    </main>
+    </main >
   );
 };
 
