@@ -13,8 +13,17 @@ import {
 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import NewServices from '../../components/seeker/Dashboard/NewServices'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { getAllServices } from '../../redux/slices/serviceSlice'
 
 function Dashboard() {
+  const dispatch = useDispatch();
+    // console.log(services)
+    useEffect(() => {
+        dispatch(getAllServices());
+    }, [])
+
   const trustPoints = [
     {
       title: "Verified Professionals",

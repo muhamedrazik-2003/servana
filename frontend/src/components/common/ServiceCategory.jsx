@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { UsersRound } from "lucide-react"
+import React, { useRef } from 'react'
+
 import {
     Card,
     CardAction,
@@ -12,17 +12,11 @@ import {
 import { Link } from "react-router-dom"
 import * as Icons from 'lucide-react'
 import { Button } from '../ui/button'
-import { useDispatch, useSelector } from 'react-redux'
-import { getAllServices } from '../../redux/slices/serviceSlice'
+import { useSelector } from 'react-redux'
 
 function Serviceservice({ format }) {
     const containerRef = useRef()
     const { services, isLoading } = useSelector(state => state.serviceSlice);
-    const dispatch = useDispatch();
-    // console.log(services)
-    useEffect(() => {
-        dispatch(getAllServices());
-    }, [])
 
     const topServices = [...services]?.sort((a, b) => b.totalBookings - a.totalBookings);
     console.log(topServices)
@@ -41,16 +35,17 @@ function Serviceservice({ format }) {
                     <h2 className={`max-w-[600px] ${format === "seeker" && "text-2xl md:text-4xl mb-1"}`}>{format === "seeker" ? "Popular Services Near You" : "Services That Simplify Everyday Life."}</h2>
                     <p className={`${format === "seeker" && "text-base mb-0"}`}>{format === "seeker" ? "Find what others are booking most around your area." : 'Servana connects you with nearby experts—fast, reliable, and verified.'}</p>
                 </div>
-                <Button variant={'outline'} className={`border ml-auto mb-0 mr-[32px] ${format === "seeker" ? "block" : "hidden"}`}>View More</Button>
-
+                <Link to={'/seeker/services'}>
+                    <Button variant={'outline'} className={`border ml-auto mb-0 mr-[32px] lg:mr-[76px] ${format === "seeker" ? "block" : "hidden"}`}>View More</Button>
+                </Link>
             </div>
             <div ref={containerRef} className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px] pl-[100px] scrolllbar-hidden'>
                 <div className='flex gap-5'>
                     {
-                        topServices.slice(0, 8).map((service, index) => {
+                        topServices?.slice(0, 8).map((service, index) => {
                             const Icon = Icons.ToolCase
                             return (
-                                <Link key={index} to={'/services'} className={`${format === "seeker" ? "" : "pointer-events-none"}`}>
+                                <Link key={index} to={`/seeker/services/${service._id}`} className={`${format === "seeker" ? "" : "pointer-events-none"}`}>
                                     <Card className={`shrink-0 p-0 relative transition-all duration-300 ${format === "seeker" ? "w-[265px] group" : "w-[320px]"}`}>
                                         <CardTitle className={`flex items-center justify-center gap-2 absolute bg-background py-2 px-4 rounded-4xl top-5 left-4 text-sm ${format === "seeker" ? "group-hover:bg-teal-100" : ""}`}>
                                             <Icon className={'size-5'} />
