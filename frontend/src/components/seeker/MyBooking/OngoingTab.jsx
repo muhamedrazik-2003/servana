@@ -10,10 +10,9 @@ function OngoingTab({ data, userRole }) {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-100px gap-5'>
         {ongoingBookings?.length > 0
           ? ongoingBookings.map((booking, index) => (
-            <BookingCard key={index} bookingCardData={booking}/>
-           
+            <BookingCard key={index} bookingCardData={booking} />
           ))
-          : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-2xl'>Currently no Ongoing Bookings Available</h2>
+          : <h2 className='md:col-span-2 lg:col-span-3 text-center py-8 text-5xl text-secondary'>You don’t have <br />any <span className='text-primary'>ongoing</span> bookings<br /> at the moment.</h2>
         }
       </div>
     </section>

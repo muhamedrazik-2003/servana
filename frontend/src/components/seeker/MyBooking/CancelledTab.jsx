@@ -12,7 +12,7 @@ function CancelledTab({ data, userRole }) {
                     ? cancelledBookings.map((booking, index) => (
             <BookingCard key={index} bookingCardData={booking}/>
                     ))
-                    : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-2xl'>Currently no Cancelled Bookings Available</h2>
+          : <h2 className='md:col-span-2 lg:col-span-3 text-center py-8 text-5xl text-secondary'>You don’t have <br />any <span className='text-red-500'>cancelled</span> bookings<br /> at the moment.</h2>
                 }
             </div>
         </section>

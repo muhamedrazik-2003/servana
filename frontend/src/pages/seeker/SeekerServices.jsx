@@ -61,7 +61,7 @@ function AllServices() {
               <ServiceCard key={index} variant='seeker' data={service} />
             ))
 
-            : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-4xl'>currently No services Available</h2>
+          : <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-5xl'>We couldn’t load <br/> the <span className='text-primary'>services</span> right now.<br/> Please try again later.</h2>
 
           }
         </div>
