@@ -18,20 +18,15 @@ import { addNewBooking } from "../../redux/slices/bookingSlice";
 import { startOfToday } from "date-fns/startOfToday";
 import { isBefore } from "date-fns/isBefore";
 import ReviewDialog from "../../components/common/ReviewDialog";
+import ReviewSection from "../../components/common/ReviewSection";
 
 const ServiceDetail = () => {
   const { pathname, hash } = useLocation();
   const { serviceId } = useParams();
-  const reviewRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   let role = ""
-  useEffect(() => {
-    if (hash.includes('#reviews') && reviewRef.current) {
-      reviewRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [hash]);
 
   if (pathname.includes('/provider')) {
     role = "provider"
@@ -248,29 +243,8 @@ const ServiceDetail = () => {
           </div>
 
           {/* Reviews */}
-          <div ref={reviewRef} id="reviews" className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Customer Reviews</h2>
-              {role === "seeker"
-                && <ReviewDialog/>
-              }
-            </div>
-            <div className="space-y-4">
-              {[1, 2].map((i) => (
-                <div key={i} className="border p-3 rounded-xl shadow-sm">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Avatar className="h-6 w-6">
-                      <AvatarFallback>AN</AvatarFallback>
-                    </Avatar>
-                    <p className="text-sm font-medium">Alex N.</p>
-                    <span className="text-yellow-500 text-sm">★★★★★</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Really satisfied with the service. Very professional and on-time!
-                  </p>
-                </div>
-              ))}
-            </div>
+          <div >
+            <ReviewSection page={"service"} role={role} serviceId={serviceId} />
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -21,15 +21,23 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { changeBookingAndPaymentStatus } from "../../redux/slices/bookingSlice";
 import { toast } from "sonner";
+import ReviewSection from "../../components/common/ReviewSection";
 
 const BookingDetail = () => {
   const dispatch = useDispatch();
   const [reason, setReason] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenModal2, setIsOpenModal2] = useState(false);
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const { bookingId } = useParams();
+  const reviewRef = useRef(null);
   let role = ""
+
+  useEffect(() => {
+    if (hash.includes('#reviews') && reviewRef.current) {
+      reviewRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [hash]);
 
   if (pathname.includes('/provider')) {
     role = "provider"
@@ -255,21 +263,9 @@ const BookingDetail = () => {
             }
           </div>
         </div>
-        <div className="py-3 mb-10 space-y-5">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-primary mb-1">Service Reviews</h3>
-            {role === "seker"
-              && <Button variant='outline2' size='sm'>
-                <MessageCirclePlus />
-                Add A Review
-              </Button>
-            }
-
-          </div>
-          <p className="text-sm text-gray-600">Reviews From other users who previously booked this service</p>
-          <div>
-            <p>current No Reviews Available</p>
-          </div>
+        {/* service Section */}
+        <div ref={reviewRef} id="reviews" className="py-3 mb-10 space-y-5">
+          <ReviewSection page={"booking"} role={role} serviceId={currentBooking?.serviceId?._id} />
         </div>
       </div>
       <Footer userRole={'seeker'} />

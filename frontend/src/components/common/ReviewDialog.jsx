@@ -12,16 +12,28 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { useDispatch } from 'react-redux'
+import { addNewReview } from '../../redux/slices/reviewSlice'
 
 function ReviewDialog() {
     const [open, setOpen] = useState(false)
     const [rating, setRating] = useState(0)
     const [hoverRating, setHoverRating] = useState(0)
     const [comment, setComment] = useState("")
+    const [newReview,setReview] = useState({
+        //  serviceId, providerId, bookingId, rating, comment
+    })
+    const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // Handle form submission here
+        try {
+            const response = dispatch(addNewReview(newReview))
+
+        } catch (error) {
+            console.error("Form submission error:", error);
+            toast.error("An unexpected error occurred");
+        }
         console.log({ rating, comment })
         setOpen(false)
         // Reset form
@@ -32,7 +44,7 @@ function ReviewDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button size="lg" className="px-8">
+                <Button className="px-8">
                     Write a Review
                 </Button>
             </DialogTrigger>

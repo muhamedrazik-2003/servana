@@ -56,7 +56,7 @@ exports.addNewReview = async (req, res) => {
 
 exports.getAllReviews = async (req, res) => {
   try {
-    const ReviewList = await reviews
+    const reviewList = await reviews
       .find()
       .populate("seekerId")
       .populate("providerId")
@@ -64,7 +64,7 @@ exports.getAllReviews = async (req, res) => {
       .populate("serviceId");
     res
       .status(200)
-      .json({ message: "All Reviews retrieved", ReviewList });
+      .json({ message: "All Reviews retrieved", reviewList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
@@ -74,16 +74,17 @@ exports.getAllReviews = async (req, res) => {
 exports.getServiceReviews = async (req, res) => {
   try {
     const {serviceId} = req.params;
-    console.log(serviceId)
-    const ReviewList = await reviews
+    // console.log(serviceId)
+    const reviewList = await reviews
       .find({ serviceId })
       // .populate("bookingId")
-      // .populate("seekerId")
+      .populate("seekerId")
       // .populate("providerId")
       // .populate("serviceId");
+      console.log(reviewList)
     res
       .status(200)
-      .json({ message: "Bookings of User retrieved", ReviewList });
+      .json({ message: "service Reviews retrieved", reviewList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });

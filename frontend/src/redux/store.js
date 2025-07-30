@@ -2,14 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./slices/userSlice"
 import serviceSlice from "./slices/serviceSlice";
 import categorySlice from "./slices/categorySlice";
-import bookingSlice from "./slices/bookingSlice"
+import bookingSlice from "./slices/bookingSlice";
+import reviewSlice from "./slices/reviewSlice";
 
 const store = configureStore({
     reducer : {
         userSlice,
         serviceSlice,
         categorySlice,
-        bookingSlice
+        bookingSlice,
+        reviewSlice
     }
 })
 
