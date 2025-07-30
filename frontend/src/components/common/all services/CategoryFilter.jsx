@@ -1,16 +1,5 @@
-import { useState } from "react";
-import {
-    Home,
-    Wrench,
-    Paintbrush,
-    Zap,
-    Droplets,
-    Car,
-    TreePine,
-    Shield,
-    Filter,
-    ChevronDown,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import * as Icon from "lucide-react";
 import {
     Accordion,
     AccordionContent,
@@ -19,117 +8,127 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories, getCategoryBasedFilterData } from "../../../redux/slices/categorySlice";
 
-const categories = [
-    {
-        id: "home-services",
-        name: "Home Services",
-        icon: Home,
-        subcategories: [
-            "House Cleaning",
-            "Carpet Cleaning",
-            "Window Cleaning",
-            "Deep Cleaning",
-            "Move-in/Move-out Cleaning",
-        ],
-    },
-    {
-        id: "repairs",
-        name: "Repairs & Maintenance",
-        icon: Wrench,
-        subcategories: [
-            "Appliance Repair",
-            "HVAC Repair",
-            "General Handyman",
-            "Furniture Assembly",
-            "TV Mounting",
-        ],
-    },
-    {
-        id: "painting",
-        name: "Painting",
-        icon: Paintbrush,
-        subcategories: [
-            "Interior Painting",
-            "Exterior Painting",
-            "Cabinet Painting",
-            "Pressure Washing",
-            "Wallpaper Installation",
-        ],
-    },
-    {
-        id: "electrical",
-        name: "Electrical",
-        icon: Zap,
-        subcategories: [
-            "Electrical Repair",
-            "Light Installation",
-            "Outlet Installation",
-            "Ceiling Fan Installation",
-            "Smart Home Setup",
-        ],
-    },
-    {
-        id: "plumbing",
-        name: "Plumbing",
-        icon: Droplets,
-        subcategories: [
-            "Leak Repair",
-            "Drain Cleaning",
-            "Faucet Installation",
-            "Toilet Repair",
-            "Water Heater Service",
-        ],
-    },
-    {
-        id: "automotive",
-        name: "Automotive",
-        icon: Car,
-        subcategories: [
-            "Car Wash",
-            "Oil Change",
-            "Tire Service",
-            "Auto Detailing",
-            "Mobile Mechanic",
-        ],
-    },
-    {
-        id: "landscaping",
-        name: "Landscaping",
-        icon: TreePine,
-        subcategories: [
-            "Lawn Mowing",
-            "Tree Trimming",
-            "Garden Design",
-            "Irrigation",
-            "Seasonal Cleanup",
-        ],
-    },
-    {
-        id: "security",
-        name: "Security",
-        icon: Shield,
-        subcategories: [
-            "Security System Installation",
-            "Camera Setup",
-            "Lock Installation",
-            "Alarm Monitoring",
-            "Access Control",
-        ],
-    },
-];
+// const categories = [
+//     {
+//         id: "home-services",
+//         name: "Home Services",
+//         icon: Home,
+//         subcategories: [
+//             "House Cleaning",
+//             "Carpet Cleaning",
+//             "Window Cleaning",
+//             "Deep Cleaning",
+//             "Move-in/Move-out Cleaning",
+//         ],
+//     },
+//     {
+//         id: "repairs",
+//         name: "Repairs & Maintenance",
+//         icon: Wrench,
+//         subcategories: [
+//             "Appliance Repair",
+//             "HVAC Repair",
+//             "General Handyman",
+//             "Furniture Assembly",
+//             "TV Mounting",
+//         ],
+//     },
+//     {
+//         id: "painting",
+//         name: "Painting",
+//         icon: Paintbrush,
+//         subcategories: [
+//             "Interior Painting",
+//             "Exterior Painting",
+//             "Cabinet Painting",
+//             "Pressure Washing",
+//             "Wallpaper Installation",
+//         ],
+//     },
+//     {
+//         id: "electrical",
+//         name: "Electrical",
+//         icon: Zap,
+//         subcategories: [
+//             "Electrical Repair",
+//             "Light Installation",
+//             "Outlet Installation",
+//             "Ceiling Fan Installation",
+//             "Smart Home Setup",
+//         ],
+//     },
+//     {
+//         id: "plumbing",
+//         name: "Plumbing",
+//         icon: Droplets,
+//         subcategories: [
+//             "Leak Repair",
+//             "Drain Cleaning",
+//             "Faucet Installation",
+//             "Toilet Repair",
+//             "Water Heater Service",
+//         ],
+//     },
+//     {
+//         id: "automotive",
+//         name: "Automotive",
+//         icon: Car,
+//         subcategories: [
+//             "Car Wash",
+//             "Oil Change",
+//             "Tire Service",
+//             "Auto Detailing",
+//             "Mobile Mechanic",
+//         ],
+//     },
+//     {
+//         id: "landscaping",
+//         name: "Landscaping",
+//         icon: TreePine,
+//         subcategories: [
+//             "Lawn Mowing",
+//             "Tree Trimming",
+//             "Garden Design",
+//             "Irrigation",
+//             "Seasonal Cleanup",
+//         ],
+//     },
+//     {
+//         id: "security",
+//         name: "Security",
+//         icon: Shield,
+//         subcategories: [
+//             "Security System Installation",
+//             "Camera Setup",
+//             "Lock Installation",
+//             "Alarm Monitoring",
+//             "Access Control",
+//         ],
+//     },
+// ];
 
 function CategoryFilter() {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [selectedSubcategory, setSelectedSubcategory] = useState("");
     const [categoryHidden, setCategoryHidden] = useState(true);
+    const dispatch = useDispatch();
+    useEffect(()=> {
+        dispatch(getCategories())
+    },[])
+
+    const {categories} = useSelector(state => state.categorySlice);
     
-    const handleCategorySelect = (categoryId) => {
-        setSelectedCategory(categoryId);
+    const handleCategorySelect = (category) => {
+        dispatch(getCategoryBasedFilterData(category));
+        setSelectedCategory(category);
         setSelectedSubcategory("");
     };
 
     const handleSubcategorySelect = (subcategory) => {
+        dispatch(getCategoryBasedFilterData(subcategory));
         setSelectedSubcategory(subcategory);
         setSelectedCategory("")
     };
@@ -140,10 +139,10 @@ function CategoryFilter() {
             <CardHeader className={`${categoryHidden ? "gap-0" : "gap-1"}`}>
                 <div className='flex justify-between items-center'>
                     <div className="flex items-center gap-2 ">
-                        <Filter className="h-5 w-5 text-gray-600" />
+                        <Icon.Filter className="h-5 w-5 text-gray-600" />
                         <h2 className="text-lg  font-semibold text-gray-900 m-0">Categories</h2>
                     </div>
-                    <ChevronDown onClick={() =>setCategoryHidden(prev => !prev)} className="h-5 w-5 text-gray-600 lg:hidden" />
+                    <Icon.ChevronDown onClick={() =>setCategoryHidden(prev => !prev)} className="h-5 w-5 text-gray-600 lg:hidden" />
                 </div>
             </CardHeader>
 
@@ -163,26 +162,27 @@ function CategoryFilter() {
                 {/* Category Accordion */}
                 <Accordion type="single" collapsible className="w-auto lg:w-[255px] space-y-1">
                     {categories.map((category) => {
-                        const IconComponent = category.icon;
-                        const isSelected = selectedCategory === category.id;
+                        const iconname = category?.icon;
+                        // const IconComponent = Icon.iconname
+                        const isSelected = selectedCategory === category?._id;
 
                         return (
-                            <AccordionItem key={category.id} value={category.id} className="border-none">
+                            <AccordionItem key={category?._id} value={category?._id} className="border-none">
                                 <AccordionTrigger
                                     className={`flex items-center text-sm justify-between w-full px-4 py-1.5 text-left rounded-full hover:no-underline transition-colors ${isSelected
                                             ? "bg-teal-100 text-gray-900"
                                             : "bg-teal-50 border border-gray-200 text-gray-700 hover:bg-teal-100"
                                         }`}
-                                    onClick={() => handleCategorySelect(category.id)}
+                                    onClick={() => handleCategorySelect(category?.title)}
                                 >
                                     <div className="flex items-center gap-3">
-                                        <IconComponent className="h-4 w-4" />
-                                        <span className="font-medium">{category.name}</span>
+                                        {/* <IconComponent className="h-4 w-4" /> */}
+                                        <span className="font-medium">{category?.title}</span>
                                     </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pt-2 pb-0">
                                     <div className="space-y-1 mx-1 ml-3">
-                                        {category.subcategories.map((subcategory) => (
+                                        {category?.subCategories.map((subcategory) => (
                                             <Button
                                                 key={subcategory}
                                                 variant="outline2"
@@ -220,26 +220,26 @@ function CategoryFilter() {
                 {/* Category Accordion */}
                 <Accordion type="single" collapsible className="w-auto lg:w-[255px] space-y-1">
                     {categories.map((category) => {
-                        const IconComponent = category.icon;
-                        const isSelected = selectedCategory === category.id;
+                        const IconComponent = category?.icon;
+                        const isSelected = selectedCategory === category?._id;
 
                         return (
-                            <AccordionItem key={category.id} value={category.id} className="border-none">
+                            <AccordionItem key={category?._id} value={category?._id} className="border-none">
                                 <AccordionTrigger
                                     className={`flex items-center text-sm justify-between w-full px-4 py-1.5 text-left rounded-full hover:no-underline transition-colors ${isSelected
                                             ? "bg-teal-100 text-gray-900"
                                             : "bg-teal-50 border border-gray-200 text-gray-700 hover:bg-teal-100"
                                         }`}
-                                    onClick={() => handleCategorySelect(category.id)}
+                                    onClick={() => handleCategorySelect(category?.title)}
                                 >
                                     <div className="flex items-center gap-3">
                                         <IconComponent className="h-4 w-4" />
-                                        <span className="font-medium">{category.name}</span>
+                                        <span className="font-medium">{category?.title}</span>
                                     </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pt-2 pb-0">
                                     <div className="space-y-1 mx-1 ml-3">
-                                        {category.subcategories.map((subcategory) => (
+                                        {category?.subCategories.map((subcategory) => (
                                             <Button
                                                 key={subcategory}
                                                 variant="outline2"

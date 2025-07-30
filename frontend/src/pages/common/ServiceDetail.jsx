@@ -267,7 +267,7 @@ const ServiceDetail = () => {
               <Button disabled={isUpdating ? true : false} onClick={handleDelete} variant='destructive' className='w-full'>
                 {isDeleting
                   ? <>
-                    <LoaderCircle className="animate-spin" />"Deleting"
+                    <LoaderCircle className="animate-spin" /> Deleting
                   </>
                   : "Delete This Service"}
               </Button>

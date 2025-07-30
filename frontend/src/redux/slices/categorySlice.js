@@ -19,6 +19,7 @@ const categorySlice = createSlice({
     currentSubCategories: [],
     successResponse: "",
     isLoading: false,
+    filteringCategory : "all",
     error: null,
   },
   reducers: {
@@ -28,6 +29,9 @@ const categorySlice = createSlice({
       });
       state.currentSubCategories = selectedCategory?.subCategories || []
     },
+    getCategoryBasedFilterData : (state, action) => {
+      state.filteringCategory = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(getCategories.fulfilled, (state, action) => {
@@ -47,5 +51,5 @@ const categorySlice = createSlice({
   },
 });
 
-export const {getCurrentSubCategories} = categorySlice.actions
+export const {getCurrentSubCategories,getCategoryBasedFilterData} = categorySlice.actions
 export default categorySlice.reducer;

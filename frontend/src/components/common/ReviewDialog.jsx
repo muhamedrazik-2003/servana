@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Star } from "lucide-react"
+import { LoaderCircle, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addNewReview } from '../../redux/slices/reviewSlice'
 import { toast } from 'sonner'
 
@@ -23,6 +23,7 @@ function ReviewDialog({ bookingDetails }) {
     const [hoverRating, setHoverRating] = useState(0)
     const [comment, setComment] = useState("")
     const dispatch = useDispatch();
+    const { isAdding } = useSelector(state => state.reviewSlice)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -121,8 +122,12 @@ function ReviewDialog({ bookingDetails }) {
                         >
                             Cancel
                         </Button>
-                        <Button type="submit" disabled={rating === 0 || comment.trim().length === 0} className="min-w-[100px]">
-                            Submit Review
+                        <Button type="submit" disabled={rating === 0 || comment.trim().length === 0 || isAdding} className="min-w-[100px]">
+                            {isAdding
+                                ? <>
+                                    <LoaderCircle className="animate-spin" />"Submiting Review"
+                                </>
+                                : "Submit Review"}
                         </Button>
                     </DialogFooter>
                 </form>

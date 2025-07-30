@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 import Footer from '../../components/common/Footer'
 import { MapPin } from 'lucide-react'
@@ -16,11 +16,40 @@ import { getAllServices } from '../../redux/slices/serviceSlice'
 
 function AllServices() {
   const { services, isLoading } = useSelector(state => state.serviceSlice);
-   const dispatch = useDispatch();
+  const { filteringCategory } = useSelector(state => state.categorySlice);
+  const [sortData, setSortData] = useState('popular');
+  // const [noFilteredData,ata]
+  // console.log(sortData)
+  const normalizedPrice = (service) => {
+    if (service.priceUnit === "hour") return service.price
+    if (service.priceUnit === "day") return service.price / 8
+    if (service.priceUnit === "service") return service.price
+    return service.price
+  }
+
+  let sortedData = []
+  if (sortData === "popular") {
+    sortedData = [...services]?.sort((a, b) => b.totalBookings - a.totalBookings);
+  } else if (sortData === "newest") {
+    sortedData = [...services]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  } else if (sortData === "priceLowToHigh") {
+    sortedData = [...services]?.sort((a, b) => normalizedPrice(a) - normalizedPrice(b))
+  } else if (sortData === "PriceHighToLow") {
+    sortedData = [...services]?.sort((a, b) => normalizedPrice(b) - normalizedPrice(a))
+  }
+  let filteredServices = ""
+  if (filteringCategory === "all") {
+    filteredServices = sortedData
+  } else {
+    filteredServices = sortedData.filter((service) => {
+      return service.category === filteringCategory || service.subCategory === filteringCategory
+    })
+  }
+  const dispatch = useDispatch();
   // console.log(services)
   useEffect(() => {
     dispatch(getAllServices());
-  },[])
+  }, [])
   return (
     <main>
       <SeekerHeader />
@@ -37,32 +66,37 @@ function AllServices() {
               className="pl-9 md:pl-11 pr-4 py-2 md:py-2.5 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 md:text-lg outline-none"
             />
           </div>
-          <Select>
-            <SelectTrigger className="w-[160px] !h-10 lg:!h-12 border-2 border-indigo-300 pl-4">
+          <Select value={sortData} onValueChange={(value) => setSortData(value)}>
+            <SelectTrigger className="w-[180px] !h-10 lg:!h-12 border-2 border-indigo-300 pl-4">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="popular">Popular Service</SelectItem>
-              <SelectItem value="newest">Newest Service</SelectItem>
-              <SelectItem value="topProviders">Top Providers</SelectItem>
+              <SelectItem value="popular" selected>Popular Services</SelectItem>
+              <SelectItem value="newest">Newest Services</SelectItem>
+              {/* <SelectItem value="topProviders">Top Providers</SelectItem> */}
               <SelectItem value="priceLowToHigh">Price Low to High</SelectItem>
               <SelectItem value="PriceHighToLow">Price High To Low</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </section>
-      <section className='grid grid-col-1 lg:grid-cols-[auto_1fr] mx-[16px] lg:mx-20 gap-3 lg:gap-8'>
+      <section className='grid grid-col-1 lg:grid-cols-[auto_1fr] mx-[16px] lg:mx-20 gap-3 lg:gap-8 pb-15'>
         <div className='h-fit sticky top-[100px]'>
           <CategoryFilter />
         </div>
         <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 items-start'>
-          {services?.length > 0
-            ? services.map((service, index) => (
+          {filteredServices?.length > 0
+            ? filteredServices.map((service, index) => (
               <ServiceCard key={index} variant='seeker' data={service} />
             ))
 
-          : <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-5xl'>We couldn’t load <br/> the <span className='text-primary'>services</span> right now.<br/> Please try again later.</h2>
+            : filteringCategory !== "all"
+              ? <h2 className='md:col-span-2 lg:col-span-3 text-center pt-20 pb-25 text-3xl leading-10 sticky top-60'>
+                Oops! We couldn't find <br /> any <span className="text-primary">services</span> under this category.<br />
+                Try exploring other categories.
+              </h2>
 
+              : <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-5xl'>We couldn’t load <br /> the <span className='text-primary'>services</span> right now.<br /> Please try again later.</h2>
           }
         </div>
       </section>
