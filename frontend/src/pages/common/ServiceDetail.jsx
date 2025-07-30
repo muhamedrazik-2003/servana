@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { addNewBooking } from "../../redux/slices/bookingSlice";
 import { startOfToday } from "date-fns/startOfToday";
 import { isBefore } from "date-fns/isBefore";
+import ReviewDialog from "../../components/common/ReviewDialog";
 
 const ServiceDetail = () => {
   const { pathname, hash } = useLocation();
@@ -251,7 +252,7 @@ const ServiceDetail = () => {
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Customer Reviews</h2>
               {role === "seeker"
-                && <Button variant='outline2' className='border-2'>Add A Review</Button>
+                && <ReviewDialog/>
               }
             </div>
             <div className="space-y-4">
