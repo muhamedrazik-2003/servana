@@ -117,14 +117,15 @@ exports.getProviderBookings = async (req, res) => {
   }
 };
 
-exports.changeBookingStatus = async (req, res) => {
+exports.changeBookingAndPaymentStatus = async (req, res) => {
   try {
     const { bookingId } = req.params;
-    const { bookingStatus, reason } = req.body;
+    const { bookingStatus, paymentStatus, reason } = req.body;
     console.log(bookingId);
     console.log("booking status", bookingStatus);
+    console.log("payment status", paymentStatus);
     const updatedBookingData = await bookings
-      .findByIdAndUpdate(bookingId, { bookingStatus, reason }, { new: true })
+      .findByIdAndUpdate(bookingId, { bookingStatus, paymentStatus, reason }, { new: true })
       .populate("seekerId")
       .populate("providerId")
       .populate("serviceId");

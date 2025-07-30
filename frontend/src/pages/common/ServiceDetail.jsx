@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -19,12 +19,18 @@ import { startOfToday } from "date-fns/startOfToday";
 import { isBefore } from "date-fns/isBefore";
 
 const ServiceDetail = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const { serviceId } = useParams();
+  const reviewRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   let role = ""
+  useEffect(() => {
+    if (hash.includes('#reviews') && reviewRef.current) {
+      reviewRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [hash]);
 
   if (pathname.includes('/provider')) {
     role = "provider"
@@ -35,7 +41,7 @@ const ServiceDetail = () => {
   }
 
   const { services, isDeleting, isUpdating } = useSelector(state => state.serviceSlice);
-  const {isBooking} = useSelector(state => state.bookingSlice)
+  const { isBooking } = useSelector(state => state.bookingSlice)
   const currentService = services.find(service => service._id === serviceId);
   const [bookingData, setBookingData] = useState({
     serviceId,
@@ -88,7 +94,7 @@ const ServiceDetail = () => {
     try {
       console.log(bookingData);
       const { scheduledDate, scheduledTime, location: { city, state, pincode } } = bookingData;
-      const updatedBookingData = {...bookingData, totalPrice}
+      const updatedBookingData = { ...bookingData, totalPrice }
       if (!scheduledDate || !scheduledTime || !city || !state || !pincode) return toast.warning("Please Add All required Fields");
 
       const response = await dispatch(addNewBooking(updatedBookingData));
@@ -241,7 +247,7 @@ const ServiceDetail = () => {
           </div>
 
           {/* Reviews */}
-          <div className="space-y-3">
+          <div ref={reviewRef} id="reviews" className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Customer Reviews</h2>
               {role === "seeker"
@@ -372,12 +378,12 @@ const ServiceDetail = () => {
             </div>
 
             <Button onClick={handleBooking} disabled={isBooking ? true : false} className="w-full">
-             {isBooking
-                  ? <>
-                    <LoaderCircle className="animate-spin" />"Booking..."
-                  </>
-                  : "Book This Service"}
-              </Button>
+              {isBooking
+                ? <>
+                  <LoaderCircle className="animate-spin" />Booking...
+                </>
+                : "Book This Service"}
+            </Button>
             <p className="text-sm text-muted-foreground mt-2">
               {/* <span className="font-medium text-foreground">Note:</span> Payment will only be requested after service completion. */}
             </p>

@@ -24,11 +24,14 @@ import AdminDashboard from "./pages/admin/Dashboard"
 
 
 function App() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" }) // or behavior: "auto"
-  }, [pathname])
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: "smooth" }) // or behavior: "auto"
+
+    }
+  }, [pathname, hash])
   return (
     <>
       <Routes>
@@ -57,8 +60,8 @@ function App() {
         <Route path="/provider/services/update/:serviceId" element={<AddEditServiceForm />} />
         <Route path="/provider/earnings" element={<ProviderEarning />} />
         <Route path="/provider/reviews" element={<Reviews />} />
-      
-        <Route path="/admin/dashboard" element={<AdminDashboard/>} />
+
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
       <Toaster toastOptions={{
         style: { borderRadius: "32px" },

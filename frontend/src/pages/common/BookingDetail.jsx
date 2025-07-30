@@ -10,22 +10,23 @@ import { useLocation, useParams } from "react-router-dom";
 import ProviderHeader from "../../components/provider/common/ProviderHeader";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogClose,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogClose,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Textarea } from '@/components/ui/textarea'
-import { changeBookingStatus } from "../../redux/slices/bookingSlice";
+import { changeBookingAndPaymentStatus } from "../../redux/slices/bookingSlice";
 import { toast } from "sonner";
 
 const BookingDetail = () => {
   const dispatch = useDispatch();
-    const [reason, setReason] = useState("");
-    const [isOpen, setIsOpen] = useState(false);
+  const [reason, setReason] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal2, setIsOpenModal2] = useState(false);
   const { pathname } = useLocation();
   const { bookingId } = useParams();
   let role = ""
@@ -60,24 +61,25 @@ const BookingDetail = () => {
     }
   }
 
-  const handleBookingStatusUpdate = async (bookingStatus) => {
-        try {
-            const bookingId = currentBooking._id;
-            const bookingData = { bookingStatus, reason }
-            console.log(bookingId, bookingData)
-            const response = await dispatch(changeBookingStatus({ bookingId, bookingData }));
-            if (changeBookingStatus.fulfilled.match(response)) {
-                toast.success("Booking Status updated successfully!")
-                setIsOpen(false);
-                return;
-            } else if (changeBookingStatus.rejected.match(response)) {
-                return toast.error(response.payload?.message || "Something went wrong while updating Booking Status");
-            }
-        } catch (error) {
-            console.error("Form submission error:", error);
-            toast.error("An unexpected error occurred");
-        }
+  const handleBookingStatusUpdate = async (bookingStatus, paymentStatus) => {
+    try {
+      const bookingId = currentBooking._id;
+      const bookingData = { bookingStatus, paymentStatus, reason }
+      console.log(bookingId, bookingData)
+      const response = await dispatch(changeBookingAndPaymentStatus({ bookingId, bookingData }));
+      if (changeBookingAndPaymentStatus.fulfilled.match(response)) {
+        toast.success("Booking Status updated successfully!")
+        setIsOpen(false);
+        setIsOpenModal2(false);
+        return;
+      } else if (changeBookingAndPaymentStatus.rejected.match(response)) {
+        return toast.error(response.payload?.message || "Something went wrong while updating Booking Status");
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast.error("An unexpected error occurred");
     }
+  }
   return (
     <main>
       {role === "provider"
@@ -226,9 +228,31 @@ const BookingDetail = () => {
             {/* {role === "seeker"
               && <Button variant="outline2" className="w-full lg:w-45">Reschedule</Button>
             } */}
-            <Button 
-              onClick={() => { handleBookingStatusUpdate("completed")}} 
-              className="w-full lg:w-45" disabled={(currentBooking?.bookingStatus === "completed" || currentBooking?.bookingStatus === "cancelled" || currentBooking?.bookingStatus === "failed") ? true : false}>Mark as Completed</Button>
+            {role === "provider"
+              && <Dialog open={isOpenModal2} onOpenChange={setIsOpenModal2}>
+                <DialogTrigger className='w-full lg:w-45'>
+                  <Button disabled={(currentBooking?.bookingStatus === "completed" || currentBooking?.bookingStatus === "cancelled" || currentBooking?.bookingStatus === "failed") ? true : false}>Mark as Completed</Button>
+                </DialogTrigger>
+                <DialogContent className={`rounded-3xl`}>
+                  <DialogHeader>
+                    <DialogTitle>Did You Recieved Your Payment? </DialogTitle>
+                  </DialogHeader>
+                  <div className="flex justify-end gap-3">
+                    <DialogClose asChild>
+                      <Button
+                        variant='destructive'
+                        onClick={() => setReason("")}
+                      >Not Recieved Yet</Button>
+                    </DialogClose>
+                    <Button
+                      onClick={() => {
+                        handleBookingStatusUpdate("completed", "paid");
+                      }}
+                      variant="outline2" className='px-2 hover:bg-accent hover:border-accent'>Yes, I Recieved</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            }
           </div>
         </div>
         <div className="py-3 mb-10 space-y-5">

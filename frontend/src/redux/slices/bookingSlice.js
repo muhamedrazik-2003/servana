@@ -91,8 +91,8 @@ export const getProviderBookings = createAsyncThunk(
     }
   }
 );
-export const changeBookingStatus = createAsyncThunk(
-  "bookingSlice/changeBookingStatus",
+export const changeBookingAndPaymentStatus = createAsyncThunk(
+  "bookingSlice/changeBookingAndPaymentStatus",
   async ({bookingId, bookingData}, { rejectWithValue }) => {
     console.log(bookingId, bookingData)
     try {
@@ -104,13 +104,13 @@ export const changeBookingStatus = createAsyncThunk(
         },
       });
       const { message, updatedBooking } = response.data;
-      console.log("Provider Bookings retrieved:", response.data);
+      console.log("Booking Statusd Updated:", response.data);
       return { message, updatedBooking };
     } catch (error) {
       console.error(error);
       return rejectWithValue({
         message:
-          error.response?.data?.message || "Failed To retrieve provider Bookings",
+          error.response?.data?.message || "Failed To update Bookings status",
       });
     }
   }
@@ -188,7 +188,8 @@ const bookingSlice = createSlice({
       state.error = action.payload.message || "Failed to retrieve all Bookings";
     });
 
-    builder.addCase(changeBookingStatus.fulfilled, (state, action) => {
+    // update booking and payment Satus
+    builder.addCase(changeBookingAndPaymentStatus.fulfilled, (state, action) => {
           const filtered = state.bookings.filter(
             (booking) => booking._id !== action.payload.updatedBooking._id
           );
@@ -197,11 +198,11 @@ const bookingSlice = createSlice({
           state.isUpdating = false;
           state.error = null;
         });
-        builder.addCase(changeBookingStatus.pending, (state, action) => {
+        builder.addCase(changeBookingAndPaymentStatus.pending, (state, action) => {
           state.isUpdating = true;
           state.error = null;
         });
-        builder.addCase(changeBookingStatus.rejected, (state, action) => {
+        builder.addCase(changeBookingAndPaymentStatus.rejected, (state, action) => {
           state.isUpdating = false;
           state.error = action.payload?.message || "Failed to update Booking Status";
         });

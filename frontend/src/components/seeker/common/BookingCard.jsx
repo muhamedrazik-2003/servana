@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import { Textarea } from '@/components/ui/textarea'
 import { useDispatch } from "react-redux"
 import { useState } from "react"
-import { changeBookingStatus } from "../../../redux/slices/bookingSlice"
+import { changeBookingAndPaymentStatus } from "../../../redux/slices/bookingSlice"
 import {
     Dialog,
     DialogContent,
@@ -24,6 +24,7 @@ function BookingCard({ userRole, bookingCardData }) {
     const dispatch = useDispatch();
     const [reason, setReason] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenModal2, setIsOpenModal2] = useState(false);
 
     function getStatusColor(status) {
         const s = status?.toLowerCase();
@@ -70,7 +71,7 @@ function BookingCard({ userRole, bookingCardData }) {
                                     </DialogClose>
                                     <Button
                                         onClick={() => {
-                                            handleBookingStatusUpdate("cancelled");
+                                            handleBookingStatusUpdate("cancelled", "cancelled");
                                         }}
                                         variant="destructive" className="">Cancel the Booking</Button>
                                 </div>
@@ -86,7 +87,9 @@ function BookingCard({ userRole, bookingCardData }) {
             case "completed":
                 return (
                     <div className="flex gap-2 w-full">
+                        <Link to={`/seeker/services/${bookingCardData?.serviceId?._id}#reviews`}>
                         <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Rate Now</Button>
+                        </Link>
                         <Link to={`/seeker/services/${bookingCardData?.serviceId?._id}`}>
                             <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Book Again</Button>
                         </Link>
@@ -113,7 +116,7 @@ function BookingCard({ userRole, bookingCardData }) {
                                 <DialogHeader>
                                     <DialogTitle>What is Your Reason for Cancellation? </DialogTitle>
                                     <DialogDescription>
-                                        <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-3xl text-black ${userRole === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
+                                        <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-2xl text-black ${userRole === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
                                     </DialogDescription>
                                 </DialogHeader>
                                 <div className="flex justify-end gap-3">
@@ -124,7 +127,7 @@ function BookingCard({ userRole, bookingCardData }) {
                                     </DialogClose>
                                     <Button
                                         onClick={() => {
-                                            handleBookingStatusUpdate("cancelled");
+                                            handleBookingStatusUpdate("cancelled", "cancelled");
                                         }}
                                         variant="destructive" className="">Reject the Booking</Button>
                                 </div>
@@ -133,7 +136,7 @@ function BookingCard({ userRole, bookingCardData }) {
                         {/* accept button */}
                         <Button
                             onClick={() => {
-                                handleBookingStatusUpdate("ongoing");
+                                handleBookingStatusUpdate("ongoing", "pending");
                             }}
                             variant="outline2" size="sm">Accept</Button>
                     </div>
@@ -149,7 +152,7 @@ function BookingCard({ userRole, bookingCardData }) {
                                 <DialogHeader>
                                     <DialogTitle>What is Your Reason for Cancellation? </DialogTitle>
                                     <DialogDescription>
-                                        <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-3xl text-black ${userRole === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
+                                        <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-2xl text-black ${userRole === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
                                     </DialogDescription>
                                 </DialogHeader>
                                 <div className="flex justify-end gap-3">
@@ -160,17 +163,36 @@ function BookingCard({ userRole, bookingCardData }) {
                                     </DialogClose>
                                     <Button
                                         onClick={() => {
-                                            handleBookingStatusUpdate("cancelled");
+                                            handleBookingStatusUpdate("cancelled", "cancelled");
                                         }}
                                         variant="destructive" className="">Cancel the Booking</Button>
                                 </div>
                             </DialogContent>
                         </Dialog>
-                        <Button
-                            onClick={() => {
-                                handleBookingStatusUpdate("completed");
-                            }}
-                            variant="outline2" size="sm" className='px-2 hover:bg-accent hover:border-accent'>Completed</Button>
+                        <Dialog open={isOpenModal2} onOpenChange={setIsOpenModal2}>
+                            <DialogTrigger>
+                                <Button variant="outline2" size="sm" className='px-2 hover:bg-accent hover:border-accent'>Completed</Button>
+                            </DialogTrigger>
+                            <DialogContent className={`rounded-3xl`}>
+                                <DialogHeader>
+                                    <DialogTitle>Did You Recieved Your Payment? </DialogTitle>
+                                </DialogHeader>
+                                <div className="flex justify-end gap-3">
+                                    <DialogClose asChild>
+                                        <Button
+                                            variant='destructive'
+                                            onClick={() => setReason("")}
+                                        >Not Recieved Yet</Button>
+                                    </DialogClose>
+                                    <Button
+                                        onClick={() => {
+                                            handleBookingStatusUpdate("completed", "paid");
+                                        }}
+                                        variant="outline2" className='px-2 hover:bg-accent hover:border-accent'>Yes, I Recieved</Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+
                     </div>
                 )
             default:
@@ -188,17 +210,18 @@ function BookingCard({ userRole, bookingCardData }) {
         }
     }
 
-    const handleBookingStatusUpdate = async (bookingStatus) => {
+    const handleBookingStatusUpdate = async (bookingStatus, paymentStatus) => {
         try {
             const bookingId = bookingCardData._id;
-            const bookingData = { bookingStatus, reason }
+            const bookingData = { bookingStatus, paymentStatus, reason }
             console.log(bookingId, bookingData)
-            const response = await dispatch(changeBookingStatus({ bookingId, bookingData }));
-            if (changeBookingStatus.fulfilled.match(response)) {
+            const response = await dispatch(changeBookingAndPaymentStatus({ bookingId, bookingData }));
+            if (changeBookingAndPaymentStatus.fulfilled.match(response)) {
                 toast.success("Booking Status updated successfully!")
                 setIsOpen(false);
+                setIsOpenModal2(false);
                 return;
-            } else if (changeBookingStatus.rejected.match(response)) {
+            } else if (changeBookingAndPaymentStatus.rejected.match(response)) {
                 return toast.error(response.payload?.message || "Something went wrong while updating Booking Status");
             }
         } catch (error) {
