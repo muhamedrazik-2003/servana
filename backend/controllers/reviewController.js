@@ -44,10 +44,13 @@ exports.addNewReview = async (req, res) => {
         avgRating,
       });
     }
+    const populatedReview = await reviews
+      .findById(savedReview._id)
+      .populate("seekerId")
 
     res.status(201).json({
       message: "Review Added Succesfully",
-      newReviewData: savedReview,
+      newReviewData: populatedReview,
     });
   } catch (error) {
     res.status(404).json({ message: "Failed To add Review", error });

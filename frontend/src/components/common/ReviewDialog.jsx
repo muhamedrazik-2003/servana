@@ -14,32 +14,45 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useDispatch } from 'react-redux'
 import { addNewReview } from '../../redux/slices/reviewSlice'
+import { toast } from 'sonner'
 
-function ReviewDialog() {
+function ReviewDialog({ bookingDetails }) {
+    // console.log(bookingDetails)
     const [open, setOpen] = useState(false)
     const [rating, setRating] = useState(0)
     const [hoverRating, setHoverRating] = useState(0)
     const [comment, setComment] = useState("")
-    const [newReview,setReview] = useState({
-        //  serviceId, providerId, bookingId, rating, comment
-    })
     const dispatch = useDispatch();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = dispatch(addNewReview(newReview))
-
+            const newReview = {
+                serviceId: bookingDetails?.serviceId,
+                providerId: bookingDetails?.providerId,
+                bookingId: bookingDetails?.bookingId,
+                rating,
+                comment
+            }
+            console.log(newReview)
+            const response = await dispatch(addNewReview(newReview))
+            if (addNewReview.fulfilled.match(response)) {
+                console.log("toast if working")
+                toast.success("Review Added Successfully!")
+                setOpen(false)
+                setHoverRating(0)
+                setRating(0)
+                setComment("")
+                return;
+            } else if (addNewReview.rejected.match(response)) {
+                return toast.error(response.payload?.message || "Something went wrong while adding your Review");
+            }
         } catch (error) {
             console.error("Form submission error:", error);
             toast.error("An unexpected error occurred");
         }
-        console.log({ rating, comment })
-        setOpen(false)
-        // Reset form
-        setHoverRating(0)
-        setRating(0)
-        setComment("")
+        // console.log({ rating, comment })
+
     }
     return (
         <Dialog open={open} onOpenChange={setOpen}>

@@ -191,16 +191,16 @@ const BookingDetail = () => {
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-primary">Booking Progress</h3>
           <div className="space-y-3">
-            <Progress value={getBookingProgress(currentBooking.bookingStatus)} className="h-3" />
+            <Progress value={getBookingProgress(currentBooking?.bookingStatus)} className="h-3" />
             <div className="flex justify-between text-sm text-muted-foreground">
               <span className={`text-teal-500 font-medium`}>Requested</span>
               {/* <span className="text-teal-500 font-medium">Confirmed</span> */}
-              <span className={`${(currentBooking.bookingStatus === "ongoing" || currentBooking.bookingStatus === "completed") ? "text-teal-500 font-medium" : ""}`}>In Progress</span>
-              {currentBooking.bookingStatus === "completed"
-                ? <span className={`${currentBooking.bookingStatus === "completed" ? "text-teal-500 font-medium" : ""}`}>Completed</span>
-                : currentBooking.bookingStatus === "cancelled"
-                  ? <span className={`${currentBooking.bookingStatus === "cancelled" ? "text-red-500 font-medium" : ""}`}>Cancelled</span>
-                  : <span className={`${currentBooking.bookingStatus === "failed" ? "text-red-500 font-medium" : ""}`}>Failed</span>
+              <span className={`${(currentBooking?.bookingStatus === "ongoing" || currentBooking?.bookingStatus === "completed") ? "text-teal-500 font-medium" : ""}`}>In Progress</span>
+              {currentBooking?.bookingStatus === "completed"
+                ? <span className={`${currentBooking?.bookingStatus === "completed" ? "text-teal-500 font-medium" : ""}`}>Completed</span>
+                : currentBooking?.bookingStatus === "cancelled"
+                  ? <span className={`${currentBooking?.bookingStatus === "cancelled" ? "text-red-500 font-medium" : ""}`}>Cancelled</span>
+                  : <span className={`${currentBooking?.bookingStatus === "failed" ? "text-red-500 font-medium" : ""}`}>Failed</span>
               }
             </div>
           </div>
@@ -265,7 +265,17 @@ const BookingDetail = () => {
         </div>
         {/* service Section */}
         <div ref={reviewRef} id="reviews" className="py-3 mb-10 space-y-5">
-          <ReviewSection page={"booking"} role={role} serviceId={currentBooking?.serviceId?._id} />
+          <ReviewSection
+            page={"booking"}
+            role={role}
+            bookingDetails={{
+              serviceId: currentBooking?.serviceId?._id,
+              providerId: currentBooking?.providerId?._id,
+              seekerId: currentBooking?.seekerId?._id,
+              bookingId: currentBooking?._id
+            }}
+            serviceId={currentBooking?.serviceId?._id}
+          />
         </div>
       </div>
       <Footer userRole={'seeker'} />

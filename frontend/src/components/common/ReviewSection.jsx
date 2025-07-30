@@ -15,15 +15,15 @@ import {
 } from "@/components/ui/card"
 
 
-function ReviewSection({ role, serviceId, page }) {
-    console.log(serviceId)
+function ReviewSection({ role,bookingDetails, serviceId, page }) {
+    // console.log(serviceId)
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getServiceReviews(serviceId))
     }, [])
     const { reviews } = useSelector(state => state.reviewSlice)
-    console.log(reviews)
+    // console.log(reviews)
 
     function handleRating(rating) {
         const fullStars = rating;
@@ -47,7 +47,7 @@ function ReviewSection({ role, serviceId, page }) {
                     <p className="text-sm text-gray-600">Reviews From other users who previously booked this service</p>
                 </div>
                 {role === "seeker" && page === "booking"
-                    && <ReviewDialog />
+                    && <ReviewDialog bookingDetails={bookingDetails}/>
                 }
             </div>
             <div className={`space-y-4 ${page === "booking" ? "grid grid-cols-2" : ""}`}>
@@ -77,7 +77,7 @@ function ReviewSection({ role, serviceId, page }) {
                         </div>
                     </>
                 ))
-                : <h2 className='text-center text-3xl py-4'>Currently, there are no reviews available.</h2>
+                : <h2 className={`text-center text-3xl py-4 ${page === "booking" ? "col-span-2" : ""}`}>Currently, there are no reviews available.</h2>
                 }
             </div>
         </>

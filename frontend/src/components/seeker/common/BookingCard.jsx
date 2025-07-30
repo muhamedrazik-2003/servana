@@ -87,7 +87,7 @@ function BookingCard({ userRole, bookingCardData }) {
             case "completed":
                 return (
                     <div className="flex gap-2 w-full">
-                        <Link to={`/seeker/services/${bookingCardData?.serviceId?._id}#reviews`}>
+                        <Link to={`/seeker/mybookings/${bookingCardData?._id}#reviews`}>
                         <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Rate Now</Button>
                         </Link>
                         <Link to={`/seeker/services/${bookingCardData?.serviceId?._id}`}>
