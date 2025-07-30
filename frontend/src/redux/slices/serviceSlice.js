@@ -136,7 +136,7 @@ const serviceSlice = createSlice({
     handleSearch: (state, action) => {
       const filtered = state.servicesBackup.filter((service) => {
         const searchKeyword = action.payload.toLowerCase().trim()
-        const searchString = `${service.title} ${service.category} ${service.subCategory} ${service?.providerId?.fullName}`.toLowerCase();
+        const searchString = `${service.title} ${service.category} ${service.subCategory} ${service.location.city} ${service.location.state} ${service?.providerId?.fullName} ${service.price}`.toLowerCase();
         return searchString.includes(searchKeyword);
       });
       state.services = filtered;

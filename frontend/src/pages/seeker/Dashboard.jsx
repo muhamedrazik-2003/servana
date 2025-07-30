@@ -48,7 +48,7 @@ function Dashboard() {
   ]
   return (
     <main>
-      <SeekerHeader />
+      <SeekerHeader scrollValue={450}/>
       <SeekerHero />
       <BookingList />
       <ServiceCategory format={'seeker'} />

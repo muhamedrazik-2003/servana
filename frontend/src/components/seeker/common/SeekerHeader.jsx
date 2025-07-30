@@ -1,11 +1,26 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { Menu, Bell, Moon, User, Search, Calendar, Sun, MapPin, Layers } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
 
-function SeekerHeader() {
+function SeekerHeader({ scrollValue }) {
+  const [showSearchBar, setShowSearchbar] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+   window.addEventListener("scroll", () => {
+      if(window.scrollY >= scrollValue ) {
+        setShowSearchbar(true)
+      } else if(window.scrollY < scrollValue) {
+        setShowSearchbar(false)
+      }
+    });
+    return () => window.removeEventListener("scroll", () => {
+      return null
+    });
+  }, [scrollY]);
 
   return (
     <header className="w-full sticky top-0 z-50 bg-background shadow-md dark:bg-background transition-all">
@@ -18,7 +33,7 @@ function SeekerHeader() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
-          <div className="flex gap-2">
+          <div className={`${showSearchBar ? "opacity-100" : "opacity-0"} transition-all duration-150 flex gap-2`}>
             <div className="relative md:w-[140px] lg:w-[180px]">
               <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
               <input
@@ -61,7 +76,7 @@ function SeekerHeader() {
               <User className="h-5 w-5 text-primary" />
               <span className="text-sm hidden lg:inline">Profile</span>
             </button>
-      
+
             <div className="absolute right-0 top-full pt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-3xl hidden group-hover:block p-2">
               <Link to="/seeker/profile" className="block px-3 py-2 text-sm rounded-3xl hover:bg-teal-100 dark:hover:bg-gray-700">View Profile</Link>
               <Link to="/" className="block px-3 py-2 text-sm rounded-3xl hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>

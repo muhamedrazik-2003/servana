@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 import Footer from '../../components/common/Footer'
-import { MapPin } from 'lucide-react'
+import { MapPin, Search } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -23,8 +23,8 @@ function AllServices() {
   // console.log(searchData)
   useEffect(() => {
     dispatch(handleSearch(searchData))
-  },[searchData])
-  
+  }, [searchData])
+
   const normalizedPrice = (service) => {
     if (service.priceUnit === "hour") return service.price
     if (service.priceUnit === "day") return service.price / 8
@@ -57,19 +57,20 @@ function AllServices() {
   }, [])
   return (
     <main>
-      <SeekerHeader />
+      <SeekerHeader scrollValue={210} />
 
       <section className='mt-8 pb-5 md:pb-8 lg:pb-12'>
         <h1 className='text-[clamp(2.5rem,8vw,48px)] leading-11  md:leading-18 z-0 mb-2'>All Services</h1>
         <p className='max-w-[600px] text-sm mx-auto font-semibold text-center mb-6 p-0'>Explore top-rated services tailored to your needs.</p>
         <div className='flex gap-3 items-center justify-center'>
           <div className="relative w-[340px] md:w-[500px]">
-            <MapPin className="absolute left-3 top-3 size-5 md:size-6 text-primary" />
+            <Search className="absolute left-3 top-3 size-5 md:size-6 text-primary" />
             <input
+            defaultValue={"tap"}
               type="text"
               onChange={(e) => setSearchData(e.target.value)}
-              placeholder="Search for services (e.g., AC repair, Cleaning)..."
-              className="pl-9 md:pl-11 pr-4 py-2 md:py-2.5 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 md:text-lg outline-none"
+              placeholder="Search By Service, Location, provider, Price and more..."
+              className="pl-9 md:pl-11 pr-4 py-2 md:py-2.5 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 outline-none"
             />
           </div>
           <Select value={sortData} onValueChange={(value) => setSortData(value)}>
