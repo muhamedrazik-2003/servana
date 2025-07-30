@@ -45,18 +45,47 @@ exports.addNewReview = async (req, res) => {
       });
     }
 
-    const populatedReview = await reviews
-      .findById(savedReview._id)
-      .populate("seekerId")
-      .populate("providerId")
-      .populate("serviceId");
-
-    console.log(populatedReview);
     res.status(201).json({
       message: "Review Added Succesfully",
-      newReviewData: populatedReview,
+      newReviewData: savedReview,
     });
   } catch (error) {
     res.status(404).json({ message: "Failed To add Review", error });
+  }
+};
+
+exports.getAllReviews = async (req, res) => {
+  try {
+    const ReviewList = await reviews
+      .find()
+      .populate("seekerId")
+      .populate("providerId")
+      .populate("bookingId")
+      .populate("serviceId");
+    res
+      .status(200)
+      .json({ message: "All Reviews retrieved", ReviewList });
+  } catch (error) {
+    console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
+exports.getServiceReviews = async (req, res) => {
+  try {
+    const {serviceId} = req.params;
+    console.log(serviceId)
+    const ReviewList = await reviews
+      .find({ serviceId })
+      // .populate("bookingId")
+      // .populate("seekerId")
+      // .populate("providerId")
+      // .populate("serviceId");
+    res
+      .status(200)
+      .json({ message: "Bookings of User retrieved", ReviewList });
+  } catch (error) {
+    console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
   }
 };
