@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -12,14 +12,17 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 
 const ServiceCard = ({ variant = "seeker", data }) => {
-
+const plugin = useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: false }) // delay in ms
+  )
     const renderContent = () => (
         <div className="flex flex-col">
             {/* Image */}
             <div className="w-full md:h-auto">
-                <Carousel>
+                <Carousel plugins={[plugin.current]}>
                     <CarouselContent>
                         {data?.images.map(image => (
                             <CarouselItem>
@@ -31,8 +34,8 @@ const ServiceCard = ({ variant = "seeker", data }) => {
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <CarouselPrevious className=' !left-3 size-6 bg-orange-400' />
-                    <CarouselNext className=' !right-3 size-6 bg-orange-400' />
+                    {/* <CarouselPrevious className=' !left-3 size-6 bg-orange-400' />
+                    <CarouselNext className=' !right-3 size-6 bg-orange-400' /> */}
                 </Carousel>
 
             </div>
