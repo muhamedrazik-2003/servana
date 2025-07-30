@@ -37,7 +37,7 @@ export const getAllServices = createAsyncThunk(
         },
       });
       const { message, allServices } = response.data;
-      // console.log("Services retrieved:", response.data);
+      console.log("All Services retrieved:", response.data);
       return { message, allServices };
     } catch (error) {
       console.log("An Error Occured", error);
@@ -125,17 +125,28 @@ const serviceSlice = createSlice({
   name: "serviceSlice",
   initialState: {
     services: [],
+    servicesBackup: [],
     isLoading: false,
     isUpdating: false,
     isDeleting: false,
     successResponse: "",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    handleSearch: (state, action) => {
+      const filtered = state.servicesBackup.filter((service) => {
+        const searchKeyword = action.payload.toLowerCase().trim()
+        const searchString = `${service.title} ${service.category} ${service.subCategory} ${service?.providerId?.fullName}`.toLowerCase();
+        return searchString.includes(searchKeyword);
+      });
+      state.services = filtered;
+    },
+  },
   extraReducers: (builder) => {
     // get services
     builder.addCase(getUserServices.fulfilled, (state, action) => {
       state.services = action.payload.serviceList || [];
+      state.servicesBackup = action.payload.serviceList || [];
       state.isLoading = false;
       state.error = null;
       state.successResponse = action.payload.message;
@@ -151,6 +162,7 @@ const serviceSlice = createSlice({
     // get all services
     builder.addCase(getAllServices.fulfilled, (state, action) => {
       state.services = action.payload.allServices || [];
+      state.servicesBackup = action.payload.allServices || [];
       state.isLoading = false;
       state.error = null;
       state.successResponse = action.payload.message;
@@ -167,6 +179,7 @@ const serviceSlice = createSlice({
     // add service
     builder.addCase(addService.fulfilled, (state, action) => {
       state.services.push(action.payload.service);
+      state.servicesBackup.push(action.payload.service);
       state.isUpdating = false;
       state.error = null;
       state.successResponse = action.payload.message;
@@ -185,8 +198,13 @@ const serviceSlice = createSlice({
       const filtered = state.services.filter(
         (service) => service._id !== action.payload.updatedService._id
       );
+      // just in case
+      const BackupFiltered = state.servicesBackup.filter(
+        (service) => service._id !== action.payload.updatedService._id
+      );
       filtered.push(action.payload.updatedService);
       state.services = filtered;
+      state.servicesBackup = BackupFiltered;
       state.isUpdating = false;
       state.error = null;
       state.successResponse = action.payload.message;
@@ -205,7 +223,11 @@ const serviceSlice = createSlice({
       const filtered = state.services.filter(
         (service) => service._id !== action.payload.deletedService._id
       );
+      const backupFiltered = state.servicesBackup.filter(
+        (service) => service._id !== action.payload.deletedService._id
+      );
       state.services = filtered;
+      state.servicesBackup = backupFiltered;
       state.isDeleting = false;
       state.error = null;
       state.successResponse = action.payload.message;
@@ -220,5 +242,5 @@ const serviceSlice = createSlice({
     });
   },
 });
-
+export const {handleSearch} = serviceSlice.actions
 export default serviceSlice.reducer;

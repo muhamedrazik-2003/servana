@@ -12,14 +12,19 @@ import {
 import ServiceCard from '../../components/common/ServiceCard'
 import CategoryFilter from '../../components/common/all services/CategoryFilter'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllServices } from '../../redux/slices/serviceSlice'
+import { getAllServices, handleSearch } from '../../redux/slices/serviceSlice'
 
 function AllServices() {
   const { services, isLoading } = useSelector(state => state.serviceSlice);
   const { filteringCategory } = useSelector(state => state.categorySlice);
   const [sortData, setSortData] = useState('popular');
+  const [searchData, setSearchData] = useState('');
   // const [noFilteredData,ata]
-  // console.log(sortData)
+  // console.log(searchData)
+  useEffect(() => {
+    dispatch(handleSearch(searchData))
+  },[searchData])
+  
   const normalizedPrice = (service) => {
     if (service.priceUnit === "hour") return service.price
     if (service.priceUnit === "day") return service.price / 8
@@ -62,6 +67,7 @@ function AllServices() {
             <MapPin className="absolute left-3 top-3 size-5 md:size-6 text-primary" />
             <input
               type="text"
+              onChange={(e) => setSearchData(e.target.value)}
               placeholder="Search for services (e.g., AC repair, Cleaning)..."
               className="pl-9 md:pl-11 pr-4 py-2 md:py-2.5 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 md:text-lg outline-none"
             />

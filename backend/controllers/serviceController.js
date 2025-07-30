@@ -67,7 +67,7 @@ exports.getAllUsers = async (req, res) => {
     const allServices = await services.find().populate('providerId', 'fullName');
      res
       .status(200)
-      .json({ message: "services of Provider retrieved", allServices });
+      .json({ message: "All Services retrieved", allServices });
 
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
