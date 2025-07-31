@@ -22,7 +22,7 @@ function BookingList() {
                     ? ongoingBookings.map((booking, index) => (
                         <BookingCard key={index} bookingCardData={booking} />
                     ))
-                    : <h2 className='md:col-span-2 lg:col-span-3 text-center py-20 text-3xl leading-10'>You don’t have any <span className='text-primary'>ongoing</span><br/>  bookings at the moment.</h2>
+                    : <h2 className='md:col-span-2 lg:col-span-3 text-center py-20 text-xl lg:text-3xl leading-6 lg:leading-10'>You don’t have any <span className='text-primary'>ongoing</span><br/>  bookings at the moment.</h2>
                 }
             </div>
         </section>

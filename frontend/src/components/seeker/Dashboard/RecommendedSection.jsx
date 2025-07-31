@@ -17,12 +17,12 @@ function RecommendedSection() {
     console.log(recommendedServices)
     return (
         <section className="mt-10 space-y-5 pb-10">
-            <div className='flex justify-between items-end md:items-center mb-10'>
+            <div className='flex flex-col md:flex-row justify-between md:items-center lg:pr-8 mb-10'>
                 <div>
                     <h2 className='text-2xl md:text-4xl mb-1'>Recommended for You</h2>
                     <p className='text-base mb-10'>Services you may want to explore.</p>
                 </div>
-                <Link to={'/seeker/services'}>
+                <Link to={'/seeker/services'} className="ml-auto">
                     <Button variant={'outline'} className={`border ml-auto mb-0`}>View More</Button>
                 </Link>
             </div>
@@ -50,7 +50,7 @@ function RecommendedSection() {
                         </Card>
                     ))
 
-                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-3xl leading-10'>No <span className="text-primary">recommended</span> Services are available<br />  right now.Please check back later.</h2>
+                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-xl lg:text-3xl leading-6 lg:leading-10'>No <span className="text-primary">recommended</span> Services are available right now.Please check back later.</h2>
                 }
             </div>
         </section>

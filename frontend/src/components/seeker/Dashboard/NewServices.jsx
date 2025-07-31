@@ -21,7 +21,7 @@ function NewServices() {
     console.log(newAddedServices)
     return (
         <section className="mt-10 space-y-5 pb-10">
-            <div className='flex justify-between items-end md:items-center mb-10'>
+            <div className='flex flex-col md:flex-row justify-between items-end md:items-center mb-10'>
                 <div>
                     <h2 className='text-2xl md:text-4xl mb-1'>Fresh Services Just for You</h2>
                     <p className='text-base mb-10'>We’ve got some new arrivals! Check out what’s fresh in your area.</p>
@@ -68,7 +68,7 @@ function NewServices() {
                             </Card>
                         </Link>
                     ))
-                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-3xl leading-10'>Currently no <span className="text-primary"> New</span> Services<br /> Are Available at the moment</h2>
+                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-xl lg:text-3xl leading-6 lg:leading-10'>Currently no <span className="text-primary"> New</span> Services<br /> Are Available at the moment</h2>
 
                 }
             </div>

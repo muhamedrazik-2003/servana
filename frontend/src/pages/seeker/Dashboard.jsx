@@ -54,7 +54,7 @@ function Dashboard() {
       <ServiceCategory format={'seeker'} />
       <RecommendedSection />
       <NewServices/>
-      <TopProviderSection />
+      {/* <TopProviderSection /> */}
       {/* trust section */}
       <section className="mt-12 space-y-6 px-4 sm:px-6 lg:px-8">
         {/* Heading */}

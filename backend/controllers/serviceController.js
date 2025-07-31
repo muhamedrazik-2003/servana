@@ -74,9 +74,10 @@ exports.getAllServices = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error", error });
   }
 };
+
 exports.getSampleServices = async (req, res) => {
   try {
-    const sampleServices = await services.find();
+    const sampleServices = await services.find().slice(0,8);
      res
       .status(200)
       .json({ message: "sample Services retrieved", sampleServices });

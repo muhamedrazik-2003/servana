@@ -10,10 +10,10 @@ function SeekerHeader({ scrollValue }) {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-   window.addEventListener("scroll", () => {
-      if(window.scrollY >= scrollValue ) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY >= scrollValue) {
         setShowSearchbar(true)
-      } else if(window.scrollY < scrollValue) {
+      } else if (window.scrollY < scrollValue) {
         setShowSearchbar(false)
       }
     });
@@ -28,58 +28,52 @@ function SeekerHeader({ scrollValue }) {
         {/* Logo + Name */}
         <Link to="/seeker/home" className="flex items-center gap-2">
           <img src={Logo} alt="Servana Logo" className="h-8 w-8" />
-          <span className="font-bold text-xl md:hidden lg:block text-gray-800 dark:text-white">Servana</span>
+          <span className={`font-bold text-xl ${showSearchBar ? "opacity-0 md:opacity-100" : "opacity-100"} text-gray-800 dark:text-white`}>Servana</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="flex items-center gap-6">
           <div className={`${showSearchBar ? "opacity-100" : "opacity-0"} transition-all duration-150 flex gap-2`}>
-            <div className="relative md:w-[140px] lg:w-[180px]">
-              <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
-              <input
-                type="text"
-                placeholder="Your Location..."
-                className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
-              />
-            </div>
-            <div className="relative md:w-[200px] lg:w-[260px]">
+            <div className="relative w-[240px] md:w-[240px] lg:w-[300px]">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
               <input
                 type="text"
-                placeholder="Search services..."
+                placeholder="Search By Service, Location, provider, Price and more..."
                 className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
               />
             </div>
           </div>
-          {/* Booking */}
-          <Link to="/seeker/services" className="flex items-center gap-1 text-sm hover:text-primary">
-            <Layers className="h-5 w-5 text-primary" />
-            <span className="hidden md:inline">All Services</span>
-          </Link>
-          <Link to="/seeker/mybookings" className="flex items-center gap-1 text-sm hover:text-primary">
-            <Calendar className="h-5 w-5 text-primary" />
-            <span className="hidden lg:inline">Your Bookings</span>
-          </Link>
+          <div className="hidden md:flex items-center gap-6">
+            {/* Booking */}
+            <Link to="/seeker/services" className="flex items-center gap-1 text-sm hover:text-primary">
+              <Layers className="h-5 w-5 text-primary" />
+              <span className="hidden lg:inline">All Services</span>
+            </Link>
+            <Link to="/seeker/mybookings" className="flex items-center gap-1 text-sm hover:text-primary">
+              <Calendar className="h-5 w-5 text-primary" />
+              <span className="hidden lg:inline">Your Bookings</span>
+            </Link>
 
-          {/* Notification (disabled) */}
-          <button disabled className="text-gray-400 cursor-not-allowed">
-            <Bell className="h-5 w-5" />
-          </button>
-
-          {/* Dark Mode Toggle (disabled) */}
-          <button disabled className="text-gray-400 cursor-not-allowed">
-            <Sun className="h-5 w-5" />
-          </button>
-
-          <div className="relative group py-2">
-            <button className="flex items-center gap-2">
-              <User className="h-5 w-5 text-primary" />
-              <span className="text-sm hidden lg:inline">Profile</span>
+            {/* Notification (disabled) */}
+            <button disabled className="text-gray-400 cursor-not-allowed">
+              <Bell className="h-5 w-5" />
             </button>
 
-            <div className="absolute right-0 top-full pt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-3xl hidden group-hover:block p-2">
-              <Link to="/seeker/profile" className="block px-3 py-2 text-sm rounded-3xl hover:bg-teal-100 dark:hover:bg-gray-700">View Profile</Link>
-              <Link to="/" className="block px-3 py-2 text-sm rounded-3xl hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
+            {/* Dark Mode Toggle (disabled) */}
+            <button disabled className="text-gray-400 cursor-not-allowed">
+              <Sun className="h-5 w-5" />
+            </button>
+
+            <div className="relative group py-2">
+              <button className="flex items-center gap-2">
+                <User className="h-5 w-5 text-primary" />
+                <span className="text-sm hidden lg:inline">Profile</span>
+              </button>
+
+              <div className="absolute right-0 top-full pt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-3xl hidden group-hover:block p-2">
+                <Link to="/seeker/profile" className="block px-3 py-2 text-sm rounded-3xl hover:bg-teal-100 dark:hover:bg-gray-700">View Profile</Link>
+                <Link to="/" className="block px-3 py-2 text-sm rounded-3xl hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
+              </div>
             </div>
           </div>
         </div>
