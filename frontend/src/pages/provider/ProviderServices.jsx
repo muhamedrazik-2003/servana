@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProviderHeader from '../../components/provider/common/ProviderHeader'
 import ProviderSidebar from '../../components/provider/common/ProviderSidebar'
 import Footer from '../../components/common/Footer'
@@ -13,10 +13,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserServices } from '../../redux/slices/serviceSlice'
+import { getUserServices, handleSearch } from '../../redux/slices/serviceSlice'
 
 function MyServices() {
-  const { services, isLoading,servicesBackup } = useSelector(state => state.serviceSlice);
+  const { services, isLoading, servicesBackup, keywords } = useSelector(state => state.serviceSlice);
+  const [sortData, setSortData] = useState('popular');
+
   const dispatch = useDispatch();
   // console.log(services)
   useEffect(() => {
@@ -24,6 +26,25 @@ function MyServices() {
       dispatch(getUserServices());
     }
   }, [])
+
+  const normalizedPrice = (service) => {
+    if (service.priceUnit === "hour") return service.price
+    if (service.priceUnit === "day") return service.price / 8
+    if (service.priceUnit === "service") return service.price
+    return service.price
+  }
+
+  let sortedData = []
+  if (sortData === "popular") {
+    sortedData = [...services]?.sort((a, b) => b.totalBookings - a.totalBookings);
+  } else if (sortData === "newest") {
+    sortedData = [...services]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  } else if (sortData === "priceLowToHigh") {
+    sortedData = [...services]?.sort((a, b) => normalizedPrice(a) - normalizedPrice(b))
+  } else if (sortData === "PriceHighToLow") {
+    sortedData = [...services]?.sort((a, b) => normalizedPrice(b) - normalizedPrice(a))
+  }
+
   return (
     <>
 
@@ -45,7 +66,9 @@ function MyServices() {
               <MapPin className="absolute left-3 top-3 size-5 text-primary" />
               <input
                 type="text"
-                placeholder="Search Your Bookings..."
+                defaultValue={keywords}
+                onChange={(e) => dispatch(handleSearch(e.target.value))}
+                placeholder="Search By Service, Location, provider, Price and more..."
                 className="pl-9 md:pl-11 pr-4 py-2 md:py-2.5 w-full rounded-full border-2 bg-orange-50 dark:bg-orange-950 md:text outline-none"
               />
             </div>
@@ -54,37 +77,54 @@ function MyServices() {
           <div className='flex items-start gap-4 space-y-4'>
             <SummarySection page={'services'} />
             <div className='space-y-1'>
-              <Select>
+              <Select value={sortData} onValueChange={(value) => setSortData(value)}>
                 <SelectTrigger className="w-[192px] !h-10 lg:!h-9 rounded-3xl border-2 bg-orange-100 border-orange-300 pl-6">
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
                 <SelectContent className='bg-orange-100'>
                   <SelectItem value="popular">Popular Service</SelectItem>
                   <SelectItem value="newest">Newest Service</SelectItem>
-                  <SelectItem value="topProviders">Top Providers</SelectItem>
                   <SelectItem value="priceLowToHigh">Price Low to High</SelectItem>
                   <SelectItem value="PriceHighToLow">Price High To Low</SelectItem>
                 </SelectContent>
               </Select>
-              <Select>
+              <Select disabled={true} value={sortData} onValueChange={(value) => setSortData(value)}>
                 <SelectTrigger className="w-[192px] !h-10 lg:!h-9 rounded-3xl border-2 bg-orange-100 border-orange-300 pl-6">
-                  <SelectValue placeholder="Status" />
+                  <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
                 <SelectContent className='bg-orange-100'>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="inactivet">Inactive</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="popular">Popular Service</SelectItem>
+                  <SelectItem value="newest">Newest Service</SelectItem>
+                  <SelectItem value="priceLowToHigh">Price Low to High</SelectItem>
+                  <SelectItem value="PriceHighToLow">Price High To Low</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 mb-20'>
-            {services.length > 0
+            {/* {services.length > 0
               ? services?.map(service => (
                 <ServiceCard variant='provider' data={service} />
               ))
               : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-4xl'>currently No services Available</h2>
 
+            } */}
+            {isLoading
+              ? <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-5xl flex items-center gap-2'>Services Loading <Loader2 className='size-5' /></h2>
+              : sortedData?.length > 0
+                ? sortedData.map((service, index) => (
+                  <ServiceCard key={index} variant='provider' data={service} />
+                ))
+
+                : keywords.length > 0
+                  ? <h2 className="md:col-span-2 lg:col-span-3 text-center py-15 text-3xl leading-10">
+                    We couldn’t find any services matching your <span className="text-primary">search</span>.<br />
+                    Try a broader or different search.
+                  </h2>
+
+                  : <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-3xl leading-10'>We couldn’t load <br />
+                    the <span className='text-primary'>services</span> right now.<br /> Please try again later.
+                  </h2>
             }
           </div>
         </section>

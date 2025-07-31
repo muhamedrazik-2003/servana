@@ -319,7 +319,7 @@ function ProfilePage() {
             <Button disabled={isUpdating} onClick={handleUpdate}>
               {isUpdating
                 ? <>
-                  <LoaderCircle  className="size-6 animate-spin"/>"Updating"
+                  <LoaderCircle  className="size-6 animate-spin"/> Updating
                 </>
                 : "Update"}
             </Button>

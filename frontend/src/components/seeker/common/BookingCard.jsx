@@ -88,7 +88,7 @@ function BookingCard({ userRole, bookingCardData }) {
                 return (
                     <div className="flex gap-2 w-full">
                         <Link to={`/seeker/mybookings/${bookingCardData?._id}#reviews`}>
-                        <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Rate Now</Button>
+                            <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Rate Now</Button>
                         </Link>
                         <Link to={`/seeker/services/${bookingCardData?.serviceId?._id}`}>
                             <Button variant="outline2" size="sm" className='w-[50%] lg:w-auto'>Book Again</Button>
@@ -229,6 +229,13 @@ function BookingCard({ userRole, bookingCardData }) {
             toast.error("An unexpected error occurred");
         }
     }
+    const handleDateFormat = (bookingDate) => {
+        return new Date(bookingDate).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+    }
     return (
         <>
             <Card className="w-full max-w-md mx-auto bg-gray-50 border-2 border-gray-300 rounded-3xl gap-0 justify-between">
@@ -244,7 +251,7 @@ function BookingCard({ userRole, bookingCardData }) {
                         <div className="flex justify-between items-center mt-3">
                             <div className="flex items-center gap-3">
                                 <Calendar className="w-5 h-5 text-red-500" />
-                                <span className="text-gray-900 font-medium">{bookingCardData?.scheduledDate.slice(0, 10) || 'Not Available'}</span>
+                                <span className="text-gray-900 font-medium">{handleDateFormat(bookingCardData?.scheduledDate) || 'Not Available'}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Clock className="w-5 h-5 text-red-500" />

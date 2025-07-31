@@ -23,7 +23,7 @@ const plugin = useRef(
             {/* Image */}
             <div className="w-full md:h-auto">
                 <Carousel plugins={[plugin.current]}>
-                    <CarouselContent>
+                    <CarouselContent className='rounded-3xl'>
                         {data?.images.map(image => (
                             <CarouselItem>
                                 <img
