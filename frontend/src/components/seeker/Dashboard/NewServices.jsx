@@ -18,7 +18,7 @@ function NewServices() {
 
     const newAddedServices = [...services]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
-    console.log(newAddedServices)
+    // console.log(newAddedServices)
     return (
         <section className="mt-10 space-y-5 pb-10">
             <div className='flex flex-col md:flex-row justify-between items-end md:items-center mb-10'>

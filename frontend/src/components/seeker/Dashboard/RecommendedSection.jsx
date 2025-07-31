@@ -14,7 +14,7 @@ function RecommendedSection() {
         service.totalBookings > 4 && service.rating >= 3
     );
 
-    console.log(recommendedServices)
+    // console.log(recommendedServices)
     return (
         <section className="mt-10 space-y-5 pb-10">
             <div className='flex flex-col md:flex-row justify-between md:items-center lg:pr-8 mb-10'>

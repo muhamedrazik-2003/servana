@@ -115,12 +115,12 @@ function CategoryFilter() {
     const [selectedSubcategory, setSelectedSubcategory] = useState("");
     const [categoryHidden, setCategoryHidden] = useState(true);
     const dispatch = useDispatch();
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(getCategories())
-    },[])
+    }, [])
 
-    const {categories} = useSelector(state => state.categorySlice);
-    
+    const { categories } = useSelector(state => state.categorySlice);
+
     const handleCategorySelect = (category) => {
         dispatch(getCategoryBasedFilterData(category));
         setSelectedCategory(category);
@@ -135,14 +135,14 @@ function CategoryFilter() {
 
 
     return (
-        <Card className={` w-full lg:max-w-[280px] bg-background border-teal-100 lg:pt-3 transition-all duration-400 lg:rounded-3xl ${categoryHidden ? "gap-0 rounded-full" : "gap-1"}`}>
-            <CardHeader className={`${categoryHidden ? "gap-0" : "gap-1"}`}>
+        <Card className={` w-full lg:max-w-[280px] bg-background border-teal-100 lg:pt-3 transition-all duration-400 lg:rounded-3xl ${categoryHidden ? "gap-0 rounded-3xl py-0" : "gap-1 pt-0"}`}>
+            <CardHeader onClick={() => setCategoryHidden(prev => !prev)} className={`${categoryHidden ? "gap-0" : "gap-1"}`}>
                 <div className='flex justify-between items-center'>
                     <div className="flex items-center gap-2 ">
                         <Icon.Filter className="h-5 w-5 text-gray-600" />
                         <h2 className="text-lg  font-semibold text-gray-900 m-0">Categories</h2>
                     </div>
-                    <Icon.ChevronDown onClick={() =>setCategoryHidden(prev => !prev)} className="h-5 w-5 text-gray-600 lg:hidden" />
+                    <Icon.ChevronDown className="h-5 w-5 text-gray-600 lg:hidden" />
                 </div>
             </CardHeader>
 
@@ -150,9 +150,9 @@ function CategoryFilter() {
                 {/* All Categories Button */}
                 <Button
                     variant={"outline2"}
-                    className={`w-full justify-start rounded-full h-12 ${selectedCategory === "all"
-                            ? "bg-primary text-white"
-                            : "bg-teal-50 border-gray-300 text-gray-700"
+                    className={`w-full justify-start rounded-full h-10 lg:h-12 ${selectedCategory === "all"
+                        ? "bg-primary text-white"
+                        : "bg-teal-50 border-gray-300 text-gray-700"
                         }`}
                     onClick={() => handleCategorySelect("all")}
                 >
@@ -162,21 +162,25 @@ function CategoryFilter() {
                 {/* Category Accordion */}
                 <Accordion type="single" collapsible className="w-auto lg:w-[255px] space-y-1">
                     {categories.map((category) => {
-                        const iconname = category?.icon;
-                        // const IconComponent = Icon.iconname
+                        const IconComponent = Icon[category?.icon];
                         const isSelected = selectedCategory === category?._id;
 
                         return (
                             <AccordionItem key={category?._id} value={category?._id} className="border-none">
                                 <AccordionTrigger
                                     className={`flex items-center text-sm justify-between w-full px-4 py-1.5 text-left rounded-full hover:no-underline transition-colors ${isSelected
-                                            ? "bg-teal-100 text-gray-900"
-                                            : "bg-teal-50 border border-gray-200 text-gray-700 hover:bg-teal-100"
+                                        ? "bg-teal-100 text-gray-900"
+                                        : "bg-teal-50 border border-gray-200 text-gray-700 hover:bg-teal-100"
                                         }`}
                                     onClick={() => handleCategorySelect(category?.title)}
                                 >
                                     <div className="flex items-center gap-3">
-                                        {/* <IconComponent className="h-4 w-4" /> */}
+                                        {IconComponent ? (
+                                            <IconComponent className="h-4 w-4" />
+                                        ) : (
+                                            <Icon.ToolCase className="h-4 w-4" />
+                                        )}
+
                                         <span className="font-medium">{category?.title}</span>
                                     </div>
                                 </AccordionTrigger>
@@ -187,8 +191,8 @@ function CategoryFilter() {
                                                 key={subcategory}
                                                 variant="outline2"
                                                 className={`w-full justify-start text-sm h-9 rounded-full border-transparent ${selectedSubcategory === subcategory
-                                                        ? "bg-primary text-background"
-                                                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                                    ? "bg-primary text-background"
+                                                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                                     }`}
                                                 onClick={() => handleSubcategorySelect(subcategory)}
                                             >
@@ -209,8 +213,8 @@ function CategoryFilter() {
                 <Button
                     variant={"outline2"}
                     className={`w-full justify-start rounded-full h-12 ${selectedCategory === "all"
-                            ? "bg-primary text-white"
-                            : "bg-teal-50 border-gray-300 text-gray-700"
+                        ? "bg-primary text-white"
+                        : "bg-teal-50 border-gray-300 text-gray-700"
                         }`}
                     onClick={() => handleCategorySelect("all")}
                 >
@@ -220,20 +224,24 @@ function CategoryFilter() {
                 {/* Category Accordion */}
                 <Accordion type="single" collapsible className="w-auto lg:w-[255px] space-y-1">
                     {categories.map((category) => {
-                        const IconComponent = category?.icon;
+                        const IconComponent = Icon[category?.icon];
                         const isSelected = selectedCategory === category?._id;
 
                         return (
                             <AccordionItem key={category?._id} value={category?._id} className="border-none">
                                 <AccordionTrigger
                                     className={`flex items-center text-sm justify-between w-full px-4 py-1.5 text-left rounded-full hover:no-underline transition-colors ${isSelected
-                                            ? "bg-teal-100 text-gray-900"
-                                            : "bg-teal-50 border border-gray-200 text-gray-700 hover:bg-teal-100"
+                                        ? "bg-teal-100 text-gray-900"
+                                        : "bg-teal-50 border border-gray-200 text-gray-700 hover:bg-teal-100"
                                         }`}
                                     onClick={() => handleCategorySelect(category?.title)}
                                 >
                                     <div className="flex items-center gap-3">
-                                        <IconComponent className="h-4 w-4" />
+                                        {IconComponent ? (
+                                            <IconComponent className="h-4 w-4" />
+                                        ) : (
+                                            <Icon.ToolCase className="h-4 w-4" />
+                                        )}
                                         <span className="font-medium">{category?.title}</span>
                                     </div>
                                 </AccordionTrigger>
@@ -244,8 +252,8 @@ function CategoryFilter() {
                                                 key={subcategory}
                                                 variant="outline2"
                                                 className={`w-full justify-start text-sm h-9 rounded-full border-transparent ${selectedSubcategory === subcategory
-                                                        ? "bg-primary text-background"
-                                                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                                    ? "bg-primary text-background"
+                                                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                                     }`}
                                                 onClick={() => handleSubcategorySelect(subcategory)}
                                             >

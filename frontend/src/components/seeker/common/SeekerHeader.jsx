@@ -3,12 +3,20 @@ import { Link } from "react-router-dom"
 import { Menu, Bell, Moon, User, Search, Calendar, Sun, MapPin, Layers } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
+import { useDispatch, useSelector } from "react-redux"
 
 function SeekerHeader({ scrollValue }) {
   const [showSearchBar, setShowSearchbar] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollY, setScrollY] = useState(0);
+  const { services } = useSelector(state => state.serviceSlice);
+  const dispatch = useDispatch()
 
+  // useEffect(() => {
+  //   if (services.length === 0) {
+  //     dispatch(getAllServices());
+  //   }
+  // }, [])
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (window.scrollY >= scrollValue) {

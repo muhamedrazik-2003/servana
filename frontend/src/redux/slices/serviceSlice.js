@@ -145,6 +145,7 @@ const serviceSlice = createSlice({
     services: [],
     servicesBackup: [],
     sampleServices: [],
+    keywords: "",
     isLoading: false,
     isUpdating: false,
     isDeleting: false,
@@ -153,12 +154,16 @@ const serviceSlice = createSlice({
   },
   reducers: {
     handleSearch: (state, action) => {
+      const searchKeyword = action.payload.toLowerCase().trim();
       const filtered = state.servicesBackup.filter((service) => {
-        const searchKeyword = action.payload.toLowerCase().trim()
-        const searchString = `${service.title} ${service.category} ${service.subCategory} ${service.location.city} ${service.location.state} ${service?.providerId?.fullName} ${service.price}`.toLowerCase();
+        const searchString =
+          `${service.title} ${service.category} ${service.subCategory} ${service.location.city} ${service.location.state} ${service?.providerId?.fullName} ${service.price}`.toLowerCase();
         return searchString.includes(searchKeyword);
       });
       state.services = filtered;
+      state.keywords = searchKeyword;
+      console.log(action.payload);
+      console.log(state.services);
     },
   },
   extraReducers: (builder) => {
@@ -207,7 +212,8 @@ const serviceSlice = createSlice({
     });
     builder.addCase(getSampleServices.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload.message || "Failed to retrieve sample services";
+      state.error =
+        action.payload.message || "Failed to retrieve sample services";
     });
 
     // add service
@@ -276,5 +282,5 @@ const serviceSlice = createSlice({
     });
   },
 });
-export const {handleSearch} = serviceSlice.actions
+export const { handleSearch } = serviceSlice.actions;
 export default serviceSlice.reducer;

@@ -2,23 +2,30 @@ import { MapPin, Search, ArrowRight } from "lucide-react"
 import seekerHeroLeft from "../../../assets/images/seekerHeroLeft.png"
 import seekerHeroRight from "../../../assets/images/seekerHeroRight.png"
 import { Button } from "@/components/ui/button"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import { handleSearch } from '@/redux/slices/serviceSlice.js'
 import { useNavigate } from "react-router-dom"
+import { getAllServices } from "../../../redux/slices/serviceSlice"
 
 
 function SeekerHero() {
     const [searchData, setSearchData] = useState('');
+    const { services } = useSelector(state => state.serviceSlice);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(handleSearch(searchData))
+        if (services.length === 0) {
+            dispatch(getAllServices());
+        }
+    }, [])
+    useEffect(() => {
     }, [searchData])
     const handleSearching = () => {
-        navigate('/seeker/services#tap')
+        dispatch(handleSearch(searchData))
+        navigate('/seeker/services')
     }
     return (
         <section className='relative max-w-[750px] mx-auto px-8 md:px-0 pt-[80px] md:pt-[140px] md:pb-38 overflow-x-hidden md:overflow-x-visible'>

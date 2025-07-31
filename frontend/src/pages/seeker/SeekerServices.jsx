@@ -15,15 +15,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllServices, handleSearch } from '../../redux/slices/serviceSlice'
 
 function AllServices() {
-  const { services, isLoading } = useSelector(state => state.serviceSlice);
+  const { services, isLoading, servicesBackup, keywords } = useSelector(state => state.serviceSlice);
   const { filteringCategory } = useSelector(state => state.categorySlice);
   const [sortData, setSortData] = useState('popular');
-  const [searchData, setSearchData] = useState('');
+  // const [searchData, setSearchData] = useState('');
   // const [noFilteredData,ata]
   // console.log(searchData)
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(handleSearch(searchData))
-  }, [searchData])
+    if (services.length === 0 && servicesBackup.length === 0) {
+      dispatch(getAllServices());
+    }
+  }, [])
+  // useEffect(() => {
+  //   dispatch(handleSearch(searchData))
+  // }, [searchData])
 
   const normalizedPrice = (service) => {
     if (service.priceUnit === "hour") return service.price
@@ -50,11 +56,7 @@ function AllServices() {
       return service.category === filteringCategory || service.subCategory === filteringCategory
     })
   }
-  const dispatch = useDispatch();
-  // console.log(services)
-  useEffect(() => {
-    dispatch(getAllServices());
-  }, [])
+
   return (
     <main>
       <SeekerHeader scrollValue={210} />
@@ -66,18 +68,18 @@ function AllServices() {
           <div className="relative w-[340px] md:w-[500px]">
             <Search className="absolute left-3 top-3 size-5 md:size-6 text-primary" />
             <input
-            defaultValue={"tap"}
               type="text"
-              onChange={(e) => setSearchData(e.target.value)}
+              defaultValue={keywords}
+              onChange={(e) => dispatch(handleSearch(e.target.value))}
               placeholder="Search By Service, Location, provider, Price and more..."
               className="pl-9 md:pl-11 pr-4 py-2 md:py-2.5 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 outline-none"
             />
           </div>
           <Select value={sortData} onValueChange={(value) => setSortData(value)}>
-            <SelectTrigger className="w-[180px] !h-10 lg:!h-12 border-2 border-indigo-300 pl-4">
+            <SelectTrigger className="w-[120px] text-sm lg:w-[180px] !h-10 lg:!h-12 border-2 border-indigo-300 pl-4">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className='right-5'>
               <SelectItem value="popular" selected>Popular Services</SelectItem>
               <SelectItem value="newest">Newest Services</SelectItem>
               {/* <SelectItem value="topProviders">Top Providers</SelectItem> */}
@@ -88,7 +90,7 @@ function AllServices() {
         </div>
       </section>
       <section className='grid grid-col-1 lg:grid-cols-[auto_1fr] mx-[16px] lg:mx-20 gap-3 lg:gap-8 pb-15'>
-        <div className='h-fit sticky top-[100px]'>
+        <div className='h-fit lg:sticky top-[100px]'>
           <CategoryFilter />
         </div>
         <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 items-start'>
