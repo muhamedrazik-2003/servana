@@ -20,8 +20,10 @@ function MyServices() {
   const dispatch = useDispatch();
   // console.log(services)
   useEffect(() => {
-    dispatch(getUserServices());
-  },[])
+    if (services.length === 0 && servicesBackup.length === 0) {
+      dispatch(getUserServices());
+    }
+  }, [])
   return (
     <>
 
@@ -77,11 +79,11 @@ function MyServices() {
             </div>
           </div>
           <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 mb-20'>
-            {services.length > 0 
-            ? services?.map(service => (
-              <ServiceCard variant='provider' data={service} />
-            ))
-            : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-4xl'>currently No services Available</h2>
+            {services.length > 0
+              ? services?.map(service => (
+                <ServiceCard variant='provider' data={service} />
+              ))
+              : <h2 className='md:col-span-2 lg:col-span-3 text-center mt-15 text-4xl'>currently No services Available</h2>
 
             }
           </div>

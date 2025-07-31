@@ -54,7 +54,7 @@ function SeekerHeader({ scrollValue }) {
                   }
                 }}
                 type="text"
-                placeholder="Search By Service, Location, provider, Price and more..."
+                placeholder="Search for Services by Location, provider, Price and more..."
                 className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
               />
             </div>

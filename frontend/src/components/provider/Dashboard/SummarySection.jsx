@@ -14,7 +14,7 @@ export default function SummarySection({ page }) {
 
   const totalBookings = services.reduce((prev, current) => prev + current.totalBookings, 0)
   const avgRating = Math.floor(services.reduce((prev, current) => prev + current.avgRating , 0)/services.length)
-  console.log(avgRating)
+  // console.log(avgRating)
 
   // const totalBookings = services.reduce(())
 

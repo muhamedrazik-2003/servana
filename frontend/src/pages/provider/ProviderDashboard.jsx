@@ -9,16 +9,20 @@ import BookingStatusChart from '../../components/provider/Dashboard/BookingStatu
 import { BookingTable } from '../../components/provider/common/BookingTable';
 import MiniServiceCard from '../../components/provider/common/miniServiceCard';
 import MiniReviewCard from '../../components/provider/common/miniReviewCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getProviderBookings } from '../../redux/slices/bookingSlice';
+import { getUserServices } from '../../redux/slices/serviceSlice';
 
 function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
   const { services, isLoading, } = useSelector(state => state.serviceSlice);
 
+  const dispatch = useDispatch();
   useEffect(() => {
-
-  })
+    dispatch(getProviderBookings());
+    dispatch(getUserServices());
+  }, [])
   return (
     <>
       <ProviderHeader page={'dashboard'} />
@@ -67,12 +71,12 @@ function ProviderDashboard() {
               <div className='overflow-x-auto flex gap-2 scrollbar-none'>
                 {
                   services.length > 0
-                  ? services.map(serivce => (
-                    <MiniServiceCard data={serivce} />
+                    ? services.map(serivce => (
+                      <MiniServiceCard data={serivce} />
 
-                  ))
+                    ))
 
-                  : <h4 className='my-4 mb-10'>No Services Available Currently</h4>
+                    : <h4 className='my-4 mb-10'>No Services Available Currently</h4>
                 }
               </div>
             </div>

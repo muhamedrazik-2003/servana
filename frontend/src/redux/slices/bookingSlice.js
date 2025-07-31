@@ -86,23 +86,26 @@ export const getProviderBookings = createAsyncThunk(
       console.error(error);
       return rejectWithValue({
         message:
-          error.response?.data?.message || "Failed To retrieve provider Bookings",
+          error.response?.data?.message ||
+          "Failed To retrieve provider Bookings",
       });
     }
   }
 );
 export const changeBookingAndPaymentStatus = createAsyncThunk(
   "bookingSlice/changeBookingAndPaymentStatus",
-  async ({bookingId, bookingData}, { rejectWithValue }) => {
-    console.log(bookingId, bookingData)
+  async ({ bookingId, bookingData }, { rejectWithValue }) => {
+    console.log(bookingId, bookingData);
     try {
-      const response = await axios.patch(`${base_url}/bookings/update/status/${bookingId}`,
+      const response = await axios.patch(
+        `${base_url}/bookings/update/status/${bookingId}`,
         bookingData,
         {
-        headers: {
-          Authorization: `token ${sessionStorage.getItem("token")}`,
-        },
-      });
+          headers: {
+            Authorization: `token ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
       const { message, updatedBooking } = response.data;
       console.log("Booking Statusd Updated:", response.data);
       return { message, updatedBooking };
@@ -120,16 +123,32 @@ const bookingSlice = createSlice({
   name: "bookingSlice",
   initialState: {
     bookings: [],
+    bookingsBackup :[],
     isLoading: false,
     isBooking: false,
     isUpdating: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    handleBookingSearch: (state, action) => {
+      const searchKeyword = action.payload.toLowerCase().trim();
+      const filtered = state.bookingsBackup.filter((booking) => {
+        const searchString =
+          `${booking?.serviceId?.title} ${booking?.serviceId?.category} ${booking.serviceId?.subCategory} ${booking?.location?.city} ${booking?.location?.state} ${booking?.providerId?.fullName} ${booking.totalPrice} ${booking.bookingStatus} ${booking.paymentStatus} ${booking.providerId?.fullName} ${booking.scheduledTime} ${booking.scheduledDate} ${booking._id}`.toLowerCase();
+          console.log(searchString)
+        return searchString.includes(searchKeyword);
+      });
+      state.bookings = filtered;
+      state.keywords = searchKeyword;
+      console.log(action.payload);
+      console.log(state.bookings);
+    },
+  },
   extraReducers: (builder) => {
     //add new Booking
     builder.addCase(addNewBooking.fulfilled, (state, action) => {
       state.bookings.push(action.payload.newBookingData);
+      state.bookingsBackup.push(action.payload.newBookingData);
       state.isBooking = false;
       state.error = null;
     });
@@ -144,7 +163,8 @@ const bookingSlice = createSlice({
 
     // get user Bookings
     builder.addCase(getUserBookings.fulfilled, (state, action) => {
-      state.bookings= action.payload.bookingList || [];
+      state.bookings = action.payload.bookingList || [];
+      state.bookingsBackup = action.payload.bookingList || [];
       state.isLoading = false;
       state.error = null;
     });
@@ -159,7 +179,8 @@ const bookingSlice = createSlice({
     });
     // get provider Bookings
     builder.addCase(getProviderBookings.fulfilled, (state, action) => {
-      state.bookings= action.payload.bookingList || [];
+      state.bookings = action.payload.bookingList || [];
+      state.bookingsBackup = action.payload.bookingList || [];
       state.isLoading = false;
       state.error = null;
     });
@@ -176,6 +197,7 @@ const bookingSlice = createSlice({
     // get all Bookings
     builder.addCase(getAllBookings.fulfilled, (state, action) => {
       state.bookings = action.payload.bookingList || [];
+      state.bookingsBackup = action.payload.bookingList || [];
       state.isLoading = false;
       state.error = null;
     });
@@ -190,23 +212,30 @@ const bookingSlice = createSlice({
 
     // update booking and payment Satus
     builder.addCase(changeBookingAndPaymentStatus.fulfilled, (state, action) => {
-          const filtered = state.bookings.filter(
-            (booking) => booking._id !== action.payload.updatedBooking._id
-          );
-          filtered.push(action.payload.updatedBooking);
-          state.bookings = filtered;
-          state.isUpdating = false;
-          state.error = null;
-        });
-        builder.addCase(changeBookingAndPaymentStatus.pending, (state, action) => {
-          state.isUpdating = true;
-          state.error = null;
-        });
-        builder.addCase(changeBookingAndPaymentStatus.rejected, (state, action) => {
-          state.isUpdating = false;
-          state.error = action.payload?.message || "Failed to update Booking Status";
-        });
+        const filtered = state.bookings.filter(
+          (booking) => booking._id !== action.payload.updatedBooking._id
+        );
+        const backupFiltered = state.bookingsBackup.filter(
+          (booking) => booking._id !== action.payload.updatedBooking._id
+        );
+        filtered.push(action.payload.updatedBooking);
+        state.bookings = filtered;
+        state.bookingsBackup = backupFiltered;
+        state.isUpdating = false;
+        state.error = null;
+      }
+    );
+    builder.addCase(changeBookingAndPaymentStatus.pending, (state, action) => {
+      state.isUpdating = true;
+      state.error = null;
+    });
+    builder.addCase(changeBookingAndPaymentStatus.rejected, (state, action) => {
+      state.isUpdating = false;
+      state.error =
+        action.payload?.message || "Failed to update Booking Status";
+    });
   },
 });
 
+export const {handleBookingSearch} = bookingSlice.actions;
 export default bookingSlice.reducer;
