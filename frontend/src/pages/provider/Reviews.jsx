@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProviderHeader from '../../components/provider/common/ProviderHeader'
 import Footer from '../../components/common/Footer'
 import {
@@ -18,6 +18,7 @@ import { getUserServices } from '../../redux/slices/serviceSlice'
 export const Reviews = () => {
   const dispatch = useDispatch();
   const { reviews, isReviewLoading } = useSelector(state => state.reviewSlice);
+  const [sortData, setSortData] = useState('newest');
 
   useEffect(() => {
     if (reviews.length === 0) {
@@ -25,6 +26,15 @@ export const Reviews = () => {
     }
     dispatch(getUserServices());
   }, [])
+
+  let sortedData = []
+  if (sortData === "oldest") {
+    sortedData = [...reviews]?.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  } else if (sortData === "newest") {
+    sortedData = [...reviews]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  } else if (sortData === "last7days") {
+    sortedData = [...reviews]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 7)
+  }
   return (
     <>
       <ProviderHeader />
@@ -41,16 +51,14 @@ export const Reviews = () => {
               <h1 className='text-[clamp(2.5rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 text-start'>Customer Reviews</h1>
               <p className='max-w-[400px] text-sm font-semibold p-0'>Monitor your active and inactive services listed by you</p>
             </div>
-            <Select>
+            <Select value={sortData} onValueChange={(value) => setSortData(value)}>
               <SelectTrigger className="w-[192px] !h-10 lg:!h-12 rounded-3xl border-2 bg-orange-100 border-orange-300 pl-6">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent className='bg-orange-100'>
-                <SelectItem value="popular">Popular Service</SelectItem>
-                <SelectItem value="newest">Newest Service</SelectItem>
-                <SelectItem value="topProviders">Top Providers</SelectItem>
-                <SelectItem value="priceLowToHigh">Price Low to High</SelectItem>
-                <SelectItem value="PriceHighToLow">Price High To Low</SelectItem>
+                <SelectItem value="newest">Newest</SelectItem>
+                <SelectItem value="oldest">Oldest</SelectItem>
+                <SelectItem value="last7days">Last 7 Days</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -63,8 +71,8 @@ export const Reviews = () => {
             {isReviewLoading
               ? <h4 className='my-4 mb-10 flex items-center gap-2'>Reviews Loading <Loader2 className='size-5' /></h4>
 
-              : reviews.length > 0
-                ? reviews.map((review) => (
+              : sortedData.length > 0
+                ? sortedData.map((review) => (
                   <ReviewCard review={review} />
                 ))
                 : <h4 className='my-4 mb-10'>No Reviews Available Currently</h4>

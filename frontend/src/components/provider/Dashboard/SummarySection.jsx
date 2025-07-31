@@ -11,9 +11,25 @@ import { useSelector } from "react-redux";
 
 export default function SummarySection({ page }) {
   const { services } = useSelector(state => state.serviceSlice);
+  const {bookings} = useSelector(state => state.bookingSlice)
 
   const totalBookings = services.reduce((prev, current) => prev + current.totalBookings, 0)
   const avgRating = Math.floor(services.reduce((prev, current) => prev + current.avgRating , 0)/services.length)
+
+  let ongoingBookings = 0
+  bookings.forEach(booking => {
+    if(booking.bookingStatus === "ongoing" ) {
+      ongoingBookings += 1
+      }
+  });
+  // console.log(ongoingBookings)
+  let completedBookings = 0
+  bookings.forEach(booking => {
+    if(booking.bookingStatus === "completed" ) {
+     completedBookings += 1
+      }
+  });
+  // console.log(completedBookings)
   // console.log(avgRating)
 
   // const totalBookings = services.reduce(())
@@ -43,12 +59,12 @@ export default function SummarySection({ page }) {
       ? []
       : [{
         title: "Ongoing Bookings",
-        value: "N/A",
+        value: `${ongoingBookings > 0 ? ongoingBookings : 0}`,
         icon: <Hourglass className="text-primary size-6" />,
       },
       {
         title: "Completed Bookings",
-        value: "N/A",
+        value: `${completedBookings > 0 ? completedBookings : 0}`,
         icon: <BadgeCheck className="text-primary size-6" />,
       },])
   ];

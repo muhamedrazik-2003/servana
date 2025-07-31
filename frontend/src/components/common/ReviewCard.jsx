@@ -22,48 +22,53 @@ export function ReviewCard({ review }) {
             />
         ))
     }
-
     return (
         <Card className={"w-full max-w-2xl py-0"}>
-            <CardContent className="p-6">
+            <CardContent className="p-6 flex flex-col justify-between h-full">
                 {/* Header with customer info and rating */}
-                <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                            <Avatar className="size-8">
-                                <AvatarImage src={`${review.seekerId?.profilePicture}`} />
-                                <AvatarFallback>NA</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <h3 className="font-semibold text-gray-900">
-                                    {review.seekerId?.fullName}
-                                </h3>
-                                <div className="flex items-center gap-2 mt-1">
-                                    <div className="flex items-center gap-1">{renderStars(review.rating)}</div>
-                                    <span className="text-sm text-gray-600">({review.rating}/5)</span>
+                <div>
+                    <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                                <Avatar className="size-8">
+                                    <AvatarImage src={`${review.seekerId?.profilePicture}`} />
+                                    <AvatarFallback>NA</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <h3 className="font-semibold text-gray-900">
+                                        {review.seekerId?.fullName}
+                                    </h3>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <div className="flex items-center gap-1">{renderStars(review.rating)}</div>
+                                        <span className="text-sm text-gray-600">({review.rating}/5)</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <Badge variant="secondary" className="ml-4">
+                            {review.serviceId?.title}
+                        </Badge>
                     </div>
-                    <Badge variant="secondary" className="ml-4">
-                        {review.serviceId?.title}
-                    </Badge>
-                </div>
 
-                {/* Review comment */}
-                <div className="mb-4">
-                    <p className="text-gray-700 leading-relaxed">{review.comment}</p>
+                    {/* Review comment */}
+                    <div className="mb-4">
+                        <p className="text-gray-700 leading-relaxed">{review.comment}</p>
+                    </div>
                 </div>
-
                 {/* Footer with metadata */}
-                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 pt-4 border-t border-gray-100">
+                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 pt-4 border-t border-gray-100 ">
                     <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         <span>{formatDate(review.createdAt)}</span>
                     </div>
                     <div className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
-                        <span>{review.seekerId?.location?.city}, {review.seekerId?.location?.state}</span>
+                        <span>
+                            {review?.location?.city === "Not Available"
+                                ? "Not Available"
+                                : `${review.seekerId?.location?.city}, ${review.seekerId?.location?.state}`}
+                        </span>
+
                     </div>
                     <Link to={`/provider/services/${review?.serviceId?._id}`}>
                         <div className="flex items-center gap-1">

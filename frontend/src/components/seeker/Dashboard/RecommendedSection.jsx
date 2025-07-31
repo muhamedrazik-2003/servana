@@ -50,7 +50,7 @@ function RecommendedSection() {
                         </Card>
                     ))
 
-                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-xl lg:text-3xl leading-6 lg:leading-10'>No <span className="text-primary">recommended</span> Services are available right now.Please check back later.</h2>
+                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-xl lg:text-3xl leading-6 lg:leading-10'>No <span className="text-primary">recommended</span> Services are available right now.<br/>Please check back later.</h2>
                 }
             </div>
         </section>

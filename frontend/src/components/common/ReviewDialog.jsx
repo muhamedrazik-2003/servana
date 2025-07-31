@@ -125,7 +125,7 @@ function ReviewDialog({ bookingDetails }) {
                         <Button type="submit" disabled={rating === 0 || comment.trim().length === 0 || isAdding} className="min-w-[100px]">
                             {isAdding
                                 ? <>
-                                    <LoaderCircle className="animate-spin" />"Submiting Review"
+                                    <LoaderCircle className="animate-spin" /> Submiting Review
                                 </>
                                 : "Submit Review"}
                         </Button>
