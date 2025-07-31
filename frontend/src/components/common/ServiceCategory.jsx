@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import {
     Card,
@@ -12,14 +12,25 @@ import {
 import { Link } from "react-router-dom"
 import * as Icons from 'lucide-react'
 import { Button } from '../ui/button'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getSampleServices } from '../../redux/slices/serviceSlice'
 
-function Serviceservice({ format }) {
+function ServiceCategory({ format }) {
     const containerRef = useRef()
-    const { services, isLoading } = useSelector(state => state.serviceSlice);
+    const dispatch = useDispatch();
+    // console.log(services)
+    useEffect(() => {
+        dispatch(getSampleServices());
+    }, [])
+    const { services, isLoading, sampleServices } = useSelector(state => state.serviceSlice);
+    let topServices = []
+    if (services.length > 0) {
+        topServices = [...services]?.sort((a, b) => b.totalBookings - a.totalBookings);
+        // console.log(topServices)
+    } else {
+        topServices = [...sampleServices]?.sort((a, b) => b.totalBookings - a.totalBookings);
+    }
 
-    const topServices = [...services]?.sort((a, b) => b.totalBookings - a.totalBookings);
-    console.log(topServices)
 
     const handleNext = () => {
         containerRef.current.scrollLeft += 340;
@@ -80,4 +91,9 @@ function Serviceservice({ format }) {
     )
 }
 
-export default Serviceservice
+export default ServiceCategory
+
+
+
+
+

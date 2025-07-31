@@ -49,6 +49,24 @@ export const getAllServices = createAsyncThunk(
     }
   }
 );
+export const getSampleServices = createAsyncThunk(
+  "serviceSlice/getSampleServices",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${base_url}/services/sample`);
+      const { message, sampleServices } = response.data;
+      console.log("All Services retrieved:", response.data);
+      return { message, sampleServices };
+    } catch (error) {
+      console.log("An Error Occured", error);
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed retrieve all Services",
+      });
+    }
+  }
+);
 
 export const getUserServices = createAsyncThunk(
   "serviceSlice/getUserServices",
@@ -126,6 +144,7 @@ const serviceSlice = createSlice({
   initialState: {
     services: [],
     servicesBackup: [],
+    sampleServices: [],
     isLoading: false,
     isUpdating: false,
     isDeleting: false,
@@ -174,6 +193,21 @@ const serviceSlice = createSlice({
     builder.addCase(getAllServices.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload.message || "Failed to retrieve services";
+    });
+    // get sample services
+    builder.addCase(getSampleServices.fulfilled, (state, action) => {
+      state.sampleServices = action.payload.sampleServices || [];
+      state.isLoading = false;
+      state.error = null;
+      state.successResponse = action.payload.message;
+    });
+    builder.addCase(getSampleServices.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(getSampleServices.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.message || "Failed to retrieve sample services";
     });
 
     // add service
