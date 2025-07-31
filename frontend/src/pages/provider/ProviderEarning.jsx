@@ -12,6 +12,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { getProviderBookings } from '../../redux/slices/bookingSlice'
+import { BookingTable } from "@/components/provider/common/BookingTable"
 
 function ProviderEarning() {
   const { bookings } = useSelector(state => state.bookingSlice)
@@ -22,7 +23,7 @@ function ProviderEarning() {
     }
   }, [])
   const totalEarnings = bookings.reduce((prev, current) => parseFloat(current.totalPrice) + prev, 0)
-  
+
   const now = new Date();
   const getDaysAgo = (days) => {
     const date = new Date();
@@ -101,7 +102,7 @@ function ProviderEarning() {
     },
     {
       title: "This Month",
-      value: `₹ ${totalEarningsThisMonth > 0 ? totalEarningsThisMonth : 0}`,
+      value: `₹ ${totalEarningsThisWeek > 0 ? totalEarningsThisWeek : 0}`,
       icon: Calendar,
       iconColor: "text-blue-600",
       bgColor: "bg-blue-50",
@@ -121,20 +122,24 @@ function ProviderEarning() {
       bgColor: "bg-emerald-50",
     },
   ]
+  const headData = ["Booking ID", "Service Title", "Customer", "Date", "Amount", "Status"]
+  const formattedBooking = bookings.map(booking => {
+    return { bookingId: booking._id, serviceTitle: booking.serviceId.title, customer: booking.seekerId.fullName, date: booking.updatedAt.slice(0, 10), amount: booking.totalPrice, status: booking.paymentStatus }
+  }).slice(0, 7)
   return (
     <>
       <ProviderHeader />
-      <main className="flex p-4 pt-5 gap-6">
+      <main className="flex p-4 pt-2 gap-6">
         {/* Sidebar */}
         <div className="">
           <ProviderSidebar />
         </div>
 
         {/* Main Content */}
-        <section className="min-h-[calc(100vh-82px)]  w-full p-0 m-0 space-y-6">
-          <div>
+        <section className=" w-full m-0 gap-4 p-0 overflow-hidden">
+          <div className='mb-6'>
             <h1 className='text-[clamp(2.5rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 text-start'>Your Earnings</h1>
-            <p className='text-sm font-semibold p-0'>Monitor Your total income, pending amounts, and transaction history.</p>
+            {/* <p className='text-sm font-semibold p-0'>Monitor Your total income, pending amounts, and transaction history.</p> */}
           </div>
           {/* cards */}
           <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4">
@@ -223,8 +228,15 @@ function ProviderEarning() {
               </Card>
             </div>
           </div>
+          <div className='border rounded-3xl p-4 mt-4'>
+            <div className='flex justify-between items-center mb-3'>
+              <h4 className='px-2  text-accent'>Earnings of recent 7 Bookings</h4>
+            </div>
+            <div className='overflow-y-auto scrollbar-none max-h-50'>
+              <BookingTable headData={headData} bodyData={formattedBooking} />
 
-
+            </div>
+          </div>
         </section>
       </main>
       <Footer userRole={"provider"} />
