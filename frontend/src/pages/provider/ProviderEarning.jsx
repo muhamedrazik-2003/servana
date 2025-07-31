@@ -123,9 +123,11 @@ function ProviderEarning() {
     },
   ]
   const headData = ["Booking ID", "Service Title", "Customer", "Date", "Amount", "Status"]
-  const formattedBooking = bookings.map(booking => {
+  const recentBookings = [...bookings].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0,7)
+
+  const formattedBooking = recentBookings.map(booking => {
     return { bookingId: booking._id, serviceTitle: booking.serviceId.title, customer: booking.seekerId.fullName, date: booking.updatedAt.slice(0, 10), amount: booking.totalPrice, status: booking.paymentStatus }
-  }).slice(0, 7)
+  })
   return (
     <>
       <ProviderHeader />

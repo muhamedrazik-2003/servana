@@ -6,7 +6,7 @@ import { Button } from "../../components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Loader, Loader2, Plus } from 'lucide-react';
 import BookingStatusChart from '../../components/provider/Dashboard/BookingStatusChart';
-import { BookingTable } from '../../components/provider/common/BookingTable';
+import { BookingTable } from '../../components/provider/common/SampleTable';
 import MiniServiceCard from '../../components/provider/common/miniServiceCard';
 import MiniReviewCard from '../../components/provider/common/miniReviewCard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import { getAllProviderReviews } from '../../redux/slices/reviewSlice';
 function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
   const { services, isLoading } = useSelector(state => state.serviceSlice);
+  const { bookings } = useSelector(state => state.bookingSlice);
   const { reviews, isReviewLoading } = useSelector(state => state.reviewSlice);
 
   const dispatch = useDispatch();
@@ -26,6 +27,13 @@ function ProviderDashboard() {
     dispatch(getUserServices());
     dispatch(getAllProviderReviews());
   }, [])
+  const headData = ["Booking ID", "Service Title", "Customer", "Date", "Amount", "Status"]
+  const recentBookings = [...bookings].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 7)
+
+  const formattedBooking = recentBookings.map(booking => {
+    return { bookingId: booking._id, serviceTitle: booking.serviceId.title, customer: booking.seekerId.fullName, date: booking.updatedAt.slice(0, 10), amount: booking.totalPrice, status: booking.bookingStatus }
+  })
+
   return (
     <>
       <ProviderHeader page={'dashboard'} />
@@ -53,14 +61,14 @@ function ProviderDashboard() {
             <BookingStatusChart />
           </div>
 
-          <div className='border rounded-3xl p-4'>
+          <div className='border rounded-3xl p-4 overflow-auto scrollbar-none max-h-83'>
             <div className='flex justify-between items-center mb-3'>
               <h4 className='px-2  text-accent'>Recent Bookings</h4>
               <Link to={'/provider/bookings'}>
                 <Button variant={'outline'} size={'sm'} className={'h-8'}> View All Bookings</Button>
               </Link>
             </div>
-            <BookingTable />
+            <BookingTable headData={headData} bodyData={formattedBooking} formMode={"booking"} />
           </div>
 
           <div>
