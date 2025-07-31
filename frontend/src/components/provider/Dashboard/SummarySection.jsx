@@ -1,9 +1,9 @@
 // SummarySection.jsx
 import {
   BadgeCheck,
-  CircleDollarSign,
   ClipboardList,
   Hourglass,
+  IndianRupee,
   Star,
   Wrench
 } from "lucide-react"
@@ -29,6 +29,7 @@ export default function SummarySection({ page }) {
      completedBookings += 1
       }
   });
+  const totalEarnings = bookings.reduce((prev, current) => parseFloat(current.totalPrice) + prev, 0)
   // console.log(completedBookings)
   // console.log(avgRating)
 
@@ -47,8 +48,8 @@ export default function SummarySection({ page }) {
     },
     {
       title: "Earnings",
-      value: "N/A",
-      icon: <CircleDollarSign className="text-primary size-6" />,
+      value:  `${totalEarnings > 0 ? totalEarnings : 0}`,
+      icon: <IndianRupee className="text-primary size-6" />,
     },
     {
       title: "Avg. Rating",
