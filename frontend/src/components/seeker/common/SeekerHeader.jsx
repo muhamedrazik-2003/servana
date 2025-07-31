@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { Menu, Bell, Moon, User, Search, Calendar, Sun, MapPin, Layers } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
 import { useDispatch, useSelector } from "react-redux"
+import { handleSearch } from "../../../redux/slices/serviceSlice"
 
 function SeekerHeader({ scrollValue }) {
   const [showSearchBar, setShowSearchbar] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollY, setScrollY] = useState(0);
-  const { services } = useSelector(state => state.serviceSlice);
+  // const { services } = useSelector(state => state.serviceSlice);
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // useEffect(() => {
   //   if (services.length === 0) {
@@ -45,6 +47,12 @@ function SeekerHeader({ scrollValue }) {
             <div className="relative w-[240px] md:w-[240px] lg:w-[300px]">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
               <input
+                onChange={(e) => dispatch(handleSearch(e.target.value))}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    navigate('/seeker/services')
+                  }
+                }}
                 type="text"
                 placeholder="Search By Service, Location, provider, Price and more..."
                 className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"

@@ -22,10 +22,10 @@ function ServiceCategory({ format }) {
     useEffect(() => {
         dispatch(getSampleServices());
     }, [])
-    const { services, isLoading, sampleServices } = useSelector(state => state.serviceSlice);
+    const { servicesBackup, isLoading, sampleServices } = useSelector(state => state.serviceSlice);
     let topServices = []
-    if (services.length > 0) {
-        topServices = [...services]?.sort((a, b) => b.totalBookings - a.totalBookings);
+    if (servicesBackup.length > 0) {
+        topServices = [... servicesBackup]?.sort((a, b) => b.totalBookings - a.totalBookings);
         // console.log(topServices)
     } else {
         topServices = [...sampleServices]?.sort((a, b) => b.totalBookings - a.totalBookings);
