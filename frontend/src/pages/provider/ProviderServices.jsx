@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUserServices } from '../../redux/slices/serviceSlice'
 
 function MyServices() {
-  const { services, isLoading, } = useSelector(state => state.serviceSlice);
+  const { services, isLoading,servicesBackup } = useSelector(state => state.serviceSlice);
   const dispatch = useDispatch();
   // console.log(services)
   useEffect(() => {

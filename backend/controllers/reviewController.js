@@ -46,7 +46,7 @@ exports.addNewReview = async (req, res) => {
     }
     const populatedReview = await reviews
       .findById(savedReview._id)
-      .populate("seekerId")
+      .populate("seekerId");
 
     res.status(201).json({
       message: "Review Added Succesfully",
@@ -65,9 +65,22 @@ exports.getAllReviews = async (req, res) => {
       .populate("providerId")
       .populate("bookingId")
       .populate("serviceId");
-    res
-      .status(200)
-      .json({ message: "All Reviews retrieved", reviewList });
+    res.status(200).json({ message: "All Reviews retrieved", reviewList });
+  } catch (error) {
+    console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+exports.getAllProviderReviews = async (req, res) => {
+  try {
+    const providerId = req.user.userId;
+    const reviewList = await reviews
+      .find({providerId})
+      .populate("seekerId")
+      .populate("providerId")
+      .populate("bookingId")
+      .populate("serviceId");
+    res.status(200).json({ message: "All Provider Reviews retrieved", reviewList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
@@ -76,18 +89,16 @@ exports.getAllReviews = async (req, res) => {
 
 exports.getServiceReviews = async (req, res) => {
   try {
-    const {serviceId} = req.params;
+    const { serviceId } = req.params;
     // console.log(serviceId)
     const reviewList = await reviews
       .find({ serviceId })
       // .populate("bookingId")
-      .populate("seekerId")
-      // .populate("providerId")
-      // .populate("serviceId");
-      console.log(reviewList)
-    res
-      .status(200)
-      .json({ message: "service Reviews retrieved", reviewList });
+      .populate("seekerId");
+    // .populate("providerId")
+    // .populate("serviceId");
+    console.log(reviewList);
+    res.status(200).json({ message: "service Reviews retrieved", reviewList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });

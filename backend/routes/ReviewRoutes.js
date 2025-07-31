@@ -5,6 +5,7 @@ const reviewController = require("../controllers/reviewController");
 
 router.post("/new", jwt, reviewController.addNewReview);
 router.get("/all", jwt, reviewController.getAllReviews);
+router.get("/all/provider", jwt, reviewController.getAllReviews);
 router.get("/:serviceId", jwt, reviewController.getServiceReviews);
 
 module.exports = router;

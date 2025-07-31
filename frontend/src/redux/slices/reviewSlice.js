@@ -44,6 +44,27 @@ export const getAllReviews = createAsyncThunk(
     }
   }
 );
+export const getAllProviderReviews = createAsyncThunk(
+  "reviewSlice/getAllProviderReviews",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${base_url}/reviews/all/provider`, {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      });
+      const { message, reviewList } = response.data;
+      console.log("All Provider reviews retrieved:", response.data);
+      return { message, reviewList };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed To retrieve All Provider reviews",
+      });
+    }
+  }
+);
 export const getServiceReviews = createAsyncThunk(
   "reviewSlice/getServiceReviews",
   async (serviceId, { rejectWithValue }) => {
@@ -70,7 +91,7 @@ const reviewSlice = createSlice({
   name: "reviewSlice",
   initialState: {
     reviews: [],
-    isLoading: false,
+    isReviewLoading: false,
     isAdding: false,
     isUpdating: false,
     error: null,
@@ -95,30 +116,44 @@ const reviewSlice = createSlice({
     // get all reviews
     builder.addCase(getAllReviews.fulfilled, (state, action) => {
       state.reviews = action.payload.reviewList || [];
-      state.isLoading = false;
+      state.isReviewLoading = false;
       state.error = null;
     });
     builder.addCase(getAllReviews.pending, (state, action) => {
-      state.isLoading = true;
+      state.isReviewLoading = true;
       state.error = null;
     });
     builder.addCase(getAllReviews.rejected, (state, action) => {
-      state.isLoading = false;
+      state.isReviewLoading = false;
+      state.error = action.payload.message || "Failed to retrieve all Reviews";
+    });
+    // get all Provider reviews
+    builder.addCase(getAllProviderReviews.fulfilled, (state, action) => {
+      state.reviews = action.payload.reviewList || [];
+      state.isReviewLoading = false;
+      state.error = null;
+    });
+    builder.addCase(getAllProviderReviews.pending, (state, action) => {
+      state.isReviewLoading = true;
+      state.error = null;
+    });
+    builder.addCase(getAllProviderReviews.rejected, (state, action) => {
+      state.isReviewLoading = false;
       state.error = action.payload.message || "Failed to retrieve all Reviews";
     });
 
     // get user reviews
     builder.addCase(getServiceReviews.fulfilled, (state, action) => {
       state.reviews = action.payload.reviewList || [];
-      state.isLoading = false;
+      state.isReviewLoading = false;
       state.error = null;
     });
     builder.addCase(getServiceReviews.pending, (state, action) => {
-      state.isLoading = true;
+      state.isReviewLoading = true;
       state.error = null;
     });
     builder.addCase(getServiceReviews.rejected, (state, action) => {
-      state.isLoading = false;
+      state.isReviewLoading = false;
       state.error =
         action.payload.message || "Failed to retrieve service reviews";
     });
