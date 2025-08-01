@@ -30,6 +30,7 @@ function ServiceCategory({ format }) {
     } else {
         topServices = [...sampleServices]?.sort((a, b) => b.totalBookings - a.totalBookings);
     }
+    console.log(topServices)
 
 
     const handleNext = () => {

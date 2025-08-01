@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 
 
-export function BookingTable({ headData, bodyData, formMode }) {
+function SampleTable({ headData, bodyData, formMode }) {
   return (
     <Table>
       <TableHeader>
@@ -47,3 +47,5 @@ export function BookingTable({ headData, bodyData, formMode }) {
     </Table>
   );
 }
+
+export default SampleTable;

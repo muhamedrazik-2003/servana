@@ -12,7 +12,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { getProviderBookings } from '../../redux/slices/bookingSlice'
-import { BookingTable } from "@/components/provider/common/BookingTable"
+import SampleTable from '../../components/provider/common/SampleTable'
 
 function ProviderEarning() {
   const { bookings } = useSelector(state => state.bookingSlice)
@@ -235,7 +235,7 @@ function ProviderEarning() {
               <h4 className='px-2  text-accent'>Earnings of recent 7 Bookings</h4>
             </div>
             <div className='overflow-y-auto scrollbar-none max-h-50'>
-              <BookingTable headData={headData} bodyData={formattedBooking} />
+              <SampleTable headData={headData} bodyData={formattedBooking} />
 
             </div>
           </div>

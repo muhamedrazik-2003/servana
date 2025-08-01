@@ -77,7 +77,7 @@ exports.getAllServices = async (req, res) => {
 
 exports.getSampleServices = async (req, res) => {
   try {
-    const sampleServices = await services.find().slice(0,8);
+    const sampleServices = await services.find();
      res
       .status(200)
       .json({ message: "sample Services retrieved", sampleServices });

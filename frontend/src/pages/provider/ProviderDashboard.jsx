@@ -6,7 +6,6 @@ import { Button } from "../../components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Loader, Loader2, Plus } from 'lucide-react';
 import BookingStatusChart from '../../components/provider/Dashboard/BookingStatusChart';
-import { BookingTable } from '../../components/provider/common/SampleTable';
 import MiniServiceCard from '../../components/provider/common/miniServiceCard';
 import MiniReviewCard from '../../components/provider/common/miniReviewCard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { getProviderBookings } from '../../redux/slices/bookingSlice';
 import { getUserServices } from '../../redux/slices/serviceSlice';
 import { getAllProviderReviews } from '../../redux/slices/reviewSlice';
+import SampleTable from '../../components/provider/common/SampleTable';
 
 function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
@@ -68,7 +68,7 @@ function ProviderDashboard() {
                 <Button variant={'outline'} size={'sm'} className={'h-8'}> View All Bookings</Button>
               </Link>
             </div>
-            <BookingTable headData={headData} bodyData={formattedBooking} formMode={"booking"} />
+            <SampleTable headData={headData} bodyData={formattedBooking} formMode={"booking"} />
           </div>
 
           <div>
