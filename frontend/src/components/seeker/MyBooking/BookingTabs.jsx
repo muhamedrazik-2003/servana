@@ -16,6 +16,7 @@ import { getProviderBookings, getUserBookings } from '../../../redux/slices/book
 
 function BookingTabs({ userRole }) {
     const [activeTab, setActiveTab] = useState("ongoing")
+    const [sortData, setSortData] = useState('recent');
     const dispatch = useDispatch()
     useEffect(() => {
         if (userRole === "provider") {
@@ -26,6 +27,14 @@ function BookingTabs({ userRole }) {
     }, [])
     const { bookings } = useSelector(state => state.bookingSlice);
     console.log(bookings)
+    let sortedData = []
+    if (sortData === "recent") {
+        sortedData = [...bookings]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    } else if (sortData === "oldest") {
+        sortedData = [...bookings]?.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+    } else if (sortData === "within7days") {
+        sortedData = [...bookings]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 7);
+    }
 
     const getTranslateX = (activeTab) => {
         switch (activeTab) {
@@ -46,17 +55,17 @@ function BookingTabs({ userRole }) {
     const getCurrentTab = (activeTab) => {
         switch (activeTab) {
             case 'ongoing':
-                return <OngoingTab data={bookings} userRole={userRole} />;
+                return <OngoingTab data={sortedData} userRole={userRole} />;
             case 'upcoming':
-                return <UpcomingTab data={bookings} userRole={userRole} />;
+                return <UpcomingTab data={sortedData} userRole={userRole} />;
             case 'completed':
-                return <CompletedTab data={bookings} userRole={userRole} />;
+                return <CompletedTab data={sortedData} userRole={userRole} />;
             case 'cancelled':
-                return <CancelledTab data={bookings} userRole={userRole} />;
+                return <CancelledTab data={sortedData} userRole={userRole} />;
             case 'failed':
-                return <FailedTab data={bookings} userRole={userRole} />;
+                return <FailedTab data={sortedData} userRole={userRole} />;
             default:
-                return <OngoingTab data={bookings} userRole={userRole} />;
+                return <OngoingTab data={sortedData} userRole={userRole} />;
         }
     }
 
@@ -74,7 +83,7 @@ function BookingTabs({ userRole }) {
                     </div>
                 </div>
                 {userRole === "provider"
-                    && <Select disabled={true}>
+                    && <Select value={sortData} onValueChange={(value) => setSortData(value)}>
                         <SelectTrigger className="w-[192px] !h-10 lg:!h-13 border-2 bg-orange-100 border-orange-300 pl-6">
                             <SelectValue placeholder="Sort By" />
                         </SelectTrigger>

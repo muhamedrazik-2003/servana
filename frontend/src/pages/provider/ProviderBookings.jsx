@@ -4,10 +4,13 @@ import { MapPin } from 'lucide-react'
 import BookingTabs from '../../components/seeker/MyBooking/BookingTabs'
 import ProviderSidebar from '../../components/provider/common/ProviderSidebar'
 import Footer from '../../components/common/Footer'
+import { useDispatch } from 'react-redux'
+import { handleBookingSearch } from '../../redux/slices/bookingSlice'
 
 
 function ProviderBookings() {
   const [activeTab, setActiveTab] = useState("ongoing")
+  const dispatch = useDispatch();
   const getTranslateX = (activeTab) => {
     switch (activeTab) {
       case 'ongoing':
@@ -27,7 +30,7 @@ function ProviderBookings() {
   return (
     <>
 
-      <ProviderHeader/>
+      <ProviderHeader />
       <main className="flex p-4 pt-0 gap-6">
         {/* Sidebar */}
         <div className="">
@@ -45,14 +48,15 @@ function ProviderBookings() {
               <MapPin className="absolute left-3 top-3 size-5 text-primary" />
               <input
                 type="text"
-                placeholder="Search Your Bookings..."
+                onChange={(e) => dispatch(handleBookingSearch(e.target.value))}
+                placeholder="Search Your Bookings by ID, service details, Provider name, date, time and more"
                 className="pl-9 md:pl-11 pr-4 py-2 md:py-2.5 w-full rounded-full border-2 bg-orange-50 dark:bg-orange-950 md:text outline-none"
               />
             </div>
-            
+
           </div>
           <BookingTabs userRole={"provider"} />
-          
+
         </section>
       </main>
       <Footer userRole={"provider"} />
