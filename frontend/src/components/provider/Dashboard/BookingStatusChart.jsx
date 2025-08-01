@@ -46,7 +46,7 @@ export default function BookingStatusChart() {
   }
 
   return (
-    <Card className="w-full pb-1 pt-3 gap-0">
+    <Card className="w-full pb-1 pt-3 gap-0 border shadow-sm border-orange-100 hover:shadow-xl transition-shadow duration-300">
       <CardHeader>
         <CardTitle className='text-sm mx-0 text-accent'>Booking Overview for last 7 Days</CardTitle>
       </CardHeader>

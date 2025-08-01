@@ -1,11 +1,15 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Menu, Bell, Moon, User, Search, Calendar, Sun, MapPin, Layers } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
+import { useDispatch } from "react-redux"
+import { handleSearch } from "../../../redux/slices/serviceSlice"
 
 function ProviderHeader({ page }) {
     const [menuOpen, setMenuOpen] = useState(false)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     return (
         <header className="w-full sticky top-0 z-50 bg-background dark:bg-background transition-all">
             <div className="mx-4 lg:mx-10 py-3 flex items-center justify-between">
@@ -24,13 +28,19 @@ function ProviderHeader({ page }) {
                                 <Search className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
                                 <input
                                     type="text"
-                                    placeholder="Search services..."
+                                    onChange={(e) => dispatch(handleSearch(e.target.value))}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            navigate('/provider/services')
+                                        }
+                                    }}
+                                    placeholder="Search for Services by Location, provider, Price and more..."
                                     className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
                                 />
                             </div>
                         }
                         {page === "profile"
-                        && <Link to="/" className="block px-3 py-1.5 text-sm rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
+                            && <Link to="/" className="block px-3 py-1.5 text-sm rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
                         }
 
                     </div>
