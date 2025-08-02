@@ -3,7 +3,7 @@ import { Card } from '../../components/ui/card'
 import {Separator} from "../../components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-function Dashboard() {
+function AdminDashboard() {
   return (
     <main className='min-h-screen flex flex-col items-center justify-center'>
       <h1 className='text-[clamp(2.5rem,8vw,44px)] leading-11  md:leading-18 z-0 mb-2'>Admin Page Not Available Yet </h1>
@@ -27,4 +27,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default AdminDashboard

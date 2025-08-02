@@ -75,6 +75,17 @@ function AddEditServiceForm() {
   const handleSubmit = async () => {
     try {
       console.log(serviceData)
+      if (user.phone === undefined || user.phone === "" || user.location.city === "Not Available" || user.location.state === "Not Available" || user.location.pincode === "Not Available") {
+        return toast.error(
+          <span>
+            Please update at least your phone number and location to add new Service.{" "}
+            <Link to="/provider/profile" className="underline text-blue-600 hover:text-blue-800">
+              Go to Profile
+            </Link>
+          </span>
+        );
+
+      }
       const { title, description, category, subCategory, price, priceUnit, location: { city, state, pincode } } = serviceData;
       if (!title || !description || !category || !subCategory || !price || !city || !priceUnit || !state || !pincode) return toast.warning("All fields Are required")
 

@@ -20,7 +20,7 @@ import NotFound from "./pages/common/NotFound"
 import AddEditServiceForm from "./pages/provider/AddEditServiceForm"
 import ProviderEarning from "./pages/provider/ProviderEarning"
 import { Reviews } from "./pages/provider/Reviews"
-import AdminDashboard from "./pages/admin/Dashboard"
+import AdminDashboard from "./pages/admin/AdminDashboard"
 
 
 function App() {
