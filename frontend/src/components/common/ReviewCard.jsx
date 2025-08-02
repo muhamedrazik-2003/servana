@@ -24,7 +24,7 @@ export function ReviewCard({ review }) {
     }
     return (
         <Card className={"w-full max-w-2xl py-0"}>
-            <CardContent className="p-6 flex flex-col justify-between h-full">
+            <CardContent className="p-5 flex flex-col justify-between h-full">
                 {/* Header with customer info and rating */}
                 <div>
                     <div className="flex items-start justify-between mb-4">
@@ -45,7 +45,7 @@ export function ReviewCard({ review }) {
                                 </div>
                             </div>
                         </div>
-                        <Badge variant="secondary" className="ml-4">
+                        <Badge className="ml-4 bg-accent text-black">
                             {review.serviceId?.title}
                         </Badge>
                     </div>

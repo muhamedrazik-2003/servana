@@ -18,7 +18,7 @@ import SampleTable from '../../components/provider/common/SampleTable';
 function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
   const { services, isLoading } = useSelector(state => state.serviceSlice);
-  const { bookings } = useSelector(state => state.bookingSlice);
+  const { bookings, } = useSelector(state => state.bookingSlice);
   const { reviews, isReviewLoading } = useSelector(state => state.reviewSlice);
 
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ function ProviderDashboard() {
               </div>
               <div className='overflow-x-auto flex gap-2 scrollbar-none'>
                 {isLoading
-                  ? <h4 className='my-4 mb-10 flex items-center gap-2'>Services Loading <Loader2 className='size-5' /></h4>
+                  ? <h4 className='my-4 mb-10 flex items-center gap-2'>Services Loading <Loader2 className='size-5 animate-spin' /></h4>
 
                   : services.length > 0
                     ? services.map(serivce => (
@@ -99,7 +99,7 @@ function ProviderDashboard() {
               </div>
               <div className='flex flex-col gap-2 overflow-y-auto scrollbar-none max-h-43 px-2'>
                 {isReviewLoading
-                  ? <h4 className='my-4 mb-10 flex items-center gap-2'>Reviews Loading <Loader2 className='size-5' /></h4>
+                  ? <h4 className='my-4 mb-10 flex items-center gap-2'>Reviews Loading <Loader2 className='size-5 animate-spin' /></h4>
 
                   : reviews.length > 0
                     ? reviews.map((review) => (
@@ -110,14 +110,6 @@ function ProviderDashboard() {
               </div>
             </div>
           </div>
-
-          {/* <div className='grid grid-rows-[auto_1fr]'>
-            
-
-          </div> */}
-
-
-
           <div>
 
           </div>

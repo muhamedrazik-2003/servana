@@ -24,3 +24,7 @@ export function getStatusClass(status) {
       return "bg-gray-100 text-gray-700 border border-gray-200"
   }
 }
+
+export function optimizeImage (url)  {
+  return url.replace("/upload/", "/upload/f_auto,q_auto/");
+};

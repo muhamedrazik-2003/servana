@@ -13,6 +13,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
+import { optimizeImage } from "../../lib/utils";
 
 const ServiceCard = ({ variant = "seeker", data }) => {
 const plugin = useRef(
@@ -27,7 +28,7 @@ const plugin = useRef(
                         {data?.images.map(image => (
                             <CarouselItem>
                                 <img
-                                    src={image?.url || "/placeholder.jpg"}
+                                    src={optimizeImage(image?.url) || "/placeholder.jpg"}
                                     alt={image?.public_id}
                                     className={`w-full h-auto object-cover rounded-3xl p-2 ${variant === "provider" ? "aspect-video" : "aspect-square"}`}
                                 />

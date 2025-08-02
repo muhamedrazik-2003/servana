@@ -22,6 +22,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { changeBookingAndPaymentStatus } from "../../redux/slices/bookingSlice";
 import { toast } from "sonner";
 import ReviewSection from "../../components/common/ReviewSection";
+import { optimizeImage } from "../../lib/utils";
 
 const BookingDetail = () => {
   const dispatch = useDispatch();
@@ -178,7 +179,7 @@ const BookingDetail = () => {
                 <CarouselContent>
                   {currentBooking?.serviceId?.images?.map((image, i) => (
                     <CarouselItem key={i} className=" overflow-hidden">
-                      <img src={image?.url} alt={`Service ${i}`} className="w-full aspect-5/3 rounded-3xl object-cover" />
+                      <img src={optimizeImage(image?.url)} alt={`Service ${i}`} className="w-full aspect-5/3 rounded-3xl object-cover" />
                     </CarouselItem>
                   ))}
                 </CarouselContent>

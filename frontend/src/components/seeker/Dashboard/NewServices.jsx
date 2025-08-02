@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Link } from "react-router-dom"
 import { Button } from "../../ui/button"
 import { useSelector } from "react-redux"
+import { optimizeImage } from "../../../lib/utils"
 
 function NewServices() {
     const { services, isLoading } = useSelector(state => state.serviceSlice);
@@ -37,7 +38,7 @@ function NewServices() {
                         <Link key={service.id} to={`/seeker/services/${service?._id}`}>
                             <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
                                 <img
-                                    src={service.images[0].url}
+                                    src={optimizeImage(service.images[0].url)}
                                     alt={service.title}
                                     className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
                                 />

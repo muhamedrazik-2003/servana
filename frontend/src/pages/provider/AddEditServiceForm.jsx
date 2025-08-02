@@ -40,6 +40,8 @@ function AddEditServiceForm() {
   const [serviceImages, setServiceImages] = useState(formFormat === "addForm" ?
     [] : [...currentService.images]
   )
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
   const [serviceData, setServiceData] = useState(formFormat === "addForm" ?
     {
       title: "",
@@ -49,9 +51,9 @@ function AddEditServiceForm() {
       price: "",
       priceUnit: "hour",
       location: {
-        city: "",
-        state: "",
-        pincode: ""
+        city: user?.location.city,
+        state: user?.location.state,
+        pincode: user?.location.pincode
       }
     }
     : { ...currentService }

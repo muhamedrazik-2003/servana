@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button } from "../../ui/button";
+import { optimizeImage } from "../../../lib/utils";
 
 
 function RecommendedSection() {
@@ -31,7 +32,7 @@ function RecommendedSection() {
                     ? recommendedServices.slice(0, 8).map(service => (
                         <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
                             <img
-                                src={service.image}
+                                src={optimizeImage(service.images[0].url)}
                                 alt={service.title}
                                 className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
                             />

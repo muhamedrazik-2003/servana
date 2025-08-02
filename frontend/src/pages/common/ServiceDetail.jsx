@@ -11,7 +11,7 @@ import SeekerHeader from "../../components/seeker/common/SeekerHeader";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "../../components/ui/badge";
-import { getStatusClass } from "../../lib/utils";
+import { getStatusClass, optimizeImage } from "../../lib/utils";
 import { deleteService } from "../../redux/slices/serviceSlice";
 import { toast } from "sonner";
 import { addNewBooking } from "../../redux/slices/bookingSlice";
@@ -37,20 +37,22 @@ const ServiceDetail = () => {
   }
 
   const { services, isDeleting, isUpdating } = useSelector(state => state.serviceSlice);
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
   const { isBooking } = useSelector(state => state.bookingSlice)
   const currentService = services.find(service => service._id === serviceId);
   const [bookingData, setBookingData] = useState({
     serviceId,
     providerId: currentService?.providerId,
-    scheduledDate: "",
-    scheduledTime: "",
+    scheduledDate: startOfToday(),
+    scheduledTime: "9:00 AM",
     seekerNotes: "",
     duration: 1,
     durationUnit: "hour",
     location: {
-      city: "",
-      state: "",
-      pincode: ""
+      city: user?.location.city,
+      state: user?.location.state,
+      pincode: user?.location.pincode
     }
   })
   const [totalPrice, setTotalPrice] = useState(0);
@@ -92,6 +94,17 @@ const ServiceDetail = () => {
       const { scheduledDate, scheduledTime, location: { city, state, pincode } } = bookingData;
       const updatedBookingData = { ...bookingData, totalPrice }
       if (!scheduledDate || !scheduledTime || !city || !state || !pincode) return toast.warning("Please Add All required Fields");
+      if (user.phone === undefined || user.phone === "") {
+        return toast.error(
+          <span>
+            Please update at least your phone number to book a service.{" "}
+            <Link to="/seeker/profile" className="underline text-blue-600 hover:text-blue-800">
+              Go to Profile
+            </Link>
+          </span>
+        );
+
+      }
 
       const response = await dispatch(addNewBooking(updatedBookingData));
       if (addNewBooking.fulfilled.match(response)) {
@@ -99,8 +112,8 @@ const ServiceDetail = () => {
         setBookingData({
           serviceId,
           providerId: currentService?.providerId,
-          scheduledDate: "",
-          scheduledTime: "",
+          scheduledDate: startOfToday(),
+          scheduledTime: "9:00 AM",
           seekerNotes: "",
           duration: 1,
           durationUnit: "hour",
@@ -197,7 +210,7 @@ const ServiceDetail = () => {
             <CarouselContent>
               {currentService?.images?.map((img, i) => (
                 <CarouselItem key={i} className=" overflow-hidden">
-                  <img src={img?.url} alt={`Service ${i}`} className="w-full h-72 rounded-3xl object-cover" />
+                  <img src={optimizeImage(img?.url)} alt={`Service ${i}`} className="w-full h-72 rounded-3xl object-cover" />
                 </CarouselItem>
               ))}
 
@@ -293,8 +306,7 @@ const ServiceDetail = () => {
 
             <div className="space-y-2">
               <label className="block text-sm font-medium">Preferred Time</label>
-              <select onChange={(e) => setBookingData({ ...bookingData, scheduledTime: e.target.value })} className="w-full px-3 py-2 border rounded-md text-sm">
-                <option value="">Select Time</option>
+              <select value={bookingData?.scheduledTime} onChange={(e) => setBookingData({ ...bookingData, scheduledTime: e.target.value })} className="w-full px-3 py-2 border rounded-md text-sm">
                 <option value="9:00 AM">9 AM Onwards</option>
                 <option value="12:00 AM">12 PM Onwards</option>
                 <option value="3:00 PM">3 PM Onwards</option>
@@ -305,8 +317,8 @@ const ServiceDetail = () => {
                 <label className="block text-sm font-medium">Service Duration</label>
                 <div className="flex gap-2">
                   <Input defaultValue={bookingData?.duration} onChange={(e) => setBookingData({ ...bookingData, duration: e.target.value })} type="number" placeholder="1" />
-                  <select onChange={(e) => setBookingData({ ...bookingData, durationUnit: e.target.value })} className="w-full px-3 py-2 border rounded-md text-sm">
-                    <option value="hour" selected>Hour</option>
+                  <select value={bookingData?.durationUnit} onChange={(e) => setBookingData({ ...bookingData, durationUnit: e.target.value })} className="w-full px-3 py-2 border rounded-md text-sm">
+                    <option value="hour">Hour</option>
                     <option value="day">Day</option>
                     <option value="service">Flexible</option>
                   </select>
@@ -318,16 +330,16 @@ const ServiceDetail = () => {
             {/* 📍 Location Inputs */}
             <div className="space-y-2">
               <label className="block text-sm font-medium">City</label>
-              <Input onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, city: e.target.value } })} type="text" placeholder="Enter your city" />
+              <Input defaultValue={user?.location?.city} onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, city: e.target.value } })} type="text" placeholder="Enter your city" />
             </div>
             <div className="flex gap-2">
               <div className="space-y-2">
                 <label className="block text-sm font-medium">State</label>
-                <Input onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, state: e.target.value } })} type="text" placeholder="Enter your state" />
+                <Input defaultValue={user?.location?.state} onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, state: e.target.value } })} type="text" placeholder="Enter your state" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium">Pincode</label>
-                <Input onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, pincode: e.target.value } })} type="text" placeholder="Enter your pincode" />
+                <Input defaultValue={user?.location?.pincode} onChange={(e) => setBookingData({ ...bookingData, location: { ...bookingData.location, pincode: e.target.value } })} type="text" placeholder="Enter your pincode" />
               </div>
             </div>
 

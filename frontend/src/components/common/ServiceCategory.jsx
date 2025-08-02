@@ -14,6 +14,7 @@ import * as Icons from 'lucide-react'
 import { Button } from '../ui/button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSampleServices } from '../../redux/slices/serviceSlice'
+import { optimizeImage } from '../../lib/utils'
 
 function ServiceCategory({ format }) {
     const containerRef = useRef()
@@ -71,7 +72,7 @@ function ServiceCategory({ format }) {
                                             </div> */}
                                                 <img
                                                     className={`object-cover w-full rounded-2xl ${format === "seeker" ? "h-[270px] w-auto" : "h-[500px]"}`}
-                                                    src={service?.images[0]?.url || "/placeholder.svg"}
+                                                    src={optimizeImage(service?.images[0]?.url) || "/placeholder.svg"}
                                                     alt={service?.title || "Service Image"}
                                                 />
 

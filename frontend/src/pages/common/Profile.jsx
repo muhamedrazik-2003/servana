@@ -30,6 +30,7 @@ const bookingStats = [
 function ProfilePage() {
   const { pathname } = useLocation();
   const { user, isUpdating } = useSelector(state => state.userSlice);
+  console.log(user)
   const userDataFallback = JSON.parse(sessionStorage.getItem('user'));
   const [userData, setUserData] = useState(user?.length > 0 ? user : userDataFallback);
   const dispatch = useDispatch();
@@ -111,7 +112,7 @@ function ProfilePage() {
   return (
     <main>
       {role === "provider"
-        ? <ProviderHeader page={"profile"}/>
+        ? <ProviderHeader page={"profile"} />
         : <SeekerHeader />
       }
 
@@ -220,16 +221,26 @@ function ProfilePage() {
             <Separator className="my-3" />
 
             {/* Address */}
-            <div className="flex items-start gap-3">
-              <p className="text-teal-500 w-[180px] lg:w-[200px] mt-2">Address</p>
+            <div className="flex items-start">
               {isEditing ? (
-                <div className="flex flex-col gap-2 w-full max-w-2xl">
-                  <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, city: e.target.value } })} defaultValue={userData.location.city} placeholder="City" className="rounded-3xl bg-teal-50 px-3 py-1" />
-                  <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, state: e.target.value } })} defaultValue={userData.location.state} placeholder="State" className="rounded-3xl bg-teal-50 px-3 py-1" />
-                  <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, pincode: e.target.value } })} defaultValue={userData.location.pincode} placeholder="PIN Code" className="rounded-3xl bg-teal-50 px-3 py-1" />
-                </div>
+                <>
+                  <div className="flex flex-col gap-2">
+                  <p className="text-teal-500 w-[180px] lg:w-[200px] mt-2">City</p>
+                  <p className="text-teal-500 w-[180px] lg:w-[200px] mt-2">State</p>
+                  <p className="text-teal-500 w-[180px] lg:w-[200px] mt-2">Pincode</p>
+                  </div>
+                  <div className="flex flex-col gap-2 w-full max-w-2xl">
+                    <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, city: e.target.value } })} defaultValue={userData.location.city} placeholder="City" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                    <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, state: e.target.value } })} defaultValue={userData.location.state} placeholder="State" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                    <Input onChange={(e) => setUserData({ ...userData, location: { ...userData.location, pincode: e.target.value } })} defaultValue={userData.location.pincode} placeholder="PIN Code" className="rounded-3xl bg-teal-50 px-3 py-1" />
+                  </div>
+                </>
+
               ) : (
-                <p className="font-semibold text-start">{`${userData.location.city}, ${userData.location.state}, ${userData.location.pincode}`}</p>
+                <>
+                  <p className="text-teal-500 w-[180px] lg:w-[200px] mt-2">Address</p>
+                  <p className="font-semibold text-start">{`${userData.location.city}, ${userData.location.state}, ${userData.location.pincode}`}</p>
+                </>
               )}
             </div>
             <Separator className="my-3" />
@@ -319,7 +330,7 @@ function ProfilePage() {
             <Button disabled={isUpdating} onClick={handleUpdate}>
               {isUpdating
                 ? <>
-                  <LoaderCircle  className="size-6 animate-spin"/> Updating
+                  <LoaderCircle className="size-6 animate-spin" /> Updating
                 </>
                 : "Update"}
             </Button>
