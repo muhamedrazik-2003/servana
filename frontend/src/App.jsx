@@ -21,6 +21,12 @@ import AddEditServiceForm from "./pages/provider/AddEditServiceForm"
 import ProviderEarning from "./pages/provider/ProviderEarning"
 import { Reviews } from "./pages/provider/Reviews"
 import AdminDashboard from "./pages/admin/AdminDashboard"
+import AllSeekers from "./pages/admin/AllSeekers"
+import AllProviders from "./pages/admin/AllProviders"
+import AdminAllServices from "./pages/admin/ManageServices"
+import AdminAllBookings from "./pages/admin/ManageBookings"
+import AdminAllCategories from "./pages/admin/ManageCategories"
+import Feedbacks from "./pages/admin/Feedbacks"
 
 
 function App() {
@@ -62,7 +68,14 @@ function App() {
         <Route path="/provider/reviews" element={<Reviews />} />
 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/seekers" element={<AllSeekers />} />
+        <Route path="/admin/providers" element={<AllProviders />} />
+        <Route path="/admin/services" element={<AdminAllServices />} />
+        <Route path="/admin/bookings" element={<AdminAllBookings />} />
+        <Route path="/admin/categories" element={<AdminAllCategories />} />
         <Route path="/admin/reviews" element={<Reviews />} />
+        <Route path="/admin/feedbacks" element={<Feedbacks />} />
+        <Route path="/admin/profile" element={<Profile />} />
       </Routes>
       <Toaster toastOptions={{
         style: { borderRadius: "32px" },

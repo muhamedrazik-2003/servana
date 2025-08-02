@@ -2,9 +2,9 @@ import React from 'react'
 import Header from '../../components/common/Provider&AdminHeader';
 import AdminSidebar from '../../components/admin/common/AdminSidebar';
 
-function ManageCategories() {
+function AllSeekers() {
   return (
-     <>
+    <>
       <Header />
       <main className="flex p-4 pt-0 gap-6">
         {/* Sidebar */}
@@ -28,4 +28,4 @@ function ManageCategories() {
   )
 }
 
-export default ManageCategories
+export default AllSeekers

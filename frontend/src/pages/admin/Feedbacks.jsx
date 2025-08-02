@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../../components/common/Provider&AdminHeader';
 import AdminSidebar from '../../components/admin/common/AdminSidebar';
 
-function ManageCategories() {
+function Feedbacks() {
   return (
      <>
       <Header />
@@ -28,4 +28,4 @@ function ManageCategories() {
   )
 }
 
-export default ManageCategories
+export default Feedbacks
