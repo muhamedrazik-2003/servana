@@ -62,6 +62,7 @@ function App() {
         <Route path="/provider/reviews" element={<Reviews />} />
 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/reviews" element={<Reviews />} />
       </Routes>
       <Toaster toastOptions={{
         style: { borderRadius: "32px" },

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ProviderHeader from '../../components/provider/common/ProviderHeader'
+import ProviderHeader from '../../components/common/Provider&AdminHeader'
 import { MapPin } from 'lucide-react'
 import BookingTabs from '../../components/seeker/MyBooking/BookingTabs'
 import ProviderSidebar from '../../components/provider/common/ProviderSidebar'

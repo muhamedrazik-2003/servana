@@ -7,7 +7,7 @@ import { CalendarIcon, CreditCard, Hash, IndianRupee, Mail, MapPin, MessageCircl
 import Footer from "../../components/common/Footer";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
 import { useLocation, useParams } from "react-router-dom";
-import ProviderHeader from "../../components/provider/common/ProviderHeader";
+import ProviderHeader from "../../components/common/Provider&AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Dialog,

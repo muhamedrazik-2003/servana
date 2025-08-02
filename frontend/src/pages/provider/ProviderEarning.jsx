@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Footer from '../../components/common/Footer'
 import ProviderSidebar from '../../components/provider/common/ProviderSidebar'
-import ProviderHeader from '../../components/provider/common/ProviderHeader'
+import ProviderHeader from '../../components/common/Provider&AdminHeader'
 import { Calendar, CheckCircle, Clock, IndianRupee } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useDispatch, useSelector } from 'react-redux'

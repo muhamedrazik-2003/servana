@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { ImagePlus } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import ProviderHeader from "../../components/provider/common/ProviderHeader";
+import ProviderHeader from "../../components/common/Provider&AdminHeader";
 import { useEffect, useState } from "react";
 import Footer from "../../components/common/Footer";
 import { useDispatch, useSelector } from "react-redux";

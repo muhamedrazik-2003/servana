@@ -4,20 +4,23 @@ import { Menu, Bell, Moon, User, Search, Calendar, Sun, MapPin, Layers } from "l
 import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
 import { useDispatch } from "react-redux"
-import { handleSearch } from "../../../redux/slices/serviceSlice"
+import { handleSearch } from "../../redux/slices/serviceSlice"
 
-function ProviderHeader({ page }) {
+function ProviderHeader({ page,userRole }) {
     const [menuOpen, setMenuOpen] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
     return (
         <header className="w-full sticky top-0 z-50 bg-background dark:bg-background transition-all">
             <div className="mx-4 lg:mx-10 py-3 flex items-center justify-between">
                 {/* Logo + Name */}
-                <Link to="/provider/dashboard" className="flex items-center gap-2">
-                    <img src={Logo} alt="Servana Logo" className="h-8 w-8" />
-                    <span className="font-bold text-xl md:hidden lg:block text-gray-800 dark:text-white">Servana</span>
-                </Link>
+                <div className="flex items-center gap-3">
+                    <Link to="/provider/dashboard" className="flex items-center gap-2">
+                        <img src={Logo} alt="Servana Logo" className="h-8 w-8" />
+                        <span className="font-bold text-xl md:hidden lg:block text-gray-800 dark:text-white">Servana</span>
+                    </Link>
+                </div>
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center gap-6">

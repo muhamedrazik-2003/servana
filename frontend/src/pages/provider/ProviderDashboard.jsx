@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from "../../components/provider/common/ProviderSidebar"
-import ProviderHeader from '../../components/provider/common/ProviderHeader'
+import ProviderHeader from '../../components/common/Provider&AdminHeader'
 import SummarySection from '../../components/provider/Dashboard/SummarySection';
 import { Button } from "../../components/ui/button"
 import { Switch } from "@/components/ui/switch"

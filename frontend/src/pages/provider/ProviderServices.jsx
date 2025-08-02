@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ProviderHeader from '../../components/provider/common/ProviderHeader'
+import ProviderHeader from '../../components/common/Provider&AdminHeader'
 import ProviderSidebar from '../../components/provider/common/ProviderSidebar'
 import Footer from '../../components/common/Footer'
 import { MapPin } from 'lucide-react'

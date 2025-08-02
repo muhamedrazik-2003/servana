@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useLocation } from "react-router-dom";
-import ProviderHeader from "../../components/provider/common/ProviderHeader";
+import ProviderHeader from "../../components/common/Provider&AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
 import { toast } from "sonner";
