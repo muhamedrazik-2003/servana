@@ -14,7 +14,7 @@ import {
 
 function AdminSidebar() {
   return (
-    <aside className="h-[calc(100vh-82px)] sticky top-[66px] w-[220px] rounded-[30px] bg-primary flex flex-col justify-between py-3 px-0.5">
+    <aside className="h-[calc(100vh-82px)] sticky top-[66px] w-[220px] rounded-[30px] bg-linear-to-br from-primary to-violet-900 flex flex-col justify-between py-3 px-0.5">
       {/* Navigation */}
       <nav className="space-y-1 px-2">
         <NavLink
