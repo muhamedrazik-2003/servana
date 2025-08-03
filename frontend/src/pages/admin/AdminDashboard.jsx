@@ -19,6 +19,8 @@ import {
 import BookingStatusChart from '../../components/provider/Dashboard/BookingStatusChart';
 import { useDispatch } from 'react-redux';
 import { getAllBookings } from '../../redux/slices/bookingSlice';
+import { CustomerProviderRadarChart } from '../../components/customer-provider-radar-chart';
+import { BusinessMetricsDonutChart } from '../../components/business-metrics-donut-chart';
 
 function AdminDashboard() {
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -89,7 +91,7 @@ function AdminDashboard() {
         </div>
 
         {/* Main Content */}
-        <section className="h-[calc(100vh-82px)]  grid grid-cols-2 grid-rows-[auto_1fr_1.2fr] g  w-full m-0 gap-4 p-0 overflow-hidden">
+        <section className="h-[calc(100vh-82px)]  grid grid-cols-1 lg:grid-cols-2 grid-rows-[auto_1fr_1.3fr] g  w-full m-0 gap-4 p-0 overflow-hidden">
           <div className='h-auto'>
             <h1 className="m-0 text-3xl text-start">Welcome <span className="text-primary">{user?.fullName}</span></h1>
             <p>Today is <span className='italic font-semibold'>{DateToday}</span></p>
@@ -115,7 +117,11 @@ function AdminDashboard() {
               )
             })}
           </div>
-          <BookingStatusChart />
+          <div className='grid grid-cols-2 gap-4'>
+            <BusinessMetricsDonutChart/>
+            <CustomerProviderRadarChart/>
+          </div>
+          {/* <BookingStatusChart /> */}
 
           {/* <div className='space-y-2'>
             <BookingStatusChart />
