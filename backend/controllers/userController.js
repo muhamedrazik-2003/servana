@@ -91,7 +91,7 @@ exports.updateUser = async (req, res) => {
     }
     res.status(200).json({
       message: "User Updated successfully",
-      updatedService: updatedUser,
+      updatedUser,
     });
   } catch (error) {
     console.error("UPDATE ERROR:", error);
@@ -120,6 +120,55 @@ exports.getAllseekers = async (req, res) => {
 
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await users.findById(userId);
+   
+    if(user.profilePicture !== "Not Available" || user.profilePicture !== "") {
+      await cloudinary.uploader.destroy(user.profilePicture);
+    }
+
+    const deletedData = await users.findByIdAndDelete(id);
+    if (!deletedData) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({
+      message: "User Deleted successfully",
+      deletedUser: deletedData,
+    });
+  } catch (error) {
+    console.error("DELETE ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
+exports.changeUserAccountStatus = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { verification, accountStatus } = req.body;
+    console.log(userId);
+    console.log(verification)
+    console.log(accountStatus)
+
+    const updatedUserData = await users
+      .findByIdAndUpdate(userId, { isVerified: verification,status: accountStatus }, { new: true })
+
+    console.log("updatedUser", updatedUserData);
+    if (!updatedUserData) {
+      res.status(404).json({ message: "User Not Found" });
+    }
+    res.status(200).json({
+      message: "User Status Updated successfully",
+      updatedUser: updatedUserData,
+    });
+  } catch (error) {
+    console.error("UPDATE ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
   }
 };
