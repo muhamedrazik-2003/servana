@@ -153,7 +153,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                     </Badge>
                                 </TableCell>
                                 <TableCell className='text-center'>
-                                    <ServiceActionMenu/>
+                                    <ServiceActionMenu serviceId={data._id}/>
                                     {/* <UserActionMenu userId={data._id} userRole={tableFormat} /> */}
                                 </TableCell>
                             </TableRow>

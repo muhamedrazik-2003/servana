@@ -70,8 +70,6 @@ const UserActionMenu = ({ userId, userRole }) => {
     }
     const handleUserDelete = async () => {
         try {
-            const userId = currentUser._id;
-            console.log(userId)
             if (userRole === "provider") {
                 const response = await dispatch(deleteProvider(userId));
                 if (deleteProvider.fulfilled.match(response)) {

@@ -34,7 +34,7 @@ const serviceSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["approved", "rejected", "flagged", "pending","disabled"],
+      enum: ["active", "rejected", "flagged", "pending","inactive"],
       default: "pending",
     },
     location: {
