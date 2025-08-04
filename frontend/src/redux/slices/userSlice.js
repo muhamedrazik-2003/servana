@@ -70,10 +70,56 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const getAllSeekers = createAsyncThunk(
+  "serviceSlice/getAllSeekers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${base_url}/users/seekers`, {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      });
+      const { message, allSeekers } = response.data;
+      console.log("All Seekers Data retrieved:", response.data);
+      return { message, allSeekers };
+    } catch (error) {
+      console.log("An Error Occured", error);
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed retrieve all Seekers data",
+      });
+    }
+  }
+);
+export const getAllProviders = createAsyncThunk(
+  "serviceSlice/getAllProviders",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${base_url}/users/providers`, {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      });
+      const { message, allProviders } = response.data;
+      console.log("All Providers Data retrieved:", response.data);
+      return { message, allProviders };
+    } catch (error) {
+      console.log("An Error Occured", error);
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed retrieve all Providers Data",
+      });
+    }
+  }
+);
 const userSlice = createSlice({
   name: "userSlice",
   initialState: {
     user: {},
+    seekers: [],
+    providers: [],
     token: "",
     isAuthenticated: false,
     isLoading: false,
@@ -135,6 +181,38 @@ const userSlice = createSlice({
       state.isUpdating = false;
       state.error = action.payload?.message || "Failed to update User";
     });
+
+    // get all seekers
+        builder.addCase(getAllSeekers.fulfilled, (state, action) => {
+          state.seekers = action.payload.allSeekers || []
+          state.isLoading = false;
+          state.error = null;
+          state.successResponse = action.payload.message;
+        });
+        builder.addCase(getAllSeekers.pending, (state, action) => {
+          state.isLoading = true;
+          state.error = null;
+        });
+        builder.addCase(getAllSeekers.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload.message || "Failed to retrieve Seekers Data";
+        });
+
+    // get all Providers
+        builder.addCase(getAllProviders.fulfilled, (state, action) => {
+          state.providers = action.payload.allProviders || []
+          state.isLoading = false;
+          state.error = null;
+          state.successResponse = action.payload.message;
+        });
+        builder.addCase(getAllProviders.pending, (state, action) => {
+          state.isLoading = true;
+          state.error = null;
+        });
+        builder.addCase(getAllProviders.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload.message || "Failed to retrieve Providers Data";
+        });
   },
 });
 
