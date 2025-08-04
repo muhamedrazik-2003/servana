@@ -13,6 +13,7 @@ import { getStatusClass } from '../../../lib/utils';
 import UserActionMenu from './UserActionMenu';
 import { getAllServices } from '../../../redux/slices/serviceSlice';
 import { getAllBookings } from '../../../redux/slices/bookingSlice';
+import ServiceActionMenu from '../ServiceActionMenu';
 
 const DataTable = ({ headData, rowData, tableFormat }) => {
     const { bookings } = useSelector(state => state.bookingSlice);
@@ -20,8 +21,8 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(bookings.length === 0) {
-                dispatch(getAllBookings());
+        if (bookings.length === 0) {
+            dispatch(getAllBookings());
         }
         if (services.length === 0) {
             dispatch(getAllServices());
@@ -121,6 +122,39 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                 </TableCell>
                                 <TableCell className='text-center'>
                                     <UserActionMenu userId={data._id} userRole={tableFormat} />
+                                </TableCell>
+                            </TableRow>
+                        }
+                        {tableFormat === "service"
+                            && // seeker row
+                            <TableRow>
+                                <TableCell>{data.title}</TableCell>
+                                <TableCell>{data.category}</TableCell>
+                                <TableCell>{data.subCategory}</TableCell>
+                                <TableCell>{data.providerId.fullName}</TableCell>
+                                
+                                <TableCell >{data?.location.city + ", " + data?.location.state}</TableCell>
+                                {/* <TableCell>{data?.location.city + ", " + data?.location.state + ", " + data?.location.pincode}</TableCell> */}
+                                <TableCell className='text-center'>{data.price}</TableCell>
+                                <TableCell>
+                                    {new Date(data.createdAt).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric"
+                                    })}
+                                </TableCell>
+                                <TableCell>
+                                    <Badge
+                                        className={`px-2 ${getStatusClass(
+                                            data.status
+                                        )}`}
+                                    >
+                                        {data.status}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell className='text-center'>
+                                    <ServiceActionMenu/>
+                                    {/* <UserActionMenu userId={data._id} userRole={tableFormat} /> */}
                                 </TableCell>
                             </TableRow>
                         }
