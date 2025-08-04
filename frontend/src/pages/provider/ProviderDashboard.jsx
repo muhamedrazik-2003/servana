@@ -13,12 +13,11 @@ import { Link } from 'react-router-dom';
 import { getProviderBookings } from '../../redux/slices/bookingSlice';
 import { getUserServices } from '../../redux/slices/serviceSlice';
 import { getAllProviderReviews } from '../../redux/slices/reviewSlice';
-import SampleTable from '../../components/provider/common/SampleTable';
+import RecentBooking from '../../components/common/RecentBooking';
 
 function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
   const { services, isLoading } = useSelector(state => state.serviceSlice);
-  const { bookings, } = useSelector(state => state.bookingSlice);
   const { reviews, isReviewLoading } = useSelector(state => state.reviewSlice);
 
   const dispatch = useDispatch();
@@ -27,12 +26,7 @@ function ProviderDashboard() {
     dispatch(getUserServices());
     dispatch(getAllProviderReviews());
   }, [])
-  const headData = ["Booking ID", "Service Title", "Customer", "Date", "Total Amount", "Booking Status"]
-  const recentBookings = [...bookings].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 7)
 
-  const formattedBooking = recentBookings.map(booking => {
-    return { bookingId: booking._id, serviceTitle: booking.serviceId.title, customer: booking.seekerId.fullName, date: booking.updatedAt.slice(0, 10), amount: booking.totalPrice, status: booking.bookingStatus }
-  })
 
   return (
     <>
@@ -56,15 +50,7 @@ function ProviderDashboard() {
               </Link>
             </div>
             <SummarySection />
-            <div className='border rounded-3xl p-4 overflow-auto scrollbar-none max-h-83 row-span-2'>
-              <div className='flex justify-between items-center mb-3'>
-                <h4 className='px-2  text-accent'>Recent Bookings</h4>
-                <Link to={'/provider/bookings'}>
-                  <Button variant={'outline'} size={'sm'} className={'h-8'}> View All Bookings</Button>
-                </Link>
-              </div>
-              <SampleTable headData={headData} bodyData={formattedBooking} formMode={"booking"} />
-            </div>
+            <RecentBooking/>
           </div>
           <div className='space-y-2'>
             <BookingStatusChart />
