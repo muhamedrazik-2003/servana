@@ -31,6 +31,8 @@ export function getStatusClass(status) {
       return "bg-secondary text-black w-22";
     case "inactive":
       return "bg-red-500 text-white w-22";
+    case "flagged":
+      return "bg-black text-white w-22";
 
     default:
       return "bg-gray-100 text-gray-700 border border-gray-200";

@@ -188,3 +188,26 @@ exports.deleteService = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error", error });
   }
 };
+
+exports.changeServiceStatus = async (req, res) => {
+  try {
+    const { serviceId } = req.params;
+    const { status } = req.body;
+    console.log(serviceId);
+    console.log(status)
+
+    const updatedServiceData = await services
+      .findByIdAndUpdate(serviceId, { status }, { new: true }).populate('providerId', 'fullName')
+
+    if (!updatedServiceData) {
+      res.status(404).json({ message: "Service Not Found" });
+    }
+    res.status(200).json({
+      message: "Service Status Updated successfully",
+      updatedService: updatedServiceData,
+    });
+  } catch (error) {
+    console.error("UPDATE ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};

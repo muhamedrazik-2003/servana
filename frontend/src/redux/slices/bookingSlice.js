@@ -37,7 +37,7 @@ export const getAllBookings = createAsyncThunk(
         },
       });
       const { message, bookingList } = response.data;
-      console.log("All Services retrieved:", response.data);
+      console.log("All Bookings retrieved:", response.data);
       return { message, bookingList };
     } catch (error) {
       console.error(error);

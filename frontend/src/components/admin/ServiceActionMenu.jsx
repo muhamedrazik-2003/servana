@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button"
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
-import { deleteService } from '../../redux/slices/serviceSlice';
+import { changeServiceStatus, deleteService } from '../../redux/slices/serviceSlice';
 
 function ServiceActionMenu({ serviceId }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +33,19 @@ function ServiceActionMenu({ serviceId }) {
     const { services, isDeleting, isUpdating } = useSelector(state => state.serviceSlice);
     const currentService = services.find(service => service._id === serviceId)
 
+
+      const handleStatusUpdate = async (status) => {
+        console.log(status)
+        const serviceData = {status};
+        const response = await dispatch(changeServiceStatus({serviceId, serviceData}));
+        if (changeServiceStatus.fulfilled.match(response)) {
+          toast.success("Service Status Updated successfully!");
+          return;
+        } else if (changeServiceStatus.rejected.match(response)) {
+          return toast.error(response.payload?.message || "Something went wrong while Updating the service Status");
+    
+        }
+      }
       const handleDelete = async () => {
         const response = await dispatch(deleteService(serviceId));
         if (deleteService.fulfilled.match(response)) {
@@ -57,26 +70,26 @@ function ServiceActionMenu({ serviceId }) {
                                 {currentService?.status === "pending"
                                     ? <>
                                         <DropdownMenuItem
-                                            onClick={() => handleBookingStatusUpdate("active")}>
+                                            onClick={() => handleStatusUpdate("active")}>
                                             <CircleCheckBig className="mr-2 w-4 h-4" /> Approve Service
                                         </DropdownMenuItem>
                                         <DropdownMenuItem
-                                            onClick={() => handleBookingStatusUpdate("rejected")}>
+                                            onClick={() => handleStatusUpdate("rejected")}>
                                             <CircleSlash2 className="mr-2 w-4 h-4" /> Reject Service
                                         </DropdownMenuItem>
                                     </>
                                     : currentService?.status === "active"
                                         ? <>
                                             <DropdownMenuItem
-                                                onClick={() => handleBookingStatusUpdate(currentService?.isVerified, "flagged")}
+                                                onClick={() => handleStatusUpdate("flagged")}
                                             ><Ban />Flag Service</DropdownMenuItem>
                                             <DropdownMenuItem
-                                                onClick={() => handleBookingStatusUpdate(currentService?.isVerified, "inactive")}
+                                                onClick={() => handleStatusUpdate("inactive")}
                                             ><PowerOff /> Disable Service</DropdownMenuItem>
                                         </>
                                         : <>
                                             <DropdownMenuItem
-                                                onClick={() => handleBookingStatusUpdate(currentService?.isVerified, "active")}
+                                                onClick={() => handleStatusUpdate("active")}
                                             ><Power /> Enable Service</DropdownMenuItem>
                                         </>
                                 }
@@ -89,7 +102,7 @@ function ServiceActionMenu({ serviceId }) {
                         </DropdownMenuItem>
                     </Link>
                     {/* <DropdownMenuItem className={'pl-3 pr-6'}
-                        onClick={() => handleBookingStatusUpdate(true, currentService?.status)}
+                        onClick={() => handleStatusUpdate(true, currentService?.status)}
                     >
                         <BadgeCheck /> 
                     </DropdownMenuItem> */}

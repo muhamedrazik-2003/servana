@@ -10,6 +10,7 @@ router.delete("/delete/:id", jwt, serviceController.deleteService);
 router.get("/", jwt, serviceController.getUserServices);
 router.get("/all", jwt, serviceController.getAllServices);
 router.get("/sample", serviceController.getSampleServices);
+router.patch("/update/status/:serviceId",serviceController.changeServiceStatus);
 
 
 module.exports = router;

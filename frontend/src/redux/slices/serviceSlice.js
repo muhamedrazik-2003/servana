@@ -139,6 +139,33 @@ export const deleteService = createAsyncThunk(
   }
 );
 
+export const changeServiceStatus = createAsyncThunk(
+  "serviceSlice/changeServiceStatus",
+  async ({ serviceId, serviceData }, { rejectWithValue }) => {
+    console.log(serviceId, serviceData);
+    try {
+      const response = await axios.patch(
+        `${base_url}/services/update/status/${serviceId}`,
+        serviceData,
+        {
+          headers: {
+            Authorization: `token ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { message, updatedService } = response.data;
+      console.log("service Status Updated:", response.data);
+      return { message, updatedService };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed To update services status",
+      });
+    }
+  }
+);
+
 const serviceSlice = createSlice({
   name: "serviceSlice",
   initialState: {
@@ -279,6 +306,30 @@ const serviceSlice = createSlice({
     builder.addCase(deleteService.rejected, (state, action) => {
       state.isDeleting = false;
       state.error = action.payload?.message || "Failed to delete service";
+    });
+
+    // update service Satus
+    builder.addCase(changeServiceStatus.fulfilled, (state, action) => {
+      const filtered = state.services.filter(
+        (service) => service._id !== action.payload.updatedService._id
+      );
+      const backupFiltered = state.servicesBackup.filter(
+        (service) => service._id !== action.payload.updatedService._id
+      );
+      filtered.push(action.payload.updatedService);
+      state.services = filtered;
+      state.servicesBackup = backupFiltered;
+      state.isUpdating = false;
+      state.error = null;
+    });
+    builder.addCase(changeServiceStatus.pending, (state, action) => {
+      state.isUpdating = true;
+      state.error = null;
+    });
+    builder.addCase(changeServiceStatus.rejected, (state, action) => {
+      state.isUpdating = false;
+      state.error =
+        action.payload?.message || "Failed to update service Status";
     });
   },
 });
