@@ -7,4 +7,7 @@ const router = express.Router();
 router.post("/login", userController.userLogin);
 router.post("/register", userController.userRegister);
 router.put('/update/:userId',jwt, profileUpload.single("profilePicture"),userController.updateUser);
+router.get('/seekers',jwt, userController.getAllseekers);
+router.get('/providers',jwt, userController.getAllProviders);
+
 module.exports = router;

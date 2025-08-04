@@ -98,3 +98,28 @@ exports.updateUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+exports.getAllProviders = async (req, res) => {
+  try {
+    const allProviders = await users.find({role:"provider"});
+    res
+      .status(200)
+      .json({ message: "All providers retrieved", allProviders });
+
+  } catch (error) {
+    console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+exports.getAllseekers = async (req, res) => {
+  try {
+    const allSeekers = await users.find({role:"seeker"});
+    res
+      .status(200)
+      .json({ message: "All seekers retrieved", allSeekers });
+
+  } catch (error) {
+    console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
