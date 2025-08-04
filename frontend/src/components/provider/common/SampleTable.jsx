@@ -20,28 +20,60 @@ function SampleTable({ headData, bodyData, formMode }) {
       <TableHeader>
         <TableRow>
           {headData?.map(data => (
-            <TableHead className='last:text-center '>{data}</TableHead>
+            <TableHead className='last:text-center font-bold'>{data}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
         {bodyData?.map((body) => (
-          <TableRow>
-            <TableCell>{body.bookingId}</TableCell>
-            <TableCell>{body.serviceTitle}</TableCell>
-            <TableCell>{body.customer}</TableCell>
-            <TableCell>{body.date}</TableCell>
-            <TableCell>{body.amount}</TableCell>
-            <TableCell className='text-center'>
-              <Badge
-                className={`px-2 ${getStatusClass(
-                  body.status
-                )}`}
-              >
-                {body.status}
-              </Badge>
-            </TableCell>
-          </TableRow>
+          formMode === "services"
+            ? <>
+              <TableRow>
+                <TableCell>{body.title}</TableCell>
+                <TableCell>{body.category}</TableCell>
+                <TableCell>{body.providerId.fullName}</TableCell>
+                <TableCell>{body?.location.city + ", " + body?.location.state}</TableCell>
+                <TableCell>{body.price}</TableCell>
+                <TableCell className='text-center'>
+                  <Badge
+                    className={`px-2 ${getStatusClass(
+                      body.status
+                    )}`}
+                  >
+                    {body.status}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  {new Date(body.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                  })}
+                </TableCell>
+                <Link to={`/admin/services/${body._id}`}>
+                  <TableCell className='text-accent'>View Details</TableCell>
+                </Link>
+              </TableRow>
+            </>
+
+            : <>
+              <TableRow>
+                <TableCell>{body.bookingId}</TableCell>
+                <TableCell>{body.serviceTitle}</TableCell>
+                <TableCell>{body.customer}</TableCell>
+                <TableCell>{body.date}</TableCell>
+                <TableCell>{body.amount}</TableCell>
+                <TableCell className='text-center'>
+                  <Badge
+                    className={`px-2 ${getStatusClass(
+                      body.status
+                    )}`}
+                  >
+                    {body.status}
+                  </Badge>
+                </TableCell>
+              </TableRow>
+            </>
         ))}
       </TableBody>
     </Table>

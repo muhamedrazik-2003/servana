@@ -71,6 +71,7 @@ function App() {
         <Route path="/admin/seekers" element={<AllSeekers />} />
         <Route path="/admin/providers" element={<AllProviders />} />
         <Route path="/admin/services" element={<AdminAllServices />} />
+        <Route path="/admin/services/:serviceId" element={<ServiceDetail />} />
         <Route path="/admin/bookings" element={<AdminAllBookings />} />
         <Route path="/admin/categories" element={<AdminAllCategories />} />
         <Route path="/admin/reviews" element={<Reviews />} />

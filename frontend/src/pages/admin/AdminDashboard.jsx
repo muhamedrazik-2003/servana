@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
 import SampleTable from '../../components/provider/common/SampleTable';
 import RecentBooking from '../../components/common/RecentBooking';
+import { getAllServices } from '../../redux/slices/serviceSlice';
+import RecentServices from '../../components/common/RecentServices';
 
 function AdminDashboard() {
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -23,7 +25,7 @@ function AdminDashboard() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllBookings());
-    // dispatch(getUserServices());
+    dispatch(getAllServices());
     // dispatch(getAllProviderReviews());
   }, [])
 
@@ -31,7 +33,7 @@ function AdminDashboard() {
   return (
     <>
       <Header />
-      <main className="flex p-4 pt-0 gap-6">
+      <main className="flex p-4 pt-0 gap-4">
         {/* Sidebar */}
         <div className="">
           <AdminSidebar />
@@ -48,9 +50,9 @@ function AdminDashboard() {
             <CustomerProviderRadarChart />
           </div>
           <div className='space-y-2 lg:col-span-2'>
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-2 gap-4 h-61'>
               <RecentBooking  userRole={"admin"}/>
-              {/* <RecentBooking userRole={"admin"}/> */}
+              <RecentServices userRole={"admin"}/>
               {/* <RecentBooking /> */}
             </div>
 

@@ -6,7 +6,7 @@ import { Button } from "../../components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Loader, Loader2, Plus } from 'lucide-react';
 import BookingStatusChart from '../../components/provider/Dashboard/BookingStatusChart';
-import MiniServiceCard from '../../components/provider/common/miniServiceCard';
+// import MiniServiceCard from '../../components/provider/common/miniServiceCard';
 import MiniReviewCard from '../../components/provider/common/miniReviewCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,10 +14,10 @@ import { getProviderBookings } from '../../redux/slices/bookingSlice';
 import { getUserServices } from '../../redux/slices/serviceSlice';
 import { getAllProviderReviews } from '../../redux/slices/reviewSlice';
 import RecentBooking from '../../components/common/RecentBooking';
+import RecentServices from '../../components/common/RecentServices';
 
 function ProviderDashboard() {
   const [isAvailableToWork, setIsAvailableToWork] = useState(true)
-  const { services, isLoading } = useSelector(state => state.serviceSlice);
   const { reviews, isReviewLoading } = useSelector(state => state.reviewSlice);
 
   const dispatch = useDispatch();
@@ -54,27 +54,7 @@ function ProviderDashboard() {
           </div>
           <div className='space-y-2'>
             <BookingStatusChart />
-            <div>
-              <div className='flex items-center justify-between'>
-                <h4 className='px-2 mb-2 text-accent'>My services</h4>
-                <Link to={'/provider/services'}>
-                  <Button variant={'outline'} size={'sm'} className={'h-6'}> View Services</Button>
-                </Link>
-              </div>
-              <div className='overflow-x-auto flex gap-2 scrollbar-none'>
-                {isLoading
-                  ? <h4 className='my-4 mb-10 flex items-center gap-2'>Services Loading <Loader2 className='size-5 animate-spin' /></h4>
-
-                  : services.length > 0
-                    ? services.map(serivce => (
-                      <MiniServiceCard data={serivce} />
-
-                    ))
-
-                    : <h4 className='my-4 mb-10'>No Services Available Currently</h4>
-                }
-              </div>
-            </div>
+            <RecentServices/>
 
             <div className=''>
               <div className='flex items-center justify-between'>
