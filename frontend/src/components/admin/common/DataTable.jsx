@@ -27,10 +27,9 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
             dispatch(getAllServices());
         }
     }, [])
-    console.log(services)
+    // console.log(services)
     const handleSeekerTotalBooking = (seekerId) => {
         const seekerBookings = bookings.filter(booking => booking.seekerId._id === seekerId)
-        console.log(seekerBookings)
         return seekerBookings.length
     }
     const handleProviderTotalServices = (providerId) => {
@@ -83,7 +82,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                     </Badge>
                                 </TableCell>
                                 <TableCell className='text-center'>
-                                    <UserActionMenu userId={data._id} userRole={"provider"} />
+                                    <UserActionMenu userId={data._id} userRole={tableFormat} />
                                 </TableCell>
                             </TableRow>
                         }
@@ -92,7 +91,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                             <TableRow>
                                 <TableCell>{data.fullName}</TableCell>
                                 <TableCell>{data.email}</TableCell>
-                                <TableCell>{data.phone}</TableCell>
+                                <TableCell>{data.phone || "Not Available"}</TableCell>
                                 <TableCell>
                                     {new Date(data.createdAt).toLocaleDateString("en-US", {
                                         year: "numeric",
@@ -100,9 +99,18 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                         day: "numeric"
                                     })}
                                 </TableCell>
-                                <TableCell>{handleProviderTotalServices(data._id)}</TableCell>
+                                <TableCell className='text-center pr-6'>{handleProviderTotalServices(data._id)}</TableCell>
+                                <TableCell >
+                                    <Badge
+                                        className={`px-2 ${getStatusClass(
+                                            data.isVerified ? "verified" : "Not Verified"
+                                        )}`}
+                                    >
+                                        {data.isVerified ? "verified" : "Not Verified"}
+                                    </Badge>
+                                </TableCell>
                                 {/* <TableCell>{data?.location.city + ", " + data?.location.state + ", " + data?.location.pincode}</TableCell> */}
-                                <TableCell className='text-center'>
+                                <TableCell>
                                     <Badge
                                         className={`px-2 ${getStatusClass(
                                             data.status
@@ -111,8 +119,8 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                         {data.status}
                                     </Badge>
                                 </TableCell>
-                                <TableCell className=''>
-                                    <UserActionMenu userId={data._id} userRole={"provider"} />
+                                <TableCell className='text-center'>
+                                    <UserActionMenu userId={data._id} userRole={tableFormat} />
                                 </TableCell>
                             </TableRow>
                         }

@@ -13,19 +13,17 @@ function AllSeekers() {
   useEffect(() => {
     dispatch(getAllSeekers());
   },[])
-const {services} = useSelector(state=> state.serviceSlice);
+// const {services} = useSelector(state=> state.serviceSlice);
   const {seekers, isSeekerLoading} = useSelector(state => state.userSlice) ;
   const headData = ["Full Name", "Email", "Phone", "Joined On", "Total Bookings", "verification", "Status"," Action"]
   return (
     <>
       <Header />
       <main className="flex p-4 pt-0 gap-6">
-        {/* Sidebar */}
         <div className="">
           <AdminSidebar />
         </div>
 
-        {/* Main Content */}
         <section className="h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0 overflow-hidden">
           <div className='flex justify-between flex-wrap gap-2 items-center px-7'>
             <h2 className="text-sm lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
@@ -35,7 +33,7 @@ const {services} = useSelector(state=> state.serviceSlice);
             {/* <button>Add Customer</button> */}
             {/* <AddStudent setPageReload={setPageReload} /> */}
           </div>
-          <ScrollArea className={'h-[75%]'}>
+          <ScrollArea className={'h-[86%]'}>
             {isSeekerLoading
               ? (<div className=' px-6'>
                 <TableSkeleton headerSkeltonData={headData} />

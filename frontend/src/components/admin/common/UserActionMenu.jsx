@@ -24,34 +24,45 @@ import { BadgeCheck, Ban, Ellipsis, Eye, Loader2, Pencil, Power, PowerOff, Trash
 import { Button } from "@/components/ui/button"
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeSeekerAccountStatus, deleteSeeker } from '../../../redux/slices/userSlice';
+import { changeProviderAccountStatus, changeSeekerAccountStatus, deleteProvider, deleteSeeker } from '../../../redux/slices/userSlice';
 import { toast } from 'sonner';
 
 
 const UserActionMenu = ({ userId, userRole }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { seekers, isUpdating, isDeleting } = useSelector(state => state.userSlice);
-    const currentUser = seekers.find(seeker => seeker._id === userId)
+    const { seekers, providers, isUpdating, isDeleting } = useSelector(state => state.userSlice);
+    let currentUser = {}
+    if (userRole === "provider") {
+        currentUser = providers.find(seeker => seeker._id === userId)
+    } else {
+        currentUser = seekers.find(seeker => seeker._id === userId)
+    }
     const dispatch = useDispatch();
     // console.log(currentUser)
-
-    const [userData, setUserData] = useState({
-        verfication: currentUser?.isVerified, accountStatus: currentUser?.status
-    })
-    // console.log(userData)
 
     const handleBookingStatusUpdate = async (verification, accountStatus) => {
         try {
             const userId = currentUser._id;
             const updatedData = { verification, accountStatus }
             console.log(userId, updatedData)
-            const response = await dispatch(changeSeekerAccountStatus({ userId, updatedData }));
-            if (changeSeekerAccountStatus.fulfilled.match(response)) {
-                toast.success("User Account Status updated successfully!")
-                return;
-            } else if (changeSeekerAccountStatus.rejected.match(response)) {
-                return toast.error(response.payload?.message || "Something went wrong while updating User Account Status");
+            if (userRole === "provider") {
+                const response = await dispatch(changeProviderAccountStatus({ userId, updatedData }));
+                if (changeProviderAccountStatus.fulfilled.match(response)) {
+                    toast.success("User Account Status updated successfully!")
+                    return;
+                } else if (changeProviderAccountStatus.rejected.match(response)) {
+                    return toast.error(response.payload?.message || "Something went wrong while updating User Account Status");
+                }
+            } else {
+                const response = await dispatch(changeSeekerAccountStatus({ userId, updatedData }));
+                if (changeSeekerAccountStatus.fulfilled.match(response)) {
+                    toast.success("User Account Status updated successfully!")
+                    return;
+                } else if (changeSeekerAccountStatus.rejected.match(response)) {
+                    return toast.error(response.payload?.message || "Something went wrong while updating User Account Status");
+                }
             }
+
         } catch (error) {
             console.error("Form submission error:", error);
             toast.error("An unexpected error occurred");
@@ -61,14 +72,26 @@ const UserActionMenu = ({ userId, userRole }) => {
         try {
             const userId = currentUser._id;
             console.log(userId)
-            const response = await dispatch(deleteSeeker(userId));
-            if (deleteSeeker.fulfilled.match(response)) {
-                toast.success("User Deleted successfully!")
-                setIsOpen(false)
-                return;
-            } else if (deleteSeeker.rejected.match(response)) {
-                return toast.error(response.payload?.message || "Something went wrong while Deleting User");
+            if (userRole === "provider") {
+                const response = await dispatch(deleteProvider(userId));
+                if (deleteProvider.fulfilled.match(response)) {
+                    toast.success("User Deleted successfully!")
+                    setIsOpen(false)
+                    return;
+                } else if (deleteProvider.rejected.match(response)) {
+                    return toast.error(response.payload?.message || "Something went wrong while Deleting User");
+                }
+            } else {
+                const response = await dispatch(deleteSeeker(userId));
+                if (deleteSeeker.fulfilled.match(response)) {
+                    toast.success("User Deleted successfully!")
+                    setIsOpen(false)
+                    return;
+                } else if (deleteSeeker.rejected.match(response)) {
+                    return toast.error(response.payload?.message || "Something went wrong while Deleting User");
+                }
             }
+
         } catch (error) {
             console.error("Form submission error:", error);
             toast.error("An unexpected error occurred");
@@ -86,7 +109,7 @@ const UserActionMenu = ({ userId, userRole }) => {
                         <DropdownMenuSubTrigger className='space-x-2 px-3'><UserPen className='text-gray-500 size-5' /> Account Status</DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
                             <DropdownMenuSubContent>
-                                {userData?.accountStatus === "active"
+                                {currentUser?.status === "active"
                                     ? <>
                                         <DropdownMenuItem
                                             onClick={() => handleBookingStatusUpdate(currentUser?.isVerified, "banned")}
@@ -116,7 +139,7 @@ const UserActionMenu = ({ userId, userRole }) => {
                     <DropdownMenuItem className={'pl-3 pr-6 text-red-500'} onClick={() => {
                         setIsOpen(true)
                     }}>
-                        <Trash2 className='text-red-500'/> Delete User
+                        <Trash2 className='text-red-500' /> Delete User
 
                     </DropdownMenuItem>
                 </DropdownMenuContent>
