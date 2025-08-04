@@ -27,12 +27,12 @@ const {services} = useSelector(state=> state.serviceSlice);
 
         {/* Main Content */}
         <section className="h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0 overflow-hidden">
-          <div className='flex justify-between flex-wrap gap-2 items-center mt-6 px-7 pb-2'>
-            <h2 className="md:text-[20px] text-sm mr-auto font-semibold text-slate-900  flex items-center gap-2 ">
-              <UserRoundSearch className="md:size-5.5 size-5 text-primary" />
+          <div className='flex justify-between flex-wrap gap-2 items-center px-7'>
+            <h2 className="text-sm lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
+              <UserRoundSearch className="lg:size-8 size-5 text-primary" />
               All Customers
             </h2>
-            <button>Add Customer</button>
+            {/* <button>Add Customer</button> */}
             {/* <AddStudent setPageReload={setPageReload} /> */}
           </div>
           <ScrollArea className={'h-[75%]'}>

@@ -1,5 +1,6 @@
 const users = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("../config/cloudinary");
 
 exports.userLogin = async (req, res) => {
   try {
@@ -134,7 +135,7 @@ exports.deleteUser = async (req, res) => {
       await cloudinary.uploader.destroy(user.profilePicture);
     }
 
-    const deletedData = await users.findByIdAndDelete(id);
+    const deletedData = await users.findByIdAndDelete(userId);
     if (!deletedData) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -152,9 +153,9 @@ exports.changeUserAccountStatus = async (req, res) => {
   try {
     const { userId } = req.params;
     const { verification, accountStatus } = req.body;
-    console.log(userId);
-    console.log(verification)
-    console.log(accountStatus)
+    // console.log(userId);
+    // console.log(verification)
+    // console.log(accountStatus)
 
     const updatedUserData = await users
       .findByIdAndUpdate(userId, { isVerified: verification,status: accountStatus }, { new: true })

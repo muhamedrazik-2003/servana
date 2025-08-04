@@ -20,20 +20,20 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { BadgeCheck, Ban, Ellipsis, Eye, Pencil, Power, PowerOff, Trash2, UserPen } from 'lucide-react';
+import { BadgeCheck, Ban, Ellipsis, Eye, Loader2, Pencil, Power, PowerOff, Trash2, UserPen } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeSeekerAccountStatus } from '../../../redux/slices/userSlice';
+import { changeSeekerAccountStatus, deleteSeeker } from '../../../redux/slices/userSlice';
 import { toast } from 'sonner';
 
 
 const UserActionMenu = ({ userId, userRole }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { seekers, isUpdating } = useSelector(state => state.userSlice);
+    const { seekers, isUpdating, isDeleting } = useSelector(state => state.userSlice);
     const currentUser = seekers.find(seeker => seeker._id === userId)
     const dispatch = useDispatch();
-    console.log(currentUser)
+    // console.log(currentUser)
 
     const [userData, setUserData] = useState({
         verfication: currentUser?.isVerified, accountStatus: currentUser?.status
@@ -57,16 +57,22 @@ const UserActionMenu = ({ userId, userRole }) => {
             toast.error("An unexpected error occurred");
         }
     }
-    const handleDataDelete = async (userId) => {
-        console.log("delte user", userId)
-        // try {
-        //     await deleteStudent(userId)
-        //     setPageReload(prev => !prev)
-        //     alert("User Data deleted successfully")
-        // } catch (error) {
-        //     alert("Error Deleting User Data", error.message);
-        //     console.log("Error Deleting User Data", error.message);
-        // }
+    const handleUserDelete = async () => {
+        try {
+            const userId = currentUser._id;
+            console.log(userId)
+            const response = await dispatch(deleteSeeker(userId));
+            if (deleteSeeker.fulfilled.match(response)) {
+                toast.success("User Deleted successfully!")
+                setIsOpen(false)
+                return;
+            } else if (deleteSeeker.rejected.match(response)) {
+                return toast.error(response.payload?.message || "Something went wrong while Deleting User");
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
+            toast.error("An unexpected error occurred");
+        }
     }
 
     return (
@@ -107,10 +113,10 @@ const UserActionMenu = ({ userId, userRole }) => {
                     >
                         <BadgeCheck /> Verify User
                     </DropdownMenuItem>
-                    <DropdownMenuItem className={'pl-3 pr-6'} onClick={() => {
+                    <DropdownMenuItem className={'pl-3 pr-6 text-red-500'} onClick={() => {
                         setIsOpen(true)
                     }}>
-                        <Trash2 /> Delete User
+                        <Trash2 className='text-red-500'/> Delete User
 
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -126,9 +132,9 @@ const UserActionMenu = ({ userId, userRole }) => {
                         </DialogClose>
                         <Button
                             onClick={() => {
-                                handleDataDelete(userId)
+                                handleUserDelete()
                             }}
-                            variant="destructive" className="">Delete User</Button>
+                            variant="destructive" className="">{isDeleting ? <> <Loader2 className='size-4 animate-spin mr-2' /> Deleting User</> : "Delete User"}</Button>
                     </div>
                 </DialogContent>
             </Dialog>

@@ -63,7 +63,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                     })}
                                 </TableCell>
                                 <TableCell className='text-center pr-6'>{handleSeekerTotalBooking(data._id)}</TableCell>
-                                <TableCell>
+                                <TableCell >
                                     <Badge
                                         className={`px-2 ${getStatusClass(
                                             data.isVerified ? "verified" : "Not Verified"

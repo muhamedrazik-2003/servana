@@ -22,15 +22,15 @@ export function getStatusClass(status) {
     case "confirmed":
       return "bg-teal-100 text-teal-700 border border-teal-300";
     case "verified":
-      return "bg-emerald-100 text-emerald-700 border border-emerald-300";
+      return "bg-emerald-100 text-emerald-700 border border-emerald-300 w-22";
     case "not verified":
-      return "bg-gray-200 text-gray-700 border border-gray-300";
+      return "bg-yellow-100 text-gray-700 border border-yellow-200 w-22";
     case "banned":
-      return "bg-rose-100 text-rose-700 border border-rose-300";
+      return "bg-rose-100 text-rose-700 border border-rose-300 w-22";
     case "active":
-      return "bg-secondary text-black";
+      return "bg-secondary text-black w-22";
     case "inactive":
-      return "bg-red-500 text-white";
+      return "bg-red-500 text-white w-22";
 
     default:
       return "bg-gray-100 text-gray-700 border border-gray-200";

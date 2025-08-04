@@ -10,6 +10,6 @@ router.put('/update/:userId',jwt, profileUpload.single("profilePicture"),userCon
 router.patch('/update/status/:userId',jwt,userController.changeUserAccountStatus);
 router.get('/seekers',jwt, userController.getAllseekers);
 router.get('/providers',jwt, userController.getAllProviders);
-router.delete('delete/:userId',jwt, userController.deleteUser);
+router.delete('/delete/:userId',jwt, userController.deleteUser);
 
 module.exports = router;
