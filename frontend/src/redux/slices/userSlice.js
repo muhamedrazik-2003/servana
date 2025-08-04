@@ -123,6 +123,8 @@ const userSlice = createSlice({
     token: "",
     isAuthenticated: false,
     isLoading: false,
+    isSeekerLoading: false,
+    isProviderLoading: false,
     isUpdating : false,
     error: "",
   },
@@ -185,32 +187,32 @@ const userSlice = createSlice({
     // get all seekers
         builder.addCase(getAllSeekers.fulfilled, (state, action) => {
           state.seekers = action.payload.allSeekers || []
-          state.isLoading = false;
+          state.isSeekerLoading = false;
           state.error = null;
           state.successResponse = action.payload.message;
         });
         builder.addCase(getAllSeekers.pending, (state, action) => {
-          state.isLoading = true;
+          state.isSeekerLoading = true;
           state.error = null;
         });
         builder.addCase(getAllSeekers.rejected, (state, action) => {
-          state.isLoading = false;
+          state.isSeekerLoading = false;
           state.error = action.payload.message || "Failed to retrieve Seekers Data";
         });
 
     // get all Providers
         builder.addCase(getAllProviders.fulfilled, (state, action) => {
           state.providers = action.payload.allProviders || []
-          state.isLoading = false;
+          state.isProviderLoading = false;
           state.error = null;
           state.successResponse = action.payload.message;
         });
         builder.addCase(getAllProviders.pending, (state, action) => {
-          state.isLoading = true;
+          state.isProviderLoading = true;
           state.error = null;
         });
         builder.addCase(getAllProviders.rejected, (state, action) => {
-          state.isLoading = false;
+          state.isProviderLoading = false;
           state.error = action.payload.message || "Failed to retrieve Providers Data";
         });
   },

@@ -6,7 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import DataTable from '../../components/admin/common/DataTable';
 
 function ManageBookings() {
-  const headData = ["Full Name", "Email", "Phone", "Joined On", "Total Bookings", "Status"," Action"]
+  const headData = ['ID', 'Customer', 'Provider',"Service Title", "Price", "Status", "Date","Booking Status", "Payment Status", "Actions"]
   return (
     <>
       <Header />
