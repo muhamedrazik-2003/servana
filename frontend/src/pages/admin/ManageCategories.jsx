@@ -20,7 +20,7 @@ function ManageCategories() {
   const { categories, isLoading } = useSelector(state => state.categorySlice);
   const sortedData = [...categories]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
-  // const headData = ["Title", "Category", "SubCategory", "Provider", "Location", "Starting Price", "Created At", "Status", " Action"]
+  const headData = ["Title", "Category", "SubCategory", "Provider", "Location", "Starting Price", "Created At", "Status", " Action"]
   return (
     <>
       <Header />
