@@ -50,6 +50,7 @@ function ServiceActionMenu({ serviceId }) {
         const response = await dispatch(deleteService(serviceId));
         if (deleteService.fulfilled.match(response)) {
           toast.success("Service Delete successfully!");
+          setIsOpen(false)
           return;
         } else if (deleteService.rejected.match(response)) {
           return toast.error(response.payload?.message || "Something went wrong while Deleting the service");

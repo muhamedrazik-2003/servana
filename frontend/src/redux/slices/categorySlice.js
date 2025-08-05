@@ -41,11 +41,34 @@ export const updateCategory = createAsyncThunk(
     }
   }
 );
+export const deleteCategory = createAsyncThunk(
+  "categorySlice/deleteCategory",
+  async ( categoryId , { rejectWithValue }) => {
+    try {
+      console.log(categoryId);
+      const response = await axios.delete(
+        `${base_url}/categories/delete/${categoryId}`,
+        {
+          headers: {
+            Authorization: `token ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { message, deletedData } = response.data;
+      console.log("category updated", response.data);
+      return { message, deletedData };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: error.response?.data?.message || "Failed To Update Category",
+      });
+    }
+  }
+);
 export const AddNewCategory = createAsyncThunk(
   "categorySlice/AddNewCategory",
   async (newData , { rejectWithValue }) => {
     try {
-      // console.log(newData)
       const response = await axios.post(
         `${base_url}/categories/new`,
         newData,
@@ -56,7 +79,7 @@ export const AddNewCategory = createAsyncThunk(
         }
       );
       const { message, newCategoryData } = response.data;
-      console.log("category updated", response.data);
+      // console.log("category updated", response.data);
       return { message, newCategoryData };
     } catch (error) {
       console.error(error);
@@ -76,6 +99,7 @@ const categorySlice = createSlice({
     successResponse: "",
     isLoading: false,
     isUpdating: false,
+    isDeleting: false,
     filteringCategory: "all",
     error: null,
   },
@@ -124,6 +148,25 @@ const categorySlice = createSlice({
     builder.addCase(updateCategory.rejected, (state, action) => {
       state.isUpdating = false;
       state.error = action.payload?.message || "Failed to update category";
+    });
+
+    // delete category
+    builder.addCase(deleteCategory.fulfilled, (state, action) => {
+      const filtered = state.categories.filter(
+        (category) => category._id !== action.payload.deletedData._id
+      );
+      state.categories = filtered;
+      console.log(state.categories)
+      state.isDeleting = false;
+      state.error = null;
+    });
+    builder.addCase(deleteCategory.pending, (state, action) => {
+      state.isDeleting = true;
+      state.error = null;
+    });
+    builder.addCase(deleteCategory.rejected, (state, action) => {
+      state.isDeleting = false;
+      state.error = action.payload?.message || "Failed to Delete category";
     });
 
     // add category

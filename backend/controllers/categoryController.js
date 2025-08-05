@@ -58,3 +58,17 @@ exports.AddCategory = async (req, res) => {
     res.status(404).json({ message: "Failed To add Category", error });
   }
 };
+
+exports.deletCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const categoryData = await categories.findByIdAndDelete(categoryId);
+    if (!categoryData) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    res.status(200).json({ message: "Category Deleted Successfully", deletedData: categoryData });
+  } catch (error) {
+    res.status(404).json({ message: "Failed To delete Categories", error });
+  }
+};
