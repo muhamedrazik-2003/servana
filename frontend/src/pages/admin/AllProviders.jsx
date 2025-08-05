@@ -15,6 +15,7 @@ function AllProviders() {
   }, [])
   // const { services } = useSelector(state => state.serviceSlice);
   const { providers, isProviderLoading } = useSelector(state => state.userSlice);
+  const sortedData = [...providers]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   const headData = ["Full Name", "Email", "Phone", "Joined On", "Total Services", "verification", "Status", " Action"]
   return (
     <>
@@ -25,22 +26,20 @@ function AllProviders() {
         </div>
 
         <section className="h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0 overflow-hidden">
-          <div className='flex justify-between flex-wrap gap-2 items-center px-7'>
+          <div className='flex justify-between flex-wrap gap-2 items-center px-2'>
             <h2 className="text-sm lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
               <UserRoundCog className="lg:size-8 size-5 text-primary" />
               All Providers
             </h2>
-            {/* <button>Add Customer</button> */}
-            {/* <AddStudent setPageReload={setPageReload} /> */}
           </div>
           <ScrollArea className={'h-[86%]'}>
             {isProviderLoading
-              ? (<div className=' px-6'>
+              ? (<div className=' px-2'>
                 <TableSkeleton headerSkeltonData={headData} />
               </div>)
               : (
-                <div className=' px-6'>
-                  <DataTable headData={headData} rowData={providers} tableFormat={"provider"} />
+                <div className=' px-2'>
+                  <DataTable headData={headData} rowData={sortedData} tableFormat={"provider"} />
                 </div>
               )}
           </ScrollArea>

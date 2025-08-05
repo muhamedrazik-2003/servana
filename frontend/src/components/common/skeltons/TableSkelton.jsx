@@ -18,7 +18,7 @@ export default function TableSkeleton({headerSkeltonData}) {
             <tbody className="divide-y divide-slate-200 bg-white">
                 {Array.from({ length: 9 }).map((_, rowIdx) => (
                     <tr key={rowIdx} className="hover:bg-slate-50 transition">
-                        {[...Array(6)].map((_, cellIdx) => (
+                        {[...Array(headerSkeltonData.length)].map((_, cellIdx) => (
                             <td key={cellIdx} className="px-4 py-4">
                                 <Skeleton className="h-4 w-full rounded-md" />
                             </td>

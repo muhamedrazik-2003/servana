@@ -12,7 +12,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "../../components/ui/badge";
 import { getStatusClass, optimizeImage } from "../../lib/utils";
-import { deleteService } from "../../redux/slices/serviceSlice";
+import { changeServiceStatus, deleteService } from "../../redux/slices/serviceSlice";
 import { toast } from "sonner";
 import { addNewBooking } from "../../redux/slices/bookingSlice";
 import { startOfToday } from "date-fns/startOfToday";
@@ -134,6 +134,23 @@ const ServiceDetail = () => {
       toast.error("An unexpected error occurred");
     }
   }
+  const handleStatusUpdate = async (status) => {
+    try {
+      console.log(status)
+      const serviceData = { status };
+      const response = await dispatch(changeServiceStatus({ serviceId, serviceData }));
+      if (changeServiceStatus.fulfilled.match(response)) {
+        toastj.success("Service Status Updated successfully!");
+        return;
+      } else if (changeServiceStatus.rejected.match(response)) {
+        return toast.error(response.payload?.message || "Something went wrong while Updating the service Status");
+
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast.error("An unexpected error occurred");
+    }
+  }
 
   // Provider Side
   const summaryItems = [
@@ -200,7 +217,7 @@ const ServiceDetail = () => {
             </div>
             <span className="font-medium text-lg text-teal-600 flex items-center gap-2">
               <CreditCard className="size-5" />
-              Starting from ₹{currentService?.price} / {currentService?.priceUnit}
+              Starting from ₹{currentService?.price} Per {currentService?.priceUnit}
             </span>
 
 
@@ -262,8 +279,8 @@ const ServiceDetail = () => {
         </div>
 
         {/* RIGHT COLUMN */}
-        {role === "provider"
-          ? <div className="space-y-6 sticky top-24 h-fit p-5">
+        {role === "provider" || role === "admin"
+          && <div className="space-y-4 sticky top-24 h-fit p-5">
             {summaryItems?.map((item, index) => (
               <div key={index} className="flex items-center gap-4 border rounded-3xl py-5 px-6">
                 <div className="rounded-full">{item.icon}</div>
@@ -273,24 +290,68 @@ const ServiceDetail = () => {
                 </div>
               </div>
             ))}
-            <div className="flex flex-col gap-2 mt-15">
-              <Link to={`/provider/services/update/${currentService?._id}`}>
-                <Button className='w-full'>Edit This Service</Button>
-              </Link>
-              <Button disabled={isUpdating ? true : false} onClick={handleDelete} variant='destructive' className='w-full'>
-                {isDeleting
+            {role === "provider"
+              && <div className="flex flex-col gap-2 mt-15">
+                <Link to={`/provider/services/update/${currentService?._id}`}>
+                  <Button className='w-full'>Edit This Service</Button>
+                </Link>
+                {currentService?.status === "inactive"
+                  ? <Button
+                    onClick={() => handleStatusUpdate("active")}
+                    variant='outline2' className='w-full bg-accent text-black hover:bg-accent hover:border-accent'>Enable This Service</Button>
+                  : <Button
+                    onClick={() => handleStatusUpdate("inactive")}
+                    variant='outline2' className='w-full border-accent text-black hover:bg-accent hover:border-accent'>Disable This Service</Button>
+                }
+                <Button disabled={isUpdating ? true : false} onClick={handleDelete} variant='destructive' className='w-full'>
+                  {isDeleting
+                    ? <>
+                      <LoaderCircle className="animate-spin" /> Deleting
+                    </>
+                    : "Delete This Service"}
+                </Button>
+              </div>
+            }
+            {role === "admin"
+              && <div className="flex flex-col gap-2 mt-15">
+                {currentService?.status === "pending"
                   ? <>
-                    <LoaderCircle className="animate-spin" /> Deleting
+                    <Button
+                      onClick={() => handleStatusUpdate("active")}
+                      variant='outline2' className='w-full border-accent text-black hover:bg-accent hover:border-accent'>Approve This Service</Button>
+                    <Button
+                      onClick={() => handleStatusUpdate("rejected")}
+                      variant='outline2' className='w-full border-red-500 text-red-500 hover:bg-red-100 hover:text-red-600 hover:border-red-700'>Reject This Service</Button>
                   </>
-                  : "Delete This Service"}
-              </Button>
-              <Button variant='outline2' className='w-full border-accent text-black hover:bg-accent hover:border-accent'>Disable This Service</Button>
-            </div>
-
+                  : currentService?.status === "active"
+                    ? <>
+                      <Button
+                        onClick={() => handleStatusUpdate("flagged")}
+                        variant='outline2' className='w-full border-black bg-black text-white hover:bg-gray-900 hover:border-gray-900'>Flag This Service</Button>
+                      <Button
+                        onClick={() => handleStatusUpdate("inactive")}
+                        variant='outline2' className='w-full border-accent text-black hover:bg-accent hover:border-accent'>Disable This Service</Button>
+                    </>
+                    : <Button
+                      onClick={() => handleStatusUpdate("active")}
+                      variant='outline2' className='w-full bg-accent text-black hover:bg-accent hover:border-accent'>Enable This Service</Button>
+                }
+                <Link to={`/provider/services/update/${currentService?._id}`}>
+                  <Button className='w-full'>Edit This Service</Button>
+                </Link>
+                <Button disabled={isUpdating ? true : false} onClick={handleDelete} variant='destructive' className='w-full'>
+                  {isDeleting
+                    ? <>
+                      <LoaderCircle className="animate-spin" /> Deleting
+                    </>
+                    : "Delete This Service"}
+                </Button>
+              </div>
+            }
           </div>
-          :
-
-          <div className="space-y-4 sticky top-20 h-fit bg-teal-50 border rounded-3xl shadow p-5">
+        }
+        {role === "seeker"
+          && <div className="space-y-4 sticky top-20 h-fit bg-teal-50 border rounded-3xl shadow p-5">
             <h3 className="text-lg font-semibold text-center">Book This Service</h3>
 
             <div className="space-y-2 flex flex-col items-center">
@@ -383,7 +444,7 @@ const ServiceDetail = () => {
 
         }
       </section>
-      <Footer userRole={"seeker"} />
+      <Footer userRole={role} />
     </main>
   );
 };

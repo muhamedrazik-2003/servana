@@ -276,7 +276,7 @@
 .dark {
   --background: oklch(21.01% 0.032 264.66);
   /* #111827 */
-  --foreground:  oklch(96.70% 0.003 264.54);
+  --foreground: oklch(96.70% 0.003 264.54);
   /* #F3F4F6 */
 
   --card: oklch(0.22 0.01 260);
@@ -290,11 +290,11 @@
   /* #7C3AED */
   --primary-foreground: oklch(0.98 0.01 260);
 
- --accent: oklch(73.463% 0.17905 50.129);
+  --accent: oklch(73.463% 0.17905 50.129);
   /* #FF8E3C */
   --accent-foreground: oklch(0.15 0.01 260);
   /* Text on accent */
- 
+
   --highlight: oklch(51.82% 0.08819 202.036);
   /* #67E8F9 */
 
@@ -369,10 +369,12 @@
     margin-inline: clamp(32px, 8vw, 120px);
     /* text-align: center; */
   }
-section[aria-label="Notifications alt+T"] {
-  padding: 0 !important;
-  margin: 0 !important;
-}
+
+  section[aria-label="Notifications alt+T"] {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
   section>p {
     @apply text-[18px] font-semibold mb-[40px] lg:mb-[52px] pr-6;
     line-height: 1.8;
@@ -392,13 +394,13 @@ section[aria-label="Notifications alt+T"] {
   ol li:nth-child(even) {
     margin-right: auto;
   }
-}
 
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
-}
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 
-.scrollbar-none {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

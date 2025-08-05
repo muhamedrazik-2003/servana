@@ -26,15 +26,20 @@ function AddEditServiceForm() {
     dispatch(getCategories())
   }, [])
   let formFormat = "";
+  let isAdmin = false;
   if (pathname.includes('/new')) {
     formFormat = "addForm"
   } else if (pathname.includes('/update')) {
     formFormat = "updateForm"
   }
+
+  if (pathname.includes('/admin')) {
+    isAdmin = true
+  }
   // edit form
   const { categories, currentSubCategories } = useSelector(state => state.categorySlice);
-  const { isUpdating, successResponse } = useSelector(state => state.serviceSlice);
-  const { services, isLoading, error } = useSelector(state => state.serviceSlice);
+  const { services, isUpdating, successResponse } = useSelector(state => state.serviceSlice);
+
   const currentService = services.find(service => service._id === serviceId);
   const navigate = useNavigate();
   const [serviceImages, setServiceImages] = useState(formFormat === "addForm" ?
@@ -75,17 +80,19 @@ function AddEditServiceForm() {
   const handleSubmit = async () => {
     try {
       console.log(serviceData)
-      if (user.phone === undefined || user.phone === "" || user.location.city === "Not Available" || user.location.state === "Not Available" || user.location.pincode === "Not Available") {
-        return toast.error(
-          <span>
-            Please update at least your phone number and location to add new Service.{" "}
-            <Link to="/provider/profile" className="underline text-blue-600 hover:text-blue-800">
-              Go to Profile
-            </Link>
-          </span>
-        );
-
+      if (!isAdmin) {
+        if (user.phone === undefined || user.phone === "" || user.location.city === "Not Available" || user.location.state === "Not Available" || user.location.pincode === "Not Available") {
+          return toast.error(
+            <span>
+              Please update at least your phone number and location to add new Service.{" "}
+              <Link to="/provider/profile" className="underline text-blue-600 hover:text-blue-800">
+                Go to Profile
+              </Link>
+            </span>
+          );
+        }
       }
+
       const { title, description, category, subCategory, price, priceUnit, location: { city, state, pincode } } = serviceData;
       if (!title || !description || !category || !subCategory || !price || !city || !priceUnit || !state || !pincode) return toast.warning("All fields Are required")
 
@@ -177,7 +184,11 @@ function AddEditServiceForm() {
               pincode: ""
             }
           });
-          navigate(`/provider/services/${serviceId}`)
+          if (isAdmin) {
+            navigate(`/admin/services/${serviceId}`)
+          } else {
+            navigate(`/provider/services/${serviceId}`)
+          }
           setServiceImages([]);
           setPreviews([]);
           return;
@@ -201,8 +212,8 @@ function AddEditServiceForm() {
           <h2 className="text-4xl font-extrabold">{formFormat === "addForm" ? "Add New Service" : "Edit Your Service"}</h2>
           {
             formFormat === "addForm"
-              ? <Button onClick={handleSubmit} disabled={isUpdating} className="px-6 bg-accent hover:bg-orange-500">{isUpdating ? "Adding Service" : "Publish Service"}</Button>
-              : <Button onClick={handleSubmit} disabled={isUpdating} className="px-6 bg-accent hover:bg-orange-500">Update Service</Button>
+              ? <Button onClick={handleSubmit} disabled={isUpdating} className={`px-6 ${isAdmin ? "bg-primary hover:bg-violet-500" : "bg-accent hover:bg-orange-500"}`}>{isUpdating ? "Adding Service" : "Publish Service"}</Button>
+              : <Button onClick={handleSubmit} disabled={isUpdating} className={`px-6 ${isAdmin ? "bg-primary hover:bg-violet-500" : "bg-accent hover:bg-orange-500"}`}>{isUpdating ? "Updating Service" : "Update Service"}</Button>
           }
         </div>
 
@@ -212,32 +223,32 @@ function AddEditServiceForm() {
           <div className="space-y-4">
             {/* Title */}
             <div>
-              <Label htmlFor="title" className="text-accent text-base font-semibold mb-3">Service Title</Label>
+              <Label htmlFor="title" className={`${isAdmin ? "text-primary" : "text-accent"} text-base font-semibold mb-3`}>Service Title</Label>
               <Input
                 id="title"
                 value={serviceData.title}
                 onChange={(e) => setServiceData({ ...serviceData, title: e.target.value })}
                 placeholder="Enter service title"
-                className="rounded-3xl bg-orange-50 px-3 py-1 w-full"
+                className={`rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1 w-full`}
               />
             </div>
 
             {/* Description */}
             <div>
-              <Label htmlFor="description" className="text-accent text-base font-semibold mb-3">Description</Label>
+              <Label htmlFor="description" className={` ${isAdmin ? "text-primary" : "text-accent"} text-base font-semibold mb-3`}>Description</Label>
               <Textarea
                 id="description"
                 defaultValue={serviceData.description}
                 onChange={(e) => setServiceData({ ...serviceData, description: e.target.value })}
                 placeholder="Describe your service in detail..."
                 rows={6}
-                className="rounded-2xl bg-orange-50 px-3 py-1 w-full" />
+                className={`rounded-2xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1 w-full`} />
             </div>
 
             {/* Category & Subcategory */}
             <div className="flex items-start gap-6">
               <div>
-                <Label htmlFor="category" className="text-accent text-base font-semibold mb-3">Category</Label>
+                <Label htmlFor="category" className={`${isAdmin ? "text-primary" : "text-accent"} text-base font-semibold mb-3 `}>Category</Label>
                 <Select
                   disabled={showCustomSub}
                   value={serviceData.category}
@@ -245,7 +256,7 @@ function AddEditServiceForm() {
                     dispatch(getCurrentSubCategories(value))
                     setServiceData({ ...serviceData, category: value })
                   }}>
-                  <SelectTrigger id="category" className="w-[200px] rounded-3xl bg-orange-50 px-3 py-1">
+                  <SelectTrigger id="category" className={`w-[200px] rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1`}>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -257,7 +268,7 @@ function AddEditServiceForm() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="subcategory" className="text-accent text-base font-semibold mb-3">
+                <Label htmlFor="subcategory" className={`${isAdmin ? "text-primary" : "text-accent"} text-base font-semibold mb-3`} >
                   Subcategory
                 </Label>
 
@@ -265,7 +276,7 @@ function AddEditServiceForm() {
                   value={serviceData.subCategory}
                   disabled={showCustomSub || serviceData?.category?.length === 0}
                   onValueChange={(value) => setServiceData({ ...serviceData, subCategory: value })}>
-                  <SelectTrigger className="w-full rounded-3xl bg-orange-50 px-3 py-1">
+                  <SelectTrigger className={`w-full rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1`}>
                     <SelectValue placeholder="Choose a subcategory" />
                   </SelectTrigger>
                   <SelectContent>
@@ -284,7 +295,7 @@ function AddEditServiceForm() {
                       setServiceData({ ...serviceData, category: "Not Available", subCategory: 'Not Available' })
                       setShowCustomSub(prev => !prev)
                     }}
-                    className="text-accent font-medium underline"
+                    className={`${isAdmin ? "text-primary" : "text-accent"} font-medium underline`}
                   >
                     {showCustomSub ? "Add From Subcategory" : "Add a new one"}
                   </button>
@@ -298,7 +309,7 @@ function AddEditServiceForm() {
                       name="customSubcategory"
                       onChange={(e) => setServiceData({ ...serviceData, subCategory: e.target.value })}
                       placeholder="Enter new subcategory"
-                      className="rounded-3xl bg-orange-50 px-3 py-1"
+                      className={`rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1`}
                     />
                     <p className="text-xs text-muted-foreground mt-1">
                       We’ll review and add this subcategory if it meets our guidelines.
@@ -310,13 +321,13 @@ function AddEditServiceForm() {
 
             <div>
               <div className="flex items-center justify-between mt-4">
-                <Label htmlFor="price" className="text-base text-accent font-semibold mb-1">
+                <Label htmlFor="price" className={`text-base ${isAdmin ? "text-primary" : "text-accent"} font-semibold mb-1`}>
                   Price (₹)
                 </Label>
-                <div className="w-fit bg-orange-100 dark:bg-orange-950 shadow-sm border rounded-full p-1 px-1 mb-1">
+                <div className={`w-fit ${isAdmin ? "bg-violet-200 dark:bg-violet-950" : "bg-orange-100 dark:bg-orange-950"} shadow-sm border rounded-full p-1 px-1 mb-1`}>
                   <div className="relative flex items-center text-[12px]">
                     <div
-                      className={`absolute left-0 top-0 h-5.5 w-1/3 rounded-full bg-accent transition-all duration-300 ${priceUnit === 'hour'
+                      className={`absolute left-0 top-0 h-5.5 w-1/3 rounded-full ${isAdmin ? "bg-primary" : "bg-accent"} transition-all duration-300 ${priceUnit === 'hour'
                         ? 'translate-x-0'
                         : priceUnit === 'day'
                           ? 'translate-x-full'
@@ -346,23 +357,23 @@ function AddEditServiceForm() {
                 onChange={(e) => setServiceData({ ...serviceData, price: e.target.value })}
                 type="number"
                 placeholder="Enter service price"
-                className="rounded-3xl bg-orange-50 px-3 py-1 mt-1 w-full"
+                className={`rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1 mt-1 w-full`}
               />
             </div>
 
             {/* Location */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="city" className="text-accent text-base font-semibold mb-3">City</Label>
-                <Input defaultValue={serviceData.location.city} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, city: e.target.value } })} id="city" placeholder="Enter city" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Label htmlFor="city" className={` ${isAdmin ? "text-primary" : "text-accent"} text-base font-semibold mb-3`}>City</Label>
+                <Input defaultValue={serviceData.location.city} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, city: e.target.value } })} id="city" placeholder="Enter city" className={`rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1 w-full`} />
               </div>
               <div>
-                <Label htmlFor="state" className="text-accent text-base font-semibold mb-3">State</Label>
-                <Input defaultValue={serviceData.location.state} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, state: e.target.value } })} id="state" placeholder="Enter state" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Label htmlFor="state" className={`${isAdmin ? "text-primary" : "text-accent"} text-base font-semibold mb-3`}>State</Label>
+                <Input defaultValue={serviceData.location.state} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, state: e.target.value } })} id="state" placeholder="Enter state" className={`rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1 w-full`} />
               </div>
               <div>
-                <Label htmlFor="pincode" className="text-accent text-base font-semibold mb-3">Pincode</Label>
-                <Input defaultValue={serviceData.location.pincode} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, pincode: e.target.value } })} id="pincode" placeholder="Enter pincode" className="rounded-3xl bg-orange-50 px-3 py-1 w-full" />
+                <Label htmlFor="pincode" className={`${isAdmin ? "text-primary" : "text-accent"} text-base font-semibold mb-3`}>Pincode</Label>
+                <Input defaultValue={serviceData.location.pincode} onChange={(e) => setServiceData({ ...serviceData, location: { ...serviceData.location, pincode: e.target.value } })} id="pincode" placeholder="Enter pincode" className={`rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1 w-full`} />
               </div>
             </div>
           </div>
@@ -371,7 +382,7 @@ function AddEditServiceForm() {
           <div className="space-y-6">
             {/* Images */}
             <div>
-              <Label className="text-accent text-base font-semibold mb-0 pb-0">Upload Images <span className="text-xs text-muted-foreground">( Upload up to 6 images )</span></Label>
+              <Label className={`${isAdmin ? "text-primary" : "text-accent"} text-base font-semibold mb-0 pb-0`}>Upload Images <span className="text-xs text-muted-foreground">( Upload up to 6 images )</span></Label>
               <p className="text-sm text-muted-foreground mt-2"></p>
               <div className="grid grid-cols-2 gap-2">
                 {Array.from({ length: 6 }, (_, index) => (
@@ -391,8 +402,8 @@ function AddEditServiceForm() {
                         className="aspect-video object-cover rounded-md"
                       />
                     ) : (
-                      <div className="aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground bg-orange-100">
-                        <ImagePlus className="text-accent" />
+                      <div className={`aspect-video border border-dashed rounded-md flex items-center justify-center text-sm text-muted-foreground ${isAdmin ? "bg-violet-300" : "bg-orange-100"}`}>
+                        <ImagePlus className={`${isAdmin ? "text-primary" : "text-accent"}`} />
                       </div>
                     )}
                   </label>
@@ -405,7 +416,9 @@ function AddEditServiceForm() {
           </div>
         </div>
       </div>
-      <Footer userRole={'provider'} />
+      {!isAdmin
+        && <Footer userRole={'provider'} />
+      }
     </>
   );
 }

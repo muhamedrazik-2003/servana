@@ -1,12 +1,14 @@
 import Header from '../../components/common/Provider&AdminHeader';
 import AdminSidebar from '../../components/admin/common/AdminSidebar';
 import TableSkeleton from '../../components/common/skeltons/TableSkelton';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import DataTable from '../../components/admin/common/DataTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllServices } from '../../redux/slices/serviceSlice';
-import { Hammer } from 'lucide-react';
+import { Hammer, Plus } from 'lucide-react';
+import { Button } from '../../components/ui/button';
+import { Link } from 'react-router-dom';
 
 function ManageServices() {
   const dispatch = useDispatch()
@@ -14,7 +16,9 @@ function ManageServices() {
     dispatch(getAllServices());
   }, [])
   const { services, isLoading } = useSelector(state => state.serviceSlice);
-  const headData = ["Title", "Category", "SubCategory","Provider", "Location", "Starting Price", "Created At", "Status", " Action"]
+  const sortedData = [...services]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
+  const headData = ["Title", "Category", "SubCategory", "Provider", "Location", "Starting Price", "Created At", "Status", " Action"]
   return (
     <>
       <Header />
@@ -23,25 +27,27 @@ function ManageServices() {
           <AdminSidebar />
         </div>
 
-        <section className="h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0 overflow-hidden">
-          <div className='flex justify-between flex-wrap gap-2 items-center px-7'>
+        <section className="h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0">
+          <div className='flex justify-between flex-wrap gap-2 items-center px-2'>
             <h2 className="text-sm lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
               <Hammer className="lg:size-8 size-5 text-primary" />
               All Services
             </h2>
-            {/* <button>Add Customer</button> */}
-            {/* <AddStudent setPageReload={setPageReload} /> */}
+            <Link to={'/admin/services/new'}>
+              <Button variant={'outline2'} className={'border border-primary'}> <Plus />Add New Service</Button>
+            </Link>
           </div>
-          <ScrollArea className={'h-[86%]'}>
+          <ScrollArea className={'h-[86%] whitespace-nowrap'}>
             {isLoading
-              ? (<div className=' px-6'>
+              ? (<div className=' px-2'>
                 <TableSkeleton headerSkeltonData={headData} />
               </div>)
               : (
-                <div className=' px-6'>
-                  <DataTable headData={headData} rowData={services} tableFormat={"service"} />
+                <div className=' px-2 overflow-auto max-w-[calc(100vw-220px-60px)] '>
+                  <DataTable headData={headData} rowData={sortedData} tableFormat={"service"} />
                 </div>
               )}
+            
           </ScrollArea>
         </section>
       </main >

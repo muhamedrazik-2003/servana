@@ -35,7 +35,7 @@ function ManageBookings() {
           </div>
           <ScrollArea className={'h-[86%]'}>
             {isLoading
-              ? (<div className=' px-6'>
+              ? (<div className=' px-2'>
                 <TableSkeleton headerSkeltonData={headData} />
               </div>)
               : (
