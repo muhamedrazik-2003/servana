@@ -5,8 +5,6 @@ import Header from '../../components/common/Provider&AdminHeader';
 import AdminSidebar from '../../components/admin/common/AdminSidebar';
 import { useDispatch } from 'react-redux';
 import { getAllBookings } from '../../redux/slices/bookingSlice';
-import { CustomerProviderRadarChart } from '../../components/customer-provider-radar-chart';
-import { BusinessMetricsDonutChart } from '../../components/business-metrics-donut-chart';
 import AdminSummaryCard from '../../components/admin/dashboard/AdminSummaryCard';
 import { Link } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
@@ -14,8 +12,14 @@ import SampleTable from '../../components/provider/common/SampleTable';
 import RecentBooking from '../../components/common/RecentBooking';
 import { getAllServices } from '../../redux/slices/serviceSlice';
 import RecentServices from '../../components/common/RecentServices';
+import BookingServicesReviewsChart from '../../components/BookingServicesReviewsChart';
+import { getAllReviews } from '../../redux/slices/reviewSlice';
+import { getAllProviders, getAllSeekers } from '../../redux/slices/userSlice';
+import { getCategories } from '../../redux/slices/categorySlice';
+import CustomerProviderChart from '../../components/CustomerProviderChart';
 
 function AdminDashboard() {
+
   const user = JSON.parse(sessionStorage.getItem('user'));
   const DateToday = new Date().toLocaleDateString("en-US", {
     year: "numeric",
@@ -26,6 +30,10 @@ function AdminDashboard() {
   useEffect(() => {
     dispatch(getAllBookings());
     dispatch(getAllServices());
+    dispatch(getAllReviews());
+    dispatch(getAllProviders());
+    dispatch(getAllSeekers());
+    dispatch(getCategories())
     // dispatch(getAllProviderReviews());
   }, [])
 
@@ -46,53 +54,14 @@ function AdminDashboard() {
           </div>
           <AdminSummaryCard />
           <div className='grid grid-cols-2 gap-4'>
-            <BusinessMetricsDonutChart />
-            <CustomerProviderRadarChart />
+            <BookingServicesReviewsChart/>
+            <CustomerProviderChart/>
           </div>
           <div className='space-y-2 lg:col-span-2'>
             <div className='grid grid-cols-2 gap-4 h-61'>
               <RecentBooking  userRole={"admin"}/>
               <RecentServices userRole={"admin"}/>
-              {/* <RecentBooking /> */}
             </div>
-
-
-            {/* <div> */}
-
-
-            {/* {isLoading
-                  ? <h4 className='my-4 mb-10 flex items-center gap-2'>Services Loading <Loader2 className='size-5 animate-spin' /></h4>
-
-                  : services.length > 0
-                    ? services.map(serivce => (
-                      <MiniServiceCard data={serivce} />
-                      <SampleTable/>
-
-                    ))
-
-                    : <h4 className='my-4 mb-10'>No Services Available Currently</h4>
-                } */}
-            {/* </div> */}
-
-            {/* <div className=''>
-              <div className='flex items-center justify-between'>
-                <h4 className='px-2 mb-2 text-accent'>Most recent Reviews</h4>
-                <Link to={'/provider/reviews'}>
-                  <Button variant={'outline'} size={'sm'} className={'h-6'}> View Reviews</Button>
-                </Link>
-              </div>
-              <div className='flex flex-col gap-2 overflow-y-auto scrollbar-none max-h-43 px-2'>
-                {isReviewLoading
-                  ? <h4 className='my-4 mb-10 flex items-center gap-2'>Reviews Loading <Loader2 className='size-5 animate-spin' /></h4>
-
-                  : reviews.length > 0
-                    ? reviews.map((review) => (
-                      <MiniReviewCard reviewData={review} />
-                    ))
-                    : <h4 className='my-4 mb-10'>No Reviews Available Currently</h4>
-                }
-              </div>
-            </div> */}
           </div>
 
         </section>

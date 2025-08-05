@@ -88,7 +88,7 @@ function AdminSidebar() {
           <MessageCircle className="size-5 text-accent" />
           <span>Service Reviews</span>
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to="/admin/feedbacks"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-3xl transition hover:bg-background hover:text-foreground 
@@ -97,7 +97,7 @@ function AdminSidebar() {
         >
           <Star className="size-5 text-accent" />
           <span>User Feedbacks</span>
-        </NavLink>
+        </NavLink> */}
       </nav>
 
       {/* Profile & Logout */}

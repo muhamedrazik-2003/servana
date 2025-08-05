@@ -22,7 +22,7 @@ function RecentBooking({ userRole }) {
                     <Button variant={'outline'} size={'sm'} className={'h-8'}> View All Bookings</Button>
                 </Link>
             </div>
-            <div className='overflow-auto scrollbar-none h-50'>
+            <div className='overflow-auto scrollbar-none h-49'>
                 <SampleTable headData={headData} bodyData={formattedBooking} formMode={"booking"} />
 
             </div>

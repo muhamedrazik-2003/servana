@@ -23,7 +23,7 @@ function RecentServices({ userRole }) {
   return (
     <div className={`p-4  row-span-2 ${userRole === "admin" ? "border rounded-3xl max-h-83" : ""}`}>
       {/* Header */}
-      <div className='flex items-center justify-between mb-3'>
+      <div className='flex items-center justify-between mb-4 mt-1.5'>
         <h4 className={`px-2 ${userRole === "admin" ? "text-primary" : "text-accent"}`}>
           Recent Services
         </h4>
@@ -40,7 +40,7 @@ function RecentServices({ userRole }) {
         </div>
       ) : services.length > 0 ? (
         userRole === "admin" ? (
-          <div className="overflow-auto scrollbar-none">
+          <div className="overflow-auto scrollbar-none h-49">
             <SampleTable
               headData={headData}
               bodyData={recentServices}

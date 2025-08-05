@@ -12,53 +12,71 @@ import {
     ThumbsUp,
     BarChart3,
 } from "lucide-react";
+import { useSelector } from 'react-redux';
 
 function AdminSummaryCard() {
+    const { bookings } = useSelector(state => state.bookingSlice);
+    const { services } = useSelector(state => state.serviceSlice);
+    const { seekers, providers } = useSelector(state => state.userSlice);
+    const {categories} = useSelector(state => state.categorySlice);
+    const {reviews} = useSelector(state => state.reviewSlice);
+
+    let activeSeekers = 0
+    seekers.forEach(seeker => {
+        if (seeker.status === 'active') {
+            activeSeekers += 1
+        }
+    });
+    let activeProviders = 0
+    providers.forEach(provider => {
+        if (provider.status === 'active') {
+            activeProviders += 1
+        }
+    });
     const summaryData = [
         {
             title: "Total Bookings",
-            value: `100`,
+            value: `${bookings.length}`,
             icon: Handshake, // 🤝 Booking representation
             iconColor: "text-green-600",
             bgColor: "bg-green-50",
         },
         {
             title: "Total Services",
-            value: `₹3454`,
+            value: `${services.length}`,
             icon: Briefcase, // 🧰 Services offered
             iconColor: "text-blue-600",
             bgColor: "bg-blue-50",
         },
         {
             title: "Active Customers",
-            value: `45`,
+            value: `${activeSeekers}`,
             icon: Users, // 👥 Users/customers
             iconColor: "text-orange-600",
             bgColor: "bg-orange-50",
         },
         {
             title: "Active Providers",
-            value: `567`,
+            value: `${activeProviders}`,
             icon: UserCheck, // 👤 Checked user = active provider
             iconColor: "text-emerald-600",
             bgColor: "bg-emerald-50",
         },
         {
             title: "Total Categories",
-            value: `45`,
+            value: `${categories.length}`,
             icon: Layers3, // 🗂 Category-like stack
             iconColor: "text-indigo-600",
             bgColor: "bg-indigo-50",
         },
         {
             title: "Total Reviews",
-            value: `567`,
+            value: `${reviews.length}`,
             icon: Star, // ⭐ Review/star icon
             iconColor: "text-yellow-500",
             bgColor: "bg-yellow-50",
         },
     ];
-
     return (
         <div className='grid grid-cols-2 row-span-2 gap-2'>
             {
