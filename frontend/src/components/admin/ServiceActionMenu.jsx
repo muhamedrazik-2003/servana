@@ -20,7 +20,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Ban, Bolt, CircleCheckBig, CircleSlash, CircleSlash2, Ellipsis, Eye, Loader2, Power, PowerOff, Trash2, UserPen } from 'lucide-react';
+import { Ban, Bolt, CircleCheckBig, CircleSlash, CircleSlash2, Ellipsis, Eye, Loader2, Pen, Power, PowerOff, Trash2, UserPen } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -101,11 +101,11 @@ function ServiceActionMenu({ serviceId }) {
                             <Eye /> View Service Details
                         </DropdownMenuItem>
                     </Link>
-                    {/* <DropdownMenuItem className={'pl-3 pr-6'}
-                        onClick={() => handleStatusUpdate(true, currentService?.status)}
-                    >
-                        <BadgeCheck /> 
-                    </DropdownMenuItem> */}
+                    <Link to={`/admin/services/update/${serviceId}`}>
+                        <DropdownMenuItem className={'pl-3 pr-6'}>
+                            <Pen /> Edit Service Details
+                        </DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem className={'pl-3 pr-6 text-red-500'} onClick={() => {
                         setIsOpen(true)
                     }}>

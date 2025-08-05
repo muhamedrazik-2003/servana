@@ -73,6 +73,7 @@ function App() {
         <Route path="/admin/services" element={<AdminAllServices />} />
         <Route path="/admin/services/:serviceId" element={<ServiceDetail />} />
         <Route path="/admin/services/new" element={<AddEditServiceForm />} />
+        <Route path="/admin/services/update/:serviceId" element={<AddEditServiceForm />} />
         <Route path="/admin/bookings" element={<AdminAllBookings />} />
         <Route path="/admin/bookings/:bookingId" element={<BookingDetail />} />
         <Route path="/admin/categories" element={<AdminAllCategories />} />

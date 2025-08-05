@@ -336,7 +336,7 @@ const ServiceDetail = () => {
                       onClick={() => handleStatusUpdate("active")}
                       variant='outline2' className='w-full bg-accent text-black hover:bg-accent hover:border-accent'>Enable This Service</Button>
                 }
-                <Link to={`/provider/services/update/${currentService?._id}`}>
+                <Link to={`/admin/services/update/${currentService?._id}`}>
                   <Button className='w-full'>Edit This Service</Button>
                 </Link>
                 <Button disabled={isUpdating ? true : false} onClick={handleDelete} variant='destructive' className='w-full'>

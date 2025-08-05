@@ -41,6 +41,7 @@ function AddEditServiceForm() {
   const { services, isUpdating, successResponse } = useSelector(state => state.serviceSlice);
 
   const currentService = services.find(service => service._id === serviceId);
+  console.log(currentService)
   const navigate = useNavigate();
   const [serviceImages, setServiceImages] = useState(formFormat === "addForm" ?
     [] : [...currentService.images]
@@ -397,7 +398,7 @@ function AddEditServiceForm() {
                     />
                     {previews[index] || serviceData.images?.[index] ? (
                       <img
-                        src={previews[index] || serviceData.images[index]}
+                        src={previews[index] || serviceData.images[index].url}
                         alt={`Preview ${index + 1}`}
                         className="aspect-video object-cover rounded-md"
                       />

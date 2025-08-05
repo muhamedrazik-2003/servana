@@ -49,7 +49,7 @@ exports.addService = async (req, res) => {
       location,
       providerId: id,
       images: serviceImages,
-      avgRating: 3,
+      avgRating: 0,
       totalReviews: 0,
       totalBookings: 0,
     });
