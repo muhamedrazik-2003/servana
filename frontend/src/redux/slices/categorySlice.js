@@ -5,10 +5,40 @@ import base_url from "../base_url";
 export const getCategories = createAsyncThunk(
   "categorySlice/getCategories",
   async () => {
-    const response = await axios.get(`${base_url}/categories`);
+    const response = await axios.get(`${base_url}/categories`, {
+      headers: {
+        Authorization: `token ${sessionStorage.getItem("token")}`,
+      },
+    });
     const { message, categoriesList } = response.data;
     // console.log(categoriesList);
     return { message, categoriesList };
+  }
+);
+export const updateCategory = createAsyncThunk(
+  "categorySlice/updateCategory",
+  async ({ categoryId, data }, { rejectWithValue }) => {
+    try {
+      console.log(categoryId);
+      console.log(data)
+      const response = await axios.put(
+        `${base_url}/categories/update/${categoryId}`,
+        data,
+        {
+          headers: {
+            Authorization: `token ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { message, categoryData } = response.data;
+      console.log("category updated", response.data);
+      return { message, categoryData };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: error.response?.data?.message || "Failed To Update Category",
+      });
+    }
   }
 );
 
@@ -19,7 +49,8 @@ const categorySlice = createSlice({
     currentSubCategories: [],
     successResponse: "",
     isLoading: false,
-    filteringCategory : "all",
+    isUpdating: false,
+    filteringCategory: "all",
     error: null,
   },
   reducers: {
@@ -27,11 +58,11 @@ const categorySlice = createSlice({
       const selectedCategory = state.categories.find((category) => {
         return category.title === action.payload;
       });
-      state.currentSubCategories = selectedCategory?.subCategories || []
+      state.currentSubCategories = selectedCategory?.subCategories || [];
     },
-    getCategoryBasedFilterData : (state, action) => {
-      state.filteringCategory = action.payload
-    }
+    getCategoryBasedFilterData: (state, action) => {
+      state.filteringCategory = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCategories.fulfilled, (state, action) => {
@@ -48,8 +79,28 @@ const categorySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.message;
     });
+
+    // update category
+    builder.addCase(updateCategory.fulfilled, (state, action) => {
+      const filtered = state.categories.filter(
+        (category) => category._id !== action.payload.categoryData._id
+      );
+      filtered.push(action.payload.categoryData);
+      state.categories = filtered;
+      state.isUpdating = false;
+      state.error = null;
+    });
+    builder.addCase(updateCategory.pending, (state, action) => {
+      state.isUpdating = true;
+      state.error = null;
+    });
+    builder.addCase(updateCategory.rejected, (state, action) => {
+      state.isUpdating = false;
+      state.error = action.payload?.message || "Failed to update category";
+    });
   },
 });
 
-export const {getCurrentSubCategories,getCategoryBasedFilterData} = categorySlice.actions
+export const { getCurrentSubCategories, getCategoryBasedFilterData } =
+  categorySlice.actions;
 export default categorySlice.reducer;
