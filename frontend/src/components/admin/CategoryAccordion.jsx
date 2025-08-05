@@ -23,7 +23,9 @@ import { toast } from "sonner"
 
 function CategoryAccordion({ categoryData }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenSub, setIsOpenSub] = useState(false);
     const [categoryId, setCategoryId] = useState('')
+    const [subCategory, setSubCategory] = useState('')
     const dispatch = useDispatch()
     const { isDeleting } = useSelector(state => state.categorySlice)
     const categoryLimit1 = Math.ceil(categoryData.length / 3)
@@ -40,6 +42,36 @@ function CategoryAccordion({ categoryData }) {
             return toast.error(response.payload?.message || "Something went wrong while Deleting Category");
 
         }
+    }
+    const handleSubCategoryDelete = async (categoryId, deletingSubCategory) => {
+        console.log("id", categoryId)
+        console.log("subCAtegory", deletingSubCategory)
+        try {
+            console.log(categoryData)
+            const currentCategory = categoryData.find(category => category._id === categoryId)
+
+            const filteredSubCategories = currentCategory?.subCategories?.filter(subCategory => (
+                subCategory !== deletingSubCategory
+            ))
+            console.log("filteredSubCategory", filteredSubCategories)
+            const newData = { title: currentCategory.title, subCategories: filteredSubCategories }
+            console.log("newData", newData)
+
+            const response = await dispatch(updateCategory({ categoryId, newData }));
+            if (updateCategory.fulfilled.match(response)) {
+                toast.success("subCategory Deleted Successfully");
+                setIsOpenSub(false)
+                return;
+            } else if (updateCategory.rejected.match(response)) {
+                return toast.error(response.payload?.message || "Something went wrong while deleting Subcategory");
+
+            }
+
+        } catch (error) {
+            console.error("submission error:", error);
+            toast.error("An unexpected error occurred");
+        }
+
     }
     return (
         <div className="grid grid-cols-3 gap-4">
@@ -80,7 +112,13 @@ function CategoryAccordion({ categoryData }) {
                                     <p className="">{subCategory}</p>
                                     <div className="flex items-center justify-end gap-2">
                                         {/* <SquarePen className="size-8 rounded-full text-primary hover:text-violet-900 hover:bg-violet-200 p-1.5" /> */}
-                                        <Trash2 className="size-8 rounded-full text-red-500 hover:text-red-700 hover:bg-red-200 p-1.5" />
+                                        <Trash2
+                                            onClick={() => {
+                                                setIsOpenSub(true)
+                                                setCategoryId(category._id)
+                                                setSubCategory(subCategory)
+                                            }}
+                                            className="size-8 rounded-full text-red-500 hover:text-red-700 hover:bg-red-200 p-1.5" />
                                     </div>
                                 </div>
                             ))
@@ -125,7 +163,13 @@ function CategoryAccordion({ categoryData }) {
                                     <p className="">{subCategory}</p>
                                     <div className="flex items-center justify-end gap-2">
                                         {/* <SquarePen className="size-8 rounded-full text-primary hover:text-violet-900 hover:bg-violet-200 p-1.5" /> */}
-                                        <Trash2 className="size-8 rounded-full text-red-500 hover:text-red-700 hover:bg-red-200 p-1.5" />
+                                        <Trash2
+                                            onClick={() => {
+                                                setIsOpenSub(true)
+                                                setCategoryId(category._id)
+                                                setSubCategory(subCategory)
+                                            }}
+                                            className="size-8 rounded-full text-red-500 hover:text-red-700 hover:bg-red-200 p-1.5" />
                                     </div>
                                 </div>
                             ))
@@ -171,8 +215,11 @@ function CategoryAccordion({ categoryData }) {
                                     <div className="flex items-center justify-end gap-2">
                                         {/* <SquarePen className="size-8 rounded-full text-primary hover:text-violet-900 hover:bg-violet-200 p-1.5" /> */}
                                         <Trash2 onClick={() => {
-
-                                        }} className="size-8 rounded-full text-red-500 hover:text-red-700 hover:bg-red-200 p-1.5" />
+                                            setIsOpenSub(true)
+                                            setCategoryId(category._id)
+                                            setSubCategory(subCategory)
+                                        }}
+                                            className="size-8 rounded-full text-red-500 hover:text-red-700 hover:bg-red-200 p-1.5" />
                                     </div>
                                 </div>
                             ))
@@ -193,7 +240,23 @@ function CategoryAccordion({ categoryData }) {
                             onClick={() => {
                                 handleCategoryDelete(categoryId)
                             }}
-                            variant="destructive" className="">{isDeleting ? <> <Loader2 className='size-4 animate-spin mr-2' /> Deleting Service</> : "Delete Service"}</Button>
+                            variant="destructive" className="">{isDeleting ? <> <Loader2 className='size-4 animate-spin mr-2' /> Deleting Category</> : "Delete Category"}</Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
+            <Dialog open={isOpenSub} onOpenChange={setIsOpenSub}>
+                <DialogContent className={`rounded-2xl p-6`}>
+                    <DialogTitle className='mb-1'>Are you sure you want to delete this Sub Category?</DialogTitle>
+                    <p className='mb-3  text-sm'>This action Cannot be undone.This will permanently delete This Sub Category and Remove it from the server</p>
+                    <div className="flex justify-end gap-3">
+                        <DialogClose asChild>
+                            <Button variant={'outline2'}>Close</Button>
+                        </DialogClose>
+                        <Button
+                            onClick={() => {
+                                handleSubCategoryDelete(categoryId, subCategory)
+                            }}
+                            variant="destructive" className="">{isDeleting ? <> <Loader2 className='size-4 animate-spin mr-2' /> Deleting Sub Category</> : "Delete Sub Category"}</Button>
                     </div>
                 </DialogContent>
             </Dialog>
