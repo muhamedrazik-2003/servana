@@ -47,7 +47,7 @@ const plugin = useRef(
                     <CardAction className={'flex items-center gap-1 text-lg'}>{data?.avgRating} <Star className="fill-yellow-400 text-yellow-400 size-5" /></CardAction>
                 </div>
 
-                <CardDescription className={'text-teal-600'}>{data?.category}, {data?.subCategory}</CardDescription>
+                <CardDescription className={'text-teal-600'}>{data?.category !== "custom category Needed" ? data.category + ", " + data.subCategory : data.subCategory}</CardDescription>
 
                 <div className={`flex justify-between ${variant === "seeker" ? "flex-col items-start" : "items-center"}`}>
                     {variant === "provider" ? (

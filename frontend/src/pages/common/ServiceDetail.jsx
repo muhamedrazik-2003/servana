@@ -19,6 +19,7 @@ import { startOfToday } from "date-fns/startOfToday";
 import { isBefore } from "date-fns/isBefore";
 import ReviewDialog from "../../components/common/ReviewDialog";
 import ReviewSection from "../../components/common/ReviewSection";
+import ProviderHeader from "../../components/common/Provider&AdminHeader";
 
 const ServiceDetail = () => {
   const { pathname, hash } = useLocation();
@@ -183,7 +184,10 @@ const ServiceDetail = () => {
   }
   return (
     <main>
-      <SeekerHeader />
+      {role === "provider"
+        ? <ProviderHeader />
+        : <SeekerHeader />
+      }
       <section className="mx-auto px-4 lg:px-20 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 py-8">
         {/* LEFT COLUMN */}
         <div className="space-y-8">
@@ -191,7 +195,7 @@ const ServiceDetail = () => {
           <div className="space-y-2">
             <h1 className="text-4xl text-start">{currentService?.title}</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs">Cleaning</span>
+              <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs">{currentService?.category !== "custom category Needed" ? currentService.category + ", " + currentService.subCategory : currentService.subCategory}</span>
               {role === "seeker"
                 && <div className="flex items-center gap-1">
                   <Avatar className="h-6 w-6">
@@ -279,7 +283,7 @@ const ServiceDetail = () => {
         </div>
 
         {/* RIGHT COLUMN */}
-        {role === "provider" || role === "admin"
+        {role !== "seeker"
           && <div className="space-y-4 sticky top-24 h-fit p-5">
             {summaryItems?.map((item, index) => (
               <div key={index} className="flex items-center gap-4 border rounded-3xl py-5 px-6">

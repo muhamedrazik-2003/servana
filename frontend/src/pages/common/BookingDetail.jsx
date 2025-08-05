@@ -3,7 +3,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
-import { CalendarIcon, CreditCard, Hash, IndianRupee, Mail, MapPin, MessageCirclePlus, PhoneCall, Star, Timer } from "lucide-react";
+import { Calendar, CalendarIcon, CircleCheckBig, CircleSlash2, CreditCard, Hash, IndianRupee, Mail, MapPin, MessageCirclePlus, PhoneCall, Star, Timer } from "lucide-react";
 import Footer from "../../components/common/Footer";
 import SeekerHeader from "../../components/seeker/common/SeekerHeader";
 import { useLocation, useParams } from "react-router-dom";
@@ -18,6 +18,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuTrigger,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
+  DropdownMenuSubContent
+} from "@/components/ui/dropdown-menu"
 import { Textarea } from '@/components/ui/textarea'
 import { changeBookingAndPaymentStatus } from "../../redux/slices/bookingSlice";
 import { toast } from "sonner";
@@ -111,7 +123,7 @@ const BookingDetail = () => {
               </div>
             </div>
             {/* provider info or seeker info */}
-            {role === "provider"
+            {role === "provider" || role === "admin"
               ? <>
                 <div>
                   <h3 className="text-lg font-semibold text-primary mb-1">Booking Info</h3>
@@ -208,32 +220,34 @@ const BookingDetail = () => {
         </div>
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-primary mb-2">Actions</h3>
-          <div className=" space-x-3 space-y-2">
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
-              <DialogTrigger className='w-full lg:w-45'>
-                <Button disabled={currentBooking?.bookingStatus === "cancelled" || currentBooking?.bookingStatus === "completed" || currentBooking?.bookingStatus === "failed" ? true : false} variant="destructive" className="w-full">Cancel Booking</Button>
-              </DialogTrigger>
-              <DialogContent className={`rounded-2xl`}>
-                <DialogHeader>
-                  <DialogTitle>What is Your Reason for Cancellation? </DialogTitle>
-                  <DialogDescription>
-                    <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-3xl text-black ${role === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="flex justify-end gap-3">
-                  <DialogClose asChild>
+          <div className=" flex gap-x-3 gap-y-2 items-center">
+            {role !== "admin"
+              && <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogTrigger className='w-full lg:w-45'>
+                  <Button disabled={currentBooking?.bookingStatus === "cancelled" || currentBooking?.bookingStatus === "completed" || currentBooking?.bookingStatus === "failed" ? true : false} variant="destructive" className="w-full">Cancel Booking</Button>
+                </DialogTrigger>
+                <DialogContent className={`rounded-2xl`}>
+                  <DialogHeader>
+                    <DialogTitle>What is Your Reason for Cancellation? </DialogTitle>
+                    <DialogDescription>
+                      <Textarea onChange={(e) => setReason(e.target.value)} className={`rounded-3xl text-black ${role === "provider" ? "bg-orange-100" : "bg-teal-50"}`} />
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-end gap-3">
+                    <DialogClose asChild>
+                      <Button
+                        onClick={() => setReason("")}
+                      >Close</Button>
+                    </DialogClose>
                     <Button
-                      onClick={() => setReason("")}
-                    >Close</Button>
-                  </DialogClose>
-                  <Button
-                    onClick={() => {
-                      handleBookingStatusUpdate("cancelled");
-                    }}
-                    variant="destructive" className="">Cancel the Booking</Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+                      onClick={() => {
+                        handleBookingStatusUpdate("cancelled");
+                      }}
+                      variant="destructive" className="">Cancel the Booking</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            }
             {/* {role === "seeker"
               && <Button variant="outline2" className="w-full lg:w-45">Reschedule</Button>
             } */}
@@ -261,6 +275,63 @@ const BookingDetail = () => {
                   </div>
                 </DialogContent>
               </Dialog>
+            }
+            {role === "admin"
+              && <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className=''>
+                    <Button variant='outline2' className='border-primary'>
+                      <CreditCard className=' size-5' />Payment Status
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className='bg-violet-200'>
+                    {currentBooking?.paymentStatus === "pending"
+                      ?
+                      <>
+                        <DropdownMenuItem
+                          onClick={() => handleBookingStatusUpdate(currentBooking.bookingStatus, "paid")}>
+                          Payment Paid
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleBookingStatusUpdate(currentBooking.bookingStatus, "cancelled")}>
+                          Payment Cancelled
+                        </DropdownMenuItem>
+                      </>
+                      : <DropdownMenuItem
+                        onClick={() => handleBookingStatusUpdate(currentBooking.bookingStatus, "cancelled")}>
+                        Payment Cancelled
+                      </DropdownMenuItem>
+                    }
+                  </DropdownMenuContent>
+                </DropdownMenu >
+                <DropdownMenu>
+                  <DropdownMenuTrigger className=''>
+                    <Button variant='outline2' className='border-primary'>
+                      <Calendar className='text-violet-500 size-5' />Booking Status
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className='bg-violet-200'>
+                    <DropdownMenuItem
+                      onClick={() => handleBookingStatusUpdate("ongoing", currentBooking.paymentStatus)}>
+                      mark As Ongoing
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleBookingStatusUpdate("completed", currentBooking.paymentStatus)}>
+                      mark As Completed
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleBookingStatusUpdate("cancelled", currentBooking.paymentStatus)}>
+                      Mark As Cancelled
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleBookingStatusUpdate("failed", currentBooking.paymentStatus)}>
+                      Mark As Failed
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu >
+
+
+              </>
             }
           </div>
         </div>

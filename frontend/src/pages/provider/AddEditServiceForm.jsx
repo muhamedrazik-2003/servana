@@ -65,6 +65,11 @@ function AddEditServiceForm() {
     : { ...currentService }
   );
 
+  useEffect(() => {
+    if (currentService?.category.length > 0) {
+      dispatch(getCurrentSubCategories(serviceData.category))
+    }
+  }, [])
   const handleImageChange = (imageFile, index) => {
     if (!imageFile) return;
 
@@ -274,7 +279,7 @@ function AddEditServiceForm() {
                 </Label>
 
                 <Select
-                  value={serviceData.subCategory}
+                  value={serviceData?.subCategory}
                   disabled={showCustomSub || serviceData?.category?.length === 0}
                   onValueChange={(value) => setServiceData({ ...serviceData, subCategory: value })}>
                   <SelectTrigger className={`w-full rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1`}>
@@ -308,7 +313,7 @@ function AddEditServiceForm() {
                       type="text"
                       id="customSubcategory"
                       name="customSubcategory"
-                      onChange={(e) => setServiceData({ ...serviceData, subCategory: e.target.value })}
+                      onChange={(e) => setServiceData({ ...serviceData, subCategory: e.target.value, category: "custom category Needed" })}
                       placeholder="Enter new subcategory"
                       className={`rounded-3xl ${isAdmin ? "bg-violet-50" : "bg-orange-50"} px-3 py-1`}
                     />

@@ -27,7 +27,7 @@ function ProviderHeader({ page,userRole }) {
                     <div className="flex gap-2">
 
                         {page === "dashboard"
-                            && <div className="relative md:w-[200px] lg:w-[360px]">
+                            ? <div className="relative md:w-[200px] lg:w-[360px]">
                                 <Search className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
                                 <input
                                     type="text"
@@ -41,9 +41,7 @@ function ProviderHeader({ page,userRole }) {
                                     className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
                                 />
                             </div>
-                        }
-                        {page === "profile"
-                            && <Link to="/" className="block px-3 py-1.5 text-sm rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
+                            : <Link to="/" className="block px-3 py-1.5 text-sm rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
                         }
 
                     </div>

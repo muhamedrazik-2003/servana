@@ -69,24 +69,31 @@ function BookingActionMenu({ bookingId }) {
                     <Ellipsis />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='end'>
-                    {currentBooking?.paymentStatus === "pending"
-                        &&
-                        <DropdownMenuSub>
-                            <DropdownMenuSubTrigger className='space-x-2 px-3'><CreditCard className='text-gray-500 size-5' />Payment Status</DropdownMenuSubTrigger>
-                            <DropdownMenuPortal>
-                                <DropdownMenuSubContent>
-                                    <DropdownMenuItem
-                                        onClick={() => handleBookingStatusUpdate(currentBooking.bookingStatus, "paid")}>
-                                        <CircleCheckBig className="mr-2 w-4 h-4" /> Payment Paid
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
+
+                    <DropdownMenuSub>
+                        <DropdownMenuSubTrigger className='space-x-2 px-3'><CreditCard className='text-gray-500 size-5' />Payment Status</DropdownMenuSubTrigger>
+                        <DropdownMenuPortal>
+                            <DropdownMenuSubContent>
+                                {currentBooking?.paymentStatus === "pending"
+                                    ? <>
+                                        <DropdownMenuItem
+                                            onClick={() => handleBookingStatusUpdate(currentBooking.bookingStatus, "paid")}>
+                                            <CircleCheckBig className="mr-2 w-4 h-4" /> Payment Paid
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem
+                                            onClick={() => handleBookingStatusUpdate(currentBooking.bookingStatus, "cancelled")}>
+                                            <CircleSlash2 className="mr-2 w-4 h-4" /> Payment Cancelled
+                                        </DropdownMenuItem>
+                                    </>
+                                    : <DropdownMenuItem
                                         onClick={() => handleBookingStatusUpdate(currentBooking.bookingStatus, "cancelled")}>
                                         <CircleSlash2 className="mr-2 w-4 h-4" /> Payment Cancelled
                                     </DropdownMenuItem>
-                                </DropdownMenuSubContent>
-                            </DropdownMenuPortal>
-                        </DropdownMenuSub>
-                    }
+                                }
+                            </DropdownMenuSubContent>
+                        </DropdownMenuPortal>
+                    </DropdownMenuSub>
+
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger className='space-x-2 px-3'><Calendar className='text-gray-500 size-5' />Booking Actions</DropdownMenuSubTrigger>
                         <DropdownMenuPortal>

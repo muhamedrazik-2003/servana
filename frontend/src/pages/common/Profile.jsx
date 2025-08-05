@@ -112,7 +112,7 @@ function ProfilePage() {
   return (
     <main>
       {role === "provider"
-        ? <ProviderHeader page={"profile"} />
+        ? <ProviderHeader />
         : <SeekerHeader />
       }
 
