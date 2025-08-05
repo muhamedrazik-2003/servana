@@ -11,6 +11,7 @@ import { Button } from '../../components/ui/button';
 import { Link } from 'react-router-dom';
 import { getCategories } from '../../redux/slices/categorySlice';
 import CategoryAccordion from '../../components/admin/CategoryAccordion';
+import { CategoryDialog } from '../../components/admin/category-dialog';
 
 function ManageCategories() {
   const dispatch = useDispatch()
@@ -18,7 +19,6 @@ function ManageCategories() {
     dispatch(getCategories());
   }, [])
   const { categories, isLoading } = useSelector(state => state.categorySlice);
-  const sortedData = [...categories]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
   const headData = ["Title", "Category", "SubCategory", "Provider", "Location", "Starting Price", "Created At", "Status", " Action"]
   return (
@@ -36,7 +36,9 @@ function ManageCategories() {
               All Categoires
             </h2>
             {/* <Link to={'/admin/services/new'}> */}
-              <Button variant={'outline2'} className={'border border-primary'}> <Plus />Add New Category</Button>
+             <CategoryDialog
+              trigger={<Button variant={'outline2'} className={'border border-primary'}> <Plus />Add New Category</Button>} 
+            />
             {/* </Link> */}
           </div>
           <ScrollArea className={'h-[86%] whitespace-nowrap'}>
@@ -46,7 +48,7 @@ function ManageCategories() {
               </div>)
               : (
                 <div className=' px-2 overflow-auto max-w-[calc(100vw-220px-60px)] '>
-                 <CategoryAccordion categoryData={sortedData}/>
+                 <CategoryAccordion categoryData={categories}/>
                 </div>
               )}
             

@@ -5,6 +5,7 @@ const categoryController = require('../controllers/categoryController');
 const router = express.Router();
 
 router.get('/', jwt, categoryController.getCategories);
-router.post('/update/:categoryId',jwt, categoryController.updateCategory);
+router.put('/update/:categoryId',jwt, categoryController.updateCategory);
+router.post('/new',jwt,categoryController.AddCategory);
 
 module.exports = router;

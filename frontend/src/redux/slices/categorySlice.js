@@ -17,13 +17,13 @@ export const getCategories = createAsyncThunk(
 );
 export const updateCategory = createAsyncThunk(
   "categorySlice/updateCategory",
-  async ({ categoryId, data }, { rejectWithValue }) => {
+  async ({ categoryId, newData }, { rejectWithValue }) => {
     try {
       console.log(categoryId);
-      console.log(data)
+      console.log(newData)
       const response = await axios.put(
         `${base_url}/categories/update/${categoryId}`,
-        data,
+        newData,
         {
           headers: {
             Authorization: `token ${sessionStorage.getItem("token")}`,
@@ -41,6 +41,32 @@ export const updateCategory = createAsyncThunk(
     }
   }
 );
+export const AddNewCategory = createAsyncThunk(
+  "categorySlice/AddNewCategory",
+  async (newData , { rejectWithValue }) => {
+    try {
+      // console.log(newData)
+      const response = await axios.post(
+        `${base_url}/categories/new`,
+        newData,
+        {
+          headers: {
+            Authorization: `token ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { message, newCategoryData } = response.data;
+      console.log("category updated", response.data);
+      return { message, newCategoryData };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: error.response?.data?.message || "Failed To Update Category",
+      });
+    }
+  }
+);
+
 
 const categorySlice = createSlice({
   name: "categorySlice",
@@ -87,6 +113,7 @@ const categorySlice = createSlice({
       );
       filtered.push(action.payload.categoryData);
       state.categories = filtered;
+      console.log(state.categories)
       state.isUpdating = false;
       state.error = null;
     });
@@ -97,6 +124,22 @@ const categorySlice = createSlice({
     builder.addCase(updateCategory.rejected, (state, action) => {
       state.isUpdating = false;
       state.error = action.payload?.message || "Failed to update category";
+    });
+
+    // add category
+    builder.addCase(AddNewCategory.fulfilled, (state, action) => {
+      state.categories.push(action.payload.newCategoryData);
+      console.log(state.categories)
+      state.isUpdating = false;
+      state.error = null;
+    });
+    builder.addCase(AddNewCategory.pending, (state, action) => {
+      state.isUpdating = true;
+      state.error = null;
+    });
+    builder.addCase(AddNewCategory.rejected, (state, action) => {
+      state.isUpdating = false;
+      state.error = action.payload?.message || "Failed to Add new category";
     });
   },
 });
