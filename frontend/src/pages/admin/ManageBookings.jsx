@@ -1,39 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../../components/common/Provider&AdminHeader';
 import AdminSidebar from '../../components/admin/common/AdminSidebar';
 import TableSkeleton from '../../components/common/skeltons/TableSkelton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import DataTable from '../../components/admin/common/DataTable';
+import { getAllBookings } from '../../redux/slices/bookingSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { CalendarClock } from 'lucide-react';
 
 function ManageBookings() {
-  const headData = ['ID', 'Customer', 'Provider',"Service Title", "Price", "Status", "Date","Booking Status", "Payment Status", "Actions"]
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getAllBookings());
+  }, [])
+  const {bookings, isLoading} = useSelector(state => state.bookingSlice);
+  const headData = ['ID', 'Customer', 'Provider', "Service", "Price", "Date", "Status", "Payment", "Actions"]
   return (
     <>
       <Header />
       <main className="flex p-4 pt-0 gap-6">
-        {/* Sidebar */}
         <div className="">
           <AdminSidebar />
         </div>
 
-        {/* Main Content */}
-        <section className="h-[calc(100vh-82px)]  grid grid-cols-2  w-full m-0 gap-4 p-0 overflow-hidden">
-          <div className='flex justify-between flex-wrap gap-2 items-center mt-6 px-7 pb-2'>
-            <h2 className="md:text-[20px] text-sm mr-auto font-semibold text-slate-900  flex items-center gap-2 ">
-              <Users className="md:size-5.5 size-5 text-primary" />
-              All Students
+        <section className="h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0">
+          <div className='flex justify-between flex-wrap gap-2 items-center px-2'>
+            <h2 className="text-sm lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
+              <CalendarClock className="lg:size-8 size-5 text-primary" />
+              All Bookings
             </h2>
-            <button>Add Student</button>
+            {/* <button>Add Customer</button> */}
             {/* <AddStudent setPageReload={setPageReload} /> */}
           </div>
-          <ScrollArea className={'h-[75%]'}>
+          <ScrollArea className={'h-[86%]'}>
             {isLoading
               ? (<div className=' px-6'>
-                <TableSkeleton headerSkeltonData={headerData} />
+                <TableSkeleton headerSkeltonData={headData} />
               </div>)
               : (
-                <div className=' px-6'>
-                  {/* <DataTable headData={headData} /> */}
+                <div className='px-2 overflow-auto max-w-[calc(100vw-220px-60px)]'>
+                  <DataTable headData={headData} rowData={bookings} tableFormat={"booking"} />
                 </div>
               )}
           </ScrollArea>

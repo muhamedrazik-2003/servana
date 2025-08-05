@@ -38,11 +38,11 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
         return providerServices.length
     }
     return (
-        <Table>
+        <Table className='min-w-[900px] w-full'>
             <TableHeader>
                 <TableRow>
                     {headData?.map(data => (
-                        <TableHead className='last:text-center font-bold'>{data}</TableHead>
+                        <TableHead className='last:text-center font-bold last:sticky last:right-0 last:bg-white'>{data}</TableHead>
                     ))}
                 </TableRow>
             </TableHeader>
@@ -82,7 +82,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                         {data.status}
                                     </Badge>
                                 </TableCell>
-                                <TableCell className='text-center'>
+                                <TableCell className='text-center sticky right-0 bg-white z-10'>
                                     <UserActionMenu userId={data._id} userRole={tableFormat} />
                                 </TableCell>
                             </TableRow>
@@ -120,7 +120,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                         {data.status}
                                     </Badge>
                                 </TableCell>
-                                <TableCell className='text-center'>
+                                <TableCell className='text-center sticky right-0 bg-white z-10'>
                                     <UserActionMenu userId={data._id} userRole={tableFormat} />
                                 </TableCell>
                             </TableRow>
@@ -133,7 +133,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                 <TableCell>{data.subCategory}</TableCell>
                                 <TableCell>{data.providerId.fullName}</TableCell>
                                 
-                                <TableCell >{data?.location.city + ", " + data?.location.state}</TableCell>
+                                <TableCell >{data?.location?.city + ", " + data?.location?.state  || "Not Available"}</TableCell>
                                 {/* <TableCell>{data?.location.city + ", " + data?.location.state + ", " + data?.location.pincode}</TableCell> */}
                                 <TableCell className='text-center'>{data.price}</TableCell>
                                 <TableCell>
@@ -152,7 +152,48 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                         {data.status}
                                     </Badge>
                                 </TableCell>
-                                <TableCell className='text-center'>
+                                <TableCell className='text-center sticky right-0 bg-white z-10'>
+                                    <ServiceActionMenu serviceId={data._id}/>
+                                    {/* <UserActionMenu userId={data._id} userRole={tableFormat} /> */}
+                                </TableCell>
+                            </TableRow>
+                        }
+                        {tableFormat === "booking"
+                            && // seeker row
+                            <TableRow>
+                                <TableCell>{data._id}</TableCell>
+                                <TableCell>{data.seekerId.fullName}</TableCell>
+                                <TableCell>{data.providerId.fullName}</TableCell>
+                                <TableCell>{data.serviceId.title}</TableCell>
+                                
+                                <TableCell >{data?.totalPrice}</TableCell>
+                                {/* <TableCell>{data?.location.city + ", " + data?.location.state + ", " + data?.location.pincode}</TableCell> */}
+                                <TableCell>
+                                    {new Date(data.createdAt).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric"
+                                    })}
+                                </TableCell>
+                                <TableCell>
+                                    <Badge
+                                        className={`px-2 ${getStatusClass(
+                                            data.bookingStatus
+                                        )}`}
+                                    >
+                                        {data.bookingStatus}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell>
+                                    <Badge
+                                        className={`px-2 ${getStatusClass(
+                                            data.paymentStatus
+                                        )}`}
+                                    >
+                                        {data.paymentStatus}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell className='text-center sticky right-0 bg-white z-10'>
                                     <ServiceActionMenu serviceId={data._id}/>
                                     {/* <UserActionMenu userId={data._id} userRole={tableFormat} /> */}
                                 </TableCell>
