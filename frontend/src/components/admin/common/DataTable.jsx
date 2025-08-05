@@ -14,6 +14,7 @@ import UserActionMenu from './UserActionMenu';
 import { getAllServices } from '../../../redux/slices/serviceSlice';
 import { getAllBookings } from '../../../redux/slices/bookingSlice';
 import ServiceActionMenu from '../ServiceActionMenu';
+import BookingActionMenu from '../BookingActionMenu';
 
 const DataTable = ({ headData, rowData, tableFormat }) => {
     const { bookings } = useSelector(state => state.bookingSlice);
@@ -132,8 +133,8 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                 <TableCell>{data.category}</TableCell>
                                 <TableCell>{data.subCategory}</TableCell>
                                 <TableCell>{data.providerId.fullName}</TableCell>
-                                
-                                <TableCell >{data?.location?.city + ", " + data?.location?.state  || "Not Available"}</TableCell>
+
+                                <TableCell >{data?.location?.city + ", " + data?.location?.state || "Not Available"}</TableCell>
                                 {/* <TableCell>{data?.location.city + ", " + data?.location.state + ", " + data?.location.pincode}</TableCell> */}
                                 <TableCell className='text-center'>{data.price}</TableCell>
                                 <TableCell>
@@ -153,7 +154,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                     </Badge>
                                 </TableCell>
                                 <TableCell className='text-center sticky right-0 bg-white z-10'>
-                                    <ServiceActionMenu serviceId={data._id}/>
+                                    <ServiceActionMenu serviceId={data._id} />
                                     {/* <UserActionMenu userId={data._id} userRole={tableFormat} /> */}
                                 </TableCell>
                             </TableRow>
@@ -165,7 +166,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                 <TableCell>{data.seekerId.fullName}</TableCell>
                                 <TableCell>{data.providerId.fullName}</TableCell>
                                 <TableCell>{data.serviceId.title}</TableCell>
-                                
+
                                 <TableCell >{data?.totalPrice}</TableCell>
                                 {/* <TableCell>{data?.location.city + ", " + data?.location.state + ", " + data?.location.pincode}</TableCell> */}
                                 <TableCell>
@@ -194,8 +195,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                     </Badge>
                                 </TableCell>
                                 <TableCell className='text-center sticky right-0 bg-white z-10'>
-                                    <ServiceActionMenu serviceId={data._id}/>
-                                    {/* <UserActionMenu userId={data._id} userRole={tableFormat} /> */}
+                                    <BookingActionMenu bookingId={data._id} />
                                 </TableCell>
                             </TableRow>
                         }
