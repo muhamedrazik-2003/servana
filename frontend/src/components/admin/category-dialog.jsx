@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux"
 
 export function CategoryDialog({
   category,
+  isSubcategory,
   trigger
 }) {
   const [open, setOpen] = useState(false)
@@ -17,6 +18,7 @@ export function CategoryDialog({
   const [data, setData] = useState({
     title: category?.title || "", subCategory: category?.subCategories.join(",") || ""
   })
+  const [newSubCategory, setNewSubCategory] = useState('')
 
   const handleCategorySubmit = async (e) => {
     e.preventDefault()
@@ -63,40 +65,90 @@ export function CategoryDialog({
 
   }
 
+  const handleSubCategorySubmit = async (e) => {
+    e.preventDefault()
+    try {
+
+      const categoryId = category._id
+      const updatedSubCategories = [...(category?.subCategories || []), newSubCategory.trim()];
+
+
+      console.log("updatedSubCategory", updatedSubCategories)
+      const newData = { title: category.title, subCategories: updatedSubCategories }
+      console.log("newData", newData)
+
+      const response = await dispatch(updateCategory({ categoryId, newData }));
+      if (updateCategory.fulfilled.match(response)) {
+        toast.success("subCategory Added Successfully");
+        setOpen(false)
+        return;
+      } else if (updateCategory.rejected.match(response)) {
+        return toast.error(response.payload?.message || "Something went wrong while Adding Subcategory");
+
+      }
+
+    } catch (error) {
+      console.error("submission error:", error);
+      toast.error("An unexpected error occurred");
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{category ? "Edit Category" : "Add New Category"}</DialogTitle>
+          {isSubcategory
+            ? <DialogTitle>Add New Sub Category</DialogTitle>
+            : <DialogTitle>{category ? "Edit Category" : "Add New Category"}</DialogTitle>
+          }
         </DialogHeader>
-        <form onSubmit={handleCategorySubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="category-name">Category Name</Label>
-            <Input
-              id="category-name"
-              value={category?.title}
-              onChange={(e) => setData({ ...data, title: e.target.value })}
-              placeholder="Enter category name"
-              required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="category-description">Sub Categories <span className="text-sm text-orange-500">(Comma Seperated)</span></Label>
-            <Textarea
-              id="category-description"
-              value={data.subCategory}
-              onChange={(e) => setData({ ...data, subCategory: e.target.value })}
-              placeholder="Enter subcategories (comma seperated)"
-              rows={3} />
-          </div>
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit">{category ? "Update" : "Add"} Category</Button>
-          </div>
-        </form>
+        {isSubcategory
+          ?
+          <form onSubmit={handleSubCategorySubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="sub-category-name">Sub Category Name</Label>
+              <Input
+                id="sub-category-name"
+                onChange={(e) => setNewSubCategory(e.target.value)}
+                placeholder="Enter sub category name"
+                required />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Add Sub Category</Button>
+            </div>
+          </form>
+          : <form onSubmit={handleCategorySubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="category-name">Category Name</Label>
+              <Input
+                id="category-name"
+                value={category?.title}
+                onChange={(e) => setData({ ...data, title: e.target.value })}
+                placeholder="Enter category name"
+                required />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="category-description">Sub Categories <span className="text-sm text-orange-500">(Comma Seperated)</span></Label>
+              <Textarea
+                id="category-description"
+                value={data.subCategory}
+                onChange={(e) => setData({ ...data, subCategory: e.target.value })}
+                placeholder="Enter subcategories (comma seperated)"
+                rows={3} />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">{category ? "Update" : "Add"} Category</Button>
+            </div>
+          </form>
+        }
       </DialogContent>
-    </Dialog>
+    </Dialog >
   );
 }

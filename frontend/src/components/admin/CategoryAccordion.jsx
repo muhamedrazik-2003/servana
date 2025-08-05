@@ -27,7 +27,7 @@ function CategoryAccordion({ categoryData }) {
     const [categoryId, setCategoryId] = useState('')
     const [subCategory, setSubCategory] = useState('')
     const dispatch = useDispatch()
-    const { isDeleting } = useSelector(state => state.categorySlice)
+    const { isUpdating } = useSelector(state => state.categorySlice)
     const categoryLimit1 = Math.ceil(categoryData.length / 3)
     const categoryLimit2 = categoryLimit1 * 2
 
@@ -71,7 +71,6 @@ function CategoryAccordion({ categoryData }) {
             console.error("submission error:", error);
             toast.error("An unexpected error occurred");
         }
-
     }
     return (
         <div className="grid grid-cols-3 gap-4">
@@ -102,13 +101,18 @@ function CategoryAccordion({ categoryData }) {
                         </div>
                         <AccordionContent className="flex flex-col  gap-2 text-balance">
                             <div className="text-right">
-                                <Button size='sm' variant='outline2'>
-                                    <Plus className="size-4 text-primary" />
-                                    Add Sub Category
-                                </Button>
+
+                                <CategoryDialog
+                                    category={category}
+                                    isSubcategory={true}
+                                    trigger={<Button size='sm' variant='outline2'>
+                                        <Plus className="size-4 text-primary" />
+                                        Add Sub Category
+                                    </Button>}
+                                />
                             </div>
                             {category.subCategories.map(subCategory => (
-                                <div className="p-2 border rounded-md border-violet-300 flex justify-between items-center">
+                                <div key={subCategory} className="p-2 border rounded-md border-violet-300 flex justify-between items-center">
                                     <p className="">{subCategory}</p>
                                     <div className="flex items-center justify-end gap-2">
                                         {/* <SquarePen className="size-8 rounded-full text-primary hover:text-violet-900 hover:bg-violet-200 p-1.5" /> */}
@@ -153,13 +157,17 @@ function CategoryAccordion({ categoryData }) {
                         </div>
                         <AccordionContent className="flex flex-col  gap-2 text-balance">
                             <div className="text-right">
-                                <Button size='sm' variant='outline2'>
-                                    <Plus className="size-4 text-primary" />
-                                    Add Sub Category
-                                </Button>
+                               <CategoryDialog
+                                    category={category}
+                                    isSubcategory={true}
+                                    trigger={<Button size='sm' variant='outline2'>
+                                        <Plus className="size-4 text-primary" />
+                                        Add Sub Category
+                                    </Button>}
+                                />
                             </div>
                             {category.subCategories.map(subCategory => (
-                                <div className="p-2 border rounded-md border-violet-300 flex justify-between items-center">
+                                <div key={subCategory} className="p-2 border rounded-md border-violet-300 flex justify-between items-center">
                                     <p className="">{subCategory}</p>
                                     <div className="flex items-center justify-end gap-2">
                                         {/* <SquarePen className="size-8 rounded-full text-primary hover:text-violet-900 hover:bg-violet-200 p-1.5" /> */}
@@ -204,13 +212,17 @@ function CategoryAccordion({ categoryData }) {
                         </div>
                         <AccordionContent className="flex flex-col  gap-2 text-balance pt-2">
                             <div className="text-right">
-                                <Button size='sm' variant='outline2'>
-                                    <Plus className="size-4 text-primary" />
-                                    Add Sub Category
-                                </Button>
+                                <CategoryDialog
+                                    category={category}
+                                    isSubcategory={true}
+                                    trigger={<Button size='sm' variant='outline2'>
+                                        <Plus className="size-4 text-primary" />
+                                        Add Sub Category
+                                    </Button>}
+                                />
                             </div>
                             {category.subCategories.map(subCategory => (
-                                <div className="p-2 border rounded-md border-violet-300 flex justify-between items-center">
+                                <div key={subCategory} className="p-2 border rounded-md border-violet-300 flex justify-between items-center">
                                     <p className="">{subCategory}</p>
                                     <div className="flex items-center justify-end gap-2">
                                         {/* <SquarePen className="size-8 rounded-full text-primary hover:text-violet-900 hover:bg-violet-200 p-1.5" /> */}
@@ -240,7 +252,7 @@ function CategoryAccordion({ categoryData }) {
                             onClick={() => {
                                 handleCategoryDelete(categoryId)
                             }}
-                            variant="destructive" className="">{isDeleting ? <> <Loader2 className='size-4 animate-spin mr-2' /> Deleting Category</> : "Delete Category"}</Button>
+                            variant="destructive" className="">{isUpdating ? <> <Loader2 className='size-4 animate-spin mr-2' /> Deleting Category</> : "Delete Category"}</Button>
                     </div>
                 </DialogContent>
             </Dialog>
@@ -256,7 +268,7 @@ function CategoryAccordion({ categoryData }) {
                             onClick={() => {
                                 handleSubCategoryDelete(categoryId, subCategory)
                             }}
-                            variant="destructive" className="">{isDeleting ? <> <Loader2 className='size-4 animate-spin mr-2' /> Deleting Sub Category</> : "Delete Sub Category"}</Button>
+                            variant="destructive" className="">{isUpdating ? <> <Loader2 className='size-4 animate-spin mr-2' /> Deleting Sub Category</> : "Delete Sub Category"}</Button>
                     </div>
                 </DialogContent>
             </Dialog>
