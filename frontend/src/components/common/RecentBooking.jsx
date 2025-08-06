@@ -23,7 +23,10 @@ function RecentBooking({ userRole }) {
                 </Link>
             </div>
             <div className='overflow-auto scrollbar-none h-49'>
-                <SampleTable headData={headData} bodyData={formattedBooking} formMode={"booking"} />
+                {formattedBooking.length > 0
+                    ? <SampleTable headData={headData} bodyData={formattedBooking} formMode={"booking"} />
+                    : <h4 className='my-4 mb-10'>No Services Available Currently</h4>
+                }
 
             </div>
         </div>

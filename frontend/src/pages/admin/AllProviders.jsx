@@ -37,11 +37,15 @@ function AllProviders() {
               ? (<div className=' px-2'>
                 <TableSkeleton headerSkeltonData={headData} />
               </div>)
-              : (
-                <div className=' px-2 overflow-auto max-w-[calc(100vw-220px-60px)] '>
-                  <DataTable headData={headData} rowData={sortedData} tableFormat={"provider"} />
-                </div>
-              )}
+              : sortedData.length > 0
+                ? (
+                  <div className=' px-2 overflow-auto max-w-[calc(100vw-220px-60px)] '>
+                    <DataTable headData={headData} rowData={sortedData} tableFormat={"provider"} />
+                  </div>
+                )
+                : <h2 className='text-center py-20 text-xl lg:text-3xl leading-6 lg:leading-10'>Failed to Retrive All Provider From Server at the moment.<br /> plase Try again Later</h2>
+
+            }
           </ScrollArea>
         </section>
       </main >
