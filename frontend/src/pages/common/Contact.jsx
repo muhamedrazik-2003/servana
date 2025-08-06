@@ -110,9 +110,7 @@ function Contact() {
               <p className="text-gray-600 mb-4">Want to grow your business with Servana?</p>
               <p className="mb-2"><strong>Email:</strong><a href="mailto:sales&partnership@servana.in"> sales&partnership@servana.in</a></p>
               <p className="mb-2"><strong>Phone:</strong><a href="tel:+91 98765 43210"> +91 98765 43210</a></p>
-              <p className="mb-4">
-                <p className="text-xs text-gray-500">We respond within one business day.</p>
-              </p>
+              <p className="text-xs text-gray-500">We respond within one business day.</p>
             </div>
           </div>
         </div>
@@ -123,9 +121,9 @@ function Contact() {
             <div className="space-y-5 mb-12">
               <input onChange={(e) => setFeedBackData({ ...feedbackData, name: e.target.value })} type="text" placeholder="Name" className="w-full p-3 border rounded-2xl" required />
               <input onChange={(e) => setFeedBackData({ ...feedbackData, email: e.target.value })} type="email" placeholder="Email" className="w-full p-3 border rounded-2xl" required />
-              <select onChange={(e) => setFeedBackData({ ...feedbackData, seekerMessageType: e.target.value })} className="w-full p-3 border rounded-2xl">
+              <select defaultValue={feedbackData.seekerMessageType} onChange={(e) => setFeedBackData({ ...feedbackData, seekerMessageType: e.target.value })} className="w-full p-3 border rounded-2xl">
                 <option value="support">Help and Support</option>
-                <option value="platformReview" selected>Review Servana</option>
+                <option value="platformReview">Review Servana</option>
               </select>
               {feedbackData?.seekerMessageType === "platformReview"
                 && <div className="flex items-center gap-1">
@@ -159,9 +157,9 @@ function Contact() {
             <div className="space-y-5 mb-12">
               <input onChange={(e) => setFeedBackData({ ...feedbackData, name: e.target.value })} type="text" placeholder="Name" className="w-full p-3 border rounded-2xl" required />
               <input onChange={(e) => setFeedBackData({ ...feedbackData, email: e.target.value })} type="email" placeholder="Email" className="w-full p-3 border rounded-2xl" required />
-              <select onChange={(e) => setFeedBackData({ ...feedbackData, providerMessageType: e.target.value })} className="w-full p-3 border rounded-2xl">
+              <select defaultValue={feedbackData.providerMessageType} onChange={(e) => setFeedBackData({ ...feedbackData, providerMessageType: e.target.value })} className="w-full p-3 border rounded-2xl">
                 <option value="support">Help and Support</option>
-                <option value="platformReview" selected>Review Servana</option>
+                <option value="platformReview">Review Servana</option>
               </select>
               {feedbackData?.providerMessageType === "platformReview"
                 && <div className="flex items-center gap-1">

@@ -39,7 +39,7 @@ exports.addNewFeedback = async (req, res) => {
 
 exports.getAllFeedbacks = async (req, res) => {
   try {
-    const feedbackList = feedbacks.find();
+    const feedbackList = await feedbacks.find();
     res.status(200).json({ message: "All feedbacks retrieved", feedbackList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);

@@ -26,13 +26,13 @@ export const getAllFeedbacks = createAsyncThunk(
   "feedbackSlice/getAllFeedbacks",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${base_url}/feedbacks/all`);
-      const { message, feedbackList } = response.data;
-      console.log("All feedbacks retrieved:", response.data, {
+      const response = await axios.get(`${base_url}/feedbacks/all`, {
         headers: {
           Authorization: `token ${sessionStorage.getItem("token")}`,
-        },
+        }
       });
+      const { message, feedbackList } = response.data;
+      console.log("All feedbacks retrieved:", response.data);
       return { message, feedbackList };
     } catch (error) {
       console.error(error);
