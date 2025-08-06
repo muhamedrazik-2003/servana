@@ -29,6 +29,7 @@ exports.addNewReview = async (req, res) => {
       seekerId: userId,
       rating,
       comment,
+      status: "active"
     });
     const savedReview = await newReview.save();
 
@@ -101,6 +102,33 @@ exports.getServiceReviews = async (req, res) => {
     res.status(200).json({ message: "service Reviews retrieved", reviewList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
+exports.changeReviewStatus = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const { status } = req.body;
+    // console.log(serviceId);
+    // console.log(status)
+
+    const updatedReviewData = await reviews
+      .findByIdAndUpdate(reviewId, { status }, { new: true })
+      .populate("seekerId")
+      .populate("providerId")
+      .populate("bookingId")
+      .populate("serviceId");
+
+    if (!updatedReviewData) {
+      res.status(404).json({ message: "Review Not Found" });
+    }
+    res.status(200).json({
+      message: "Review Status Updated successfully",
+      updatedReview: updatedReviewData,
+    });
+  } catch (error) {
+    console.error("UPDATE ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
   }
 };

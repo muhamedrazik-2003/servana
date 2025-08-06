@@ -31,7 +31,7 @@ import {
   DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu"
 import { Textarea } from '@/components/ui/textarea'
-import { changeBookingAndPaymentStatus } from "../../redux/slices/bookingSlice";
+import { changeBookingAndPaymentStatus, getAllBookings } from "../../redux/slices/bookingSlice";
 import { toast } from "sonner";
 import ReviewSection from "../../components/common/ReviewSection";
 import { optimizeImage } from "../../lib/utils";
@@ -59,8 +59,16 @@ const BookingDetail = () => {
   } else {
     role = "seeker"
   }
+
   const { bookings } = useSelector(state => state.bookingSlice);
-  // console.log(bookings)
+  console.log(bookings)
+  useEffect(() => {
+    if (role === "admin") {
+      dispatch(getAllBookings())
+
+    }
+  }, [])
+
   const currentBooking = bookings.find(booking => booking._id === bookingId);
 
   const getBookingProgress = (status) => {

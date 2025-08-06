@@ -1,8 +1,9 @@
-import { Star, MapPin, Calendar, Hash } from "lucide-react"
+import { Star, MapPin, Calendar, Hash, Flag } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
+import ReviewActionMenu from "../admin/ReviewActionMenu";
 
 export function ReviewCard({ review, userRole }) {
     // console.log(review)
@@ -24,7 +25,8 @@ export function ReviewCard({ review, userRole }) {
         ))
     }
     return (
-        <Card className={"w-full max-w-2xl py-0"}>
+        <Card className={`relative w-full max-w-2xl py-0 ${review?.status !== "active" ? "bg-black/20" : ""}`}>
+            <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>
             <CardContent className="p-5 flex flex-col justify-between h-full">
                 {/* Header with customer info and rating */}
                 <div>
@@ -46,9 +48,13 @@ export function ReviewCard({ review, userRole }) {
                                 </div>
                             </div>
                         </div>
-                        <Badge className="ml-4 bg-accent text-black">
-                            {review.serviceId?.title}
-                        </Badge>
+                        <div className="flex gap-2 pt-1">
+                            <Badge className="ml-4 bg-accent text-black">
+                                {review.serviceId?.title}
+                            </Badge>
+                            <ReviewActionMenu reviewId={review._id} />
+                        </div>
+
                     </div>
 
                     {/* Review comment */}
@@ -63,7 +69,7 @@ export function ReviewCard({ review, userRole }) {
                         <span>{formatDate(review.createdAt)}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
+                        <MapPin className="size-4" />
                         <span>
                             {review?.location?.city === "Not Available"
                                 ? "Not Available"

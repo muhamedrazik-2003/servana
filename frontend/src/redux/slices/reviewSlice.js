@@ -67,9 +67,9 @@ export const getAllProviderReviews = createAsyncThunk(
 );
 export const getServiceReviews = createAsyncThunk(
   "reviewSlice/getServiceReviews",
-  async (serviceId, { rejectWithValue }) => {
+  async (reviewId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${base_url}/reviews/${serviceId}`, {
+      const response = await axios.get(`${base_url}/reviews/${reviewId}`, {
         headers: {
           Authorization: `token ${sessionStorage.getItem("token")}`,
         },
@@ -82,6 +82,33 @@ export const getServiceReviews = createAsyncThunk(
       return rejectWithValue({
         message:
           error.response?.data?.message || "Failed To retrieve service Reviews",
+      });
+    }
+  }
+);
+
+export const changeReviewStatus = createAsyncThunk(
+  "reviewSlice/changeReviewStatus",
+  async ({ reviewId, reviewData }, { rejectWithValue }) => {
+    console.log(reviewId, reviewData);
+    try {
+      const response = await axios.patch(
+        `${base_url}/reviews/update/status/${reviewId}`,
+        reviewData,
+        {
+          headers: {
+            Authorization: `token ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { message, updatedReview } = response.data;
+      console.log("review Status Updated:", response.data);
+      return { message, updatedReview };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message:
+          error.response?.data?.message || "Failed To update reviews status",
       });
     }
   }
@@ -157,6 +184,26 @@ const reviewSlice = createSlice({
       state.error =
         action.payload.message || "Failed to retrieve service reviews";
     });
+
+     // update review Satus
+        builder.addCase(changeReviewStatus.fulfilled, (state, action) => {
+          const filtered = state.reviews.filter(
+            (review) => review._id !== action.payload.updatedReview._id
+          );
+          filtered.push(action.payload.updatedReview);
+          state.reviews = filtered;
+          state.isUpdating = false;
+          state.error = null;
+        });
+        builder.addCase(changeReviewStatus.pending, (state, action) => {
+          state.isUpdating = true;
+          state.error = null;
+        });
+        builder.addCase(changeReviewStatus.rejected, (state, action) => {
+          state.isUpdating = false;
+          state.error =
+            action.payload?.message || "Failed to update review Status";
+        });
   },
 });
 
