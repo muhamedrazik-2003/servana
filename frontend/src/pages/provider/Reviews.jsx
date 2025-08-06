@@ -16,6 +16,7 @@ import { Loader2 } from 'lucide-react'
 import { getAllServices, getUserServices } from '../../redux/slices/serviceSlice'
 import AdminSidebar from '../../components/admin/common/AdminSidebar'
 import { useLocation } from 'react-router-dom'
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const Reviews = () => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ export const Reviews = () => {
         </div>
 
         {/* Main Content */}
-        <section className="min-h-[calc(100vh-82px)]  w-full p-0 m-0 mr-[80px]">
+        <section className="min-h-[calc(100vh-82px)]  w-full p-0 m-0 ml-4 mr-[80px]">
           <div className='flex items-center justify-between mb-6'>
             <div>
               <h1 className='text-[clamp(2.5rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 text-start'>{role === "admin" ? "Service Reviews" : "Customer Reviews"}</h1>
@@ -86,26 +87,29 @@ export const Reviews = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className='flex items-start gap-4 space-y-4'>
+          {/* <div className='flex items-start gap-4 space-y-4'>
             <div className='space-y-1'>
 
             </div>
-          </div>
-          <div className='grid grid-cols-1  lg:grid-cols-2 gap-4 gap-y-6 mb-20'>
-            {isReviewLoading
-              ? <h4 className='my-4 mb-10 flex items-center gap-2'>Reviews Loading <Loader2 className='size-5' /></h4>
+          </div> */}
+            <div className='grid grid-cols-1  lg:grid-cols-2 gap-4 gap-y-6 mb-20'>
+              {isReviewLoading
+                ? <h4 className='my-4 mb-10 flex items-center gap-2'>Reviews Loading <Loader2 className='size-5' /></h4>
 
-              : sortedData.length > 0
-                ? sortedData.map((review) => (
-                  <ReviewCard review={review} userRole={role} />
-                ))
-                : <h4 className='my-4 mb-10'>No Reviews Available Currently</h4>
-            }
-          </div>
+                : sortedData.length > 0
+                  ? sortedData.map((review) => (
+                    <>
+                      <ReviewCard review={review} userRole={role} />
+                    </>
+                  ))
+                  : <h4 className='my-4 mb-10'>No Reviews Available Currently</h4>
+              }
+            </div>
         </section>
       </main>
-      <Footer userRole={"provider"} />
-
+      {role !== "admin"
+        && <Footer userRole={"provider"} />
+      }
     </>
   )
 }
