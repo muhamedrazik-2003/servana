@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/select"
 import ProviderSidebar from '../../components/provider/common/ProviderSidebar'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProviderReviews } from '../../redux/slices/reviewSlice'
+import { getAllProviderReviews, getAllReviews } from '../../redux/slices/reviewSlice'
 import { ReviewCard } from '../../components/common/ReviewCard'
 import { Loader2 } from 'lucide-react'
-import { getUserServices } from '../../redux/slices/serviceSlice'
+import { getAllServices, getUserServices } from '../../redux/slices/serviceSlice'
 import AdminSidebar from '../../components/admin/common/AdminSidebar'
 import { useLocation } from 'react-router-dom'
 
@@ -24,10 +24,13 @@ export const Reviews = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (reviews.length === 0) {
+    if (role === "admin") {
+      dispatch(getAllReviews());
+      dispatch(getAllServices())
+    } else {
       dispatch(getAllProviderReviews());
+      dispatch(getUserServices());
     }
-    dispatch(getUserServices());
   }, [])
 
   let role = ""
@@ -40,6 +43,7 @@ export const Reviews = () => {
     role = "seeker"
   }
 
+
   let sortedData = []
   if (sortData === "oldest") {
     sortedData = [...reviews]?.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
@@ -48,6 +52,7 @@ export const Reviews = () => {
   } else if (sortData === "last7days") {
     sortedData = [...reviews]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 7)
   }
+  console.log(sortedData)
   return (
     <>
       {role === "admin"
@@ -92,7 +97,7 @@ export const Reviews = () => {
 
               : sortedData.length > 0
                 ? sortedData.map((review) => (
-                  <ReviewCard review={review} />
+                  <ReviewCard review={review} userRole={role} />
                 ))
                 : <h4 className='my-4 mb-10'>No Reviews Available Currently</h4>
             }

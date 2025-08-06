@@ -4,9 +4,9 @@ const services = require("../models/serviceModel");
 exports.addNewReview = async (req, res) => {
   try {
     const userId = req.user.userId;
-    console.log("seekerId", userId);
+    // console.log("seekerId", userId);
     const { serviceId, providerId, bookingId, rating, comment } = req.body;
-    console.log("Body received:", req.body);
+    // console.log("Body received:", req.body);
 
     const existingReview = await reviews.findOne({ bookingId });
     console.log(existingReview);
@@ -97,7 +97,7 @@ exports.getServiceReviews = async (req, res) => {
       .populate("seekerId");
     // .populate("providerId")
     // .populate("serviceId");
-    console.log(reviewList);
+    // console.log(reviewList);
     res.status(200).json({ message: "service Reviews retrieved", reviewList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);

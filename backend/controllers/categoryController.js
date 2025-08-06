@@ -15,8 +15,8 @@ exports.updateCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
     const { title, subCategories } = req.body;
-    console.log("id", categoryId);
-    console.log("body", req.body);
+    // console.log("id", categoryId);
+    // console.log("body", req.body);
     const categoryData = await categories.findByIdAndUpdate(
       categoryId,
       { title, subCategories },
@@ -35,7 +35,7 @@ exports.updateCategory = async (req, res) => {
 exports.AddCategory = async (req, res) => {
   try {
     const { title, subCategories } = req.body;
-    console.log("Body received:", req.body);
+    // console.log("Body received:", req.body);
 
     if (!title || !subCategories) {
       return res.status(400).json({

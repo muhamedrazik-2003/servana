@@ -229,6 +229,16 @@ function BookingCard({ userRole, bookingCardData }) {
             toast.error("An unexpected error occurred");
         }
     }
+    const handleDateAndTimeFormat = (bookingDate) => {
+        return new Date(bookingDate).toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            hour : "numeric",
+            minute : '2-digit',
+            hour12 : true
+        });
+    }
     const handleDateFormat = (bookingDate) => {
         return new Date(bookingDate).toLocaleDateString("en-US", {
             year: "numeric",
@@ -296,6 +306,7 @@ function BookingCard({ userRole, bookingCardData }) {
                             </div>
                             <span className={getPaymentStatus(bookingCardData?.paymentStatus || "Not Available")}>{bookingCardData?.paymentStatus || 'Not Available'}</span>
                         </div>
+                        <p className="text-sm text-accent">Booked on <span>{handleDateAndTimeFormat(bookingCardData?.createdAt)}</span> </p>
                         <Separator className="my-4" />
                         {bookingCardData?.bookingStatus === "pending" || bookingCardData?.bookingStatus === "ongoing"
                             ? userRole === "provider"

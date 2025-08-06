@@ -23,7 +23,6 @@ function ReviewSection({ role,bookingDetails, serviceId, page }) {
         dispatch(getServiceReviews(serviceId))
     }, [])
     const { reviews } = useSelector(state => state.reviewSlice)
-    // console.log(reviews)
 
     function handleRating(rating) {
         const fullStars = rating;

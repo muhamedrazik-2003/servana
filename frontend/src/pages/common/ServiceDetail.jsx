@@ -38,10 +38,12 @@ const ServiceDetail = () => {
   }
 
   const { services, isDeleting, isUpdating } = useSelector(state => state.serviceSlice);
+  const { isBooking } = useSelector(state => state.bookingSlice)
+
   const user = JSON.parse(sessionStorage.getItem('user'));
 
-  const { isBooking } = useSelector(state => state.bookingSlice)
   const currentService = services.find(service => service._id === serviceId);
+  console.log("current services",currentService)
   const [bookingData, setBookingData] = useState({
     serviceId,
     providerId: currentService?.providerId,
@@ -195,7 +197,7 @@ const ServiceDetail = () => {
           <div className="space-y-2">
             <h1 className="text-4xl text-start">{currentService?.title}</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs">{currentService?.category !== "custom category Needed" ? currentService.category + ", " + currentService.subCategory : currentService.subCategory}</span>
+              <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs">{currentService?.category !== "custom category Needed" ? currentService?.category + ", " + currentService?.subCategory : currentService?.subCategory}</span>
               {role === "seeker"
                 && <div className="flex items-center gap-1">
                   <Avatar className="h-6 w-6">

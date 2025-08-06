@@ -5,8 +5,8 @@ exports.addService = async (req, res) => {
   try {
     const { title, description, category, subCategory, price, priceUnit } =
       req.body;
-    console.log("Files received:", req.files);
-    console.log("Body received:", req.body);
+    // console.log("Files received:", req.files);
+    // console.log("Body received:", req.body);
 
     if (
       !title ||
@@ -105,7 +105,7 @@ exports.getUserServices = async (req, res) => {
 exports.updateService = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+    // console.log(id);
     const location = {
       city: req.body.city,
       state: req.body.state,
@@ -132,7 +132,7 @@ exports.updateService = async (req, res) => {
     }
 
     const serviceImages = [...existingImages, ...newImages];
-    console.log(serviceImages);
+    // console.log(serviceImages);
     const { title, description, category, subCategory, price, priceUnit } =
       req.body;
     const updatedData = await services.findByIdAndUpdate(
@@ -149,7 +149,7 @@ exports.updateService = async (req, res) => {
       },
       { new: true }
     );
-    console.log(updatedData);
+    // console.log(updatedData);
     if (!updatedData) {
       res.status(404).json({ message: "Service Not Found" });
     }
@@ -166,7 +166,6 @@ exports.updateService = async (req, res) => {
 exports.deleteService = async (req, res) => {
   try {
     const { id } = req.params;
-
     const service = await services.findById(id);
 
     const imagesTodelete = service.images
@@ -193,8 +192,8 @@ exports.changeServiceStatus = async (req, res) => {
   try {
     const { serviceId } = req.params;
     const { status } = req.body;
-    console.log(serviceId);
-    console.log(status)
+    // console.log(serviceId);
+    // console.log(status)
 
     const updatedServiceData = await services
       .findByIdAndUpdate(serviceId, { status }, { new: true }).populate('providerId', 'fullName')
