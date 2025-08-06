@@ -1,10 +1,81 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../../components/common/Header'
 import Footer from '../../components/common/Footer'
 import { Button } from '../../components/ui/button'
 import FAQ from '../../components/common/landing/FAQ'
+import { useDispatch } from 'react-redux'
+import { Star } from 'lucide-react'
+import { addNewFeedback } from '../../redux/slices/feedbackSlice'
+import { toast } from 'sonner'
 
 function Contact() {
+  const dispatch = useDispatch();
+  const [seekerRating, setSeekerRating] = useState(0)
+  const [hoverSeekerRating, setHoverSeekerRating] = useState(0)
+  const [providerRating, setProviderRating] = useState(0)
+  const [hoverProviderRating, setHoverProviderRating] = useState(0)
+  const [feedbackData, setFeedBackData] = useState({
+    name: '',
+    email: '',
+    seekerMessageType: 'platformReview',
+    providerMessageType: 'platformReview',
+    message: ''
+  })
+  const handleSubmit = async (role) => {
+    try {
+      const { name, email, message, seekerMessageType, providerMessageType } = feedbackData
+      let newFeedback = {}
+      if (role === "seeker") {
+        newFeedback = {
+          name,
+          email,
+          message,
+          messageType: seekerMessageType,
+          role: role,
+          rating: seekerRating
+        }
+      } else {
+        newFeedback = {
+          name,
+          email,
+          message,
+          messageType: providerMessageType,
+          role: role,
+          rating: providerRating
+        }
+      }
+      console.log(newFeedback)
+      if (newFeedback.messageType === "platformReview" && newFeedback.rating === 0) {
+        return toast.warning("please Add Rating for Review submission")
+      }
+      const response = await dispatch(addNewFeedback(newFeedback))
+      if (addNewFeedback.fulfilled.match(response)) {
+        toast.success("Form Submitted Successfully!")
+        setHoverProviderRating(0)
+        setHoverSeekerRating(0)
+        setSeekerRating(0)
+        setProviderRating(0)
+        setFeedBackData({
+          name: '',
+          email: '',
+          role: '',
+          seekerMessageType: 'platformReview',
+          providerMessageType: 'platformReview',
+          message: ''
+        })
+        return;
+      } else if (addNewFeedback.rejected.match(response)) {
+        return toast.error(response.payload?.message || "Something went wrong while submitting Your Form");
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast.error("An unexpected error occurred");
+    }
+    // console.log({ rating, comment })
+
+  }
+
+
   return (
     <main>
       <Header />
@@ -46,35 +117,79 @@ function Contact() {
           </div>
         </div>
 
-        <div className='flex flex-col lg:flex-row gap-6 pb-[40px]'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 pb-[40px]'>
           <div>
             <h3 className='text-lg font-semibold mb-6 '>Customer Support & Feedback</h3>
-            <form className="space-y-5 mb-12">
-              <input type="text" placeholder="Name" className="w-full p-3 border rounded-2xl" required />
-              <input type="email" placeholder="Email" className="w-full p-3 border rounded-2xl" required />
-              <select className="w-full p-3 border rounded-2xl">
+            <div className="space-y-5 mb-12">
+              <input onChange={(e) => setFeedBackData({ ...feedbackData, name: e.target.value })} type="text" placeholder="Name" className="w-full p-3 border rounded-2xl" required />
+              <input onChange={(e) => setFeedBackData({ ...feedbackData, email: e.target.value })} type="email" placeholder="Email" className="w-full p-3 border rounded-2xl" required />
+              <select onChange={(e) => setFeedBackData({ ...feedbackData, seekerMessageType: e.target.value })} className="w-full p-3 border rounded-2xl">
                 <option value="support">Help and Support</option>
-                <option value="platformReview">Review Servana</option>
+                <option value="platformReview" selected>Review Servana</option>
               </select>
-              <textarea rows="4" placeholder="Message" className="w-full p-3 border rounded-2xl" required />
-              <Button size={'lg'} className={'text-base'}>Send Message</Button>
+              {feedbackData?.seekerMessageType === "platformReview"
+                && <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      className="p-1 rounded-sm hover:bg-gray-100 transition-colors"
+                      onMouseEnter={() => setHoverSeekerRating(star)}
+                      onMouseLeave={() => setHoverSeekerRating(0)}
+                      onClick={() => setSeekerRating(star)}
+                    >
+                      <Star
+                        className={`h-6 w-6 transition-colors ${hoverSeekerRating >= star || seekerRating >= star ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+                      />
+                    </button>
+                  ))}
+                </div>
+              }
+              <textarea onChange={(e) => setFeedBackData({ ...feedbackData, message: e.target.value })} rows="4" placeholder="Message" className="w-full p-3 border rounded-2xl" required />
+
+              <Button onClick={() => {
+                handleSubmit("seeker")
+              }} size={'lg'} className={'text-base'}>Send Message</Button>
               <p className="text-xs text-gray-500">We typically reply within 24 hours.</p>
-            </form>
+            </div>
           </div>
-        
+
           <div>
             <h3 className='text-lg font-semibold mb-6 '>Provider Support & Feedback</h3>
-            <form className="space-y-5 mb-12">
-              <input type="text" placeholder="Name" className="w-full p-3 border rounded-2xl" required />
-              <input type="email" placeholder="Email" className="w-full p-3 border rounded-2xl" required />
-              <select className="w-full p-3 border rounded-2xl">
+            <div className="space-y-5 mb-12">
+              <input onChange={(e) => setFeedBackData({ ...feedbackData, name: e.target.value })} type="text" placeholder="Name" className="w-full p-3 border rounded-2xl" required />
+              <input onChange={(e) => setFeedBackData({ ...feedbackData, email: e.target.value })} type="email" placeholder="Email" className="w-full p-3 border rounded-2xl" required />
+              <select onChange={(e) => setFeedBackData({ ...feedbackData, providerMessageType: e.target.value })} className="w-full p-3 border rounded-2xl">
                 <option value="support">Help and Support</option>
-                <option value="platformReview">Review Servana</option>
+                <option value="platformReview" selected>Review Servana</option>
               </select>
-              <textarea rows="4" placeholder="Message" className="w-full p-3 border rounded-2xl" required />
-              <Button size={'lg'} className={'text-base'}>Send Message</Button>
+              {feedbackData?.providerMessageType === "platformReview"
+                && <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      className="p-1 rounded-sm hover:bg-gray-100 transition-colors"
+                      onMouseEnter={() => setHoverProviderRating(star)}
+                      onMouseLeave={() => setHoverProviderRating(0)}
+                      onClick={() => setProviderRating(star)}
+                    >
+                      <Star
+                        className={`h-6 w-6 transition-colors ${hoverProviderRating >= star || providerRating >= star ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+                      />
+                    </button>
+                  ))}
+                </div>
+              }
+              <textarea onChange={(e) => setFeedBackData({ ...feedbackData, message: e.target.value })} rows="4" placeholder="Message" className="w-full p-3 border rounded-2xl" required />
+
+              <Button
+                onClick={() => {
+                  handleSubmit("provider")
+                }}
+                size={'lg'} className={'text-base'}>Send Message</Button>
               <p className="text-xs text-gray-500">We typically reply within 24 hours.</p>
-            </form>
+            </div>
           </div>
         </div>
 

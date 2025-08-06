@@ -2,35 +2,38 @@ const feedbacks = require("../models/feedbackModel");
 
 exports.addNewFeedback = async (req, res) => {
   try {
-
-    const { name, email, role, messageType, message } = req.body;
+    const { name, email, role, messageType, message, rating } = req.body;
     console.log("Body received:", req.body);
 
-    if(messageType === "platformReview") {
-        const existingFeedback = await reviews.findOne({ email, messageType : "platformReview" });
-        // console.log(existingFeedback);
-        if (existingFeedback) {
+    if (messageType === "platformReview") {
+      const existingFeedback = await feedbacks.findOne({
+        email,
+        messageType: "platformReview",
+      });
+      console.log(existingFeedback);
+      if (existingFeedback) {
         return res
-        .status(400)
-        .json({ message: "You already reviewed this booking." });
-        }
+          .status(400)
+          .json({ message: "You already reviewed this booking." });
+      }
     }
 
     const newFeedback = new feedbacks({
-     name,
-     email,
-     role,
-     messageType,
-     message
+      name,
+      email,
+      role,
+      messageType,
+      message,
+      rating,
     });
     const savedFeedback = await newFeedback.save();
-
+    console.log(savedFeedback);
     res.status(201).json({
       message: "feedback Added Succesfully",
       newFeedbackData: savedFeedback,
     });
   } catch (error) {
-    res.status(404).json({ message: "Failed To add Feedback", error });
+    res.status(500).json({ message: "Failed To add Feedback", error });
   }
 };
 

@@ -8,9 +8,17 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Star, StarOff } from 'lucide-react';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllFeedbacks } from "../../../redux/slices/feedbackSlice";
 
 
 function Testimonial() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getAllFeedbacks());
+  },[])
+  const {feedbacks} = useSelector(state => state.feedbackSlice);
   const testimonials = [
     // Customers
     {

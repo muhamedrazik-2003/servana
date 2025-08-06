@@ -4,6 +4,7 @@ import serviceSlice from "./slices/serviceSlice";
 import categorySlice from "./slices/categorySlice";
 import bookingSlice from "./slices/bookingSlice";
 import reviewSlice from "./slices/reviewSlice";
+import feedbackSlice from "./slices/feedbackSlice"
 
 const store = configureStore({
     reducer : {
@@ -11,7 +12,8 @@ const store = configureStore({
         serviceSlice,
         categorySlice,
         bookingSlice,
-        reviewSlice
+        reviewSlice,
+        feedbackSlice
     }
 })
 

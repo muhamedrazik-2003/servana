@@ -44,3 +44,11 @@ export function getStatusClass(status) {
 export function optimizeImage (url)  {
   return url.replace("/upload/", "/upload/f_auto,q_auto/");
 };
+
+export function handleDateFormat (bookingDate) {
+        return new Date(bookingDate).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+    }

@@ -18,6 +18,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
+import { handleDateFormat } from "../../../lib/utils"
 
 
 function BookingCard({ userRole, bookingCardData }) {
@@ -239,13 +240,7 @@ function BookingCard({ userRole, bookingCardData }) {
             hour12 : true
         });
     }
-    const handleDateFormat = (bookingDate) => {
-        return new Date(bookingDate).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
-    }
+    
     return (
         <>
             <Card className="w-full max-w-md mx-auto bg-gray-50 border-2 border-gray-300 rounded-3xl gap-0 justify-between">
