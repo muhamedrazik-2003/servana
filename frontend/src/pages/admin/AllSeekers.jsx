@@ -35,13 +35,13 @@ function AllSeekers() {
             {/* <button>Add Customer</button> */}
             {/* <AddStudent setPageReload={setPageReload} /> */}
           </div>
-          <ScrollArea className={'h-[86%]'}>
+          <ScrollArea className={'h-[86%] whitespace-nowrap'}>
             {isSeekerLoading
               ? (<div className=' px-2'>
                 <TableSkeleton headerSkeltonData={headData} />
               </div>)
               : (
-                <div className=' px-2'>
+                <div className=' px-2 overflow-auto max-w-[calc(100vw-220px-60px)]'>
                   <DataTable headData={headData} rowData={sortedData} tableFormat={"seeker"} />
                 </div>
               )}

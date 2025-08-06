@@ -57,12 +57,10 @@ function ServiceCategory({ format }) {
                     {
                         topServices.length > 0
                             ? topServices?.slice(0, 8).map((service, index) => {
-                                const Icon = Icons.ToolCase
                                 return (
                                     <Link key={index} to={`/seeker/services/${service._id}`} className={`${format === "seeker" ? "" : "pointer-events-none"}`}>
                                         <Card className={`shrink-0 p-0 relative transition-all duration-300 ${format === "seeker" ? "w-[265px] group" : "w-[320px]"}`}>
-                                            <CardTitle className={`flex items-center justify-center gap-2 absolute bg-background py-2 px-4 rounded-4xl top-5 left-4 text-sm ${format === "seeker" ? "group-hover:bg-teal-100" : ""}`}>
-                                                <Icon className={'size-5'} />
+                                            <CardTitle className={`flex items-center whitespace-nowrap gap-2 absolute bg-background py-2 px-4 rounded-4xl top-5 left-[50%] -translate-x-[50%] text-sm ${format === "seeker" ? "group-hover:bg-teal-100" : ""}`}>
                                                 {service.title}
                                             </CardTitle>
                                             <CardContent className={'p-0'}>

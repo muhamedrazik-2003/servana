@@ -39,7 +39,7 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
         return providerServices.length
     }
     return (
-        <Table className='min-w-[900px] w-full'>
+        <Table className=' w-full'>
             <TableHeader>
                 <TableRow>
                     {headData?.map(data => (
@@ -135,7 +135,6 @@ const DataTable = ({ headData, rowData, tableFormat }) => {
                                 <TableCell>{data.providerId.fullName}</TableCell>
 
                                 <TableCell >{data?.location?.city + ", " + data?.location?.state || "Not Available"}</TableCell>
-                                {/* <TableCell>{data?.location.city + ", " + data?.location.state + ", " + data?.location.pincode}</TableCell> */}
                                 <TableCell className='text-center'>{data.price}</TableCell>
                                 <TableCell>
                                     {new Date(data.createdAt).toLocaleDateString("en-US", {
