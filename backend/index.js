@@ -8,6 +8,7 @@ const serviceRouter = require('./routes/serviceRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const bookingRouter = require('./routes/BookingRoutes');
 const reviewRouter = require("./routes/ReviewRoutes");
+const feedbackRouter = require("./routes/feedbackRoutes");
 
 dbConnect();
 
@@ -23,6 +24,7 @@ server.use('/api/services', serviceRouter);
 server.use('/api/categories', categoryRouter);
 server.use('/api/bookings', bookingRouter);
 server.use('/api/reviews', reviewRouter);
+server.use('/api/feedbacks',feedbackRouter);
 
 server.get('/', (req, res) => {
   res.status(200).json(`Welcome To Servana Server , Currently Working Fine timestamp : ${Date.now()}`);

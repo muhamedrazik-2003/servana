@@ -26,7 +26,9 @@ export function ReviewCard({ review, userRole }) {
     }
     return (
         <Card className={`relative w-full max-w-2xl py-0 ${review?.status !== "active" ? "bg-black/20" : ""}`}>
-            <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>
+            {userRole === "admin"
+                && <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>
+            }
             <CardContent className="p-5 flex flex-col justify-between h-full">
                 {/* Header with customer info and rating */}
                 <div>
@@ -52,7 +54,9 @@ export function ReviewCard({ review, userRole }) {
                             <Badge className="ml-4 bg-accent text-black">
                                 {review.serviceId?.title}
                             </Badge>
-                            <ReviewActionMenu reviewId={review._id} />
+                            {userRole === "admin"
+                                && < ReviewActionMenu reviewId={review._id} />
+                            }
                         </div>
 
                     </div>
