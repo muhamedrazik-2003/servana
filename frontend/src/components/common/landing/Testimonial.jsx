@@ -8,158 +8,98 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Star, StarOff } from 'lucide-react';
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllFeedbacks } from "../../../redux/slices/feedbackSlice";
+import { Badge } from "@/components/ui/badge"
+import { MapPin, Calendar, Hash, Flag } from "lucide-react"
 
 
 function Testimonial() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getAllFeedbacks());
-  },[])
-  const {feedbacks} = useSelector(state => state.feedbackSlice);
-  const testimonials = [
-    // Customers
-    {
-      name: "Aswathi Nair",
-      role: "customer",
-      rating: 5,
-      comment: "Booked an electrician from Servana and the work was done the same day. Very reliable!",
-      location: "Nadakkavu",
-      jobType: "Electrical Repair",
-      date: "2025-03-18"
-    },
-    {
-      name: "Haris Muhammed",
-      role: "customer",
-      rating: 4,
-      comment: "Found a great tutor for my daughter. The whole process was super smooth.",
-      location: "Thondayad",
-      jobType: "Home Tutoring",
-      date: "2025-04-02"
-    },
-    {
-      name: "Nimisha Das",
-      role: "customer",
-      rating: 5,
-      comment: "I scheduled a beauty service at home—very professional and clean!",
-      location: "Malaparamba",
-      jobType: "Beauty & Wellness",
-      date: "2025-04-14"
-    },
-    {
-      name: "Fayiz Rahman",
-      role: "customer",
-      rating: 4,
-      comment: "The delivery assistant helped my elderly parents with groceries. Thanks Servana!",
-      location: "Beypore",
-      jobType: "Errand Services",
-      date: "2025-04-27"
-    },
-    {
-      name: "Sreeja Menon",
-      role: "customer",
-      rating: 5,
-      comment: "My leaking tap was fixed within 2 hours of booking. Excellent service!",
-      location: "Chevayur",
-      jobType: "Plumbing",
-      date: "2025-05-04"
-    },
+  }, [])
+  const { feedbacks, isLoading } = useSelector(state => state.feedbackSlice);
+  console.log(feedbacks)
 
-    // Providers
-    {
-      name: "Rahul Vellari",
-      role: "provider",
-      rating: 5,
-      comment: "With Servana, I get steady jobs from nearby areas. No downtime at all!",
-      location: "Pantheerankavu",
-      jobType: "AC Technician",
-      date: "2025-03-30"
-    },
-    {
-      name: "Jaseela Thottathil",
-      role: "provider",
-      rating: 4,
-      comment: "Weekly payouts and a clear dashboard make it easy to manage clients.",
-      location: "Kallayi",
-      jobType: "Beautician",
-      date: "2025-04-10"
-    },
-    {
-      name: "Abdul Hakkim",
-      role: "provider",
-      rating: 5,
-      comment: "I work full time now as a delivery partner thanks to Servana’s regular leads.",
-      location: "Kunnamangalam",
-      jobType: "Delivery",
-      date: "2025-04-19"
-    },
-    {
-      name: "Merlin Joseph",
-      role: "provider",
-      rating: 5,
-      comment: "I teach part-time and this app gave me instant students from my area.",
-      location: "Medical College",
-      jobType: "Tutor",
-      date: "2025-04-23"
-    },
-    {
-      name: "Firoz K.",
-      role: "provider",
-      rating: 4,
-      comment: "Flexible scheduling lets me work even after my day job. Really helpful app.",
-      location: "Vellimadukunnu",
-      jobType: "Home Repairs",
-      date: "2025-05-01"
-    }
-  ];
-  function handleRating(rating) {
-    const fullStars = rating;
-    const emptyStars = 5 - fullStars;
+  const seekerPlatformReviews = feedbacks.filter(feedback => feedback.messageType === "platformReview" && feedback.role === "seeker")
+  const providerPlatformReviews = feedbacks.filter(feedback => feedback.messageType === "platformReview" && feedback.role === "provider")
 
-    const stars = [];
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<Star className="text-yellow-400 size-4" fill="currentColor" />);
-    }
-
-    for (let i = 0; i < emptyStars; i++) {
-      stars.push(<StarOff className="text-gray-300 size-4" />);
-    }
-
-    return <div className="flex gap-0.5">{stars}</div>;
+  const duplicatedSeekerReviews = useMemo(() => [...seekerPlatformReviews, ...seekerPlatformReviews],[seekerPlatformReviews])
+  const duplicatedProviderReviews = useMemo(() => [...providerPlatformReviews, ...providerPlatformReviews],[providerPlatformReviews])
+  const renderStars = (rating) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <Star
+        key={index}
+        className={`h-4 w-4 ${index < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+      />
+    ))
   }
-
+  const handleDateAndTimeFormat = (bookingDate) => {
+    return new Date(bookingDate).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+const scrollTrackTotalWidthProvider = duplicatedProviderReviews.length * 340 + (24 * duplicatedProviderReviews.length);
+const scrollTrackTotalWidthSeeker = duplicatedSeekerReviews.length * 340 + (24 * duplicatedSeekerReviews.length);
 
   return (
     <section className='mx-0 pl-[32px] lg:pl-[100px]'>
       <h2 className='max-w-[600px]'>Made for Local Service. Built for Trust.</h2>
       <p className='mb-[72px]'>We remove the friction so customers and providers can focus on what truly matters—results and relationships.</p>
       <h5 className="py-1.5 px-4 rounded-4xl mb-4 bg-secondary inline-block text-sm">Customer's Comment</h5>
-      <div className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px]  scrolllbar-hidden'>
-        <div className='flex gap-5'>
+      <div  className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px] flex'>
+        <div className='flex gap-6 pl-6 hover:[animation-play-state:paused]'  style={{width:`${scrollTrackTotalWidthSeeker}px`, animation: `animatedScrollSeeker ${scrollTrackTotalWidthSeeker / 200}s linear infinite`}}>
           {
-            testimonials.map((testimonial, index) => {
-              // const Icon = Icons[feature.titleIcon]
-              if (testimonial.role === "customer") {
-                return (
-                  <Card key={index} className='w-[300px] shrink-0 p-4 rounded-2xl'>
-                    <div className='flex gap-0.5 mb-2 text-yellow-500'>
-                      {handleRating(testimonial.rating)}
-                    </div>
-                    <p className='text-sm text-foreground mb-3 leading-relaxed'>
-                      “{testimonial.comment}”
-                    </p>
-                    <div className='font-semibold text-primary'>{testimonial.name}</div>
-                    <div className='text-sm text-muted-foreground'>
-                      📍 {testimonial.location} • {testimonial.jobType}
-                    </div>
-                  </Card>
+            duplicatedSeekerReviews.map(review => (
+              <Card className={`relative w-[340px] shrink-0 py-0 `}>
+                {/* {userRole === "admin"
+                    && <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>
+                  } */}
+                <CardContent className="p-3 px-5 flex flex-col justify-between h-full">
+                  {/* Header with customer info and rating */}
+                  <div>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div>
+                            <h3 className="font-semibold text-gray-900">
+                              {review.name}
+                            </h3>
+                            <div className="flex items-center gap-2 mt-1">
+                              <div className="flex items-center gap-1">{renderStars(review.rating)}</div>
+                              <span className="text-sm text-gray-600">({review.rating}/5)</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* <div className="flex gap-2 pt-1">
+                        <Badge className={`ml-4  text-black ${review?.role === "provider" ? "bg-accent" : "bg-secondary"} `}>
+                          {review.role}
+                        </Badge>
+                      </div> */}
 
-                )
-              }
-            })
+                    </div>
+                    <div className="mb-4">
+                      <p className="text-gray-700 leading-relaxed text-sm">{review.message}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center text-xs text-primary pt-2 border-t border-gray-100 ">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      <span>{handleDateAndTimeFormat(review.createdAt)}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
           }
         </div>
       </div>
@@ -167,28 +107,51 @@ function Testimonial() {
         <h5 className="py-1.5 px-4 rounded-4xl my-4 bg-accent inline-block text-sm">Provider's Comment</h5>
       </div>
       <div className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px] scrolllbar-hidden'>
-        <div className='flex gap-5'>
-          {
-            testimonials.map((testimonial, index) => {
-              // const Icon = Icons[feature.titleIcon]
-              if (testimonial.role === "provider") {
-                return (
-                  <Card key={index} className='w-[300px] shrink-0 p-4 rounded-2xl'>
-                    <div className='flex gap-0.5 mb-2 text-yellow-500'>
-                      {handleRating(testimonial.rating)}
-                    </div>
-                    <p className='text-sm text-foreground mb-3 leading-relaxed'>
-                      “{testimonial.comment}”
-                    </p>
-                    <div className='font-semibold text-primary'>{testimonial.name}</div>
-                    <div className='text-sm text-muted-foreground'>
-                      📍 {testimonial.location} • {testimonial.jobType}
-                    </div>
-                  </Card>
+        <div className='flex gap-6 pl-6' style={{width:`${scrollTrackTotalWidthProvider}px`, animation: `animatedScollProvider ${scrollTrackTotalWidthProvider / 200}s linear infinite`}}>
+         {
+            duplicatedProviderReviews.map(review => (
+              <Card className={`relative w-[340px] shrink-0 py-0 `}>
+                {/* {userRole === "admin"
+                    && <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>
+                  } */}
+                <CardContent className="p-3 px-5 flex flex-col justify-between h-full">
+                  {/* Header with customer info and rating */}
+                  <div>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div>
+                            <h3 className="font-semibold text-gray-900">
+                              {review.name}
+                            </h3>
+                            <div className="flex items-center gap-2 mt-1">
+                              <div className="flex items-center gap-1">{renderStars(review.rating)}</div>
+                              <span className="text-sm text-gray-600">({review.rating}/5)</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* <div className="flex gap-2 pt-1">
+                        <Badge className={`ml-4  text-black ${review?.role === "provider" ? "bg-accent" : "bg-secondary"} `}>
+                          {review.role}
+                        </Badge>
+                      </div> */}
 
-                )
-              }
-            })
+                    </div>
+                    <div className="mb-4">
+                      <p className="text-gray-700 leading-relaxed text-sm">{review.message}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center text-xs text-primary pt-2 border-t border-gray-100 ">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      <span>{handleDateAndTimeFormat(review.createdAt)}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
           }
         </div>
       </div>

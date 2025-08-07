@@ -15,6 +15,8 @@ import { Button } from '../ui/button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSampleServices } from '../../redux/slices/serviceSlice'
 import { optimizeImage } from '../../lib/utils'
+import ServiceCategorySkelton from '../skeltons/ReviewCardSkelton'
+import { Skeleton } from "@/components/ui/skeleton"
 
 function ServiceCategory({ format }) {
     const containerRef = useRef()
@@ -54,8 +56,11 @@ function ServiceCategory({ format }) {
             </div>
             <div ref={containerRef} className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px] pl-[100px] scrolllbar-hidden'>
                 <div className='flex gap-5'>
-                    {
-                        topServices.length > 0
+                    {isLoading
+                       ? [1,2,3,4,5,6,7,8].map(skelton => (
+                        <Skeleton className={`shrink-0 ${format === "seeker" ? "w-[265px] group" : "w-80 h-125"}`}/>
+                       ))
+                       : topServices.length > 0
                             ? topServices?.slice(0, 8).map((service, index) => {
                                 return (
                                     <Link key={index} to={`/seeker/services/${service._id}`} className={`${format === "seeker" ? "" : "pointer-events-none"}`}>

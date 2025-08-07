@@ -25,6 +25,7 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        console.log(userData)
         try {
             const response = await dispatch(registerUser(userData))
             console.log(response)

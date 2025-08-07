@@ -5,6 +5,6 @@ const jwt = require('../middlewares/jwtMiddleware')
 const feedBackController = require("../controllers/feedbackController");
 
 router.post('/new',feedBackController.addNewFeedback);
-router.get('/all',jwt, feedBackController.getAllFeedbacks);
+router.get('/all',feedBackController.getAllFeedbacks);
 
 module.exports = router;

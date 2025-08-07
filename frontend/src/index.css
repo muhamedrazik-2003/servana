@@ -383,7 +383,7 @@
   }
 
   ol li {
-    @apply border-1 px-4 md:px-8 py-2 md:py-4 rounded-4xl shadow-md w-[80%] md:w-[55%] text-center bg-background;
+    @apply border-1 px-4 md:px-8 py-2 md:py-4 rounded-4xl shadow-md w-[80%] md:w-[55%] text-center bg-background font-semibold;
   }
 
   ol li:nth-child(odd) {
@@ -403,4 +403,27 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+}
+
+@keyframes animatedScrollSeeker {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+
+}
+
+@keyframes animatedScollProvider {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+
 }

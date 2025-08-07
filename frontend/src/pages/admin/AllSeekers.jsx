@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Header from '../../components/common/Provider&AdminHeader';
 import AdminSidebar from '../../components/admin/common/AdminSidebar';
-import TableSkeleton from '../../components/common/skeltons/TableSkelton';
+import TableSkeleton from '../../components/skeltons/TableSkelton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import DataTable from '../../components/admin/common/DataTable';
 import { UserRoundSearch } from 'lucide-react';

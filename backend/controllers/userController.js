@@ -27,8 +27,9 @@ exports.userLogin = async (req, res) => {
 exports.userRegister = async (req, res) => {
   try {
     const { fullName, email, password, role } = req.body;
+    console.log("body recieved",  req.body)
     const userExist = await users.findOne({ email });
-
+    console.log(userExist)
     if (userExist) {
       return res.status(409).json({ message: "User Already exists" });
     }

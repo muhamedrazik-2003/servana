@@ -29,7 +29,7 @@ export const registerUser = createAsyncThunk(
   async (registerData, { rejectWithValue }) => {
     try {
       const registerResponse = await axios.post(
-        `${base_url}/register`,
+        `${base_url}/users/register`,
         registerData
       );
       const { token, user, message } = registerResponse.data;
@@ -38,7 +38,7 @@ export const registerUser = createAsyncThunk(
       return { token, user, message };
     } catch (error) {
       return rejectWithValue({
-        message: error.response?.data?.message || "login Failed",
+        message: error.response?.data?.message || "Registration Failed",
       });
     }
   }

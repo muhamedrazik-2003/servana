@@ -229,7 +229,7 @@ const serviceSlice = createSlice({
     // get sample services
     builder.addCase(getSampleServices.fulfilled, (state, action) => {
       state.sampleServices = action.payload.sampleServices || [];
-      state.isLoading = false;
+      state.isLoading = true;
       state.error = null;
       state.successResponse = action.payload.message;
     });

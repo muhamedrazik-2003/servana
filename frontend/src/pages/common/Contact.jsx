@@ -63,6 +63,8 @@ function Contact() {
           providerMessageType: 'platformReview',
           message: ''
         })
+        const inputs = document.querySelectorAll('.clearable');
+        inputs.forEach(input => input.value = '');
         return;
       } else if (addNewFeedback.rejected.match(response)) {
         return toast.error(response.payload?.message || "Something went wrong while submitting Your Form");
@@ -119,8 +121,8 @@ function Contact() {
           <div>
             <h3 className='text-lg font-semibold mb-6 '>Customer Support & Feedback</h3>
             <div className="space-y-5 mb-12">
-              <input onChange={(e) => setFeedBackData({ ...feedbackData, name: e.target.value })} type="text" placeholder="Name" className="w-full p-3 border rounded-2xl" required />
-              <input onChange={(e) => setFeedBackData({ ...feedbackData, email: e.target.value })} type="email" placeholder="Email" className="w-full p-3 border rounded-2xl" required />
+              <input onChange={(e) => setFeedBackData({ ...feedbackData, name: e.target.value })} type="text" placeholder="Name" className="w-full p-3 border rounded-2xl clearable" required />
+              <input onChange={(e) => setFeedBackData({ ...feedbackData, email: e.target.value })} type="email" placeholder="Email" className="w-full p-3 border rounded-2xl clearable" required />
               <select defaultValue={feedbackData.seekerMessageType} onChange={(e) => setFeedBackData({ ...feedbackData, seekerMessageType: e.target.value })} className="w-full p-3 border rounded-2xl">
                 <option value="support">Help and Support</option>
                 <option value="platformReview">Review Servana</option>
@@ -143,7 +145,7 @@ function Contact() {
                   ))}
                 </div>
               }
-              <textarea onChange={(e) => setFeedBackData({ ...feedbackData, message: e.target.value })} rows="4" placeholder="Message" className="w-full p-3 border rounded-2xl" required />
+              <textarea onChange={(e) => setFeedBackData({ ...feedbackData, message: e.target.value })} rows="4" placeholder="Message" className="w-full p-3 border rounded-2xl clearable" required />
 
               <Button onClick={() => {
                 handleSubmit("seeker")
@@ -155,8 +157,8 @@ function Contact() {
           <div>
             <h3 className='text-lg font-semibold mb-6 '>Provider Support & Feedback</h3>
             <div className="space-y-5 mb-12">
-              <input onChange={(e) => setFeedBackData({ ...feedbackData, name: e.target.value })} type="text" placeholder="Name" className="w-full p-3 border rounded-2xl" required />
-              <input onChange={(e) => setFeedBackData({ ...feedbackData, email: e.target.value })} type="email" placeholder="Email" className="w-full p-3 border rounded-2xl" required />
+              <input onChange={(e) => setFeedBackData({ ...feedbackData, name: e.target.value })} type="text" placeholder="Name" className="w-full p-3 border rounded-2xl clearable" required />
+              <input onChange={(e) => setFeedBackData({ ...feedbackData, email: e.target.value })} type="email" placeholder="Email" className="w-full p-3 border rounded-2xl clearable" required />
               <select defaultValue={feedbackData.providerMessageType} onChange={(e) => setFeedBackData({ ...feedbackData, providerMessageType: e.target.value })} className="w-full p-3 border rounded-2xl">
                 <option value="support">Help and Support</option>
                 <option value="platformReview">Review Servana</option>
@@ -179,7 +181,7 @@ function Contact() {
                   ))}
                 </div>
               }
-              <textarea onChange={(e) => setFeedBackData({ ...feedbackData, message: e.target.value })} rows="4" placeholder="Message" className="w-full p-3 border rounded-2xl" required />
+              <textarea onChange={(e) => setFeedBackData({ ...feedbackData, message: e.target.value })} rows="4" placeholder="Message" className="w-full p-3 border rounded-2xl clearable" required />
 
               <Button
                 onClick={() => {
