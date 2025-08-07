@@ -22,8 +22,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useLocation } from 'react-router-dom'
+import ProviderHeader from '../../components/common/Provider&AdminHeader'
+import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 
 function About() {
+  const { pathname } = useLocation();
+
+  let role = ""
+
+  if (pathname.includes('/provider')) {
+    role = "provider"
+  } else if (pathname.includes('/admin')) {
+    role = "admin"
+  } else {
+    role = "seeker"
+  }
+
   const coreValues = [
     {
       title: "Trust & Transparency",
@@ -58,8 +73,12 @@ function About() {
   ];
   return (
     <main>
-      <Header />
-
+      {role === "admin" || role === "provider"
+      ? <ProviderHeader/>
+      : role === "seeker"
+      ? <SeekerHeader/>
+      : <Header />
+      }
       <section className='flex flex-col lg:flex-row gap-6 lg:mx-[180px] pt-[40px]  lg:pt-[100px]'>
         <div>
           <h1 className='text-[clamp(2rem,6vw,64px)] leading-12 lg:leading-18 text-start'>Helping Locals Find Trusted Services, Instantly.</h1>
@@ -115,7 +134,7 @@ function About() {
 
       <Testimonial aboutSection={true} />
       <CallToAction />
-      <Footer />
+      <Footer userRole={role}/>
     </main>
   )
 }

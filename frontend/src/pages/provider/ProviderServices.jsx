@@ -5,6 +5,7 @@ import Footer from '../../components/common/Footer'
 import { Loader2, MapPin } from 'lucide-react'
 import SummarySection from '../../components/provider/Dashboard/SummarySection'
 import ServiceCard from '../../components/common/ServiceCard'
+import ServiceCardSkelton from "@/components/skeltons/ServiceCardSkelton.jsx"
 import {
   Select,
   SelectContent,
@@ -110,7 +111,7 @@ function MyServices() {
 
             } */}
             {isLoading
-              ? <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-5xl flex items-center gap-2'>Services Loading <Loader2 className='size-5' /></h2>
+              ? <ServiceCardSkelton cardCount={6} variant={"provider"}/>
               : sortedData?.length > 0
                 ? sortedData.map((service, index) => (
                   <ServiceCard key={index} variant='provider' data={service} />

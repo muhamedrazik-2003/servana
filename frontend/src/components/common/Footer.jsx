@@ -24,10 +24,10 @@ function Footer({ userRole }) {
         <div>
           <h4 className="text-white font-semibold text-base mb-3">Quick Links</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link to={'/about'} className="hover:text-white">About Us</Link></li>
-            <li><Link to={'/contact'} className="hover:text-white">Contact Us</Link></li>
-            <li><Link to={'/contact'} className="hover:text-white">Report A Problem</Link></li>
-            <li><Link to={'/contact'} className="hover:text-white">Feedback</Link></li>
+            <li><Link to={`${userRole === "provider" ? "/provider/about" : userRole === "seeker" ? "/seeker/about" : "/about"}`} className="hover:text-white">About Us</Link></li>
+            <li><Link to={`${userRole === "provider" ? "/provider/contact" : userRole === "seeker" ? "/seeker/contact" : "/contact"}`} className="hover:text-white">Contact Us</Link></li>
+            <li><Link to={`${userRole === "provider" ? "/provider/contact" : userRole === "seeker" ? "/seeker/contact" : "/contact"}`} className="hover:text-white">Report A Problem</Link></li>
+            <li><Link to={`${userRole === "provider" ? "/provider/contact" : userRole === "seeker" ? "/seeker/contact" : "/contact"}`} className="hover:text-white">Feedback</Link></li>
           </ul>
         </div>
         {

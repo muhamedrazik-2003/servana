@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select"
 import { useDispatch, useSelector } from 'react-redux';
 import { getProviderBookings, getUserBookings } from '../../../redux/slices/bookingSlice';
+import BookingCardSkelton from '../../skeltons/BookingCardSkelton';
 
 function BookingTabs({ userRole }) {
     const [activeTab, setActiveTab] = useState("ongoing")
@@ -25,7 +26,7 @@ function BookingTabs({ userRole }) {
             dispatch(getUserBookings());
         }
     }, [])
-    const { bookings } = useSelector(state => state.bookingSlice);
+    const { bookings, isLoading } = useSelector(state => state.bookingSlice);
     console.log(bookings)
     let sortedData = []
     if (sortData === "recent") {
@@ -96,8 +97,11 @@ function BookingTabs({ userRole }) {
                 }
 
             </div>
-            {/* current Tab */}
-            {getCurrentTab(activeTab)}
+            {isLoading
+                ? <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${userRole === "provider" ? "mr-15 ml-2" : "mx-[120px]"} gap-6 my-10`}>
+                    <BookingCardSkelton cardCount={3}/>
+                </div>
+                : getCurrentTab(activeTab)}
         </>
 
     )

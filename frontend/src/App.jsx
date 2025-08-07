@@ -54,6 +54,8 @@ function App() {
         <Route path="/seeker/mybookings" element={<SeekerBookings />} />
         <Route path="/seeker/mybookings/:bookingId" element={<BookingDetail />} />
         <Route path="/seeker/profile" element={<Profile />} />
+        <Route path="/seeker/contact" element={<Contact />} />
+        <Route path="/seeker/about" element={<About />} />
 
         {/* Provider Pages */}
         <Route path="/provider/dashboard" element={<ProviderDashboard />} />
@@ -66,6 +68,8 @@ function App() {
         <Route path="/provider/services/update/:serviceId" element={<AddEditServiceForm />} />
         <Route path="/provider/earnings" element={<ProviderEarning />} />
         <Route path="/provider/reviews" element={<Reviews />} />
+        <Route path="/provider/contact" element={<Contact />} />
+        <Route path="/provider/about" element={<About />} />
 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/seekers" element={<AllSeekers />} />

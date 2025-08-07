@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/common/Header'
 import Footer from '../../components/common/Footer'
 import { Button } from '../../components/ui/button'
@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Loader2, Star } from 'lucide-react'
 import { addNewFeedback } from '../../redux/slices/feedbackSlice'
 import { toast } from 'sonner'
+import { useLocation } from 'react-router-dom'
+import ProviderHeader from '../../components/common/Provider&AdminHeader'
+import SeekerHeader from '../../components/seeker/common/SeekerHeader'
 
 function Contact() {
   const dispatch = useDispatch();
@@ -22,7 +25,19 @@ function Contact() {
     message: ''
   })
   let isSeeker = false
-  const {isfeedbackAdding} = useSelector(state => state.feedbackSlice);
+  const { isfeedbackAdding } = useSelector(state => state.feedbackSlice);
+
+  const { pathname } = useLocation();
+  let role = ""
+
+  if (pathname.includes('/provider')) {
+    role = "provider"
+  } else if (pathname.includes('/admin')) {
+    role = "admin"
+  } else {
+    role = "seeker"
+  }
+
   const handleSubmit = async (role) => {
     try {
       const { name, email, message, seekerMessageType, providerMessageType } = feedbackData
@@ -85,7 +100,12 @@ function Contact() {
 
   return (
     <main>
-      <Header />
+      {role === "admin" || role === "provider"
+      ? <ProviderHeader/>
+      : role === "seeker"
+      ? <SeekerHeader/>
+      : <Header />
+      }
       <section className="max-w-4xl mx-auto px-6 py-16">
         <div className='grid grid-cols-1 lg:grid-cols-2'>
           <div className='mb-10 lg:mb-0'>
@@ -154,7 +174,7 @@ function Contact() {
 
               <Button onClick={() => {
                 handleSubmit("seeker")
-              }} size={'lg'} className={'text-base'}>{isfeedbackAdding && isSeeker ? <><Loader2 className='animate-spin size-5'/> Sending Message</> : "Send Message"}</Button>
+              }} size={'lg'} className={'text-base'}>{isfeedbackAdding && isSeeker ? <><Loader2 className='animate-spin size-5' /> Sending Message</> : "Send Message"}</Button>
               <p className="text-xs text-gray-500">We typically reply within 24 hours.</p>
             </div>
           </div>
@@ -192,7 +212,7 @@ function Contact() {
                 onClick={() => {
                   handleSubmit("provider")
                 }}
-                size={'lg'} className={'text-base'}>{isfeedbackAdding && !isSeeker ? <><Loader2 className='animate-spin size-5'/> Sending Message</> : "Send Message"}</Button>
+                size={'lg'} className={'text-base'}>{isfeedbackAdding && !isSeeker ? <><Loader2 className='animate-spin size-5' /> Sending Message</> : "Send Message"}</Button>
               <p className="text-xs text-gray-500">We typically reply within 24 hours.</p>
             </div>
           </div>
@@ -201,7 +221,7 @@ function Contact() {
         <FAQ customerFaq={true} />
         <FAQ providerFaq={true} />
       </section>
-      <Footer />
+      <Footer  userRole={role}/>
     </main>
   )
 }
