@@ -17,6 +17,7 @@ import { getAllServices, getUserServices } from '../../redux/slices/serviceSlice
 import AdminSidebar from '../../components/admin/common/AdminSidebar'
 import { useLocation } from 'react-router-dom'
 import { ScrollArea } from '@/components/ui/scroll-area';
+import ReviewCardSkelton from "@/components/skeltons/ReviewCardSkelton"
 
 export const Reviews = () => {
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ export const Reviews = () => {
           </div> */}
           <div className='grid grid-cols-1  lg:grid-cols-2 gap-4 gap-y-6 mb-20'>
             {isReviewLoading
-              ? <h4 className='my-4 mb-10 flex items-center gap-2 text-center py-10 text-xl lg:text-3xl leading-6 lg:leading-10'>Reviews Loading <Loader2 className='size-8 animate-spin' /></h4>
+              ? [1,2,3,4].map(review => <ReviewCardSkelton variant={"provider"}/>)
 
               : sortedData.length > 0
                 ? sortedData.map((review) => (

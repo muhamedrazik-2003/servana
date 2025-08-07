@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/chart";
 import { getProviderBookings } from '../../redux/slices/bookingSlice'
 import SampleTable from '../../components/provider/common/SampleTable'
+import TableSkelton from "@/components/skeltons/TableSkelton"
 
 function ProviderEarning() {
-  const { bookings } = useSelector(state => state.bookingSlice)
+  const { bookings, isLoading } = useSelector(state => state.bookingSlice)
   const dispatch = useDispatch();
   useEffect(() => {
     if (bookings.length === 0) {
@@ -95,28 +96,28 @@ function ProviderEarning() {
   const summaryData = [
     {
       title: "Total Earnings",
-      value: `₹ ${totalEarnings > 0 ? totalEarnings : 0}`,
+      value: `₹ ${totalEarnings ? totalEarnings : 0}`,
       icon: IndianRupee,
       iconColor: "text-green-600",
       bgColor: "bg-green-50",
     },
     {
       title: "This Month",
-      value: `₹ ${totalEarningsThisWeek > 0 ? totalEarningsThisWeek : 0}`,
+      value: `₹ ${totalEarningsThisWeek ? totalEarningsThisWeek : 0}`,
       icon: Calendar,
       iconColor: "text-blue-600",
       bgColor: "bg-blue-50",
     },
     {
       title: "Pending Payouts",
-      value: `₹ ${pendingPayments > 0 ? pendingPayments : 0}`,
+      value: `₹ ${pendingPayments ? pendingPayments : 0}`,
       icon: Clock,
       iconColor: "text-orange-600",
       bgColor: "bg-orange-50",
     },
     {
       title: "Completed Payouts",
-      value: `₹ ${completedPayments > 0 ? completedPayments : 0}`,
+      value: `₹ ${completedPayments  ? completedPayments : 0}`,
       icon: CheckCircle,
       iconColor: "text-emerald-600",
       bgColor: "bg-emerald-50",
@@ -235,8 +236,10 @@ function ProviderEarning() {
               <h4 className='px-2  text-accent'>Earnings of recent 7 Bookings</h4>
             </div>
             <div className='overflow-y-auto scrollbar-none max-h-50'>
-              <SampleTable headData={headData} bodyData={formattedBooking} />
-
+              {isLoading
+              ? <TableSkelton headerSkeltonData={headData}/>
+              :<SampleTable headData={headData} bodyData={formattedBooking} />
+              }
             </div>
           </div>
         </section>
