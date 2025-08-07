@@ -3,8 +3,8 @@ import Header from '../../components/common/Header'
 import Footer from '../../components/common/Footer'
 import { Button } from '../../components/ui/button'
 import FAQ from '../../components/common/landing/FAQ'
-import { useDispatch } from 'react-redux'
-import { Star } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Loader2, Star } from 'lucide-react'
 import { addNewFeedback } from '../../redux/slices/feedbackSlice'
 import { toast } from 'sonner'
 
@@ -21,6 +21,8 @@ function Contact() {
     providerMessageType: 'platformReview',
     message: ''
   })
+  let isSeeker = false
+  const {isfeedbackAdding} = useSelector(state => state.feedbackSlice);
   const handleSubmit = async (role) => {
     try {
       const { name, email, message, seekerMessageType, providerMessageType } = feedbackData
@@ -34,6 +36,7 @@ function Contact() {
           role: role,
           rating: seekerRating
         }
+        isSeeker = true
       } else {
         newFeedback = {
           name,
@@ -43,8 +46,10 @@ function Contact() {
           role: role,
           rating: providerRating
         }
+        isSeeker = false
       }
-      console.log(newFeedback)
+      console.log("Final feedback to send:", newFeedback);
+
       if (newFeedback.messageType === "platformReview" && newFeedback.rating === 0) {
         return toast.warning("please Add Rating for Review submission")
       }
@@ -149,7 +154,7 @@ function Contact() {
 
               <Button onClick={() => {
                 handleSubmit("seeker")
-              }} size={'lg'} className={'text-base'}>Send Message</Button>
+              }} size={'lg'} className={'text-base'}>{isfeedbackAdding && isSeeker ? <><Loader2 className='animate-spin size-5'/> Sending Message</> : "Send Message"}</Button>
               <p className="text-xs text-gray-500">We typically reply within 24 hours.</p>
             </div>
           </div>
@@ -187,7 +192,7 @@ function Contact() {
                 onClick={() => {
                   handleSubmit("provider")
                 }}
-                size={'lg'} className={'text-base'}>Send Message</Button>
+                size={'lg'} className={'text-base'}>{isfeedbackAdding && !isSeeker ? <><Loader2 className='animate-spin size-5'/> Sending Message</> : "Send Message"}</Button>
               <p className="text-xs text-gray-500">We typically reply within 24 hours.</p>
             </div>
           </div>

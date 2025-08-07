@@ -33,6 +33,7 @@ exports.addNewFeedback = async (req, res) => {
       newFeedbackData: savedFeedback,
     });
   } catch (error) {
+    console.error("Error saving feedback:", error);
     res.status(500).json({ message: "Failed To add Feedback", error });
   }
 };
