@@ -214,7 +214,7 @@ const serviceSlice = createSlice({
     builder.addCase(getAllServices.fulfilled, (state, action) => {
       state.services = action.payload.allServices || [];
       state.servicesBackup = action.payload.allServices || [];
-      state.isLoading = true;
+      state.isLoading = false;
       state.error = null;
       state.successResponse = action.payload.message;
     });

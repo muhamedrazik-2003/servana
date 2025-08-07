@@ -35,7 +35,7 @@ function NewServices() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {isLoading
-                ? <ServiceCardSkelton/>
+                ? <ServiceCardSkelton cardCount={4}/>
                 : newAddedServices?.length > 0
                     ? newAddedServices?.slice(0, 8).map(service => (
                         <Link key={service.id} to={`/seeker/services/${service?._id}`}>

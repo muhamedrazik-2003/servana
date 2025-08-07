@@ -13,6 +13,7 @@ import ServiceCard from '../../components/common/ServiceCard'
 import CategoryFilter from '../../components/common/all services/CategoryFilter'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllServices, handleSearch } from '../../redux/slices/serviceSlice'
+import ServiceCardSkelton from '../../components/skeltons/ServiceCardSkelton.jsx'
 
 function AllServices() {
   const { services, isLoading, servicesBackup, keywords } = useSelector(state => state.serviceSlice);
@@ -94,7 +95,9 @@ function AllServices() {
           <CategoryFilter />
         </div>
         <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 items-start'>
-          {filteredServices?.length > 0
+          {isLoading
+          ? <ServiceCardSkelton cardCount={6}/>
+          : filteredServices?.length > 0
             ? filteredServices.map((service, index) => (
               <ServiceCard key={index} variant='seeker' data={service} />
             ))

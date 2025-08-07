@@ -1,9 +1,9 @@
 import React from 'react'
 import { Skeleton } from "@/components/ui/skeleton"
 
-function ServiceCardSkelton() {
+function ServiceCardSkelton({cardCount}) {
     return (
-        [1, 2, 3, 4].map(skelton => (
+        Array.from({length : cardCount}).map(skelton => (
             <div className='mb-6'>
                 <Skeleton className={`shrink-0 w-66 h-66`} />
                 <div className='flex justify-between ml-2 mr-4 mt-5'>
@@ -12,7 +12,7 @@ function ServiceCardSkelton() {
                 </div>
                 <div className='mx-2 space-y-2 mt-4'>
                     <Skeleton className={`shrink-0 w-45 h-3 rounded-full`} />
-                    <Skeleton className={`shrink-0 w-35 h-3 rounded-full`} />
+                    <Skeleton className={`shrink-0 w-40 h-3 rounded-full`} />
                 </div>
             </div>
         ))
