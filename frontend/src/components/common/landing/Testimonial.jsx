@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllFeedbacks } from "../../../redux/slices/feedbackSlice";
 import { Badge } from "@/components/ui/badge"
 import { MapPin, Calendar, Hash, Flag } from "lucide-react"
+import ReviewCardSkelton from "../../skeltons/ReviewCardSkelton";
 
 
 function Testimonial() {
@@ -20,14 +21,14 @@ function Testimonial() {
   useEffect(() => {
     dispatch(getAllFeedbacks());
   }, [])
-  const { feedbacks, isLoading } = useSelector(state => state.feedbackSlice);
+  const { feedbacks, isFeedbackLoading } = useSelector(state => state.feedbackSlice);
   console.log(feedbacks)
 
   const seekerPlatformReviews = feedbacks.filter(feedback => feedback.messageType === "platformReview" && feedback.role === "seeker")
   const providerPlatformReviews = feedbacks.filter(feedback => feedback.messageType === "platformReview" && feedback.role === "provider")
 
-  const duplicatedSeekerReviews = useMemo(() => [...seekerPlatformReviews, ...seekerPlatformReviews],[seekerPlatformReviews])
-  const duplicatedProviderReviews = useMemo(() => [...providerPlatformReviews, ...providerPlatformReviews],[providerPlatformReviews])
+  const duplicatedSeekerReviews = useMemo(() => [...seekerPlatformReviews, ...seekerPlatformReviews], [seekerPlatformReviews])
+  const duplicatedProviderReviews = useMemo(() => [...providerPlatformReviews, ...providerPlatformReviews], [providerPlatformReviews])
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -46,18 +47,21 @@ function Testimonial() {
       hour12: true
     });
   }
-const scrollTrackTotalWidthProvider = duplicatedProviderReviews.length * 340 + (24 * duplicatedProviderReviews.length);
-const scrollTrackTotalWidthSeeker = duplicatedSeekerReviews.length * 340 + (24 * duplicatedSeekerReviews.length);
+  const scrollTrackTotalWidthProvider = duplicatedProviderReviews.length * 340 + (24 * duplicatedProviderReviews.length);
+  const scrollTrackTotalWidthSeeker = duplicatedSeekerReviews.length * 340 + (24 * duplicatedSeekerReviews.length);
 
   return (
     <section className='mx-0 pl-[32px] lg:pl-[100px]'>
       <h2 className='max-w-[600px]'>Made for Local Service. Built for Trust.</h2>
       <p className='mb-[72px]'>We remove the friction so customers and providers can focus on what truly matters—results and relationships.</p>
       <h5 className="py-1.5 px-4 rounded-4xl mb-4 bg-secondary inline-block text-sm">Customer's Comment</h5>
-      <div  className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px] flex'>
-        <div className='flex gap-6 pl-6 hover:[animation-play-state:paused]'  style={{width:`${scrollTrackTotalWidthSeeker}px`, animation: `animatedScrollSeeker ${scrollTrackTotalWidthSeeker / 200}s linear infinite`}}>
-          {
-            duplicatedSeekerReviews.map(review => (
+      <div className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px] flex'>
+        <div className='flex gap-6 pl-6 hover:[animation-play-state:paused]' style={{ width: `${scrollTrackTotalWidthSeeker}px`, animation: `animatedScrollSeeker ${scrollTrackTotalWidthSeeker / 200}s linear infinite` }}>
+          {isFeedbackLoading
+            ? [1, 2, 3, 4, 5, 6, 7, 8].map(skelton => (
+              <ReviewCardSkelton/>
+            ))
+            : duplicatedSeekerReviews.map(review => (
               <Card className={`relative w-[340px] shrink-0 py-0 `}>
                 {/* {userRole === "admin"
                     && <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>
@@ -107,9 +111,12 @@ const scrollTrackTotalWidthSeeker = duplicatedSeekerReviews.length * 340 + (24 *
         <h5 className="py-1.5 px-4 rounded-4xl my-4 bg-accent inline-block text-sm">Provider's Comment</h5>
       </div>
       <div className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px] scrolllbar-hidden'>
-        <div className='flex gap-6 pl-6' style={{width:`${scrollTrackTotalWidthProvider}px`, animation: `animatedScollProvider ${scrollTrackTotalWidthProvider / 200}s linear infinite`}}>
-         {
-            duplicatedProviderReviews.map(review => (
+        <div className='flex gap-6 pl-6' style={{ width: `${scrollTrackTotalWidthProvider}px`, animation: `animatedScollProvider ${scrollTrackTotalWidthProvider / 200}s linear infinite` }}>
+          {isFeedbackLoading
+            ? [1, 2, 3, 4, 5, 6, 7, 8].map(skelton => (
+              <ReviewCardSkelton/>
+            ))
+            : duplicatedProviderReviews.map(review => (
               <Card className={`relative w-[340px] shrink-0 py-0 `}>
                 {/* {userRole === "admin"
                     && <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>
