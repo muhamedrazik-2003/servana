@@ -13,6 +13,7 @@ import { Link } from "react-router-dom"
 import { Button } from "../../ui/button"
 import { useSelector } from "react-redux"
 import { optimizeImage } from "../../../lib/utils"
+import ServiceCardSkelton from "../../skeltons/ServiceCardSkelton.jsx"
 
 function NewServices() {
     const { services, isLoading } = useSelector(state => state.serviceSlice);
@@ -22,18 +23,20 @@ function NewServices() {
     // console.log(newAddedServices)
     return (
         <section className="mt-10 space-y-5 pb-10">
-            <div className='flex flex-col md:flex-row justify-between items-end md:items-center mb-10'>
+            <div className='flex flex-col md:flex-row justify-between md:items-center lg:pr-8 mb-10'>
                 <div>
                     <h2 className='text-2xl md:text-4xl mb-1'>Fresh Services Just for You</h2>
                     <p className='text-base mb-10'>We’ve got some new arrivals! Check out what’s fresh in your area.</p>
                 </div>
-                <Link to={'/seeker/services'}>
-                    <Button variant={'outline'} className={`border ml-auto mb-0`}>View More</Button>
+                <Link to={'/seeker/services'} className="ml-auto">
+                    <Button variant={'outline'} className={`border mb-0`}>View More</Button>
                 </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                {newAddedServices?.length > 0
+                {isLoading
+                ? <ServiceCardSkelton/>
+                : newAddedServices?.length > 0
                     ? newAddedServices?.slice(0, 8).map(service => (
                         <Link key={service.id} to={`/seeker/services/${service?._id}`}>
                             <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">

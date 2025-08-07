@@ -44,8 +44,8 @@ function ServiceCategory({ format }) {
         containerRef.current.scrollLeft -= 340;
     };
     return (
-        <section id='categories' className={`mx-0 pl-[32px] md:pl-15 lg:pl-[100px] ${format === "seeker" && "pb-10"}`}>
-            <div className='flex flex-col md:flex-row justify-between  items-end md:items-center pr-8 mb-10'>
+        <section id='categories' className={`mx-0 pl-[24px] md:pl-15 lg:pl-[100px] ${format === "seeker" && "pb-10"}`}>
+            <div className='flex flex-col md:flex-row justify-between md:items-center pr-8 mb-10'>
                 <div>
                     <h2 className={`max-w-[600px] ${format === "seeker" && "text-2xl md:text-4xl mb-1"}`}>{format === "seeker" ? "Popular Services Near You" : "Services That Simplify Everyday Life."}</h2>
                     <p className={`${format === "seeker" && "text-base mb-0"}`}>{format === "seeker" ? "Find what others are booking most around your area." : 'Servana connects you with nearby experts—fast, reliable, and verified.'}</p>
@@ -58,7 +58,7 @@ function ServiceCategory({ format }) {
                 <div className='flex gap-5'>
                     {isLoading
                        ? [1,2,3,4,5,6,7,8].map(skelton => (
-                        <Skeleton className={`shrink-0 ${format === "seeker" ? "w-[265px] group" : "w-80 h-125"}`}/>
+                        <Skeleton className={`shrink-0 ${format === "seeker" ? "w-66 h-66 group" : "w-80 h-125"}`}/>
                        ))
                        : topServices.length > 0
                             ? topServices?.slice(0, 8).map((service, index) => {
@@ -74,7 +74,7 @@ function ServiceCategory({ format }) {
                                                 {service.providerCount} <span>Providers</span>
                                             </div> */}
                                                 <img
-                                                    className={`object-cover w-full rounded-2xl ${format === "seeker" ? "h-[270px] w-auto" : "h-[500px]"}`}
+                                                    className={`object-cover w-full rounded-2xl ${format === "seeker" ? "h-[265px] w-auto" : "h-[500px]"}`}
                                                     src={optimizeImage(service?.images[0]?.url) || "/placeholder.svg"}
                                                     alt={service?.title || "Service Image"}
                                                 />

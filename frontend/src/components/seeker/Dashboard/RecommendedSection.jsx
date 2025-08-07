@@ -5,17 +5,17 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button } from "../../ui/button";
 import { optimizeImage } from "../../../lib/utils";
-
+import ServiceCardSkelton from "../../skeltons/ServiceCardSkelton.jsx";
 
 function RecommendedSection() {
 
     const { services, isLoading } = useSelector(state => state.serviceSlice);
+    console.log(services)
+    const recommendedServices = services.filter(service => (
+        service.totalBookings > 4 || service.rating >= 3
+    ));
 
-    const recommendedServices = services.filter(service =>
-        service.totalBookings > 4 && service.rating >= 3
-    );
-
-    // console.log(recommendedServices)
+    console.log(recommendedServices)
     return (
         <section className="mt-10 space-y-5 pb-10">
             <div className='flex flex-col md:flex-row justify-between md:items-center lg:pr-8 mb-10'>
@@ -24,34 +24,37 @@ function RecommendedSection() {
                     <p className='text-base mb-10'>Services you may want to explore.</p>
                 </div>
                 <Link to={'/seeker/services'} className="ml-auto">
-                    <Button variant={'outline'} className={`border ml-auto mb-0`}>View More</Button>
+                    <Button variant={'outline'} className={`border mb-0`}>View More</Button>
                 </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                {recommendedServices?.length > 0
-                    ? recommendedServices.slice(0, 8).map(service => (
-                        <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
-                            <img
-                                src={optimizeImage(service.images[0].url)}
-                                alt={service.title}
-                                className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
-                            />
-                            <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
-                            <CardContent className="px-4 pt-0 pb-6">
-                                <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">{service.title}</h3>
-                                <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                                    <MapPin className="w-3.5 h-3.5" />
-                                    {service.location}
-                                </div>
-                                <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                                    <Users className="w-3.5 h-3.5" />
-                                    {service.providerCount} providers available
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))
+                {isLoading
+                    ? <ServiceCardSkelton/>
 
-                    : <h2 className='md:col-span-2 lg:col-span-4 text-center py-15 text-xl lg:text-3xl leading-6 lg:leading-10'>No <span className="text-primary">recommended</span> Services are available right now.<br/>Please check back later.</h2>
+                    : recommendedServices?.length > 0
+                        ? recommendedServices.slice(0, 8).map(service => (
+                            <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
+                                <img
+                                    src={optimizeImage(service.images[0].url)}
+                                    alt={service.title}
+                                    className="aspect-square w-full h-auto object-cover rounded-3xl p-2"
+                                />
+                                <Badge variant={'outline'} className={'mx-auto absolute top-5 right-5 md:text-sm'}>Recommended</Badge>
+                                <CardContent className="px-4 pt-0 pb-6">
+                                    <h3 className="text-base font-medium text-gray-800 pt-2 pb-2">{service.title}</h3>
+                                    <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                                        <MapPin className="w-3.5 h-3.5" />
+                                        {service?.location?.city + ", " + service?.location?.state}
+                                    </div>
+                                    <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                                        <Users className="w-3.5 h-3.5" />
+                                        {service.providerCount} providers available
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))
+
+                        : <h2 className='col-span-2 lg:col-span-4 mx-auto text-center py-15 text-xl lg:text-3xl leading-6 lg:leading-10'>Looks like we don't have tailored services for you right now. Try exploring popular options below!</h2>
                 }
             </div>
         </section>
