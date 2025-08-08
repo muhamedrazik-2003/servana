@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
 import { useDispatch } from "react-redux"
 import { handleSearch } from "../../redux/slices/serviceSlice"
+import { handleLogout } from "../../redux/slices/userSlice"
 
 function ProviderHeader({ page,userRole }) {
     const [menuOpen, setMenuOpen] = useState(false)
@@ -41,7 +42,7 @@ function ProviderHeader({ page,userRole }) {
                                     className="pl-10 pr-3 py-2 w-full rounded-full border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
                                 />
                             </div>
-                            : <Link to="/" className="block px-3 py-1.5 text-sm rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
+                            : <Link onClick={() => dispatch(handleLogout())} to="/" className="block px-3 py-1.5 text-sm rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
                         }
 
                     </div>
