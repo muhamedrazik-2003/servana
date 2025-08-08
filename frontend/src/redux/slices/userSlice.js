@@ -12,7 +12,7 @@ export const loginUser = createAsyncThunk(
       );
       console.log(loginResponse);
       const { token, user, message } = loginResponse.data;
-      localStorage.setItem("token", token);
+      // localStorage.setItem("token", token);
       sessionStorage.setItem("token", token);
       sessionStorage.setItem("user", JSON.stringify(user));
       return { token, user, message };
@@ -33,8 +33,9 @@ export const registerUser = createAsyncThunk(
         registerData
       );
       const { token, user, message } = registerResponse.data;
-      localStorage.setItem("token", token);
+      // localStorage.setItem("token", token);
       sessionStorage.setItem("token", token);
+      sessionStorage.setItem("user", JSON.stringify(user));
       return { token, user, message };
     } catch (error) {
       return rejectWithValue({
@@ -167,7 +168,7 @@ export const deleteProvider = createAsyncThunk(
 export const changeSeekerAccountStatus = createAsyncThunk(
   "userSlice/changeSeekerAccountStatus",
   async ({ userId, updatedData }, { rejectWithValue }) => {
-    console.log(updatedData)
+    console.log(updatedData);
     try {
       const response = await axios.patch(
         `${base_url}/users/update/status/${userId}`,
@@ -237,6 +238,18 @@ const userSlice = createSlice({
     clearError: (state) => {
       state.error = "";
     },
+    handleLogout: (state) => {
+      state.isAuthenticated = false;
+      state.token = "";
+      state.user = {};
+      state.isAuthenticated = false;
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+    },
+    handleAuthentication : (state) => {
+      state.isAuthenticated = true
+    }
   },
   extraReducers: (builder) => {
     // login user
@@ -248,10 +261,12 @@ const userSlice = createSlice({
       state.error = "";
     });
     builder.addCase(loginUser.pending, (state, action) => {
+      state.isAuthenticated = false;
       state.isLoading = true;
       state.error = "";
     });
     builder.addCase(loginUser.rejected, (state, action) => {
+      state.isAuthenticated = false;
       state.isLoading = false;
       state.error = action.payload.message;
     });
@@ -265,10 +280,12 @@ const userSlice = createSlice({
       state.error = "";
     });
     builder.addCase(registerUser.pending, (state, action) => {
+      state.isAuthenticated = false;
       state.isLoading = true;
       state.error = "";
     });
     builder.addCase(registerUser.rejected, (state, action) => {
+      state.isAuthenticated = false;
       state.isLoading = false;
       state.error = action.payload.message;
     });
@@ -401,5 +418,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearError } = userSlice.actions;
+export const { clearError, handleLogout, handleAuthentication } = userSlice.actions;
 export default userSlice.reducer;

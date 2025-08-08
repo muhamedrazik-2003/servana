@@ -11,7 +11,7 @@ export const addNewFeedback = createAsyncThunk(
         newFeedback
       );
       const { message, newFeedbackData } = response.data;
-      console.log("feedback added successfully:", response.data);
+      // console.log("feedback added successfully:", response.data);
       return { message, newFeedbackData };
     } catch (error) {
       console.error("ADD FEEDBACK ERROR:", error.response || error);
@@ -28,7 +28,7 @@ export const getAllFeedbacks = createAsyncThunk(
     try {
       const response = await axios.get(`${base_url}/feedbacks/all`);
       const { message, feedbackList } = response.data;
-      console.log("All feedbacks retrieved:", response.data);
+      // console.log("All feedbacks retrieved:", response.data);
       return { message, feedbackList };
     } catch (error) {
       console.error(error);

@@ -22,7 +22,7 @@ function Testimonial() {
     dispatch(getAllFeedbacks());
   }, [])
   const { feedbacks, isFeedbackLoading } = useSelector(state => state.feedbackSlice);
-  console.log(feedbacks)
+  // console.log(feedbacks)
 
   const seekerPlatformReviews = feedbacks.filter(feedback => feedback.messageType === "platformReview" && feedback.role === "seeker")
   const providerPlatformReviews = feedbacks.filter(feedback => feedback.messageType === "platformReview" && feedback.role === "provider")
@@ -58,11 +58,11 @@ function Testimonial() {
       <div className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px] flex'>
         <div className='flex gap-6 pl-6 hover:[animation-play-state:paused]' style={{ width: `${scrollTrackTotalWidthSeeker}px`, animation: `animatedScrollSeeker ${scrollTrackTotalWidthSeeker / 200}s linear infinite` }}>
           {isFeedbackLoading
-            ? [1, 2, 3, 4, 5, 6, 7, 8].map(skelton => (
-              <ReviewCardSkelton/>
+            ? [1, 2, 3, 4, 5, 6, 7, 8].map((_,index) => (
+              <ReviewCardSkelton key={index}/>
             ))
-            : duplicatedSeekerReviews.map(review => (
-              <Card className={`relative w-[340px] shrink-0 py-0 `}>
+            : duplicatedSeekerReviews.map((review,index) => (
+              <Card  className={`relative w-[340px] shrink-0 py-0 `}>
                 {/* {userRole === "admin"
                     && <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>
                   } */}
@@ -113,10 +113,10 @@ function Testimonial() {
       <div className='scroll-smooth overflow-x-auto scrollbar-none lg:ml-[-100px] scrolllbar-hidden'>
         <div className='flex gap-6 pl-6' style={{ width: `${scrollTrackTotalWidthProvider}px`, animation: `animatedScollProvider ${scrollTrackTotalWidthProvider / 200}s linear infinite` }}>
           {isFeedbackLoading
-            ? [1, 2, 3, 4, 5, 6, 7, 8].map(skelton => (
-              <ReviewCardSkelton/>
+            ? [1, 2, 3, 4, 5, 6, 7, 8].map((_,index) => (
+              <ReviewCardSkelton key={index}/>
             ))
-            : duplicatedProviderReviews.map(review => (
+            : duplicatedProviderReviews.map((review,index) => (
               <Card className={`relative w-[340px] shrink-0 py-0 `}>
                 {/* {userRole === "admin"
                     && <p className={`absolute top-14 right-12 text-red-500 text-xs font-bold flex gap-2 bg-black p-1 px-4 rounded-full ${review.status !== "active" ? "block" : "hidden"}`} >Review {review?.status}</p>

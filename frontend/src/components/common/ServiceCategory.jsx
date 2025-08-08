@@ -33,7 +33,6 @@ function ServiceCategory({ format }) {
     } else {
         topServices = [...sampleServices]?.sort((a, b) => b.totalBookings - a.totalBookings);
     }
-    console.log(topServices)
 
 
     const handleNext = () => {
@@ -57,8 +56,8 @@ function ServiceCategory({ format }) {
             <div ref={containerRef} className='scroll-smooth overflow-x-auto scrollbar-none ml-[-100px] pl-[100px] scrolllbar-hidden'>
                 <div className='flex gap-5'>
                     {isLoading
-                       ? [1,2,3,4,5,6,7,8].map(skelton => (
-                        <Skeleton className={`shrink-0 ${format === "seeker" ? "w-66 h-66 group" : "w-80 h-125"}`}/>
+                       ? [1,2,3,4,5,6,7,8].map((skelton, index) => (
+                        <Skeleton key={index} className={`shrink-0 ${format === "seeker" ? "w-66 h-66 group" : "w-80 h-125"}`}/>
                        ))
                        : topServices.length > 0
                             ? topServices?.slice(0, 8).map((service, index) => {

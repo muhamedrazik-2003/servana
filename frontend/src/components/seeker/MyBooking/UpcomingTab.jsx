@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 function UpcomingTab({ data, userRole }) {
   console.log(data)
   const upcomingBookings = data.filter(booking => booking.bookingStatus === "pending") || [];
-  console.log(upcomingBookings)
+  // console.log(upcomingBookings)
   return (
     <section className={`${userRole === "provider" ? "ml-0 mr-14" : ""}`}>
       <h2 className='text-base text-center mb-0 font-semibold'>Scheduled services that are yet to begin.</h2>

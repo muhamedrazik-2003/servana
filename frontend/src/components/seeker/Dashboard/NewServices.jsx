@@ -38,7 +38,7 @@ function NewServices() {
                 ? <ServiceCardSkelton cardCount={4}/>
                 : newAddedServices?.length > 0
                     ? newAddedServices?.slice(0, 8).map(service => (
-                        <Link key={service.id} to={`/seeker/services/${service?._id}`}>
+                        <Link key={service._id} to={`/seeker/services/${service?._id}`}>
                             <Card className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
                                 <img
                                     src={optimizeImage(service.images[0].url)}

@@ -27,10 +27,21 @@ import AdminAllServices from "./pages/admin/ManageServices"
 import AdminAllBookings from "./pages/admin/ManageBookings"
 import AdminAllCategories from "./pages/admin/ManageCategories"
 import Feedbacks from "./pages/admin/Feedbacks"
+import { useDispatch, useSelector } from "react-redux"
+import { handleAuthentication } from "./redux/slices/userSlice"
 
 
 function App() {
   const { pathname, hash } = useLocation()
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(state => state.userSlice);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      dispatch(handleAuthentication());
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (!hash) {
@@ -48,42 +59,44 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         {/* seeker pages */}
-        <Route path="/seeker/home" element={<SeekerHome />} />
-        <Route path="/seeker/services" element={<AllServices />} />
-        <Route path="/seeker/services/:serviceId" element={<ServiceDetail />} />
-        <Route path="/seeker/mybookings" element={<SeekerBookings />} />
-        <Route path="/seeker/mybookings/:bookingId" element={<BookingDetail />} />
-        <Route path="/seeker/profile" element={<Profile />} />
-        <Route path="/seeker/contact" element={<Contact />} />
-        <Route path="/seeker/about" element={<About />} />
+        <Route path="/seeker/home" element={isAuthenticated ? <SeekerHome /> : <Auth />} />
+        <Route path="/seeker/services" element={isAuthenticated ? <AllServices /> : <Auth />} />
+        <Route path="/seeker/services/:serviceId" element={isAuthenticated ? <ServiceDetail /> : <Auth />} />
+        <Route path="/seeker/mybookings" element={isAuthenticated ? <SeekerBookings /> : <Auth />} />
+        <Route path="/seeker/mybookings/:bookingId" element={isAuthenticated ? <BookingDetail /> : <Auth />} />
+        <Route path="/seeker/profile" element={isAuthenticated ? <Profile /> : <Auth />} />
+        <Route path="/seeker/contact" element={isAuthenticated ? <Contact /> : <Auth />} />
+        <Route path="/seeker/about" element={isAuthenticated ? <About /> : <Auth />} />
 
         {/* Provider Pages */}
-        <Route path="/provider/dashboard" element={<ProviderDashboard />} />
-        <Route path="/provider/bookings" element={<ProviderBookings />} />
-        <Route path="/provider/services" element={<ProviderServices />} />
-        <Route path="/provider/services/:serviceId" element={<ServiceDetail />} />
-        <Route path="/provider/mybookings/:bookingId" element={<BookingDetail />} />
-        <Route path="/provider/profile" element={<Profile />} />
-        <Route path="/provider/services/new" element={<AddEditServiceForm />} />
-        <Route path="/provider/services/update/:serviceId" element={<AddEditServiceForm />} />
-        <Route path="/provider/earnings" element={<ProviderEarning />} />
-        <Route path="/provider/reviews" element={<Reviews />} />
-        <Route path="/provider/contact" element={<Contact />} />
-        <Route path="/provider/about" element={<About />} />
+        <Route path="/provider/dashboard" element={isAuthenticated ? <ProviderDashboard /> : <Auth />} />
+        <Route path="/provider/bookings" element={isAuthenticated ? <ProviderBookings /> : <Auth />} />
+        <Route path="/provider/services" element={isAuthenticated ? <ProviderServices /> : <Auth />} />
+        <Route path="/provider/services/:serviceId" element={isAuthenticated ? <ServiceDetail /> : <Auth />} />
+        <Route path="/provider/mybookings/:bookingId" element={isAuthenticated ? <BookingDetail /> : <Auth />} />
+        <Route path="/provider/profile" element={isAuthenticated ? <Profile /> : <Auth />} />
+        <Route path="/provider/services/new" element={isAuthenticated ? <AddEditServiceForm /> : <Auth />} />
+        <Route path="/provider/services/update/:serviceId" element={isAuthenticated ? <AddEditServiceForm /> : <Auth />} />
+        <Route path="/provider/earnings" element={isAuthenticated ? <ProviderEarning /> : <Auth />} />
+        <Route path="/provider/reviews" element={isAuthenticated ? <Reviews /> : <Auth />} />
+        <Route path="/provider/contact" element={isAuthenticated ? <Contact /> : <Auth />} />
+        <Route path="/provider/about" element={isAuthenticated ? <About /> : <Auth />} />
 
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/seekers" element={<AllSeekers />} />
-        <Route path="/admin/providers" element={<AllProviders />} />
-        <Route path="/admin/services" element={<AdminAllServices />} />
-        <Route path="/admin/services/:serviceId" element={<ServiceDetail />} />
-        <Route path="/admin/services/new" element={<AddEditServiceForm />} />
-        <Route path="/admin/services/update/:serviceId" element={<AddEditServiceForm />} />
-        <Route path="/admin/bookings" element={<AdminAllBookings />} />
-        <Route path="/admin/bookings/:bookingId" element={<BookingDetail />} />
-        <Route path="/admin/categories" element={<AdminAllCategories />} />
-        <Route path="/admin/reviews" element={<Reviews />} />
-        <Route path="/admin/feedbacks" element={<Feedbacks />} />
-        <Route path="/admin/profile" element={<Profile />} />
+        {/* Admin Pages */}
+        <Route path="/admin/dashboard" element={isAuthenticated ? <AdminDashboard /> : <Auth />} />
+        <Route path="/admin/seekers" element={isAuthenticated ? <AllSeekers /> : <Auth />} />
+        <Route path="/admin/providers" element={isAuthenticated ? <AllProviders /> : <Auth />} />
+        <Route path="/admin/services" element={isAuthenticated ? <AdminAllServices /> : <Auth />} />
+        <Route path="/admin/services/:serviceId" element={isAuthenticated ? <ServiceDetail /> : <Auth />} />
+        <Route path="/admin/services/new" element={isAuthenticated ? <AddEditServiceForm /> : <Auth />} />
+        <Route path="/admin/services/update/:serviceId" element={isAuthenticated ? <AddEditServiceForm /> : <Auth />} />
+        <Route path="/admin/bookings" element={isAuthenticated ? <AdminAllBookings /> : <Auth />} />
+        <Route path="/admin/bookings/:bookingId" element={isAuthenticated ? <BookingDetail /> : <Auth />} />
+        <Route path="/admin/categories" element={isAuthenticated ? <AdminAllCategories /> : <Auth />} />
+        <Route path="/admin/reviews" element={isAuthenticated ? <Reviews /> : <Auth />} />
+        <Route path="/admin/feedbacks" element={isAuthenticated ? <Feedbacks /> : <Auth />} />
+        <Route path="/admin/profile" element={isAuthenticated ? <Profile /> : <Auth />} />
+
       </Routes>
       <Toaster toastOptions={{
         style: { borderRadius: "32px" },

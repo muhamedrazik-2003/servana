@@ -16,7 +16,7 @@ export const addService = createAsyncThunk(
         }
       );
       const { message, service } = response.data;
-      console.log("Service added successfully:", response.data);
+      // console.log("Service added successfully:", response.data);
       return { message, service };
     } catch (error) {
       console.error("ADD SERVICE ERROR:", error.response || error);
@@ -37,7 +37,7 @@ export const getAllServices = createAsyncThunk(
         },
       });
       const { message, allServices } = response.data;
-      console.log("All Services retrieved:", response.data);
+      // console.log("All Services retrieved:", response.data);
       return { message, allServices };
     } catch (error) {
       console.log("An Error Occured", error);
@@ -55,7 +55,7 @@ export const getSampleServices = createAsyncThunk(
     try {
       const response = await axios.get(`${base_url}/services/sample`);
       const { message, sampleServices } = response.data;
-      console.log("All Services retrieved:", response.data);
+      // console.log("All sample Services retrieved:", response.data);
       return { message, sampleServices };
     } catch (error) {
       console.log("An Error Occured", error);
@@ -78,7 +78,7 @@ export const getUserServices = createAsyncThunk(
         },
       });
       const { message, serviceList } = response.data;
-      console.log("Services retrieved:", response.data);
+      // console.log("User Services retrieved:", response.data);
       return { message, serviceList };
     } catch (error) {
       console.error(error);
@@ -104,7 +104,7 @@ export const updateServices = createAsyncThunk(
         }
       );
       const { message, updatedService } = response.data;
-      console.log("Service added successfully:", response.data);
+      // console.log("Service updated successfully:", response.data);
       return { message, updatedService };
     } catch (error) {
       console.error(error);
@@ -128,7 +128,7 @@ export const deleteService = createAsyncThunk(
         }
       );
       const { message, deletedService } = response.data;
-      console.log("Service deleted successfully:", response.data);
+      // console.log("Service deleted successfully:", response.data);
       return { message, deletedService };
     } catch (error) {
       console.error(error);
@@ -154,7 +154,7 @@ export const changeServiceStatus = createAsyncThunk(
         }
       );
       const { message, updatedService } = response.data;
-      console.log("service Status Updated:", response.data);
+      // console.log("service Status Updated:", response.data);
       return { message, updatedService };
     } catch (error) {
       console.error(error);

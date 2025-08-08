@@ -3,7 +3,7 @@ import BookingCard from '../common/BookingCard'
 
 function CancelledTab({ data, userRole }) {
     const cancelledBookings = data.filter(booking => booking.bookingStatus === "cancelled") || [];
-    console.log(cancelledBookings)
+    // console.log(cancelledBookings)
     return (
         <section className={`${userRole === "provider" ? "ml-0 mr-14" : ""}`}>
             <h2 className='text-base text-center mb-0 font-semibold'>{userRole === "provider" ? "Bookings that were cancelled by you or the customer." : "Bookings that were cancelled by you or the provider."}</h2>

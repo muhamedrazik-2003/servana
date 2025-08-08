@@ -35,7 +35,7 @@ function About() {
     role = "provider"
   } else if (pathname.includes('/admin')) {
     role = "admin"
-  } else {
+  } else if(pathname.includes('/seeker')){
     role = "seeker"
   }
 

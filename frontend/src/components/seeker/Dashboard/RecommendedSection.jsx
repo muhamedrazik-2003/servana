@@ -10,12 +10,12 @@ import ServiceCardSkelton from "../../skeltons/ServiceCardSkelton.jsx";
 function RecommendedSection() {
 
     const { services, isLoading } = useSelector(state => state.serviceSlice);
-    console.log(services)
+    // console.log(services)
     const recommendedServices = services.filter(service => (
         service.totalBookings > 4 || service.rating >= 3
     ));
 
-    console.log(recommendedServices)
+    // console.log(recommendedServices)
     return (
         <section className="mt-10 space-y-5 pb-10">
             <div className='flex flex-col md:flex-row justify-between md:items-center lg:pr-8 mb-10'>
@@ -32,8 +32,8 @@ function RecommendedSection() {
                     ? <ServiceCardSkelton cardCount={4}/>
 
                     : recommendedServices?.length > 0
-                        ? recommendedServices.slice(0, 8).map(service => (
-                            <Card key={service.id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
+                        ? recommendedServices?.slice(0, 8).map(service => (
+                            <Card key={service._id} className=" relative grid grid-cols-1 gap-0 py-0 rounded-3xl shadow-none border-0 bg-background hover:bg-teal-100 transition">
                                 <img
                                     src={optimizeImage(service.images[0].url)}
                                     alt={service.title}

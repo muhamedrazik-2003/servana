@@ -27,7 +27,7 @@ function BookingTabs({ userRole }) {
         }
     }, [])
     const { bookings, isLoading } = useSelector(state => state.bookingSlice);
-    console.log(bookings)
+    // console.log(bookings)
     let sortedData = []
     if (sortData === "recent") {
         sortedData = [...bookings]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

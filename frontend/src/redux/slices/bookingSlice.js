@@ -16,7 +16,7 @@ export const addNewBooking = createAsyncThunk(
         }
       );
       const { message, newBookingData } = response.data;
-      console.log("Service added successfully:", response.data);
+      // console.log("Service added successfully:", response.data);
       return { message, newBookingData };
     } catch (error) {
       console.error("ADD SERVICE ERROR:", error.response || error);
@@ -37,7 +37,7 @@ export const getAllBookings = createAsyncThunk(
         },
       });
       const { message, bookingList } = response.data;
-      console.log("All Bookings retrieved:", response.data);
+      // console.log("All Bookings retrieved:", response.data);
       return { message, bookingList };
     } catch (error) {
       console.error(error);
@@ -58,7 +58,7 @@ export const getUserBookings = createAsyncThunk(
         },
       });
       const { message, bookingList } = response.data;
-      console.log("seeker Bookings retrieved:", response.data);
+      // console.log("seeker Bookings retrieved:", response.data);
       return { message, bookingList };
     } catch (error) {
       console.error(error);
@@ -80,7 +80,7 @@ export const getProviderBookings = createAsyncThunk(
         },
       });
       const { message, bookingList } = response.data;
-      console.log("Provider Bookings retrieved:", response.data);
+      // console.log("Provider Bookings retrieved:", response.data);
       return { message, bookingList };
     } catch (error) {
       console.error(error);
@@ -107,7 +107,7 @@ export const changeBookingAndPaymentStatus = createAsyncThunk(
         }
       );
       const { message, updatedBooking } = response.data;
-      console.log("Booking Statusd Updated:", response.data);
+      // console.log("Booking Statusd Updated:", response.data);
       return { message, updatedBooking };
     } catch (error) {
       console.error(error);

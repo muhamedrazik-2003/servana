@@ -36,10 +36,10 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                 })
                 switch (user.role) {
                     case 'seeker':
-                        navigate('/seeker/home');
+                        navigate('/seeker/home', { replace: true });
                         break;
                     case 'provider':
-                        navigate('/provider/dashboard');
+                        navigate('/provider/dashboard', { replace: true });
                 }
             }
             setUserData({
@@ -62,13 +62,13 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
 
                 switch (user.role) {
                     case 'admin':
-                        navigate('/admin/dashboard');
+                        navigate('/admin/dashboard', { replace: true });
                         break;
                     case 'seeker':
-                        navigate('/seeker/home');
+                        navigate('/seeker/home', { replace: true });
                         break;
                     case 'provider':
-                        navigate('/provider/dashboard');
+                        navigate('/provider/dashboard', { replace: true });
                 }
             }
             setUserData({

@@ -26,7 +26,7 @@ const plugin = useRef(
                 <Carousel plugins={[plugin.current]}>
                     <CarouselContent className='rounded-3xl'>
                         {data?.images.map(image => (
-                            <CarouselItem>
+                            <CarouselItem >
                                 <img
                                     src={optimizeImage(image?.url) || "/placeholder.jpg"}
                                     alt={image?.public_id}

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import Logo from "@/assets/images/logo.png"
 import { useDispatch, useSelector } from "react-redux"
 import { handleSearch } from "../../../redux/slices/serviceSlice"
+import { handleLogout } from "../../../redux/slices/userSlice"
 
 function SeekerHeader({ scrollValue }) {
   const [showSearchBar, setShowSearchbar] = useState(false);
@@ -86,9 +87,9 @@ function SeekerHeader({ scrollValue }) {
                 <span className="text-sm hidden lg:inline">Profile</span>
               </button>
 
-              <div className="absolute right-0 top-full pt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-3xl hidden group-hover:block p-2">
+              <div className="absolute -right-5 top-full pt-2 w-40 bg-background dark:bg-gray-800 shadow-lg rounded-3xl hidden group-hover:block p-2">
                 <Link to="/seeker/profile" className="block px-3 py-2 text-sm rounded-3xl hover:bg-teal-100 dark:hover:bg-gray-700">View Profile</Link>
-                <Link to="/" className="block px-3 py-2 text-sm rounded-3xl hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
+                <Link onClick={() => dispatch(handleLogout())} to="/" className="block px-3 py-2 text-sm rounded-3xl hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
               </div>
             </div>
           </div>
@@ -118,7 +119,7 @@ function SeekerHeader({ scrollValue }) {
           <button disabled className="text-sm text-gray-400 cursor-not-allowed">Notifications (Coming Soon)</button>
           <button disabled className="text-sm text-gray-400 cursor-not-allowed">Dark Mode</button>
           <Link to="/profile" className="block text-sm">View Profile</Link>
-          <Link to="/" className="block text-sm text-red-500">Logout</Link>
+          <Link onClick={() => dispatch(handleLogout())} to="/" className="block text-sm text-red-500">Logout</Link>
         </div>
       )}
     </header>

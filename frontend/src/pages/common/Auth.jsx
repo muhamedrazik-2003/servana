@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import AuthForm from '../../components/common/AuthForm'
 import Logo from "../../assets/images/logo.png"
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { clearError } from '../../redux/slices/userSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 function Auth() {
   const [isRegistered, setIsRegistered] = useState(false)
@@ -13,14 +13,30 @@ function Auth() {
   const registerRole = searchParams.get("role");
   const dispatch = useDispatch();
 
+  const { isAuthenticated } = useSelector(state => state.userSlice);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if(authMode === "register") {
+    const user = JSON.parse(sessionStorage.getItem("user"))
+    if (isAuthenticated) {
+      if (user.role === "admin") {
+        navigate("/admin/dashboard", { replace: true });
+      } else if (user.role === "provider") {
+        navigate("/provider/dashboard", { replace: true });
+      } else if (user.role === "seeker") {
+        navigate("/seeker/home", { replace: true });
+      }
+    }
+  }, [isAuthenticated, navigate])
+
+  useEffect(() => {
+    if (authMode === "register") {
       setIsRegistered(true)
     }
-    if(registerRole === "seeker" || registerRole === "provider") {
+    if (registerRole === "seeker" || registerRole === "provider") {
       setRegisterAs(registerRole)
     }
-  },[authMode, registerRole])
+  }, [authMode, registerRole])
 
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
@@ -40,7 +56,7 @@ function Auth() {
               setRegisterAs(null);
               dispatch(clearError());
             }}
-            className={`z-10 text-sm cursor-pointer p-2 lg:p-3 w-[50%] ${isRegistered ? "" : "text-white" }`} >
+            className={`z-10 text-sm cursor-pointer p-2 lg:p-3 w-[50%] ${isRegistered ? "" : "text-white"}`} >
             Login
           </h4>
           <h4
@@ -53,7 +69,7 @@ function Auth() {
             Register
           </h4>
         </div>
-          <AuthForm formType={isRegistered ? "register" : "login"} registerAs={registerAs} setRegisterAs={setRegisterAs} />
+        <AuthForm formType={isRegistered ? "register" : "login"} registerAs={registerAs} setRegisterAs={setRegisterAs} />
       </div>
     </div>
   )

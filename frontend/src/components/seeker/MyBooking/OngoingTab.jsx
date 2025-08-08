@@ -3,7 +3,7 @@ import BookingCard from '../common/BookingCard'
 
 function OngoingTab({ data, userRole }) {
   const ongoingBookings = data.filter(booking => booking.bookingStatus === "ongoing") || [];
-  console.log(ongoingBookings)
+  // console.log(ongoingBookings)
   return (
     <section className={`${userRole === "provider" ? "ml-0 mr-14" : ""}`}>
       <h2 className='text-base text-center mb-0 font-semibold'>{userRole === "provider" ? "Service Bookings That Are Currently In Progress" : "Bookings That Are Currently Underway"}</h2>

@@ -3,7 +3,7 @@ import BookingCard from '../common/BookingCard'
 
 function CompletedTab({ data, userRole }) {
   const completedBookings = data.filter(booking => booking.bookingStatus === "completed") || [];
-  console.log(completedBookings)
+  // console.log(completedBookings)
   return (
     <section className={`${userRole === "provider" ? "ml-0 mr-14" : ""}`}>
       <h2 className='text-base text-center mb-0 font-semibold'>Your past completed services appear here for reference..</h2>

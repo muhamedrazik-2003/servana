@@ -3,7 +3,7 @@ import BookingCard from '../common/BookingCard'
 
 function FailedTab({ data, userRole }) {
     const failedBookings = data.filter(booking => booking.bookingStatus === "failed") || [];
-    console.log(failedBookings)
+    // console.log(failedBookings)
     return (
         <section className={`${userRole === "provider" ? "ml-0 mr-14" : ""}`}>
             <h2 className='text-base text-center mb-0 font-semibold'>Failed bookings due to payment or system issues.</h2>
