@@ -5,8 +5,8 @@ function OngoingTab({ data, userRole }) {
   const ongoingBookings = data.filter(booking => booking.bookingStatus === "ongoing") || [];
   // console.log(ongoingBookings)
   return (
-    <section className={`${userRole === "provider" ? "ml-0 mr-14" : ""}`}>
-      <h2 className='text-base text-center mb-0 font-semibold'>{userRole === "provider" ? "Service Bookings That Are Currently In Progress" : "Bookings That Are Currently Underway"}</h2>
+    <section className={`${userRole === "provider" ? "mx-4 lg:mr-14" : ""}`}>
+      <h2 className='text-sm lg:text-base text-center mb-0 font-semibold'>{userRole === "provider" ? "Service Bookings That Are Currently In Progress" : "Bookings That Are Currently Underway"}</h2>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-100px gap-5'>
         {ongoingBookings?.length > 0
           ? ongoingBookings.map((booking, index) => (

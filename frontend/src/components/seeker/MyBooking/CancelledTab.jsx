@@ -5,8 +5,8 @@ function CancelledTab({ data, userRole }) {
     const cancelledBookings = data.filter(booking => booking.bookingStatus === "cancelled") || [];
     // console.log(cancelledBookings)
     return (
-        <section className={`${userRole === "provider" ? "ml-0 mr-14" : ""}`}>
-            <h2 className='text-base text-center mb-0 font-semibold'>{userRole === "provider" ? "Bookings that were cancelled by you or the customer." : "Bookings that were cancelled by you or the provider."}</h2>
+        <section className={`${userRole === "provider" ? "mx-4 lg:mr-14" : ""}`}>
+            <h2 className='text-sm lg:text-base text-center mb-0 font-semibold'>{userRole === "provider" ? "Bookings that were cancelled by you or the customer." : "Bookings that were cancelled by you or the provider."}</h2>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
                 {cancelledBookings?.length > 0
                     ? cancelledBookings.map((booking, index) => (
