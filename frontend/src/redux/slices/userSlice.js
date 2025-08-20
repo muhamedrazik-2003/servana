@@ -6,10 +6,7 @@ export const loginUser = createAsyncThunk(
   "userSlice/loginUser",
   async (loginData, { rejectWithValue }) => {
     try {
-      const loginResponse = await axios.post(
-        `${base_url}/users/login`,
-        loginData
-      );
+      const loginResponse = await axios.post(`${base_url}/users/login`,loginData);
       console.log(loginResponse);
       const { token, user, message } = loginResponse.data;
       // localStorage.setItem("token", token);

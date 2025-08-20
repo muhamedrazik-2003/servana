@@ -27,7 +27,6 @@ function AdminSidebar() {
           <LayoutDashboard className="size-5 text-accent" />
           <span>Dashboard</span>
         </NavLink>
-
         <NavLink
           to="/admin/seekers"
           className={({ isActive }) =>
@@ -103,7 +102,7 @@ function AdminSidebar() {
       {/* Profile & Logout */}
       <div className="px-2  space-y-1 mt-4">
         <NavLink
-          to="/provider/profile"
+          to="/admin/profile"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-3xl transition hover:bg-background hover:text-foreground 
             ${isActive ? "bg-background text-foreground font-medium" : "text-background"}`

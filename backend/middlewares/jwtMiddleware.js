@@ -1,4 +1,3 @@
-const { response } = require("express");
 const jwt = require("jsonwebtoken");
 
 const jwtMiddleware = (req, res, next) => {
@@ -13,7 +12,7 @@ const jwtMiddleware = (req, res, next) => {
     // console.log(decoded)
     next();
   } catch (error) {
-    res.status(401).json({ message: "Invalic token" });
+    res.status(401).json({ message: "Invalid token" });
   }
 };
 

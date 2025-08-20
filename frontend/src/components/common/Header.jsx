@@ -30,10 +30,10 @@ function Header() {
 
             <div className='order-3 space-x-1 md:space-x-2 flex'>
                 <Link to={'/auth?mode=login'}>
-                    <Button variant={'outline'} className={'hidden md:block'} >Login</Button>
+                    <Button variant={'outline2'} >Login</Button>
                 </Link>
                 <Link to={'/auth?mode=register'}>
-                    <Button >Sign Up</Button>
+                    <Button className={'hidden md:block'} >Sign Up</Button>
                 </Link>
             </div>
         </header >

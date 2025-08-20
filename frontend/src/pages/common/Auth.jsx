@@ -39,7 +39,7 @@ function Auth() {
   }, [authMode, registerRole])
 
   return (
-    <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+    <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 md:p-10">
       <div className="w-full transition-all lg:h-auto max-w-sm space-y-4">
         <div >
           <div className='flex items-center justify-center'>

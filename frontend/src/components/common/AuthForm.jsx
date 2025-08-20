@@ -71,9 +71,9 @@ function AuthForm({ formType, registerAs, setRegisterAs }) {
                         navigate('/provider/dashboard', { replace: true });
                 }
             }
-            setUserData({
-                fullName: "", email: "", password: "", role: ""
-            })
+            // setUserData({
+            //     fullName: "", email: "", password: "", role: ""
+            // })
         } catch (error) {
             toast.warning("Login Failed");
             console.error(error)

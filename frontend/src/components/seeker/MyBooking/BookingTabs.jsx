@@ -98,7 +98,7 @@ function BookingTabs({ userRole }) {
 
             </div>
             {isLoading
-                ? <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${userRole === "provider" ? "mr-15 ml-2" : "mx-[120px]"} gap-6 my-10`}>
+                ? <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${userRole === "provider" ? "lg:mr-15 lg:ml-2" : "lg:mx-[120px]"} gap-6 my-10`}>
                     <BookingCardSkelton cardCount={3}/>
                 </div>
                 : getCurrentTab(activeTab)}

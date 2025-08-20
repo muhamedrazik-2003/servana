@@ -77,7 +77,7 @@ function AllServices() {
             />
           </div>
           <Select value={sortData} onValueChange={(value) => setSortData(value)}>
-            <SelectTrigger className="w-[120px] text-sm lg:w-[180px] !h-10 lg:!h-12 border-2 border-indigo-300 pl-4">
+            <SelectTrigger className="w-[120px] text-xs md:text-sm lg:w-[180px] !h-10 lg:!h-12 border-2 border-indigo-300 pl-4">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent className='right-5'>
@@ -103,12 +103,12 @@ function AllServices() {
             ))
 
             : filteringCategory !== "all"
-              ? <h2 className='md:col-span-2 lg:col-span-3 text-center pt-20 pb-25 text-3xl leading-10 sticky top-60'>
+              ? <h2 className='col-span-2 lg:col-span-3 text-center pt-20 pb-25 text-lg lg:text-3xl leading-7 lg:leading-10 sticky top-60'>
                 Oops! We couldn't find <br /> any <span className="text-primary">services</span> under this category.<br />
                 Try exploring other categories.
               </h2>
 
-              : <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-5xl'>We couldn’t load <br /> the <span className='text-primary'>services</span> right now.<br /> Please try again later.</h2>
+              : <h2 className='col-span-2 lg:col-span-3 text-center py-15 lg:text-3xl'>We couldn’t load <br /> the <span className='text-primary'>services</span> right now.<br /> Please try again later.</h2>
           }
         </div>
       </section>
