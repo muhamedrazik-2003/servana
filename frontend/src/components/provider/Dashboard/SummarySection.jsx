@@ -70,13 +70,13 @@ export default function SummarySection({ page }) {
       },])
   ];
   return (
-    <div className={`grid ${page === "services" ? "grid-cols-4" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2"} gap-3`}>
+    <div className={`grid ${page === "services" ? "grid-cols-4" : "grid-cols-2 lg:grid-cols-2"} gap-3`}>
       {summaryItems.map((item, index) => (
         <div className="flex items-center gap-4 shadow-sm border-orange-100 hover:shadow-xl transition-shadow duration-300 border rounded-3xl py-2.5 px-6">
           <div className="rounded-full">{item.icon}</div>
           <div>
-            <p className="text-sm  font-medium text-accent">{item.title}</p>
-            <p className="text-3xl font-bold text-gray-900 mb">{item.value}</p>
+            <p className="text-xs lg:text-sm  font-medium text-accent">{item.title}</p>
+            <p className="text-xl lg:text-3xl font-bold text-gray-900 mb">{item.value}</p>
           </div>
         </div>
       ))}

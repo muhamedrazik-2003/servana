@@ -31,17 +31,17 @@ function ProviderDashboard() {
   return (
     <>
       <ProviderHeader page={'dashboard'} />
-      <main className="flex p-4 pt-0 gap-6">
+      <main className="flex p-4 pt-0 lg:gap-6">
         {/* Sidebar */}
         <div className="">
           <Sidebar />
         </div>
 
         {/* Main Content */}
-        <section className="h-[calc(100vh-82px)]  grid grid-cols-2  w-full m-0 gap-4 p-0 overflow-hidden">
+        <section className="min-h-[calc(100vh-82px)] lg:h-[calc(100vh-82px)]  grid grid-cols-1 lg:grid-cols-2  w-full m-0 gap-4 p-0 overflow-hidden mb-18 lg:mb-0">
           <div className='space-y-4'>
             <div className='flex items-center justify-end gap-3 px-4'>
-              <p className={`flex items-center gap-3 justify-end border p-1.5 px-4 rounded-3xl ${isAvailableToWork ? "text-green-500 bg-gray-50" : " text-slate-700"}`}>
+              <p className={`flex items-center text-sm lg:text-base gap-3 justify-end border p-1.5 px-4 rounded-3xl ${isAvailableToWork ? "text-green-500 bg-gray-50" : " text-slate-700"}`}>
                 {isAvailableToWork ? "Open to Work" : "Not Open to Work"}
                 <Switch disabled={true} id="toggle-visibility" checked={isAvailableToWork} onCheckedChange={setIsAvailableToWork} />
               </p>
@@ -63,7 +63,7 @@ function ProviderDashboard() {
                   <Button variant={'outline'} size={'sm'} className={'h-6'}> View Reviews</Button>
                 </Link>
               </div>
-              <div className='flex flex-col gap-2 overflow-y-auto scrollbar-none max-h-43 px-2'>
+              <div className='flex flex-col gap-2 overflow-y-auto scrollbar-none max-h-80 lg:max-h-43 px-2'>
                 {isReviewLoading
                   ? <h4 className='my-4 mb-10 flex items-center gap-2'>Reviews Loading <Loader2 className='size-5 animate-spin' /></h4>
 
