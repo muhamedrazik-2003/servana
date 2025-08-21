@@ -75,6 +75,7 @@ function AddEditServiceForm() {
 
     const updatedImages = [...serviceImages];
     updatedImages[index] = imageFile;
+    console.log(updatedImages)
     setServiceImages(updatedImages);
 
     const previewURL = URL.createObjectURL(imageFile);
@@ -85,7 +86,7 @@ function AddEditServiceForm() {
 
   const handleSubmit = async () => {
     try {
-      console.log(serviceData)
+      // console.log(serviceData)
       if (!isAdmin) {
         if (user.phone === undefined || user.phone === "" || user.location.city === "Not Available" || user.location.state === "Not Available" || user.location.pincode === "Not Available") {
           return toast.error(
@@ -117,10 +118,11 @@ function AddEditServiceForm() {
       ];
       let imageNotAllowed = false
       serviceImages.forEach(image => {
-        if (typeof image !== "string" && !allowedTypes.includes(image?.type)) {
+        if (image instanceof File && !allowedTypes.includes(image?.type)) {
           imageNotAllowed = true;
         }
-      })
+      });
+
       if (imageNotAllowed) {
         return toast.error("only .jpg, jpeg, png, webp and  avif type images are accepted");
       }
@@ -138,10 +140,13 @@ function AddEditServiceForm() {
       formData.append("pincode", serviceData.location.pincode);
 
       serviceImages.forEach(image => {
-        if (image) {
-          formData.append("images", image);
+        if (image instanceof File) {
+          formData.append("images", image); // actual file upload
+        } else if (image.url && image.public_id) {
+          // Existing image objects → send as JSON string
+          formData.append("images", JSON.stringify(image));
         }
-      })
+      });
       for (let pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }

@@ -64,11 +64,10 @@ exports.addService = async (req, res) => {
 
 exports.getAllServices = async (req, res) => {
   try {
-    const allServices = await services.find().populate('providerId', 'fullName');
-     res
-      .status(200)
-      .json({ message: "All Services retrieved", allServices });
-
+    const allServices = await services
+      .find()
+      .populate("providerId", "fullName");
+    res.status(200).json({ message: "All Services retrieved", allServices });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
@@ -78,10 +77,9 @@ exports.getAllServices = async (req, res) => {
 exports.getSampleServices = async (req, res) => {
   try {
     const sampleServices = await services.find();
-     res
+    res
       .status(200)
       .json({ message: "sample Services retrieved", sampleServices });
-
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
@@ -121,6 +119,19 @@ exports.updateService = async (req, res) => {
     if (!Array.isArray(existingImages)) {
       existingImages = [existingImages];
     }
+    existingImages = existingImages
+      .map((img) => {
+        if (typeof img === "string") {
+          try {
+            return JSON.parse(img);
+          } catch (err) {
+            return null; // failed parsing
+          }
+        }
+        return img;
+      })
+      .filter(Boolean);
+
     const service = await services.findById(id);
 
     const imagesTodelete = service.images.filter(
@@ -132,7 +143,7 @@ exports.updateService = async (req, res) => {
     }
 
     const serviceImages = [...existingImages, ...newImages];
-    // console.log(serviceImages);
+
     const { title, description, category, subCategory, price, priceUnit } =
       req.body;
     const updatedData = await services.findByIdAndUpdate(
@@ -149,7 +160,7 @@ exports.updateService = async (req, res) => {
       },
       { new: true }
     );
-    // console.log(updatedData);
+    // console.log("updated Data", updatedData);
     if (!updatedData) {
       res.status(404).json({ message: "Service Not Found" });
     }
@@ -168,8 +179,8 @@ exports.deleteService = async (req, res) => {
     const { id } = req.params;
     const service = await services.findById(id);
 
-    const imagesTodelete = service.images
-    
+    const imagesTodelete = service.images;
+
     for (const img of imagesTodelete) {
       await cloudinary.uploader.destroy(img.public_id);
     }
@@ -196,7 +207,8 @@ exports.changeServiceStatus = async (req, res) => {
     // console.log(status)
 
     const updatedServiceData = await services
-      .findByIdAndUpdate(serviceId, { status }, { new: true }).populate('providerId', 'fullName')
+      .findByIdAndUpdate(serviceId, { status }, { new: true })
+      .populate("providerId", "fullName");
 
     if (!updatedServiceData) {
       res.status(404).json({ message: "Service Not Found" });
