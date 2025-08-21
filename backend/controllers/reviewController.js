@@ -40,7 +40,7 @@ exports.addNewReview = async (req, res) => {
       const allReviews = await reviews.find({ serviceId });
       const avgRating =
         allReviews.reduce((prev, current) => prev + current.rating, 0) /
-        updatedService.totalReviews;
+        updatedService.totalReviews.toFixed(2);
       await services.findByIdAndUpdate(serviceId, {
         avgRating,
       });
