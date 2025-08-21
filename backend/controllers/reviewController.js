@@ -8,7 +8,10 @@ exports.addNewReview = async (req, res) => {
     const { serviceId, providerId, bookingId, rating, comment } = req.body;
     // console.log("Body received:", req.body);
 
-    const existingReview = await reviews.findOne({ bookingId });
+    const existingReview = await reviews.findOne({
+      bookingId,
+      seekerId: userId,
+    });
     console.log(existingReview);
     if (existingReview) {
       return res
@@ -29,20 +32,27 @@ exports.addNewReview = async (req, res) => {
       seekerId: userId,
       rating,
       comment,
-      status: "active"
+      status: "active",
     });
     const savedReview = await newReview.save();
 
     if (savedReview) {
-      const updatedService = await services.findByIdAndUpdate(serviceId, {
-        $inc: { totalReviews: 1 },
-      });
+      const updatedService = await services.findByIdAndUpdate(
+        serviceId,
+        {
+          $inc: { totalReviews: 1 },
+        },
+        { new: true }
+      );
       const allReviews = await reviews.find({ serviceId });
       const avgRating =
         allReviews.reduce((prev, current) => prev + current.rating, 0) /
-        updatedService.totalReviews.toFixed(2);
+        updatedService.totalReviews;
+
+      const roundedAvgRating = Math.round(avgRating * 100) / 100;
+
       await services.findByIdAndUpdate(serviceId, {
-        avgRating,
+        avgRating: roundedAvgRating,
       });
     }
     const populatedReview = await reviews
@@ -76,12 +86,14 @@ exports.getAllProviderReviews = async (req, res) => {
   try {
     const providerId = req.user.userId;
     const reviewList = await reviews
-      .find({providerId})
+      .find({ providerId })
       .populate("seekerId")
       .populate("providerId")
       .populate("bookingId")
       .populate("serviceId");
-    res.status(200).json({ message: "All Provider Reviews retrieved", reviewList });
+    res
+      .status(200)
+      .json({ message: "All Provider Reviews retrieved", reviewList });
   } catch (error) {
     console.error("RETRIEVAL ERROR:", error);
     res.status(500).json({ message: "Internal Server Error", error });
