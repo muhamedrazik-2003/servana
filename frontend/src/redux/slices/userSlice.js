@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import base_url from "../base_url";
+import { toast } from "sonner";
 
 export const loginUser = createAsyncThunk(
   "userSlice/loginUser",
@@ -236,6 +237,7 @@ const userSlice = createSlice({
       state.error = "";
     },
     handleLogout: (state) => {
+      toast.info("You have been Logged Out")
       state.isAuthenticated = false;
       state.token = "";
       state.user = {};

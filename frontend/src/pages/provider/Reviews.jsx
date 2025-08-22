@@ -61,7 +61,7 @@ export const Reviews = () => {
         ? <Header userRole={"admin"} />
         : <Header />
       }
-      <main className="flex p-4 pt-0 gap-6">
+      <main className="flex p-4 pt-0 lg:gap-6">
         {/* Sidebar */}
         <div className="">
           {role === "admin"
@@ -71,11 +71,11 @@ export const Reviews = () => {
         </div>
 
         {/* Main Content */}
-        <section className="min-h-[calc(100vh-82px)]  w-full p-0 m-0 ml-4 mr-[80px]">
-          <div className='flex items-center justify-between mb-6'>
+        <section className="min-h-[calc(100vh-82px)]  w-full p-0 m-0 lg:mr-[80px]">
+          <div className='flex flex-col lg:flex-row items-center lg:items-end mb-6 gap-3 lg:gap-0'>
             <div>
-              <h1 className='text-[clamp(2.5rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 text-start'>{role === "admin" ? "Service Reviews" : "Customer Reviews"}</h1>
-              <p className='max-w-[400px] text-sm font-semibold p-0'>{role === "admin" ? "Monitor Reviews by Customers on Provider Services" : "Monitor Customer Reviews on your Services"}</p>
+              <h1 className='text-[clamp(2rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 lg:text-start'>{role === "admin" ? "Service Reviews" : "Customer Reviews"}</h1>
+              <p className='max-w-[400px] text-xs lg:text-sm font-semibold p-0'>{role === "admin" ? "Monitor Reviews by Customers on Provider Services" : "Monitor Customer Reviews on your Services"}</p>
             </div>
             <Select value={sortData} onValueChange={(value) => setSortData(value)}>
               <SelectTrigger className={`w-[192px] !h-10 lg:!h-12 rounded-3xl border-2 ${role === "admin" ? "bg-violet-50 border-violet-200" : "bg-orange-100 border-orange-300"} pl-6`}>
@@ -88,11 +88,6 @@ export const Reviews = () => {
               </SelectContent>
             </Select>
           </div>
-          {/* <div className='flex items-start gap-4 space-y-4'>
-            <div className='space-y-1'>
-
-            </div>
-          </div> */}
           <div className='grid grid-cols-1  lg:grid-cols-2 gap-4 gap-y-6 mb-20'>
             {isReviewLoading
               ? [1,2,3,4].map(review => <ReviewCardSkelton variant={"provider"}/>)

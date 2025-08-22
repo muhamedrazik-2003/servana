@@ -41,7 +41,7 @@ function ProviderBookings() {
         <section className="min-h-[calc(100vh-82px)]  w-full p-0 m-0">
           <div className='flex flex-col lg:flex-row items-center lg:items-end mb-6 gap-3 lg:gap-0'>
             <div>
-              <h1 className='text-[clamp(2rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 text-start'>Bookings</h1>
+              <h1 className='text-[clamp(2rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 lg:text-start'>Bookings</h1>
               <p className='max-w-[400px] text-xs lg:text-sm font-semibold p-0'>Monitor your ongoing, completed, and cancelled bookings</p>
             </div>
             <div className="relative w-[320px] md:w-[560px] mx-auto">

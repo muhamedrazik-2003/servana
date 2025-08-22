@@ -132,7 +132,7 @@ function ProviderEarning() {
   return (
     <>
       <ProviderHeader />
-      <main className="flex p-4 pt-2 gap-6">
+      <main className="flex p-4 pt-2 lg:gap-6">
         {/* Sidebar */}
         <div className="">
           <ProviderSidebar />
@@ -141,7 +141,7 @@ function ProviderEarning() {
         {/* Main Content */}
         <section className=" w-full m-0 gap-4 p-0 overflow-hidden">
           <div className='mb-6'>
-            <h1 className='text-[clamp(2.5rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 text-start'>Your Earnings</h1>
+            <h1 className='text-[clamp(2rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 lg:text-start'>Your Earnings</h1>
             {/* <p className='text-sm font-semibold p-0'>Monitor Your total income, pending amounts, and transaction history.</p> */}
           </div>
           {/* cards */}

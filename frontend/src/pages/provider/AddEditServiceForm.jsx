@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { ImagePlus } from "lucide-react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ProviderHeader from "../../components/common/Provider&AdminHeader";
 import { useEffect, useState } from "react";
 import Footer from "../../components/common/Footer";
@@ -221,11 +221,17 @@ function AddEditServiceForm() {
       <div className="max-w-6xl mx-auto p-6 pt-2 mb-15 space-y-1">
         <div className="flex items-center justify-between">
           <h2 className="text-4xl font-extrabold">{formFormat === "addForm" ? "Add New Service" : "Edit Your Service"}</h2>
-          {
+          <div className="flex gap-2">
+            <Link to={'/provider/services'}>
+              <Button variant={"outline2"} className={`px-6 ${isAdmin ? " hover:bg-violet-500" : "hover:bg-orange-500 border-accent text-accent hover:border-orange-500"}`}>Go Back</Button>
+              </Link>
+              {
             formFormat === "addForm"
               ? <Button onClick={handleSubmit} disabled={isUpdating} className={`px-6 ${isAdmin ? "bg-primary hover:bg-violet-500" : "bg-accent hover:bg-orange-500"}`}>{isUpdating ? "Adding Service" : "Publish Service"}</Button>
               : <Button onClick={handleSubmit} disabled={isUpdating} className={`px-6 ${isAdmin ? "bg-primary hover:bg-violet-500" : "bg-accent hover:bg-orange-500"}`}>{isUpdating ? "Updating Service" : "Update Service"}</Button>
           }
+          </div>
+          
         </div>
 
         {/* Grid Layout */}

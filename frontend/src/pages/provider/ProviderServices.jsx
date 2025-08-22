@@ -77,7 +77,7 @@ function MyServices() {
           </div>
           <div className='flex flex-col lg:flex-row items-start gap-2 lg:gap-4 space-y-4 mb-4'>
             <SummarySection page={'services'} />
-            <div className='mx-8'>
+            <div className='mx-8 lg:ml-0 lg:mr-4'>
               <Select value={sortData} onValueChange={(value) => setSortData(value)}>
                 <SelectTrigger className="w-[192px] !h-10 lg:!h-9 rounded-3xl border-2 bg-orange-100 border-orange-300 pl-6">
                   <SelectValue placeholder="Sort By" />

@@ -10,8 +10,11 @@ import {
   User,
   Hammer,
 } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { handleLogout } from "../../../redux/slices/userSlice";
 
 function ProviderSidebar() {
+  const dispatch = useDispatch()
   return (
     <aside className="lg:h-[calc(100vh-82px)] fixed bottom-0 lg:bottom-unset left-0 z-10 lg:left-unset lg:sticky lg:top-[66px] w-full  lg:w-[220px] lg:rounded-3xl bg-orange-100 flex lg:flex-col items-center lg:items-stretch justify-center lg:justify-between py-0 lg:py-3">
       {/* Navigation */}
@@ -97,7 +100,7 @@ function ProviderSidebar() {
         </NavLink>
 
         <Link to='/'>
-          <button className="w-full text-left flex items-center gap-3 px-3 md:px-4 py-2 rounded-3xl text-red-500 hover:bg-orange-200 transition">
+          <button onClick={() => dispatch(handleLogout())} className="w-full text-left flex items-center gap-3 px-3 md:px-4 py-2 rounded-3xl text-red-500 hover:bg-orange-200 transition">
             <LogOut className="size-5 text-red-500" />
             <span className="hidden md:block">Logout</span>
           </button>

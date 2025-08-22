@@ -51,7 +51,7 @@ export function ReviewCard({ review, userRole }) {
                             </div>
                         </div>
                         <div className="flex gap-2 pt-1">
-                            <Badge className="ml-4 bg-accent text-black">
+                            <Badge className="ml-4 bg-accent text-black whitespace-break-spaces rounded-2xl">
                                 {review.serviceId?.title}
                             </Badge>
                             {userRole === "admin"
