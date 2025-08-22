@@ -20,15 +20,15 @@ function AllProviders() {
   return (
     <>
       <Header />
-      <main className="flex p-4 pt-0 gap-6">
+      <main className="flex p-4 pt-0 lg:gap-6">
         <div className="">
           <AdminSidebar />
         </div>
 
-        <section className="h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0">
+        <section className="lg:h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0 overflow-hidden">
           <div className='flex justify-between flex-wrap gap-2 items-center px-2'>
-            <h2 className="text-sm lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
-              <UserRoundCog className="lg:size-8 size-5 text-primary" />
+            <h2 className="text-xl lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
+              <UserRoundCog className="lg:size-8 size-6 text-primary" />
               All Providers
             </h2>
           </div>
@@ -39,7 +39,7 @@ function AllProviders() {
               </div>)
               : sortedData.length > 0
                 ? (
-                  <div className=' px-2 overflow-auto max-w-[calc(100vw-220px-60px)] '>
+                  <div className=' px-2 overflow-auto max-w-[calc(100vw-16px)] lg:max-w-[calc(100vw-220px-60px)]'>
                     <DataTable headData={headData} rowData={sortedData} tableFormat={"provider"} />
                   </div>
                 )

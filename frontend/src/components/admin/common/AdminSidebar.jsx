@@ -14,7 +14,7 @@ import {
 
 function AdminSidebar() {
   return (
-    <aside className="lg:h-[calc(100vh-82px)] scrollbar-none overflow-x-auto fixed bottom-0 lg:bottom-unset left-0 z-10 lg:left-unset lg:sticky lg:top-[66px] w-full  lg:w-[220px] lg:rounded-3xl bg-linear-to-br from-primary to-violet-900 flex lg:flex-col items-center lg:items-stretch md:justify-center lg:justify-between py-0 lg:py-3 pl-2 md:pl-0">
+    <aside className="lg:h-[calc(100vh-82px)] scrollbar-none overflow-x-auto fixed bottom-0 lg:bottom-unset left-0 z-20 lg:left-unset lg:sticky lg:top-[66px] w-full  lg:w-[220px] lg:rounded-3xl bg-linear-to-br from-primary to-violet-900 flex lg:flex-col items-center lg:items-stretch md:justify-center lg:justify-between py-0 lg:py-3 pl-2 md:pl-0">
       {/* Navigation */}
       <nav className="lg:px-2 flex lg:block gap-1">
         <NavLink

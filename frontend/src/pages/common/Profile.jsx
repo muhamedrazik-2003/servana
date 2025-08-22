@@ -111,13 +111,13 @@ function ProfilePage() {
   }
   return (
     <main>
-      {role === "provider"
-        ? <ProviderHeader />
+      {role === "provider" || role === "admin"
+        ? <ProviderHeader/>
         : <SeekerHeader />
       }
 
       <div className="relative max-w-5xl mx-auto px-4 py-12 mt-6 space-y-10">
-        <h1 className='text-[clamp(2.5rem,8vw,44px)] leading-11  md:leading-18 z-0 mb-2'>My Profile </h1>
+        <h1 className='text-[clamp(2.2rem,8vw,44px)] leading-11  md:leading-18 z-0 mb-2'>My Profile </h1>
         <Card className="relative flex flex-col items-center gap-6 p-3 bg-white  shadow-none border-0">
           {isEditing
             ? <>

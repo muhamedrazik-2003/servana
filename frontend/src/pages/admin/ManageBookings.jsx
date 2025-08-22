@@ -13,39 +13,37 @@ function ManageBookings() {
   useEffect(() => {
     dispatch(getAllBookings());
   }, [])
-  const {bookings, isLoading} = useSelector(state => state.bookingSlice);
-  const  sortedData = [...bookings]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  const { bookings, isLoading } = useSelector(state => state.bookingSlice);
+  const sortedData = [...bookings]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   const headData = ['ID', 'Customer', 'Provider', "Service", "Price", "Date", "Status", "Payment", "Actions"]
   return (
     <>
       <Header />
-      <main className="flex p-4 pt-0 gap-6">
+      <main className="flex p-4 pt-0 lg:gap-6">
         <div className="">
           <AdminSidebar />
         </div>
 
-        <section className="h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0">
+        <section className="lg:h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0">
           <div className='flex justify-between flex-wrap gap-2 items-center px-2'>
-            <h2 className="text-sm lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
-              <CalendarClock className="lg:size-8 size-5 text-primary" />
+            <h2 className="text-xl lg:text-4xl mr-auto text-slate-900  flex items-center gap-2 ">
+              <CalendarClock className="lg:size-8 size-6 text-primary" />
               All Bookings
             </h2>
-            {/* <button>Add Customer</button> */}
-            {/* <AddStudent setPageReload={setPageReload} /> */}
           </div>
-          <ScrollArea className={'h-[86%]'}>
+          <ScrollArea className={'lg:h-[86%] whitespace-nowrap'}>
             {isLoading
               ? (<div className=' px-2'>
                 <TableSkeleton headerSkeltonData={headData} />
               </div>)
-              : sortedData.length > 0 
-                ?  (
-                <div className='px-2 overflow-auto max-w-[calc(100vw-220px-60px)]'>
-                  <DataTable headData={headData} rowData={sortedData} tableFormat={"booking"} />
-                </div>
-              )
-                                  : <h2 className='text-center py-20 text-xl lg:text-3xl leading-6 lg:leading-10'>Failed to Retrive All Bookings From Server at the moment.<br/> plase Try again Later</h2>
-              }
+              : sortedData.length > 0
+                ? (
+                  <div className='px-2 overflow-auto max-w-[calc(100vw-16px)] lg:max-w-[calc(100vw-220px-60px)]'>
+                    <DataTable headData={headData} rowData={sortedData} tableFormat={"booking"} />
+                  </div>
+                )
+                : <h2 className='text-center py-20 text-xl lg:text-3xl leading-6 lg:leading-10'>Failed to Retrive All Bookings From Server at the moment.<br /> plase Try again Later</h2>
+            }
           </ScrollArea>
         </section>
       </main >

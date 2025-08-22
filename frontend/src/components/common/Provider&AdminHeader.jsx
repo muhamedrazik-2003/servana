@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux"
 import { handleSearch } from "../../redux/slices/serviceSlice"
 import { handleLogout } from "../../redux/slices/userSlice"
 
-function ProviderHeader({ page,userRole }) {
+function ProviderHeader({ page, userRole }) {
     const [menuOpen, setMenuOpen] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -56,40 +56,18 @@ function ProviderHeader({ page,userRole }) {
                     <button disabled className="text-gray-400 cursor-not-allowed">
                         <Sun className="h-5 w-5" />
                     </button>
-
-                    {/* <div className="relative group py-2">
-            <button className="flex items-center gap-2">
-              <User className="h-5 w-5 text-primary" />
-              <span className="text-sm hidden lg:inline">Profile</span>
-            </button>
-      
-            <div className="absolute right-0 top-full pt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-3xl hidden group-hover:block p-2">
-              <Link to="/seeker/profile" className="block px-3 py-2 text-sm rounded-3xl hover:bg-teal-100 dark:hover:bg-gray-700">View Profile</Link>
-              <Link to="/" className="block px-3 py-2 text-sm rounded-3xl hover:bg-red-500 hover:text-background dark:hover:bg-red-600">Logout</Link>
-            </div>
-          </div> */}
                 </div>
-
-                {/* Mobile menu icon */}
                 <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
                     <Menu className="h-6 w-6" />
                 </button>
+
             </div>
 
-            {/* Mobile dropdown (optional) */}
             {menuOpen && (
                 <div className="md:hidden px-4 pb-4 space-y-2.5">
-                    <input
-                        type="text"
-                        placeholder="Search services..."
-                        className="w-full pl-10 pr-3 py-2 rounded-3xl border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
-                    />
-                    {/* <Link to="/services" className="block text-sm">All Services</Link>
-          <Link to="/seeker/mybookings" className="block text-sm">Your Bookings</Link>*/}
                     <button disabled className="text-sm text-gray-400 cursor-not-allowed">Notifications (Coming Soon)</button>
                     <button disabled className="text-sm text-gray-400 cursor-not-allowed">Dark Mode</button>
-                    {/* <Link to="/profile" className="block text-sm">View Profile</Link>
-          <button className="block text-sm text-red-500">Logout</button> */}
+                    <button onClick={() => dispatch(handleLogout())} className="block text-sm text-red-500">Logout</button>
                 </div>
             )}
         </header>

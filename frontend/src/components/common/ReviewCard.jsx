@@ -32,7 +32,7 @@ export function ReviewCard({ review, userRole }) {
             <CardContent className="p-5 flex flex-col justify-between h-full">
                 {/* Header with customer info and rating */}
                 <div>
-                    <div className="flex items-start justify-between mb-4">
+                    <div className="flex flex-col-reverse md:flex-row md:items-start justify-between mb-4">
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-2">
                                 <Avatar className="size-8">
@@ -50,7 +50,7 @@ export function ReviewCard({ review, userRole }) {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex gap-2 pt-1">
+                        <div className="flex gap-2 pb-2 lg:pt-1 justify-between lg:self-start">
                             <Badge className="ml-4 bg-accent text-black whitespace-break-spaces rounded-2xl">
                                 {review.serviceId?.title}
                             </Badge>

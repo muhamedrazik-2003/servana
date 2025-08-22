@@ -1,22 +1,11 @@
 import Header from '../../components/common/Provider&AdminHeader';
 import AdminSidebar from '../../components/admin/common/AdminSidebar';
-// import TableSkeleton from '../../components/skeltons/TableSkelton';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import DataTable from '../../components/admin/common/DataTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getAllServices } from '../../redux/slices/serviceSlice';
-import { Hammer, MessageCircleQuestion, Plus } from 'lucide-react';
-import { Button } from '../../components/ui/button';
-import { Link } from 'react-router-dom';
+import { Hammer, MessageCircleQuestion,Star, Calendar  } from 'lucide-react';
 import { getAllFeedbacks } from '../../redux/slices/feedbackSlice';
-
-import { Star, MapPin, Calendar, Hash, Flag } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { handleDateFormat } from '../../lib/utils';
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Link } from "react-router-dom";
 
 function Feedbacks() {
   const [isReviews, setIsReviews] = useState(false)
@@ -50,29 +39,26 @@ function Feedbacks() {
   return (
     <>
       <Header />
-      <main className="flex p-4 pt-0 gap-6">
+      <main className="flex p-4 pt-0 lg:gap-6">
         <div className="">
           <AdminSidebar />
         </div>
 
-        <section className="min-h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0">
+        <section className="lg:min-h-[calc(100vh-82px)]  w-full m-0 gap-4 p-0">
           <div className='flex justify-between flex-wrap gap-2 items-center px-2'>
-            <h2 className="text-sm lg:text-3xl mr-auto text-slate-900  flex items-center gap-2 mb-1">
-              <Hammer className="lg:size-7 size-5 text-primary" />
+            <h2 className="text-xl lg:text-3xl mr-auto text-slate-900  flex items-center gap-2 mb-1">
+              <Hammer className="lg:size-8 size-6 text-primary" />
               All User Feedbacks
             </h2>
-            {/* <Link to={'/admin/services/new'}>
-              <Button variant={'outline2'} className={'border border-primary'}> <Plus />Add New Service</Button>
-            </Link> */}
           </div>
           <div>
-            <div className={`relative shadow-sm border md:max-w-[95%] rounded-4xl mr-12 text-center flex items-center mb-[2rem] transition-all duration-100 bg-violet-200`}>
+            <div className={`relative shadow-sm border w-full lg:md:max-w-[95%] rounded-4xl mr-12 text-center flex items-center mb-[2rem] transition-all duration-100 bg-violet-200`}>
               <div className={`absolute left-0 rounded-3xl mx-2 w-[50%] h-11 transition-all duration-300 bg-primary ${isReviews ? 'translate-x-[96%]' : ''}`}></div>
               <h3 onClick={() => setIsReviews(false)} className={`z-10 cursor-pointer p-4 w-[50%] ${isReviews ? "" : 'text-background'}`}>Support & Help</h3>
               <h3 onClick={() => setIsReviews(true)} className={`z-10 p-4 w-[50%] cursor-pointer ${isReviews ? "text-background" : 'text-foreground'}`} >Platform Reviews</h3>
             </div>
           </div>
-          <div className='grid gap-4 grid-cols-3 mr-12 ml-6'>
+          <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:mr-12 lg:ml-6'>
             {feedbacks?.length > 0
               ? isReviews
                 ? platformReviews.map(review => (
