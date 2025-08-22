@@ -15,7 +15,7 @@ function RecentBooking({ userRole }) {
     })
 
     return (
-        <div className='border rounded-3xl p-4 row-span-2 max-h-67 w-full'>
+        <div className='border rounded-3xl p-4 row-span-2 lg:max-h-67 w-full'>
             <div className='flex justify-between items-center mb-3'>
                 <h4 className={`px-2  ${userRole === "admin" ? "text-primary" : "text-accent"}`}>Recent Bookings</h4>
                 <Link to={userRole === "admin" ? '/admin/bookings' : '/provider/bookings'}>

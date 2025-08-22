@@ -21,7 +21,7 @@ function RecentServices({ userRole }) {
     .slice(0, 7);
 
   return (
-    <div className={`p-4  row-span-2 ${userRole === "admin" ? "border rounded-3xl max-h-83" : ""}`}>
+    <div className={`p-4  row-span-2 ${userRole === "admin" ? "border rounded-3xl lg:max-h-83" : ""}`}>
       {/* Header */}
       <div className='flex items-center justify-between mb-4 mt-1.5'>
         <h4 className={`px-2 ${userRole === "admin" ? "text-primary" : "text-accent"}`}>

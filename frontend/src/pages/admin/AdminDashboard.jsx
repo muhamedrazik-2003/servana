@@ -41,24 +41,24 @@ function AdminDashboard() {
   return (
     <>
       <Header />
-      <main className="flex p-4 pt-0 gap-4">
+      <main className="flex p-4 pt-0 lg:gap-4">
         {/* Sidebar */}
         <div className="">
           <AdminSidebar />
         </div>
         {/* Main Content */}
-        <section className="h-[calc(100vh-82px)]  grid grid-cols-1 lg:grid-cols-2 grid-rows-[auto_1fr_1.3fr] g  w-full m-0 gap-4 p-0 overflow-hidden">
+        <section className=" lg:h-[calc(100vh-82px)]  grid grid-cols-1 lg:grid-cols-2 grid-rows-[auto_1fr_1.3fr] g  w-full m-0 gap-4 p-0 lg:overflow-hidden mb-18 lg:mb-0">
           <div className='h-auto'>
-            <h1 className="m-0 text-3xl text-start">Welcome <span className="text-primary">{user?.fullName}</span></h1>
+            <h1 className="m-0 text-xl lg:text-3xl text-start">Welcome <span className="text-primary">{user?.fullName}</span></h1>
             <p>Today is <span className='italic font-semibold'>{DateToday}</span></p>
           </div>
           <AdminSummaryCard />
-          <div className='grid grid-cols-2 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <BookingServicesReviewsChart/>
             <CustomerProviderChart/>
           </div>
           <div className='space-y-2 lg:col-span-2'>
-            <div className='grid grid-cols-2 gap-4 h-61'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 lg:h-61'>
               <RecentBooking  userRole={"admin"}/>
               <RecentServices userRole={"admin"}/>
             </div>
