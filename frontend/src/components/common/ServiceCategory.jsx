@@ -83,7 +83,7 @@ function ServiceCategory({ format }) {
                                     </Link>
                                 )
                             })
-                            : <h2 className='md:col-span-2 lg:col-span-3 text-center py-20 text-xl lg:text-3xl leading-6 lg:leading-10'>You don’t have any <span className='text-primary'>Recommended</span><br />  services at the moment.</h2>
+                            : <h2 className='text-center mx-auto py-20 text-xl lg:text-3xl leading-6 lg:leading-10'>You don’t have any <span className='text-primary'>Recommended</span><br />  services at the moment.</h2>
 
                     }
                 </div>

@@ -121,10 +121,10 @@ function SeekerHeader({ scrollValue }) {
             className="w-full pl-10 pr-3 py-2 rounded-3xl border-2 bg-teal-50 dark:bg-gray-800 text-sm outline-none"
           />
           <div className="ml-4 space-y-3 mt-3">
-            <Link to="/services" className="block text-sm">All Services</Link>
+            <Link to="/seeker/services" className="block text-sm">All Services</Link>
             <Link to="/seeker/mybookings" className="block text-sm">Your Bookings</Link>
-            <button disabled className="text-sm text-gray-400 cursor-not-allowed">Notifications (Coming Soon)</button>
-            <button disabled className="text-sm text-gray-400 cursor-not-allowed">Dark Mode</button>
+            <button disabled className="text-sm text-gray-400 cursor-not-allowed block">Notifications (Coming Soon)</button>
+            <button disabled className="text-sm text-gray-400 cursor-not-allowed block">Dark Mode</button>
             <Link to="/seeker/profile" className="block text-sm">View Profile</Link>
             <Link onClick={() => dispatch(handleLogout())} to="/" className="block text-sm text-red-500">Logout</Link>
           </div>

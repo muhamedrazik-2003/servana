@@ -31,7 +31,7 @@ function SeekerHero() {
         <section className='relative max-w-[750px] mx-auto px-6 md:px-0 pt-[80px] md:pt-[140px] md:pb-38 overflow-x-hidden md:overflow-x-visible'>
             <h1 className='text-[clamp(2rem,6vw,56px)] leading-11  md:leading-16 z-0 mb-[1rem]'>Need a Service?<br /> We’ve Got You Covered.</h1>
             <p className='max-w-[600px] text-sm md:text-base mx-auto font-semibold text-center pb-4 md:pb-0 px-8'>From home repairs to cleaning, connect with verified providers you can rely on.</p>
-            <img className='h-65 lg:h-100 absolute top-40 lg:top-20 left-0 lg:left-[-20%] z-[-1]' src={seekerHeroLeft} alt="image of a person using mobile" />
+            <img className='h-65 lg:h-90 absolute top-40 lg:top-25 left-0 lg:left-[-20%] z-[-1]' src={seekerHeroLeft} alt="image of a person using mobile" />
             {/* <img className='h-50 lg:h-30 absolute top-62 lg:top-42 right-[-6%] lg:right-[-35%] z-[-1]' src={seekerHeroRight} alt="" /> */}
             <div className='flex items-center justify-center gap-2'>
                 <div className="relative w-[95%] md:w-[75%] lg:w-[600px]">

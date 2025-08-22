@@ -15,8 +15,8 @@ function UpcomingTab({ data, userRole }) {
             <BookingCard key={index} userRole={userRole} bookingCardData={booking} />
           ))
           : userRole === "provider"
-            ? <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-3xl leading-10'>You don’t have any <span className='text-primary'>new</span> booking Requests<br /> at the moment.</h2>
-          : <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-3xl leading-10'>You don’t have any <span className='text-primary'>pending</span> bookings<br /> at the moment.</h2>
+            ? <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-xl lg:text-3xl leading-7 lg:leading-10'>You don’t have any <span className='text-primary'>new</span> booking Requests<br /> at the moment.</h2>
+          : <h2 className='md:col-span-2 lg:col-span-3 text-center py-15 text-xl lg:text-3xl leading-7 lg:leading-10'>You don’t have any <span className='text-primary'>pending</span> bookings<br /> at the moment.</h2>
         }
 
       </div>
