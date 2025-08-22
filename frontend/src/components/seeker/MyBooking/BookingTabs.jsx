@@ -85,7 +85,7 @@ function BookingTabs({ userRole }) {
                 </div>
                 {userRole === "provider"
                     && <Select value={sortData} onValueChange={(value) => setSortData(value)}>
-                        <SelectTrigger className="w-[192px] !h-10 lg:!h-13 border-2 bg-orange-100 border-orange-300 pl-6 ml-auto pr-4 lg:pr-0">
+                        <SelectTrigger className="w-[192px] !h-10 lg:!h-13 border-2 bg-orange-100 border-orange-300 pl-6 mr-auto ml-4 lg:ml-0 pr-4 lg:pr-0">
                             <SelectValue placeholder="Sort By" />
                         </SelectTrigger>
                         <SelectContent className='bg-orange-100'>

@@ -60,7 +60,7 @@ function MyServices() {
         <section className="min-h-[calc(100vh-82px)]  w-full p-0 m-0 lg:mr-[80px]">
           <div className='flex flex-col lg:flex-row items-center lg:items-end mb-6 gap-3 lg:gap-0'>
             <div>
-              <h1 className='text-[clamp(2rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 text-start'>Your Services</h1>
+              <h1 className='text-[clamp(2rem,8vw,32px)] leading-11  md:leading-14 z-0 mb-2 lg:text-start'>Your Services</h1>
               <p className='max-w-[400px] text-xs lg:text-sm font-semibold p-0'>Monitor your active and inactive services listed by you</p>
             </div>
             <div className="relative w-[320px] md:w-[590px] mx-auto">
@@ -77,7 +77,7 @@ function MyServices() {
           </div>
           <div className='flex flex-col lg:flex-row items-start gap-2 lg:gap-4 space-y-4 mb-4'>
             <SummarySection page={'services'} />
-            <div className='space-y-1 flex lg:flex-col'>
+            <div className='mx-8'>
               <Select value={sortData} onValueChange={(value) => setSortData(value)}>
                 <SelectTrigger className="w-[192px] !h-10 lg:!h-9 rounded-3xl border-2 bg-orange-100 border-orange-300 pl-6">
                   <SelectValue placeholder="Sort By" />
@@ -89,7 +89,7 @@ function MyServices() {
                   <SelectItem value="PriceHighToLow">Price High To Low</SelectItem>
                 </SelectContent>
               </Select>
-              <Select disabled={true} value={sortData} onValueChange={(value) => setSortData(value)}>
+              {/* <Select disabled={true} value={sortData} onValueChange={(value) => setSortData(value)}>
                 <SelectTrigger className="w-[192px] !h-10 lg:!h-9 rounded-3xl border-2 bg-orange-100 border-orange-300 pl-6">
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
@@ -99,10 +99,10 @@ function MyServices() {
                   <SelectItem value="priceLowToHigh">Price Low to High</SelectItem>
                   <SelectItem value="PriceHighToLow">Price High To Low</SelectItem>
                 </SelectContent>
-              </Select>
+              </Select> */}
             </div>
           </div>
-          <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 mb-20 px-2 lg:px-0'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6 mb-20 px-6 lg:px-0'>
             {/* {services.length > 0
               ? services?.map(service => (
                 <ServiceCard variant='provider' data={service} />

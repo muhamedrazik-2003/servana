@@ -13,7 +13,7 @@ import {
 
 function ProviderSidebar() {
   return (
-    <aside className="lg:h-[calc(100vh-82px)] fixed bottom-0 lg:bottom-unset left-0 z-10 lg:left-unset lg:sticky lg:top-[66px] w-full  lg:w-[220px] lg:rounded-3xl bg-orange-100 flex lg:flex-col items-center lg:items-stretch justify-center lg:justify-between py-2 lg:py-3">
+    <aside className="lg:h-[calc(100vh-82px)] fixed bottom-0 lg:bottom-unset left-0 z-10 lg:left-unset lg:sticky lg:top-[66px] w-full  lg:w-[220px] lg:rounded-3xl bg-orange-100 flex lg:flex-col items-center lg:items-stretch justify-center lg:justify-between py-0 lg:py-3">
       {/* Navigation */}
       <nav className="lg:px-2 flex lg:block gap-1">
         <NavLink
